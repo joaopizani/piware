@@ -39,11 +39,16 @@ sampleXor = In (λ x →
                   (And (Not (Port x) ✧ Port y ✧ ε)) ✧
                   (And (Port x ✧ Not (Port y) ✧ ε)) ✧ ε)))
 
-record Algℂ (α : Set) : Set where
-    field
-        aNot : α → α
-        aAnd : ∀ {n} → Vec α (suc n) → α
-        aOr  : ∀ {n} → Vec α (suc n) → α
+data ValueBool : Set where
+    N : Bool → ValueBool
+    F : (ValueBool → ValueBool) → ValueBool
+
+evalBool : ℂ ValueBool → ValueBool
+evalBool (Not c) = evalBool c
+evalBool (Port v) = v
+evalBool (In f) = F (λ v → evalBool (f v))
+evalBool (And cs) = {!!}
+evalBool (Or cs) = {!!}
 
 -- eval : ∀ {α} → (ω : Algℂ α) → ℂ α → α
 -- eval ω (In a)   = a
@@ -56,4 +61,10 @@ record Algℂ (α : Set) : Set where
 
 -- evalXor : Bool → Bool → Bool
 -- evalXor a b = evalBoolean (sampleXor a b)
+
+-- record Algℂ (α : Set) : Set where
+--     field
+--         aNot : α → α
+--         aAnd : ∀ {n} → Vec α (suc n) → α
+--         aOr  : ∀ {n} → Vec α (suc n) → α
 
