@@ -1,14 +1,14 @@
 module Pi-ware where
 
 open import Data.Vec using (Vec; head; map; foldr₁) renaming ([] to ε; _∷_ to _✧_)
-open import Data.Nat using (suc; zero)
+open import Data.Nat using (ℕ; suc; zero)
 
 
 data ℂ (α : Set) : Set where
     -- Fundamental computation constructors
-    Not : Vec (ℂ α) (suc zero) → ℂ α
-    And : ∀ {n} → Vec (ℂ α) (suc n) → ℂ α
-    Or  : ∀ {n} → Vec (ℂ α) (suc n) → ℂ α
+    Not : ℂ α → ℂ α
+    And : {n : ℕ} → Vec (ℂ α) (suc n) → ℂ α
+    Or  : {n : ℕ} → Vec (ℂ α) (suc n) → ℂ α
     -- Binding-related
     Port : α → ℂ α  -- Var of PHOAS
     In   : (α → ℂ α) → ℂ α  -- Lambda of PHOAS
@@ -23,15 +23,21 @@ open import Data.Bool using (Bool; _∧_; _∨_; not)
 open import Function using (_∘_; _$_)
 
 sampleNot : ℂ Bool
-sampleNot = input {!!}
+sampleNot = input Not
 
+-- TODO: how to have circuits with MULTIPLE OUTPUTS
 sampleAnd : ℂ Bool
-sampleAnd = input {!!}
+sampleAnd = In (λ x →
+            In (λ y →
+                And (Port x ✧ Port y ✧ ε)))
 
--- sampleXor : Bool → Bool → ℂ Bool
--- sampleXor a b = Or (notA ✧ notB ✧ ε)
---     where notA = And (Not (In a) ✧ In b ✧ ε)
---           notB = And (In a ✧ Not (In b) ✧ ε)
+-- TODO: the whole thing, but nicer
+sampleXor : ℂ Bool
+sampleXor = In (λ x →
+            In (λ y →
+                Or (
+                  (And (Not (Port x) ✧ Port y ✧ ε)) ✧
+                  (And (Port x ✧ Not (Port y) ✧ ε)) ✧ ε)))
 
 record Algℂ (α : Set) : Set where
     field
