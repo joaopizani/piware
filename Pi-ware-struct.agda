@@ -1,32 +1,33 @@
 module Pi-ware-struct where
 
-open import Data.Vec using (Vec; head; map; foldr₁) renaming ([] to ε; _∷_ to _✧_)
-open import Data.Nat using (ℕ; suc)
+open import Data.Nat using (ℕ; suc; _+_)
 
-data Bit : Set where
-    O : Bit
-    I : Bit
 
-Word : ℕ → Set
-Word n = Vec Bit n
+data Circ (α : Set) : ℕ → ℕ → Set where
+    -- Computation-related
+    Not  : ∀ {n} → Circ α n n
+    And  : ∀ {n} → Circ α n 1
+    Or   : ∀ {n} → Circ α n 1
+    -- Structure-related
+    Seq  : ∀ {i m o} → Circ α i m → Circ α m o → Circ α i o
+    Par  : ∀ {i₁ i₂ o₁ o₂} → Circ α i₁ o₁ → Circ α i₂ o₂ → Circ α (i₁ + i₂) (o₁ + o₂)
 
-open import Data.Sum using (_⊎_)
+open import Data.Bool using (Bool; false; true; not)
 
-data Circ : (i : Set) → (o : Set) → Set1 where
-    Not  : ∀ {i o} → Circ i o
-    And  : ∀ {i₁ i₂ o} → Circ (i₁ ⊎ i₂) o
-    Or   : ∀ {i₁ i₂ o} → Circ (i₁ ⊎ i₂) o
-    Seq  : ∀ {i m o} → Circ i m → Circ m o → Circ i o
-    Par  : ∀ {i₁ i₂ o₁ o₂} → Circ i₁ o₁ → Circ i₂ o₂ → Circ (i₁ ⊎ i₂) (o₁ ⊎ o₂)
-    Plug : ∀ {i o} → (f : i → o) → Circ i o 
-
-open import Data.Bool using (Bool)
-
-exampleNot3Times : Circ Bool Bool
-exampleNot3Times = Seq {Bool} {Bool} (Seq {Bool} {Bool} Not Not) Not
+exampleNot3Times : Circ Bool 1 1
+exampleNot3Times = Seq (Seq Not Not) Not
     
-exampleAnd : Circ (Bool ⊎ Bool) Bool
+exampleAnd : Circ Bool (1 + 1) 1
 exampleAnd = And
 
-exampleNand : Circ (Bool ⊎ Bool) Bool
-exampleNand = Seq {Bool ⊎ Bool} {Bool} {Bool} And Not
+exampleNand : Circ Bool (1 + 1) 1
+exampleNand = Seq And Not
+
+open import Data.Vec using (Vec; head; map; foldr) renaming ([] to ε; _∷_ to _✧_)
+
+Word : ℕ → Set
+Word n = Vec Bool n
+
+-- TODO: guaranteeing that input vector is non-empty
+evalBool : ∀ {n' m'} → Circ Bool (suc n') (suc m') → Word (suc n') → Word (suc m')
+evalBool c w = {!!}
