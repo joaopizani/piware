@@ -25,7 +25,6 @@ open import Function using (_∘_; _$_)
 sampleNot : ℂ Bool
 sampleNot = input Not
 
--- TODO: how to have circuits with MULTIPLE OUTPUTS
 sampleAnd : ℂ Bool
 sampleAnd = In (λ x →
             In (λ y →
@@ -39,32 +38,4 @@ sampleXor = In (λ x →
                   (And (Not (Port x) ✧ Port y ✧ ε)) ✧
                   (And (Port x ✧ Not (Port y) ✧ ε)) ✧ ε)))
 
-data ValueBool : Set where
-    N : Bool → ValueBool
-    F : (ValueBool → ValueBool) → ValueBool
-
-evalBool : ℂ ValueBool → ValueBool
-evalBool (Not c) = evalBool c
-evalBool (Port v) = v
-evalBool (In f) = F (λ v → evalBool (f v))
-evalBool (And cs) = {!!}
-evalBool (Or cs) = {!!}
-
--- eval : ∀ {α} → (ω : Algℂ α) → ℂ α → α
--- eval ω (In a)   = a
--- eval ω (Not c)  = (Algℂ.aNot ω) ((eval ω) c)
--- eval ω (And cs) = (Algℂ.aAnd ω) (map (eval ω) cs)
--- eval ω (Or cs)  = (Algℂ.aOr ω) (map (eval ω) cs)
-
--- evalBoolean : ℂ Bool → Bool
--- evalBoolean = eval (record {aNot = not;  aAnd = foldr₁ _∧_;  aOr = foldr₁ _∨_ })
-
--- evalXor : Bool → Bool → Bool
--- evalXor a b = evalBoolean (sampleXor a b)
-
--- record Algℂ (α : Set) : Set where
---     field
---         aNot : α → α
---         aAnd : ∀ {n} → Vec α (suc n) → α
---         aOr  : ∀ {n} → Vec α (suc n) → α
-
+-- evaluation stuck at a value type with **negative occurrences**
