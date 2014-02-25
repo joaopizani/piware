@@ -1,41 +1,46 @@
 module Pi-ware where
 
-open import Data.Vec using (Vec; head; map; foldr₁) renaming ([] to ε; _∷_ to _✧_)
-open import Data.Nat using (ℕ; suc; zero)
+open import Data.Nat using (ℕ; suc; _+_)
 
 
-data ℂ (α : Set) : Set where
-    -- Fundamental computation constructors
-    Not : ℂ α → ℂ α
-    And : {n : ℕ} → Vec (ℂ α) (suc n) → ℂ α
-    Or  : {n : ℕ} → Vec (ℂ α) (suc n) → ℂ α
-    -- Binding-related
-    Port : α → ℂ α  -- Var of PHOAS
-    In   : (α → ℂ α) → ℂ α  -- Lambda of PHOAS
+data Circ (α : Set) : ℕ → ℕ → Set where
+    -- Computation-related
+    Not  : ∀ {n} → Circ α n n
+    And  : ∀ {n} → Circ α n 1
+    Or   : ∀ {n} → Circ α n 1
+    -- Structure-related
+    Seq  : ∀ {i m o} → Circ α i m → Circ α m o → Circ α i o
+    Par  : ∀ {i₁ i₂ o₁ o₂} → Circ α i₁ o₁ → Circ α i₂ o₂ → Circ α (i₁ + i₂) (o₁ + o₂)
+    -- Plug
 
-Circuit : Set₁
-Circuit = ∀ {α} → ℂ α
+open import Data.Bool using (Bool; false; true; not)
 
-input : ∀ {α} → (ℂ α → ℂ α) → ℂ α
-input c = In (λ x → c (Port x))
+exampleNot3Times : Circ Bool 1 1
+exampleNot3Times = Seq (Seq Not Not) Not
+    
+exampleAnd : Circ Bool (1 + 1) 1
+exampleAnd = And
 
-open import Data.Bool using (Bool; _∧_; _∨_; not)
-open import Function using (_∘_; _$_)
+exampleNand : Circ Bool (1 + 1) 1
+exampleNand = Seq And Not
 
-sampleNot : ℂ Bool
-sampleNot = input Not
+-- TODO: make sure that implicit arguments are really implicit
+exampleXorLike : Circ Bool (2 + 2) 1
+exampleXorLike = Seq {Bool} {4} {2} {1} (Par {Bool} {2} {2} {1} {1} And And) Or
+             
 
-sampleAnd : ℂ Bool
-sampleAnd = In (λ x →
-            In (λ y →
-                And (Port x ✧ Port y ✧ ε)))
+open import Data.Vec using (Vec; head; map; foldr) renaming ([] to ε; _∷_ to _✧_)
 
--- TODO: the whole thing, but nicer
-sampleXor : ℂ Bool
-sampleXor = In (λ x →
-            In (λ y →
-                Or (
-                  (And (Not (Port x) ✧ Port y ✧ ε)) ✧
-                  (And (Port x ✧ Not (Port y) ✧ ε)) ✧ ε)))
+Word : ℕ → Set
+Word n = Vec Bool n
 
--- evaluation stuck at a value type with **negative occurrences**
+evalBool : ∀ {n m} → Circ Bool n m → Word n → Word m
+evalBool Not         v = map not v
+evalBool And         v = {!!}
+evalBool Or          v = {!!}
+evalBool (Seq c₁ c₂) v = {!!}
+evalBool (Par c₁ c₂) v = {!!}  -- TODO: Pattern match on the implicit sizes of input circuits
+
+-- TODO: guaranteeing that input vector is non-empty
+evalBool₁ : ∀ {n' m'} → Circ Bool (suc n') (suc m') → Word (suc n') → Word (suc m')
+evalBool₁ c v = evalBool c v
