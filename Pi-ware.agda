@@ -1,46 +1,54 @@
 module Pi-ware where
 
+
 open import Data.Nat using (ℕ; suc; _+_)
+open import Data.Fin using (Fin)
 
-
-data Circ (α : Set) : ℕ → ℕ → Set where
+data ℂ (α : Set) : ℕ → ℕ → Set where
     -- Computation-related
-    Not  : ∀ {n} → Circ α n n
-    And  : ∀ {n} → Circ α n 1
-    Or   : ∀ {n} → Circ α n 1
+    Not  : ∀ {n′} → ℂ α (suc n′)       (suc n′)
+    And  : ∀ {n″} → ℂ α (suc (suc n″)) 1
+    Or   : ∀ {n″} → ℂ α (suc (suc n″)) 1
     -- Structure-related
-    Seq  : ∀ {i m o} → Circ α i m → Circ α m o → Circ α i o
-    Par  : ∀ {i₁ i₂ o₁ o₂} → Circ α i₁ o₁ → Circ α i₂ o₂ → Circ α (i₁ + i₂) (o₁ + o₂)
+    _»_  : ∀ {i m o} → ℂ α i m → ℂ α m o → ℂ α i o
+    _╋_  : ∀ {i₁ i₂ o₁ o₂} → ℂ α i₁ o₁ → ℂ α i₂ o₂ → ℂ α (i₁ + i₂) (o₁ + o₂)
     -- Plug
+    Plug : ∀ {i o} → (f : Fin o → Fin i) → ℂ α i o
 
-open import Data.Bool using (Bool; false; true; not)
+infixl 4 _»_
+infixr 5 _╋_
 
-exampleNot3Times : Circ Bool 1 1
-exampleNot3Times = Seq (Seq Not Not) Not
+open import Data.Bool using (Bool)
+
+exampleNot3Times : ℂ Bool 1 1
+exampleNot3Times = Not » Not » Not
     
-exampleAnd : Circ Bool (1 + 1) 1
+exampleAnd : ℂ Bool (1 + 1) 1
 exampleAnd = And
 
-exampleNand : Circ Bool (1 + 1) 1
-exampleNand = Seq And Not
+exampleNand : ℂ Bool (1 + 1) 1
+exampleNand = And » Not
 
--- TODO: make sure that implicit arguments are really implicit
-exampleXorLike : Circ Bool (2 + 2) 1
-exampleXorLike = Seq {Bool} {4} {2} {1} (Par {Bool} {2} {2} {1} {1} And And) Or
+-- FIXME: Why do I have to pass the "0" to And in order for Agda to check the term?
+exampleXorLike : ℂ Bool (2 + 2) 1
+exampleXorLike = And {_} {0} ╋ And » Or
              
 
-open import Data.Vec using (Vec; head; map; foldr) renaming ([] to ε; _∷_ to _✧_)
+open import Data.Vec using (Vec; []; _∷_; head; map; foldr₁; [_])
 
 Word : ℕ → Set
 Word n = Vec Bool n
 
-evalBool : ∀ {n m} → Circ Bool n m → Word n → Word m
-evalBool Not         v = map not v
-evalBool And         v = {!!}
-evalBool Or          v = {!!}
-evalBool (Seq c₁ c₂) v = {!!}
-evalBool (Par c₁ c₂) v = {!!}  -- TODO: Pattern match on the implicit sizes of input circuits
+open Data.Bool using (not; _∧_; _∨_)
+
+evalBool : ∀ {n m} → ℂ Bool n m → Word n → Word m
+evalBool Not w = map not w
+evalBool And w = [ foldr₁ _∧_ w ]
+evalBool Or  w = [ foldr₁ _∨_ w ]
+evalBool (Plug f) w = {!!}
+evalBool (c₁ » c₂) w = evalBool c₂ (evalBool c₁ w)  
+evalBool (c₁ ╋ c₂) w = {!!}
 
 -- TODO: guaranteeing that input vector is non-empty
-evalBool₁ : ∀ {n' m'} → Circ Bool (suc n') (suc m') → Word (suc n') → Word (suc m')
+evalBool₁ : ∀ {n' m'} → ℂ Bool (suc n') (suc m') → Word (suc n') → Word (suc m')
 evalBool₁ c v = evalBool c v
