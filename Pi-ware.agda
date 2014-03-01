@@ -9,14 +9,40 @@ data ℂ (α : Set) : ℕ → ℕ → Set where
     Not  : ∀ {n′} → ℂ α (suc n′)       (suc n′)
     And  : ∀ {n″} → ℂ α (suc (suc n″)) 1
     Or   : ∀ {n″} → ℂ α (suc (suc n″)) 1
+    -- Plug
+    Plug : ∀ {i′ o′} → (f : Fin (suc o′) → Fin (suc i′)) → ℂ α (suc i′) (suc o′)
     -- Structure-related
     _»_  : ∀ {i m o} → ℂ α i m → ℂ α m o → ℂ α i o
     _╋_  : ∀ {i₁ i₂ o₁ o₂} → ℂ α i₁ o₁ → ℂ α i₂ o₂ → ℂ α (i₁ + i₂) (o₁ + o₂)
-    -- Plug
-    Plug : ∀ {i o} → (f : Fin o → Fin i) → ℂ α i o
 
 infixl 4 _»_
 infixr 5 _╋_
+
+
+open import Function using (id)
+
+PlugId : ∀ {α n′} → ℂ α (suc n′) (suc n′)
+PlugId = Plug id
+
+open Data.Fin using () renaming (zero to Fz; suc to Fs)
+open Data.Nat using (_*_; zero)
+
+-- open import Relation.Binary.PropositionalEquality using (_≡_; refl; cong)
+
+-- plus-zero : ∀ {n} → n + 0 ≡ n
+-- plus-zero {zero}  = refl
+-- plus-zero {suc n} = cong suc plus-zero
+
+-- fork2 : ∀ {n} → Fin (2 * (suc n)) → Fin (suc n)
+-- fork2 : ∀ {n} → Fin (2 * (suc (suc n))) → Fin (suc (suc n))
+
+fork2 : ∀ {n′} → Fin (2 * (suc n′)) → Fin (suc n′)
+fork2 {zero}   f2  = Fz
+fork2 {suc n} fin = {!Fs  !}
+
+Fork2 : ∀ {α n′} → ℂ α (suc n′) (2 * (suc n′))
+Fork2 = Plug fork2
+
 
 open import Data.Bool using (Bool)
 
@@ -32,14 +58,21 @@ exampleNand = And » Not
 -- FIXME: Why do I have to pass the "0" to And in order for Agda to check the term?
 exampleXorLike : ℂ Bool (2 + 2) 1
 exampleXorLike = And {_} {0} ╋ And » Or
-             
 
-open import Data.Vec using (Vec; []; _∷_; head; map; foldr₁; [_])
+exampleXor : ℂ Bool (1 + 1) 1
+exampleXor = 
+    Fork2
+    » (Not {_} {0} ╋ PlugId » And {_} {0})  ╋  (PlugId ╋ Not {_} {0} » And {_} {0})
+    »  Or
+
+
+open import Data.Vec using (Vec)
 
 Word : ℕ → Set
 Word n = Vec Bool n
 
 open Data.Bool using (not; _∧_; _∨_)
+open Data.Vec using (map; foldr₁; [_])
 
 evalBool : ∀ {n m} → ℂ Bool n m → Word n → Word m
 evalBool Not w = map not w
