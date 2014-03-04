@@ -52,7 +52,7 @@ exampleXorLikeStruct =
 
 exampleXor : ℂ Bool (1 + 1) 1
 exampleXor = 
-    Fork2  »     (Not {_} {0} ⟩⟨ PlugId {_} {0} » And {_} {0})
+    Fork2  »    (Not {_} {0} ⟩⟨ PlugId {_} {0} » And {_} {0})
              ⟩⟨ (PlugId {_} {0} ⟩⟨ Not {_} {0} » And {_} {0})   » Or
 
 
@@ -62,16 +62,24 @@ open import Data.Vec using (Vec)
 Word : ℕ → Set
 Word n = Vec Bool n
 
+open Data.Fin using () renaming (zero to Fz; suc to Fs)
+open Data.Nat using (zero)
+open Data.Vec using ([]; _∷_; map)
+
+allFin : ∀ n → Vec (Fin n) n
+allFin zero    = []
+allFin (suc m) = Fz ∷ map Fs (allFin m)
+
 open Data.Bool using (not; _∧_; _∨_)
-open Data.Vec using (map; foldr₁; [_]; splitAt; _++_)
+open Data.Vec using (foldr₁; [_]; splitAt; _++_; lookup)
 open import Data.Product using (Σ; _,_)
 
 evalBool : ∀ {n m} → ℂ Bool n m → Word n → Word m
 evalBool Not        w = map not w
 evalBool And        w = [ foldr₁ _∧_ w ]
 evalBool Or         w = [ foldr₁ _∨_ w ]
-evalBool (Plug f)   w = {!!}
 evalBool (c₁ » c₂)  w = evalBool c₂ (evalBool c₁ w)  
+evalBool (Plug p)   w = map (λ fo → lookup (p fo) w) (allFin _) 
 evalBool (_⟩⟨_ {i₁} c₁ c₂) w with splitAt i₁ w
 evalBool (c₁ ⟩⟨ c₂)        w | w₁ , (w₂ , _) = evalBool c₁ w₁ ++ evalBool c₂ w₂
 
