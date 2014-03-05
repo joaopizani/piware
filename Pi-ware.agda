@@ -1,40 +1,41 @@
 module Pi-ware where
 
+open import Data.Nat using (ℕ; pred; suc; _+_; _*_)
+open import Data.Vec using (Vec; map; foldr₁; [_]; splitAt; _++_; lookup)
+open import Data.Bool using (Bool; not; _∧_; _∨_)
+open import Data.Product using (_,_)
+open import Function using (id)
+
+
+-- TODO: later enrich "documentation" of wires with tags on all constructors
+data Wires : Set where
+    [W]   : Wires                  -- Single wire (later tagged)
+    _[*]_ : Wires → ℕ → Wires      -- Vector of wires (the natural passed is the PRED of the factor)
+    _[+]_ : Wires → Wires → Wires  -- Addition of wires
+
+infixl 8 _[+]_
+infixl 9 _[*]_
+
+-- The natural passed is the PREDECESSOR of the actual number of wires
+[W_] : ℕ → Wires
+[W n ] = [W] [*] n
+
+evalWires : Wires → ℕ
+evalWires [W] = 1
+evalWires (w [*] n)  = suc n * evalWires w
+evalWires (w1 [+] w2) = evalWires w1 + evalWires w2
 
 -- The core Circuit type (ℂ)
-open import Data.Nat using (ℕ; pred; suc; _+_; _*_)
-
-data Size : Set where
-    #¹ : ℕ → Size  -- Non-zero
-    #² : ℕ → Size  -- Two or more
-    _#+#_  : Size → Size → Size  -- Addition of sizes
-    _#*#_  : Size → ℕ → Size  -- Vector sizes
-
-infixl 8 _#+#_
-infixl 9 _#*#_
-
-# : ℕ → Size
-# n = #¹ (pred n)
-
-evalSize : Size → ℕ
-evalSize (#¹ n) = suc n
-evalSize (#² n) = suc (suc n)
-evalSize (n #+# m) = evalSize n + evalSize m
-evalSize (n #*# m) = m * evalSize n  -- better with induction in front
-
-
-open import Data.Fin using (Fin)
-
-data ℂ (α : Set) : Size → Size → Set where
+data ℂ (α : Set) : Wires → Wires → Set where
     -- Computation-related
-    Not  : ∀ {n} →  ℂ α (#¹ n) (#¹ n)
-    And  : ∀ {s} →  ℂ α s (# 1)
-    Or   : ∀ {s} →  ℂ α s (# 1)
+    Not  : ℂ α [W] [W]
+    And  : {n : ℕ} →  ℂ α [W n ] [W]
+    Or   : {n : ℕ} →  ℂ α [W n ] [W]
     -- Plug
-    Plug : ∀ {i o} → (f : Fin (suc o) → Fin (suc i)) → ℂ α (#¹ i) (#¹ o)
+    Plug : {i o : Wires} → (f : Wires → Wires) → ℂ α i o
     -- Structure-related
     _⟫_  : ∀ {i m o} → ℂ α i m → ℂ α m o → ℂ α i o
-    _||_ : ∀ {a b c d} → ℂ α a b → ℂ α c d → ℂ α (a #+# c) (b #+# d)
+    _||_ : ∀ {i₁ o₁ i₂ o₂} → ℂ α i₁ o₁ → ℂ α i₂ o₂ → ℂ α (i₁ [+] i₂) (o₁ [+] o₂)
 
 infixl 4 _⟫_
 infixr 5 _||_
@@ -43,77 +44,44 @@ infixr 5 _||_
 -- "Smart constructors"
 
 
--- Potentially useful plugs
--- open import Function using (id)
--- 
--- PlugId : {α : Set } {s : Size} → ℂ α s s
--- PlugId = {!!}
--- 
--- open import Algebra
--- open import Data.Nat.Properties using () renaming (commutativeSemiring to NatCommSemiring)
--- open CommutativeSemiring NatCommSemiring using (+-comm)
--- 
--- fork2 : ∀ {n} → Fin (n + n) → Fin n
--- fork2 {zero}  ()
--- fork2 {suc n} Fz     = Fz
--- fork2 {suc n} (Fs f) = {!!}
--- 
--- Fork2 : ∀ {α n} → ℂ α (suc n) (suc n + suc n)
--- Fork2 = Plug fork2
-
+-- Useful "pre-fabricated" plugs
 pID : ∀ {α s} → ℂ α s s
-pID = {!!}
+pID = {!Plug id !}
 
-Fork2 : ∀ {α s} → ℂ α s (s #+# s)
+Fork2 : ∀ {α s} → ℂ α s (s [+] s)
 Fork2 = {!!}
 
 
 -- Simple example circuits
-open import Data.Bool using (Bool)
-
-exampleNot3Times : ℂ Bool (# 1) (# 1)
+exampleNot3Times : ℂ Bool [W] [W]
 exampleNot3Times = Not ⟫ Not ⟫ Not
     
-exampleAnd : ℂ Bool (# 2) (# 1)
+exampleAnd : ℂ Bool [W 1 ] [W]
 exampleAnd = And
 
-exampleNand : ℂ Bool (# 2) (# 1)
+exampleNand : ℂ Bool [W 1 ] [W]
 exampleNand = And ⟫ Not
 
-exampleXorLikeStruct : ℂ Bool ((# 2) #+# (# 2)) (# 1)
+exampleXorLikeStruct : ℂ Bool ([W 1 ] [+] [W 1 ]) [W]
 exampleXorLikeStruct =
        And
     || And         ⟫ Or
 
-exampleXor : ℂ Bool ((# 1) #+# (# 1)) (# 1)
+exampleXor : ℂ Bool [W 1 ] [W]
 exampleXor = 
-    Fork2  ⟫    (Not {_} {0}    || pID {_} {# 1} ⟫ And {_} {_})
-             || (pID {_} {# 1}  || Not {_} {0}   ⟫ And {_} {_})  ⟫ Or
+    Fork2  ⟫    (Not || pID  ⟫ And)
+             || (pID || Not  ⟫ And)  ⟫ Or
 
 
 -- Evaluation over Bool's
-open import Data.Vec using (Vec)
-
 Word : ℕ → Set
 Word n = Vec Bool n
 
-open Data.Fin using () renaming (zero to Fz; suc to Fs)
-open Data.Nat using (zero)
-open Data.Vec using ([]; _∷_; map)
-
-allFin : ∀ n → Vec (Fin n) n
-allFin zero    = []
-allFin (suc m) = Fz ∷ map Fs (allFin m)
-
-open Data.Bool using (not; _∧_; _∨_)
-open Data.Vec using (foldr₁; [_]; splitAt; _++_; lookup)
-open import Data.Product using (Σ; _,_)
-
-evalBool : ∀ {i o} → ℂ Bool i o → Word (evalSize i) → Word (evalSize o)
+evalBool : {i o : Wires} → ℂ Bool i o → Word (evalWires i) → Word (evalWires o)
 evalBool Not        w = map not w
 evalBool And        w = {!!}
 evalBool Or         w = {!!}
 evalBool (c₁ ⟫ c₂)  w = evalBool c₂ (evalBool c₁ w)  
-evalBool (Plug p)   w = map (λ fo → lookup (p fo) w) (allFin _) 
+evalBool (Plug p)   w = {!!}
 evalBool (_||_ {i₁} c₁ c₂) w with splitAt {!!} w
 evalBool (c₁ || c₂)        w | w₁ , (w₂ , _) = evalBool c₁ w₁ ++ evalBool c₂ w₂
