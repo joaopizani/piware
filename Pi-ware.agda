@@ -4,45 +4,57 @@ open import Data.Nat using (ℕ; pred; suc; _+_; _*_)
 open import Data.Vec using (Vec; map; foldr₁; [_]; splitAt; _++_; lookup)
 open import Data.Bool using (Bool; not; _∧_; _∨_)
 open import Data.Product using (_,_)
-open import Function using (id)
+open import Function using (id; _$_)
+open import Data.Sum using (_⊎_; inj₁; inj₂)
+open import Data.String using (String)
 open import Data.Unit using (⊤)
-open import Data.Sum using (_⊎_)
 
 
--- Universe of types describing the interface (input or output) of circuits
--- TODO: later enrich "documentation" of wires with tags on all constructors
-data Wires : Set where
-    ↾   : Wires                  -- Single wire (later tagged)
-    _⊠_ : Wires → ℕ → Wires      -- Vector of wires (the natural passed is the PRED of the factor)
-    _⊞_ : Wires → Wires → Wires  -- Addition of wires
+-- Tagged unit (tagged by String)  TODO: not yet used
+data ⊤' : String → Set where
+    § : (ℓ : String) → ⊤' ℓ
+
+-- Type describing the interface (input or output ports) of circuits
+data Interface : Set where
+    ↾   : Interface                          -- Single wire (TODO: later tagged)
+    _⊠_ : Interface → ℕ → Interface          -- Vector of wires (the argument is the predecessor of the factor)
+    _⊞_ : Interface → Interface → Interface  -- Addition of wires
 
 infixl 8 _⊞_
 infixl 9 _⊠_
 
--- Mapping elements of Wires to types
-⟬_⟭ : Wires → Set
-⟬ ↾ ⟭       = ⊤
-⟬ w ⊠ n ⟭   = Vec ⟬ w ⟭ (suc n)
-⟬ w₁ ⊞ w₂ ⟭ = ⟬ w₁ ⟭ ⊎ ⟬ w₂ ⟭
-
--- "Flattening" interface stucture to a natural size
-#_ : Wires → ℕ
+-- "Flattening" port stucture to just a (natural) size
+#_ : Interface → ℕ
 #_ ↾         = 1
 #_ (w ⊠ n)   = suc n * # w
 #_ (w₁ ⊞ w₂) = # w₁ + # w₂
 
+-- Universe of types defined by Interface
+⟬_⟭ : Interface → Set
+⟬ ↾ ⟭       = ⊤
+⟬ w ⊠ n ⟭   = Vec ⟬ w ⟭ (suc n)
+⟬ w₁ ⊞ w₂ ⟭ = ⟬ w₁ ⟭ ⊎ ⟬ w₂ ⟭
+
+-- Universe of types defined by Interface, relational style
+data _⇑_ : Interface → Set → Set where
+    ↑↾ : ↾ ⇑ ⊤
+    ↑⊠ : {p : Interface} {↑p : Set} {n : ℕ}  →  p  ⇑ ↑p              →  p ⊠ n   ⇑ Vec ↑p (suc n)
+    ↑⊞ : {p₁ p₂ : Interface} {↑p₁ ↑p₂ : Set} →  p₁ ⇑ ↑p₁ →  p₂ ⇑ ↑p₂ →  p₁ ⊞ p₂ ⇑ (↑p₁ ⊎ ↑p₂)
+
+infix 1 _⇑_
+
 
 -- The core Circuit type (ℂ)
-data ℂ (α : Set) : Wires → Wires → Set where
+data ℂ (α : Set) : Set → Set → Set where
     -- Computation-related
-    Not  : ℂ α ↾ ↾
-    And  : ℂ α (↾ ⊞ ↾) ↾  -- TODO: Should these remain with fixed size (binary)?
-    Or   : ℂ α (↾ ⊞ ↾) ↾
+    Not  : ℂ α ⟬ ↾ ⟭ ⟬ ↾ ⟭
+    And  : ℂ α ⟬ ↾ ⊞ ↾ ⟭ ⟬ ↾ ⟭  -- TODO: Should these keep fixed "interfaces" (binary)?
+    Or   : ℂ α ⟬ ↾ ⊞ ↾ ⟭ ⟬ ↾ ⟭
     -- Plug
-    Plug : {i o : Wires} → (f : Wires → Wires) → ℂ α i o
+    Plug : {i o : Interface} → (f : ⟬ o ⟭ → ⟬ i ⟭) → ℂ α ⟬ i ⟭ ⟬ o ⟭
     -- Structure-related
-    _⟫_  : ∀ {i m o} → ℂ α i m → ℂ α m o → ℂ α i o
-    _||_ : ∀ {i₁ o₁ i₂ o₂} → ℂ α i₁ o₁ → ℂ α i₂ o₂ → ℂ α (i₁ ⊞ i₂) (o₁ ⊞ o₂)
+    _⟫_  : {i m o : Interface} →  ℂ α ⟬ i ⟭ ⟬ m ⟭ →  ℂ α ⟬ m ⟭ ⟬ o ⟭ →  ℂ α ⟬ i ⟭ ⟬ o ⟭
+    _||_ : {a b c d : Interface} →  ℂ α ⟬ a ⟭ ⟬ b ⟭ →  ℂ α ⟬ c ⟭ ⟬ d ⟭ →  ℂ α ⟬ a ⊞ c ⟭ ⟬ b ⊞ d ⟭
 
 infixl 4 _⟫_
 infixr 5 _||_
@@ -52,34 +64,33 @@ infixr 5 _||_
 
 
 -- Useful "pre-fabricated" plugs
-pID : ∀ {α s} → ℂ α s s
+pID : {α : Set} {p : Interface} → ℂ α ⟬ p ⟭ ⟬ p ⟭
 pID = Plug id
 
--- FIXME: Does NOT ensure that output will be at least as big as 2. "Value-level" problem?
-Fork2 : ∀ {α s} → ℂ α s (s ⊞ s)
+fork2 : {p : Interface} → ⟬ p ⊞ p ⟭ → ⟬ p ⟭
+fork2 (inj₁ w) = w
+fork2 (inj₂ w) = w
+
+Fork2 : {α : Set} {p : Interface} → ℂ α ⟬ p ⟭ ⟬ p ⊞ p ⟭
 Fork2 = Plug fork2
-    where fork2 : Wires → Wires
-          fork2 ↾         = ↾  -- FIXME: This case should never happen
-          fork2 (w ⊠ n)   = ↾  -- FIXME: This case should never happen
-          fork2 (w₁ ⊞ w₂) = w₁
 
 
 -- Simple example circuits
-exampleNot3Times : ℂ Bool ↾ ↾
+exampleNot3Times : ℂ Bool ⟬ ↾ ⟭ ⟬ ↾ ⟭
 exampleNot3Times = Not ⟫ Not ⟫ Not
     
-exampleAnd : ℂ Bool (↾ ⊞ ↾) ↾
+exampleAnd : ℂ Bool ⟬ ↾ ⊞ ↾ ⟭ ⟬ ↾ ⟭
 exampleAnd = And
 
-exampleNand : ℂ Bool (↾ ⊞ ↾) ↾
+exampleNand : ℂ Bool ⟬ ↾ ⊞ ↾ ⟭ ⟬ ↾ ⟭
 exampleNand = And ⟫ Not
 
-exampleXorLikeStruct : ℂ Bool ((↾ ⊞ ↾) ⊞ (↾ ⊞ ↾)) ↾
+exampleXorLikeStruct : ℂ Bool ⟬ (↾ ⊞ ↾) ⊞ (↾ ⊞ ↾) ⟭ ⟬ ↾ ⟭
 exampleXorLikeStruct =
        And
     || And         ⟫ Or
 
-exampleXor : ℂ Bool (↾ ⊞ ↾) ↾
+exampleXor : ℂ Bool ⟬ ↾ ⊞ ↾ ⟭ ⟬ ↾ ⟭
 exampleXor = 
     Fork2  ⟫    (Not || pID  ⟫ And)
              || (pID || Not  ⟫ And)  ⟫ Or
@@ -89,11 +100,21 @@ exampleXor =
 Word : ℕ → Set
 Word n = Vec Bool n
 
-evalBool : {i o : Wires} → ℂ Bool i o → Word (# i) → Word (# o)
-evalBool Not        w = map not w
-evalBool And        w = [ foldr₁ _∧_ w ]
-evalBool Or         w = [ foldr₁ _∨_ w ]
-evalBool (c₁ ⟫ c₂)  w = evalBool c₂ (evalBool c₁ w)  
-evalBool (Plug p)   w = {!!}
-evalBool (_||_ {i₁} c₁ c₂) w with splitAt (# i₁) w
-evalBool (c₁ || c₂)        w | w₁ , (w₂ , _) = evalBool c₁ w₁ ++ evalBool c₂ w₂
+
+-- FIXME: error was smth like: can't decide whether there should be a case for And because 
+-- unification gets stuck trying to unify ⊤ and ⟬ ↾ ⊞ ↾ ⟭ (when the Not case was already written).
+
+-- eval : {i o : Interface} → ℂ Bool ⟬ i ⟭ ⟬ o ⟭ → Word (# i) → Word (# o)
+-- eval {↾}     {↾}  Not       w = map not w
+-- eval {↾ ⊞ ↾} {↾}  And       w = [ foldr₁ _∧_ w ]
+-- eval {↾ ⊞ ↾} {↾}  Or        w = [ foldr₁ _∨_ w ]
+-- eval {p₁}    {p₂} (c₁ ⟫ c₂) w = eval c₂ $ eval c₁ $ w
+-- eval {p₁}    {p₂} (Plug f)  w = {!!}
+-- eval {p₁}    {p₂} (_||_ {i₁} c₁ c₂) w with splitAt (# i₁) w
+-- eval {p₁}    {p₂} (c₁ || c₂)        w | w₁ , (w₂ , _) = eval c₁ w₁ ++ eval c₂ w₂
+
+
+-- So I thought: Maybe we can model the "lifting" from interface value to interface type as a
+-- datatype (relation), then the unification could proceed by matching on constructors, no??
+eval : {i o : Interface} {↑i ↑o : Set} → i ⇑ ↑i → o ⇑ ↑o → ℂ Bool ↑i ↑o → Word (# i) → Word (# o)
+eval {i} {o} iup oup c w = {!!}
