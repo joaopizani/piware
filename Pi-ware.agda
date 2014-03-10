@@ -35,15 +35,6 @@ infixl 9 _⊠_
 ⟬ w ⊠ n ⟭   = Vec ⟬ w ⟭ (suc n)
 ⟬ w₁ ⊞ w₂ ⟭ = ⟬ w₁ ⟭ ⊎ ⟬ w₂ ⟭
 
--- Universe of types defined by Interface, relational style
-data _⇑_ : Interface → Set → Set where
-    ↑↾ : ↾ ⇑ ⊤
-    ↑⊠ : {p : Interface} {↑p : Set} {n : ℕ}  →  p  ⇑ ↑p              →  p ⊠ n   ⇑ Vec ↑p (suc n)
-    ↑⊞ : {p₁ p₂ : Interface} {↑p₁ ↑p₂ : Set} →  p₁ ⇑ ↑p₁ →  p₂ ⇑ ↑p₂ →  p₁ ⊞ p₂ ⇑ (↑p₁ ⊎ ↑p₂)
-
-infix 1 _⇑_
-
-
 -- The core Circuit type (ℂ)
 data ℂ (α : Set) : Set → Set → Set where
     -- Computation-related
@@ -112,9 +103,3 @@ Word n = Vec Bool n
 -- eval {p₁}    {p₂} (Plug f)  w = {!!}
 -- eval {p₁}    {p₂} (_||_ {i₁} c₁ c₂) w with splitAt (# i₁) w
 -- eval {p₁}    {p₂} (c₁ || c₂)        w | w₁ , (w₂ , _) = eval c₁ w₁ ++ eval c₂ w₂
-
-
--- So I thought: Maybe we can model the "lifting" from interface value to interface type as a
--- datatype (relation), then the unification could proceed by matching on constructors, no??
-eval : {i o : Interface} {↑i ↑o : Set} → i ⇑ ↑i → o ⇑ ↑o → ℂ Bool ↑i ↑o → Word (# i) → Word (# o)
-eval {i} {o} iup oup c w = {!!}
