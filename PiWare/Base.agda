@@ -1,12 +1,17 @@
 module PiWare.Base where
 
 open import Data.Nat using (ℕ; _+_; zero; suc; _≤_)
-open import Data.Nat.Properties using (m≤m+n)
-open import Data.Fin using (Fin; reduce≥; toℕ) renaming (zero to Fz; suc to Fs)
+open import Data.Fin using (Fin) renaming (zero to Fz; suc to Fs)
 open import Function using (id)
 open import Data.Bool using (Bool; not; _∧_; _∨_; true; false)
 open import Data.Vec using (Vec; map; _∷_; []; [_]; splitAt; _++_; lookup)
 open import Data.Product using (_,_)
+
+open import Relation.Binary.PropositionalEquality using (_≡_; refl)
+open import Algebra
+import Data.Nat.Properties as ℕ-Props
+private
+    open CommutativeSemiring ℕ-Props.commutativeSemiring using (+-comm)
 
 
 data ℂ (α : Set) : ℕ → ℕ → Set where
@@ -25,7 +30,15 @@ pID = Plug id
 
 fork2 : ∀ {n} → Fin (n + n) → Fin n
 fork2 {zero} ()
-fork2 {suc n} i = {!!}
+fork2 {suc zero} Fz = Fz
+fork2 {suc zero} (Fs Fz) = Fz
+fork2 {suc zero} (Fs (Fs ()))
+fork2 {suc (suc n)} Fz = Fz
+fork2 {suc (suc n)} (Fs Fz) = Fz
+fork2 {suc (suc n)} (Fs (Fs i))           with (n + suc (suc n)) | +-comm n (suc (suc n))
+fork2 {suc (suc n)} (Fs (Fs Fz))          | .(suc (suc (n + n))) | refl = Fs Fz
+fork2 {suc (suc n)} (Fs (Fs (Fs Fz)))     | .(suc (suc (n + n))) | refl = Fs Fz
+fork2 {suc (suc n)} (Fs (Fs (Fs (Fs i)))) | .(suc (suc (n + n))) | refl = Fs (Fs (fork2 i))
 
 Fork2 : {α : Set} {n : ℕ} → ℂ α n (n + n)
 Fork2 = Plug fork2
@@ -37,18 +50,24 @@ exampleNot3Times = Not ⟫ Not ⟫ Not
 exampleNand : ℂ Bool 2 1
 exampleNand = And ⟫ Not
 
-exampleXorLikeStruct : ℂ Bool (2 + 2) 1
-exampleXorLikeStruct =
+exampleAnd4 : ℂ Bool (2 + 2) 1
+exampleAnd4 =
        And
-    || And  ⟫ Or
+    || And  ⟫ And
 
-_||₂_ : {n m : ℕ} {α : Set} → ℂ α n m → ℂ α n m → ℂ α (n + n) (m + m)
-_||₂_ {n} {m} {α} c₁ c₂ = _||_ {α} {n} {m} {n} {m} c₁ c₂
+exampleForkAnd : ℂ Bool 1 1
+exampleForkAnd = Fork2 ⟫ And
+
+_||₂_ : {α : Set} {n m : ℕ} → ℂ α n m → ℂ α n m → ℂ α (n + n) (m + m)
+_||₂_ {α} {n} {m} c₁ c₂ = _||_ {α} {n} {m} {n} {m} c₁ c₂
 
 exampleXor : ℂ Bool 2 1
 exampleXor =
-    Fork2 ⟫     (Not ||₂ pID  ⟫ And)
-            ||₂ (pID ||₂ Not  ⟫ And)  ⟫ Or
+    Fork2 ⟫      (     Not 
+                   ||₂ pID  ⟫ And)
+
+            ||₂  (     pID 
+                   ||₂ Not  ⟫ And)   ⟫ Or
 
 
 Word : ℕ → Set
