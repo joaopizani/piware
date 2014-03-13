@@ -1,4 +1,4 @@
-module PiWare.Base where
+module Pi-ware-numeric where
 
 open import Data.Nat using (ℕ; _+_; zero; suc; _≤_)
 open import Data.Fin using (Fin) renaming (zero to Fz; suc to Fs)
