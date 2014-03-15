@@ -15,7 +15,7 @@ Circuits modeled in PiWare can be **simulated** (run over bit vectors) and can b
 Properties over circuit behaviour can also be proven using PiWare, even for (possibly infinite) **families of circuits**.
 
 The project proposal, motivation, literature review,
-and high-level technical descriptions behind the design choices takes are documented in the
+and high-level technical descriptions behind the design choices taken are documented in the
 [project wiki](https://github.com/joaopizani/piware/wiki).
 
 This repository is furthermore organized as follows:
