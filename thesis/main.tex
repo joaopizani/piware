@@ -1,0 +1,67 @@
+\documentclass[a4paper]{article}
+
+\usepackage{fontspec}
+\setmonofont[Scale=0.8]{DejaVu Sans Mono}
+
+\usepackage{unicode-math}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{hyperref}  % ref
+\usepackage{color}
+\usepackage{booktabs}  % nice tables
+\usepackage{float}
+\usepackage{acronym}
+
+
+%% Code
+\usepackage{minted}
+\usepackage{fancyvrb}
+\usemintedstyle{default}
+
+\newmint{haskell}{mathescape,fontfamily=tt}
+\newmintedfile{haskell}{mathescape,fontfamily=tt}
+\newminted{haskell}{gobble=8,mathescape,fontfamily=tt}
+\newmint{coq}{mathescape,fontfamily=tt}
+\newmintedfile{coq}{mathescape,fontfamily=tt}
+\newminted{coq}{gobble=8,mathescape,fontfamily=tt}
+
+
+
+%% Metainformation
+%% PDF stuff
+\usepackage{datetime}
+\usepackage{ifpdf}
+\ifpdf
+\pdfinfo{
+    /Author (João Paulo Pizani Flor)
+    /Title (An Embedded Hardware Description Language using Dependent Types)
+    /Keywords (EDSL, HDL, Hardware Description, Functional Programming, Dependent types, Agda, Coq, Lava, Coquet)
+    /CreationDate (D:\pdfdate)
+}
+\fi
+
+\title{An Embedded Hardware Description Language using Dependent Types}
+
+\date{\today}
+
+\author{
+    João Paulo Pizani Flor \\
+    Department of Information and Computing Sciences, \\
+    Utrecht University - The Netherlands \\
+    e-mail: j.p.pizaniflor@students.uu.nl
+}
+
+
+
+%% The document itself
+\begin{document}
+
+    \maketitle
+
+    \input{section1-introduction.tex}
+
+    \newpage
+    \bibliographystyle{plain}
+    \bibliography{references}
+
+\end{document}
