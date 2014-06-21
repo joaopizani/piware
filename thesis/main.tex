@@ -34,13 +34,13 @@
 \ifpdf
 \pdfinfo{
     /Author (João Paulo Pizani Flor)
-    /Title (An Embedded Hardware Description Language using Dependent Types)
+    /Title (PiWare: An Embedded Hardware Description Language using Dependent Types)
     /Keywords (EDSL, HDL, Hardware Description, Functional Programming, Dependent types, Agda, Coq, Lava, Coquet)
     /CreationDate (D:\pdfdate)
 }
 \fi
 
-\title{An Embedded Hardware Description Language using Dependent Types}
+\title{Π-Ware: An Embedded Hardware Description Language using Dependent Types}
 
 \date{\today}
 
@@ -61,6 +61,8 @@
 
     \section{Introduction}
     \label{sec:intro}
+        %% MAKE A STRONG CASE AS MOTIVATION
+
         Several factors have been causing an increasing demand for hardware acceleration of algorithms,
         and there is also pressure to reduce the duration and cost of the circuit design process.
         These trends collide with the techniques and tooling used in this activity, which are,
@@ -101,6 +103,8 @@
         according to the \emph{Curry-Howard correspondence},
         inhabitants of a type are proofs for the statement that the type represents.
 
+        What this means is that, using dependent types, one can more easily approximate \emph{specification} and \emph{implementation}.
+        The type signature of a function can say much more about the behaviour of such function.
         We can have, for example, the type of a "vector grouping" function as follows:
 
         %% TODO: vector grouping
@@ -110,6 +114,110 @@
         This type therefore serves as a \emph{specification of correctness} for the function.
         Any function with this type is, by definition, a \emph{correct "grouping" function}.
 
+        In an EDSL for hardware there will usually be a \emph{type} whose elements are circuits
+        One can imagine that it would be useful to design this type in such a way that as few of its elements as possible are ``wrong''.
+        Such circuits would be "correct-by-design", for a certain definition of correctness.
+        Therefore, we also want to make the typing of the circuits as strong as possible,
+        to eliminate as many classes of design mistakes as possible.
+
+
+
+    \section{Hardware Design}
+    \label{sec:hardware}
+        \begin{itemize}
+            \item Compare software and hardware
+            \item Models of computation: turing machine, lambda calculus, boolean circuits
+                \subitem trade-off in complexity (size x cycles)
+
+            \item General trend to raise the level of abstraction of descriptions
+            \item Hardware description languages
+
+            \item Attempts at High-Level Synthesis and so forth (TCC)
+        \end{itemize}
+
+        \subsection{Functional Hardware Description}
+        \label{subsec:functional-hardware}
+            \begin{itemize}
+                \item Embedded functional HDLs
+                \item Lava, etc.
+            \end{itemize}
+
+
+    \section{Depdendently-Typed Programming}
+    \label{sec:dtp}
+
+        \subsection{Dependent types}
+        \label{subsec:dependent-types}
+            \begin{itemize}
+                \item General type system explanation, growing in power until we reach dependent types
+                \item Expressivity of dependent types
+                    \subitem Curry-Howard correspondence
+                    \subitem Practical examples
+                        \subsubitem Especially powerful for EDSLs (The Power of Pi)
+                        \subsubitem Segway into circuit EDSLs
+            \end{itemize}
+
+        \subsection{Hardware and dependent types}
+        \label{subsec:hardware-dtp}
+            \begin{itemize}
+                \item Others
+                \item Coquet
+                    \subitem Turning design mistakes into TYPE ERRORS
+                    \subitem Proving properties about circuit behaviour
+                    \subsubitem Functional correctness in particular.
+            \end{itemize}
+
+
+    \section{The Π-Ware library}
+    \label{sec:piware}
+        Lorem ipsum\ldots
+
+        %% How to present:
+            %% By design decisions ∨
+
+        \subsection{Circuit Syntax}
+        \label{subsec:circuit-types}
+            \begin{itemize}
+                \item Shallow vs. deep embedding
+                    \subitem Chose deep because of synthesis and non-functional analyses
+                \item Structural modelling
+                    \subitem Represent connections among circuits in the DSL, \emph{not in the metalanguage}
+                    \subitem Avoid having to deal with observable sharing
+            \end{itemize}
+
+        \subsection{Abstraction Mechanisms}
+        \label{subsec:abstraction}
+            \begin{itemize}
+                \item Data abstraction (atom vectors x arbitrary synthesizable types)
+                    \subitem Atom (enumeration axioms)
+                    \subitem Word / Synthesizable
+                        \subsubitem Proof search?
+                \item Gate abstraction (Technology primitives x Semantic fundamentals)
+                    \subitem Circuits descriptions are parameterized by a set of fundamental gates
+                        \subsubitem Always combinational
+                        \subsubitem Their correctness is assumed
+                    \subitem For synthesis, still need to give these gates a description in terms of technology primitives
+            \end{itemize}
+
+        \subsection{Circuit Semantics}
+        \label{subsec:eval-seq}
+            \begin{itemize}
+                \item Two types of evaluation: combinational and sequential
+                \item Combinational eval requires a proof that the circuit contains no loops
+                    \subitem Eval of a fundamental gate is just its \emph{definitional behaviour}
+
+                \item For sequential circuits we use a \emph{causal stream semantics}
+                %% TODO: couldn't we restrict it even more and just keep ONE PAST VALUE in the context?
+                    \subitem Current output depends on the current input and (possibly) on the past input
+                    \subitem \emph{Different} than plain Stream functions
+
+                \item There's also an eval function which allows the circuit to be viewed as function from Stream to Stream
+            \end{itemize}
+
+
+    \section{Conclusions}
+    \label{sec:conclusions}
+        Lorem ipsum dolor amet\ldots
 
 
     \newpage
