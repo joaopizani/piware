@@ -58,7 +58,59 @@
 
     \maketitle
 
-    \input{section1-introduction.tex}
+
+    \section{Introduction}
+    \label{sec:intro}
+        Several factors have been causing an increasing demand for hardware acceleration of algorithms,
+        and there is also pressure to reduce the duration and cost of the circuit design process.
+        These trends collide with the techniques and tooling used in this activity, which are,
+        compared to the ones observed in software development, primitive.
+
+        % Hardware is harder :)  Stronger correctness requirements, verification, validation
+
+        One of the (long-running) trends to increase productivity in the software industry
+        is the usage of functional programming.
+        Advocates of functional programming claim productivity gains of up to 10 times to
+        programmers coming from an imperative environment.
+        Another advantage usually attributed to functional programming is an increased capacity to
+        \emph{reason} about your programs, specially to perform what is called \emph{equational reasoning}.
+        These claims have been confirmed in practice (and still keep getting more confirmations),
+        and furthermore, functional techniques and constructs keep "penetrating" imperative languages
+        with each new release. % TODO: mention C++11, SWIFT, etc.
+
+        % TODO: Purely functional programming examples
+
+        In a certain way, we can compare the level of abstraction in which hardware design and verification
+        is performed nowadays with software development in its early age.
+        Of course there are inherent and fundamental differences between the two activities, but
+        this comparison leads us to ask whether current research ideas from PL technology,
+        and specially those related to functional programming, could be used to improve hardware design.
+
+        Research trying to answer this broad question started already in the 1980s,
+        with the work of Prof. Mary Sheeran and others,
+        developing \emph{functional} hardware description languages, such as μFP.
+        Later, a trend emerged of developing \emph{Embedded} Domain-Specific Languages (EDSLs)
+        for hardware description, \emph{hosted} in functional languages, such as Haskell.
+        % TODO: Lava, ForSyDe, etc. ALREADY KINDA PRACTICALLY VALIDATED AND USED
+
+        Staying on the "path" of functional programming but going even further in power we reach
+        Dependently-Typed Programming (DTP).
+        A type system with \emph{dependent types} can express very powerful properties
+        about the programs written in it.
+        In fact, a dependent type can express any formula of \emph{intuitionistic first-order logic} and,
+        according to the \emph{Curry-Howard correspondence},
+        inhabitants of a type are proofs for the statement that the type represents.
+
+        We can have, for example, the type of a "vector grouping" function as follows:
+
+        %% TODO: vector grouping
+
+        This function returns a collection of groups "sliced" from the original vector, with the requested size.
+        Additionally, the return type proves that concatenating the groups results in the original vector.
+        This type therefore serves as a \emph{specification of correctness} for the function.
+        Any function with this type is, by definition, a \emph{correct "grouping" function}.
+
+
 
     \newpage
     \bibliographystyle{plain}
