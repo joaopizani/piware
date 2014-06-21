@@ -120,6 +120,25 @@
         Therefore, we also want to make the typing of the circuits as strong as possible,
         to eliminate as many classes of design mistakes as possible.
 
+        %% TODO: Tie up motivation here, summarize a bit
+
+        \begin{itemize}
+            \item Research question, methodology
+            \begin{itemize}
+                \item In which way can dependent types make circuit design a more precise and efficient activity?
+                \item We develop an EDSL for hardware - Π-Ware - embedded in the DT language Agda
+                \begin{itemize}
+                    \item Characteristics of Π-Ware:
+                    \begin{itemize}
+                        \item Deep-embedded
+                        \item Synthesis to netlists
+                        \item Simulation semantics
+                        \item Low AND high level of data abstraction
+                        \item Prove STRONG properties (first-order logic) about circuit behaviour interactively
+                    \end{itemize}
+                \end{itemize}
+            \end{itemize}
+        \end{itemize}
 
 
     \section{Hardware Design}
@@ -156,6 +175,23 @@
                         \subsubitem Especially powerful for EDSLs (The Power of Pi)
                         \subsubitem Segway into circuit EDSLs
             \end{itemize}
+
+            A type system, in the context of computer programming,
+            serves the purpose of grouping values, so that "meaningless" and potentially undesirable operations are avoided.
+            For example, it would be silly to add an integer number and a character string.
+            In fact, it is hard to imagine an addition operation accepting such arguments and having nice algebraic properties.
+            To define addition sensibly, therefore, we need the help of a type system, to "ban" all programs that would
+            try to add these "incompatible" values.
+
+            Type systems can have very different properties and be implemented in very different ways.
+            Some of the ways in which type systems can be categorized are:
+            \begin{itemize}
+                \item Weak vs. strong
+                \item Static vs. dynamic
+                \item Polymorphism (which form)
+                \item Etc.
+            \end{itemize}
+            %% TODO: cite old general types paper from the TPT seminar
 
         \subsection{Hardware and dependent types}
         \label{subsec:hardware-dtp}
