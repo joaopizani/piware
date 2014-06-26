@@ -13,10 +13,7 @@ TEXDIR="${DIR}/latex"
 TEXPRPATH="${TEXDIR}/${PREFIX}"
 
 # without extension
-SRCS=( "PiWare/Atom" "PiWare/Atom/Bool" "PiWare/Padding" "PiWare/Synthesizable" \
-       "PiWare/Synthesizable/Bool" "PiWare/Circuit/Core" "PiWare/Circuit" "PiWare/Plugs" \
-       "PiWare/Samples" "PiWare/Samples/RippleCarry" \
-       "PiWare/Simulation/Core" "PiWare/Simulation" "PiWare/ProofSamples" )
+SRCS=( "Report/Chapter1" )
 
 
 for s in ${SRCS[@]}; do
