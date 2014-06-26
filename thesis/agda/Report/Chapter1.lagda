@@ -10,8 +10,7 @@ open import Relation.Binary.PropositionalEquality using (_≡_; refl)
 
 %<*group-decl>
 \begin{code}
-group : {α : Set} (n k : ℕ) (xs : Vec α (n * k))
-        → ∃ λ (xss : Vec (Vec α k) n) → xs ≡ concat xss
+group : {α : Set} (n k : ℕ) (xs : Vec α (n * k)) → ∃ λ (xss : Vec (Vec α k) n) → xs ≡ concat xss
 \end{code}
 %</group-decl>
 %<*group-def>

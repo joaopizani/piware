@@ -120,7 +120,11 @@
         We can have, for example, the type of a "vector grouping" function as follows:
 
         %% TODO: vector grouping
-        \ExecuteMetaData[agda/latex/Report/Chapter1.tex]{group-decl}
+        \begin{listing}[h!]
+            \ExecuteMetaData[agda/latex/Report/Chapter1.tex]{group-decl}
+            \caption{Signature of a vector grouping function, with dependent types.
+                \label{lst:group-decl}}
+        \end{listing}
 
         This function returns a collection of groups "sliced" from the original vector, with the requested size.
         Additionally, the return type proves that concatenating the groups results in the original vector.
@@ -154,18 +158,21 @@
         \end{itemize}
 
 
-    \chapter{Hardware Design}
+    \chapter{Background}
     \label{chap:hardware}
-        \begin{itemize}
-            \item Compare software and hardware
-            \item Models of computation: turing machine, lambda calculus, boolean circuits
-                \subitem trade-off in complexity (size x cycles)
 
-            \item General trend to raise the level of abstraction of descriptions
-            \item Hardware description languages
+        \section{Hardware Description}
+        \label{sec:hardware-description}
+            \begin{itemize}
+                \item Compare software and hardware
+                \item Models of computation: turing machine, lambda calculus, boolean circuits
+                    \subitem trade-off in complexity (size x cycles)
 
-            \item Attempts at High-Level Synthesis and so forth (TCC)
-        \end{itemize}
+                \item General trend to raise the level of abstraction of descriptions
+                \item Hardware description languages
+
+                \item Attempts at High-Level Synthesis and so forth (TCC)
+            \end{itemize}
 
         \section{Functional Hardware Description}
         \label{sec:functional-hardware}
@@ -175,55 +182,55 @@
             \end{itemize}
 
 
-    \chapter{Dependently-Typed Programming}
-    \label{chap:dtp}
+        \section{Dependently-Typed Programming}
+        \label{sec:dtp}
 
-        \section{Dependent types}
-        \label{sec:dependent-types}
-            \begin{itemize}
-                \item General type system explanation, growing in power until we reach dependent types
-                \item Expressivity of dependent types
-                    \subitem Curry-Howard correspondence
-                    \subitem Practical examples
-                        \subsubitem Especially powerful for EDSLs (The Power of Pi)
-                        \subsubitem Segway into circuit EDSLs
-            \end{itemize}
+            \subsection{Dependent types}
+            \label{subsec:dependent-types}
+                \begin{itemize}
+                    \item General type system explanation, growing in power until we reach dependent types
+                    \item Expressivity of dependent types
+                        \subitem Curry-Howard correspondence
+                        \subitem Practical examples
+                            \subsubitem Especially powerful for EDSLs (The Power of Pi)
+                            \subsubitem Segway into circuit EDSLs
+                \end{itemize}
 
-            A type system, in the context of computer programming,
-            serves the purpose of grouping values, so that "meaningless" and potentially undesirable operations are avoided.
-            For example, it would be silly to add an integer number and a character string.
-            In fact, it is hard to imagine an addition operation accepting such arguments and having nice algebraic properties.
-            To define addition sensibly, therefore, we need the help of a type system, to "ban" all programs that would
-            try to add these "incompatible" values.
+                A type system, in the context of computer programming,
+                serves the purpose of grouping values, so that "meaningless" and potentially undesirable operations are avoided.
+                For example, it would be silly to add an integer number and a character string.
+                In fact, it is hard to imagine an addition operation accepting such arguments and having nice algebraic properties.
+                To define addition sensibly, therefore, we need the help of a type system, to "ban" all programs that would
+                try to add these "incompatible" values.
 
-            Type systems can have very different properties and be implemented in very different ways.
-            Some of the ways in which type systems can be categorized are:
-            \begin{itemize}
-                \item Weak vs. strong
-                \item Static vs. dynamic
-                \item Polymorphism (which form)
-                \item Etc.
-            \end{itemize}
-            %% TODO: cite old general types paper from the TPT seminar
+                Type systems can have very different properties and be implemented in very different ways.
+                Some of the ways in which type systems can be categorized are:
+                \begin{itemize}
+                    \item Weak vs. strong
+                    \item Static vs. dynamic
+                    \item Polymorphism (which form)
+                    \item Etc.
+                \end{itemize}
+                %% TODO: cite old general types paper from the TPT seminar
 
-            %% TODO: the "road to" dependent types
-            The most basic form of abstraction -- values depending on values (the concept of functions) -- is
-            supported in practically all type systems.
-            Then there is values depending on types, polymorphism, where a can function can display different
-            behaviour depending on the type of its input.
-            Going one step further, some type systems support types that depend on other types, these are
-            called \emph{type operators} or \emph{type-level functions}.
-            %% TODO: Lambda cube?
+                %% TODO: the "road to" dependent types
+                The most basic form of abstraction -- values depending on values (the concept of functions) -- is
+                supported in practically all type systems.
+                Then there is values depending on types, polymorphism, where a can function can display different
+                behaviour depending on the type of its input.
+                Going one step further, some type systems support types that depend on other types, these are
+                called \emph{type operators} or \emph{type-level functions}.
+                %% TODO: Lambda cube?
 
-        \section{Hardware and dependent types}
-        \label{sec:hardware-dtp}
-            \begin{itemize}
-                \item Others
-                \item Coquet
-                    \subitem Turning design mistakes into TYPE ERRORS
-                    \subitem Proving properties about circuit behaviour
-                    \subsubitem Functional correctness in particular.
-            \end{itemize}
+            \subsection{Hardware and dependent types}
+            \label{sec:hardware-dtp}
+                \begin{itemize}
+                    \item Others
+                    \item Coquet
+                        \subitem Turning design mistakes into TYPE ERRORS
+                        \subitem Proving properties about circuit behaviour
+                        \subsubitem Functional correctness in particular.
+                \end{itemize}
 
 
     \chapter{The Π-Ware library}
@@ -276,7 +283,7 @@
     \chapter{Conclusions}
     \label{chap:conclusions}
         \begin{itemize}
-            \item Reiterate what was achieved 
+            \item Reiterate what was achieved
             \item Prioritize what still needs to be done, or would be nice if done
         \end{itemize}
 
