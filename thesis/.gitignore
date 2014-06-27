@@ -9,3 +9,6 @@ reading
 *.snm
 *.toc
 *.vrb
+*.bbl
+*.blg
+*.ptb
