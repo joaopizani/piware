@@ -1,0 +1,45 @@
+\chapter{The Π-Ware library}
+\label{chap:piware}
+    Lorem ipsum\ldots
+
+    %% How to present:
+        %% By design decisions ∨
+
+    \section{Circuit Syntax}
+    \label{sec:circuit-types}
+        \begin{itemize}
+            \item Shallow vs. deep embedding
+                \subitem Chose deep because of synthesis and non-functional analyses
+            \item Structural modelling
+                \subitem Represent connections among circuits in the DSL, \emph{not in the metalanguage}
+                \subitem Avoid having to deal with observable sharing
+        \end{itemize}
+
+    \section{Abstraction Mechanisms}
+    \label{sec:abstraction}
+        \begin{itemize}
+            \item Data abstraction (atom vectors x arbitrary synthesizable types)
+                \subitem Atom (enumeration axioms)
+                \subitem Word / Synthesizable
+                    \subsubitem Proof search?
+            \item Gate abstraction (Technology primitives x Semantic fundamentals)
+                \subitem Circuits descriptions are parameterized by a set of fundamental gates
+                    \subsubitem Always combinational
+                    \subsubitem Their correctness is assumed
+                \subitem For synthesis, still need to give these gates a description in terms of technology primitives
+        \end{itemize}
+
+    \section{Circuit Semantics}
+    \label{sec:eval-seq}
+        \begin{itemize}
+            \item Two types of evaluation: combinational and sequential
+            \item Combinational eval requires a proof that the circuit contains no loops
+                \subitem Eval of a fundamental gate is just its \emph{definitional behaviour}
+
+            \item For sequential circuits we use a \emph{causal stream semantics}
+            %% TODO: couldn't we restrict it even more and just keep ONE PAST VALUE in the context?
+                \subitem Current output depends on the current input and (possibly) on the past input
+                \subitem \emph{Different} than plain Stream functions
+
+            \item There's also an eval function which allows the circuit to be viewed as function from Stream to Stream
+        \end{itemize}
