@@ -8,6 +8,18 @@ open import Relation.Binary.PropositionalEquality using (_≡_; refl)
 \end{code}
 
 
+%<*Vect-head>
+\begin{code}
+data Vect (α : Set) : ℕ → Set where
+    ε   : Vect α 0
+    _∷_ : ∀ {n} → α → Vect α n → Vect α (suc n)
+
+head : ∀ {α n} → Vect α (suc n) → α
+head (x ∷ xs) = x
+\end{code}
+%</Vect-head>
+
+
 %<*group-decl>
 \begin{code}
 group : {α : Set} (n k : ℕ) (xs : Vec α (n * k)) → ∃ λ (xss : Vec (Vec α k) n) → xs ≡ concat xss
