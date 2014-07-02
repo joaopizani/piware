@@ -3,7 +3,7 @@ STDLIB=${HOME}/build/agda/lib/current/src
 TRG=../latex
 
 
-all: $(TRG)/Report/Chapter1.tex
+all: $(TRG)/Report/ChapterIntroduction.tex
 
 $(TRG)/%.tex: ./%.lagda
 	agda -i $(STDLIB) -i . --latex-dir=$(TRG) --latex $<
