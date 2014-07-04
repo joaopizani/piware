@@ -16,14 +16,15 @@
 
         The hardware development process can be well understood by analyzing its
         similarities and differences to software development.
-        Both hardware and software development usually "begins" with a high-level \emph{specification}
+        Both hardware and software development usually "begin" with a high-level \emph{specification}
         of the algorithm to be implemented.
-        Also, both proceed by a series of transformations, increasingly adding more details to the description.
+        Also, both proceed by a series of translations, increasingly adding more details to the description.
 
         However, the final targets of both hardware and software development differ:
         while in software the final artifact is machine code (sequence of instructions) for some architecture,
         in hardware the target is usually a \emph{floorplan}, a spacially placed graph of logic gates and wires.
-        Also, the transformation steps in the software and hardware chains are different, as follows:
+        Also, the transformation steps in the software and hardware chains are different,
+        as depicted in~\ref{fig:sw-hw-chains}.
 
         \begin{figure}[h]
             \centerline{\includegraphics[width=0.5\textwidth]{imgs/sw-hw-chains.pdf}}
@@ -32,30 +33,62 @@
 
         \acrodef{HDL}{Hardware Description Language}
         \acrodef{RTL}{Register-Transfer Level}
-        The first (higher) levels in this series of transformations is usually described using
-        so-called \acp{HDL}, most popularly Verilog and VHDL.
+        The first (higher) levels in the hardware implementation flow is usually described using
+        so-called \acp{HDL}, most popularly Verilog and \acs{VHDL}.
+        %% Mention usage both for behavioural AND RTL.
         However, these languages were originally designed for \emph{simulation} purposes,
         and there are several problems that arise when using them to model hardware
         \emph{architecture} at \ac{RTL}.
 
-        %% TODO: talk about tool-dependent synthesizable subsets
         First of all, only a \emph{subset} of these languages can be used for \emph{synthesis}
-        (actually deriving a netlist and floorplan). And, to further complicate the matter,
-        this \emph{synthesizable subset}~\cite{ieee1076-3-synth-vhdl} is not syntactically seggregated.
-        One example of complex requirement for VHDL to be synthesizable is:
+        (actually deriving a netlist and floorplan).
+        Although there is a standard defining a \emph{synthesizable subset} of \acs{VHDL}~\cite{ieee1076-3-synth-vhdl},
+        tools differ greatly in the level of support.
+        To further complicate the matter, this synthesizable subset is not syntactically seggregated.
+        One example of complex requirement for \acs{VHDL} to be synthesizable is:
         "in a process, every output must be assigned a value for every possible combination of input values".
-        Here is an excerpt of VHDL which violates this requirement:
+        In listing~\ref{lst:vhdl-unsynth-process} we have a process which violates this requirement.
 
         \begin{listing}[h]
             \begin{center}
                 \vhdlfile{code/vhdl-unsynth-process.vhd}
             \end{center}
-            \caption{Unsynthesizable VHDL process \label{lst:vhdl-unsynth-process}}
+            \caption{Unsynthesizable \acs{VHDL} process \label{lst:vhdl-unsynth-process}}
         \end{listing}
+
+        % TODO: go on...
 
 
     \section{Functional Hardware Description}
     \label{sec:functional-hardware}
+        In the beginning of the 1980s, many researchers were trying to use functional programming languages
+        to design and reason about hardware circuits.
+        These developments were happening at the same time when \ac{VHDL} was being designed and standardized.
+
+        The idea was then to come up with new functional languages, \emph{specialized} to do hardware description.
+        One of the prominent examples in this set is μFP~\cite{mufp-1984},
+        which was in turn inspired by John Backus's FP~\cite{backus-turing-lecture}.
+        In contrast to \ac{VHDL}, which was later adapted in a non-standardized way to synthesis,
+        μFP was designed since the beginning to have both interpretations:
+
+        \begin{description}
+            \item[Behavioural]
+                Each "primitive" circuit as well as each combining form (higher-order function)
+                has an attached \emph{functional semantics}, used in simulation.
+            \item[Geometric]
+                Each combining form has a typical geometric interpretation.
+                For example, sequential composition of two circuits \texttt{c₁} and \texttt{c₂} will result
+                in a floorplan in which \texttt{c₂} is placed "adjacent to" \texttt{c₁} and connected to it
+                by the required wires.
+        \end{description}
+
+        By being an extension of Backus' FP (with only one extra combining form),
+        μFP inherited all the useful algebraic laws of FP.
+        The extension itself (the μ combining form) was very conservative and well-behaved,
+        and had useful algebraic laws of its own.
+        %% TODO: talk about μFP laws, specially state "refinement", and how their handling of state inspired Π-Ware.
+
+
         \begin{itemize}
             \item Embedded functional HDLs
             \item Lava, etc.
@@ -65,10 +98,111 @@
     \section{Dependently-Typed Programming}
     \label{sec:dtp}
 
+        \subsection{Type systems}
+        \label{subsec:type-systems}
+            A type system, in the context of programming languages,
+            serves the purpose of grouping values, so that "meaningless" and potentially undesirable operations are avoided.
+            For example, it would be silly to add an integer number and a character string.
+            In fact, it is hard to imagine an addition operation accepting such arguments and having nice algebraic properties.
+            To define addition sensibly, therefore, we need the help of a type system,
+            to "ban" all programs that would try to add these "incompatible" values.
+
+            Type systems can have very different properties and be implemented in very different ways.
+            Some of the ways in which type systems can be categorized are~\cite{understanding-types-cardelli}:
+
+            \begin{itemize}
+                \item Weak vs. strong
+                \item Static vs. dynamic
+                \item Polymorphism (parametric, ad-hoc, subtyping)
+            \end{itemize}
+
+            %% TODO: the "road to" dependent types. GIVE EXAMPLES
+            The most basic form of abstraction -- values depending on values (the concept of functions) -- is
+            supported in practically all type systems.
+            The result of functions can also depend on the \emph{types} of the arguments
+            (this is called \emph{polymorphism}).
+
+            In \emph{parametric polymorphism}, functions are written without mentioning any specific type,
+            and can therefore be applied to any instantiation of the type variable.
+            A typical example of a parametric polymorphic function is obtaining the length of a list,
+            where the same definition works for any type of element in the list.
+            Now in \emph{ad-hoc polymorphism}, the behaviour of a function varies with the type of the inputs.
+            In Haskell ad-hoc polymorphism is implemented in the type class system.
+            A typical example of an ad-hoc polymorphic function would be a comparison-based sorting algorithm,
+            in which depending on the type of the elements in the collection,
+            different comparison operators will be used.
+
+            Polymorphism adds \emph{expressivity} and makes a type system stronger,
+            in the sense that it allows for more precise specifications.
+            For example, if we want to implement a ``swap'' function for pairs in Haskell,
+            we could do start by specifying the type of the function in a non-polymorphic way:
+            \begin{haskellcode}
+        swap' :: (Int , Int) -> (Int , Int)
+            \end{haskellcode}
+
+            There are several definitions satisfying the above type which do not swap the elements.
+            For example, one ``wrong'' implementation would output a constant pair:
+            \begin{haskellcode}
+        swap' _ = (1 , 1)
+            \end{haskellcode}
+
+            Notice how the argument is ignored (we use the ``don't care'' pattern).
+            To \emph{rule out} this class of wrong implementations, we could make the type polymorphic:
+            \begin{haskellcode}
+        swap'' :: (a , a) -> (a , a)
+            \end{haskellcode}
+
+            Now any ``constant'' definition will \emph{not anymore fit the type specified}.
+            This because the only way to get an element of the \emph{polymorphic type} \texttt{a}
+            is to use what is in the parameter passed to the function.
+            However, we could still write a wrong function with this type, namely the identity:
+            \begin{haskellcode}
+        swap'' (x , y) = (x , y)
+            \end{haskellcode}
+
+            This is possible because our type does not \emph{yet} reflect a precise enough specification of \texttt{swap}.
+            On the type we have now, the types of both elements in the pair are the same.
+            If we lift this artificial restriction, we get the type signature which \emph{fully specificies} \texttt{swap}.
+            \begin{haskellcode}
+        swap :: (a , b) -> (b , a)
+            \end{haskellcode}
+
+            Now, \emph{any definition with this type} is a correct definition of swap.
+            Because of the way in which we use type variables (\texttt{a} and \texttt{b}) in the signature,
+            there is only one possible implementation of \texttt{swap}:
+            \begin{haskellcode}
+        swap (x , y) = (y , x)
+            \end{haskellcode}
+
+            Going one step further, some type systems support types that depend on other types, these are
+            called \emph{type operators} or \emph{type-level functions}.
+            In Haskell, this form of abstraction is implemented as regular parameterized type constructors
+            (\texttt{List}, \texttt{Maybe}, etc.) and as \emph{indexed type families}.
+
+            The last step then in our ``ladder'' of type system expressiveness is \emph{dependent types}.
+
         \subsection{Dependent types}
         \label{subsec:dependent-types}
+
+            A \emph{dependent type} is a type that depends on a value.
+            In a dependent type system, we can have functions in which the return \emph{type}
+            depends on the \emph{value} of a parameter.
+            For example, we can imagine having a ``take'' function for vectors that make use
+            of this possibility to have a more precise specification.
+            First of all, when indexing or obtaining a prefix from a vector,
+            we need to ensure that the the index (or amount to be extracted) is within bounds.
+            That is, we can't ask to ``take'' more elements than the size of the vector.
+            To achieve this goal, we define a datatype \AgdaDatatype{Fin} \AgdaBound{n}.
+            (depicted in listing~\ref{lst:fin}) of natural numbers smaller than \texttt{n}.
+            \begin{listing}[h]
+                \ExecuteMetaData[agda/latex/Report/ChapterBackground.tex]{Fin}
+                \caption{A datatype of natural numbers smaller then \texttt{n}. \label{lst:fin}}
+            \end{listing}
+
+            %% TODO: explain better here
+
+
             \begin{itemize}
-                \item General type system explanation, growing in power until we reach dependent types
                 \item Expressivity of dependent types
                     \subitem Curry-Howard correspondence
                     \subitem Practical examples
@@ -76,35 +210,17 @@
                         \subsubitem Segway into circuit EDSLs
             \end{itemize}
 
-            A type system, in the context of computer programming,
-            serves the purpose of grouping values, so that "meaningless" and potentially undesirable operations are avoided.
-            For example, it would be silly to add an integer number and a character string.
-            In fact, it is hard to imagine an addition operation accepting such arguments and having nice algebraic properties.
-            To define addition sensibly, therefore, we need the help of a type system, to "ban" all programs that would
-            try to add these "incompatible" values.
-
-            Type systems can have very different properties and be implemented in very different ways.
-            Some of the ways in which type systems can be categorized are:
-            \begin{itemize}
-                \item Weak vs. strong
-                \item Static vs. dynamic
-                \item Polymorphism (which form)
-                \item Etc.
-            \end{itemize}
-            %% TODO: cite old general types paper from the TPT seminar
-
-            %% TODO: the "road to" dependent types
-            The most basic form of abstraction -- values depending on values (the concept of functions) -- is
-            supported in practically all type systems.
-            Then there is values depending on types, polymorphism, where a can function can display different
-            behaviour depending on the type of its input.
-            Going one step further, some type systems support types that depend on other types, these are
-            called \emph{type operators} or \emph{type-level functions}.
+            %% TODO: where to talk about Agda
+            %% TODO: dependent types, without logical interpretation.
+            %% TODO: introduce Barendregt's cube, recapitulate and name properly the type systems.
 
             \begin{figure}[h]
                 \centerline{\includegraphics[width=0.5\textwidth]{imgs/lambda-cube.pdf}}
                 \caption{TODO: Barendregt's "Lambda Cube" \label{fig:lambda-cube}}
             \end{figure}
+
+            %% TODO: introduce logical interpretations for the cube's systems,
+            %% specially intuitionistic first-order logic for λπ.
 
         \subsection{Hardware and dependent types}
         \label{sec:hardware-dtp}
