@@ -69,8 +69,8 @@
 
     The return type of this function reads as:
     \begin{quote}
-        There is a vector \texttt{xss} of size \texttt{n}
-        (whose elements are of size \texttt{k}), such that \texttt{concat xss ≡ xs}.
+        There is a vector \AB{xss} of size \AB{n}
+        (whose elements are of size \AB{k}), such that \texttt{\AB{xs} \AO{≡} \AF{concat} \AB{xss}}.
     \end{quote}
 
     Therefore, it returns a collection of groups "sliced" from the original vector, with the requested size.
@@ -89,7 +89,7 @@
 
     Depedent type systems allow us to easily express several of these \emph{well-formedness} rules for circuits.
     One simple criterion of circuit \emph{well-formedness} is, for example, that it contains no ``floating'' signals.
-    That is, all of a circuit's internal components must have all their ports connected. % TODO: to something?
+    That is, all of a circuit's internal components must have all their ports connected.
 
     \begin{figure}[h]
         \centerline{\includegraphics[width=0.5\textwidth]{imgs/floating-wire.pdf}}

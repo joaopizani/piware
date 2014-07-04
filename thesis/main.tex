@@ -15,9 +15,6 @@
 
 
 %% Code
-\usepackage{catchfilebetweentags}
-\usepackage{agda/latex/agda}
-
 \usepackage{minted}
 \usepackage{fancyvrb}
 \usemintedstyle{default}
@@ -31,6 +28,20 @@
 \newmint{coq}{mathescape,fontfamily=tt}
 \newmintedfile{coq}{mathescape,fontfamily=tt}
 \newminted{coq}{gobble=8,mathescape,fontfamily=tt}
+
+%% Agda
+\usepackage{catchfilebetweentags}
+\usepackage{agda/latex/agda}
+\newcommand{\AK}{\AgdaKeyword}
+\newcommand{\AS}{\AgdaString}
+\newcommand{\AN}{\AgdaNumber}
+\newcommand{\AB}{\AgdaBound}
+\newcommand{\AO}{\AgdaOperator}
+\newcommand{\AI}{\AgdaInductiveConstructor}
+\newcommand{\AC}{\AgdaCoinductiveConstructor}
+\newcommand{\AD}{\AgdaDatatype}
+\newcommand{\AF}{\AgdaFunction}
+\newcommand{\AM}{\AgdaModule}
 
 
 

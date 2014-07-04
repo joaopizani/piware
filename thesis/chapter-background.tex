@@ -56,7 +56,8 @@
             \caption{Unsynthesizable \acs{VHDL} process \label{lst:vhdl-unsynth-process}}
         \end{listing}
 
-        % TODO: go on...
+        % TODO: go on... Mention HLS, verification efforts, etc, but having synthesizable
+        % model AND proof in the same language is a nicer framework
 
 
     \section{Functional Hardware Description}
@@ -77,8 +78,8 @@
                 has an attached \emph{functional semantics}, used in simulation.
             \item[Geometric]
                 Each combining form has a typical geometric interpretation.
-                For example, sequential composition of two circuits \texttt{c₁} and \texttt{c₂} will result
-                in a floorplan in which \texttt{c₂} is placed "adjacent to" \texttt{c₁} and connected to it
+                For example, sequential composition of two circuits \AB{c₁} and \AB{c₂} will result
+                in a floorplan in which \AB{c₂} is placed "adjacent to" \AB{c₁} and connected to it
                 by the required wires.
         \end{description}
 
@@ -86,8 +87,8 @@
         μFP inherited all the useful algebraic laws of FP.
         The extension itself (the μ combining form) was very conservative and well-behaved,
         and had useful algebraic laws of its own.
-        %% TODO: talk about μFP laws, specially state "refinement", and how their handling of state inspired Π-Ware.
 
+        %% TODO: talk about μFP laws, specially state "refinement", and how their handling of state inspired Π-Ware.
 
         \begin{itemize}
             \item Embedded functional HDLs
@@ -116,7 +117,7 @@
                 \item Polymorphism (parametric, ad-hoc, subtyping)
             \end{itemize}
 
-            %% TODO: the "road to" dependent types. GIVE EXAMPLES
+            %% TODO: the "road to" dependent types. GIVE EXAMPLES AT EACH STEP
             The most basic form of abstraction -- values depending on values (the concept of functions) -- is
             supported in practically all type systems.
             The result of functions can also depend on the \emph{types} of the arguments
@@ -194,20 +195,17 @@
             we need to ensure that the the index (or amount to be extracted) is within bounds.
             That is, we can't ask to ``take'' more elements than the size of the vector.
 
-            To achieve this goal, we define a datatype \AgdaDatatype{Fin} \AgdaBound{n}.
-            of natural numbers smaller than \texttt{n}.
+            To achieve this goal, we define a datatype \AD{Fin} \AB{n} of natural numbers smaller than \AB{n}.
             \begin{listing}
                 \ExecuteMetaData[agda/latex/Report/ChapterBackground.tex]{Fin}
             \end{listing}
 
-            With this definition, \AgdaDatatype{Fin} \AgdaNumber{0} is a type with no elements,
-            while \AgdaDatatype{Fin} \AgdaNumber{1} has 1 element (\AgdaInductiveConstructor{zero}),
-            \AgdaDatatype{Fin} \AgdaNumber{2} has 2 elements
-            (\AgdaInductiveConstructor{zero} and \AgdaInductiveConstructor{suc} \AgdaInductiveConstructor{zero}),
-            and so forth\ldots Thus, the elements of \AgdaDatatype{Fin} \AgdaBound{n} \emph{correspond}
-            to natural numbers smaller than \AgdaBound{n}.
+            With this definition, \AD{Fin} \AN{0} is a type with no elements,
+            while \AD{Fin} \AN{1} has 1 element (\AI{zero}),
+            \AD{Fin} \AN{2} has 2 elements (\AI{zero} and \AI{suc} \AI{zero}), and so forth\ldots
+            Thus, the elements of \AD{Fin} \AB{n} correspond to natural numbers smaller than \AB{n}.
 
-            %% TODO: explain better here
+            %% TODO: explain better
 
 
             \begin{itemize}
@@ -218,9 +216,9 @@
                         \subsubitem Segway into circuit EDSLs
             \end{itemize}
 
-            %% TODO: where to talk about Agda
             %% TODO: dependent types, without logical interpretation.
             %% TODO: introduce Barendregt's cube, recapitulate and name properly the type systems.
+            %% TODO: whether (and where) to say specifically that we are using Agda
 
             \begin{figure}[h]
                 \centerline{\includegraphics[width=0.5\textwidth]{imgs/lambda-cube.pdf}}
