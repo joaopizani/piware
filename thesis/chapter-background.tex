@@ -187,17 +187,25 @@
             A \emph{dependent type} is a type that depends on a value.
             In a dependent type system, we can have functions in which the return \emph{type}
             depends on the \emph{value} of a parameter.
+
             For example, we can imagine having a ``take'' function for vectors that make use
             of this possibility to have a more precise specification.
             First of all, when indexing or obtaining a prefix from a vector,
             we need to ensure that the the index (or amount to be extracted) is within bounds.
             That is, we can't ask to ``take'' more elements than the size of the vector.
+
             To achieve this goal, we define a datatype \AgdaDatatype{Fin} \AgdaBound{n}.
-            (depicted in listing~\ref{lst:fin}) of natural numbers smaller than \texttt{n}.
-            \begin{listing}[h]
+            of natural numbers smaller than \texttt{n}.
+            \begin{listing}
                 \ExecuteMetaData[agda/latex/Report/ChapterBackground.tex]{Fin}
-                \caption{A datatype of natural numbers smaller then \texttt{n}. \label{lst:fin}}
             \end{listing}
+
+            With this definition, \AgdaDatatype{Fin} \AgdaNumber{0} is a type with no elements,
+            while \AgdaDatatype{Fin} \AgdaNumber{1} has 1 element (\AgdaInductiveConstructor{zero}),
+            \AgdaDatatype{Fin} \AgdaNumber{2} has 2 elements
+            (\AgdaInductiveConstructor{zero} and \AgdaInductiveConstructor{suc} \AgdaInductiveConstructor{zero}),
+            and so forth\ldots Thus, the elements of \AgdaDatatype{Fin} \AgdaBound{n} \emph{correspond}
+            to natural numbers smaller than \AgdaBound{n}.
 
             %% TODO: explain better here
 
