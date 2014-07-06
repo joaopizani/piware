@@ -186,14 +186,21 @@
         \label{subsec:dependent-types}
 
             A \emph{dependent type} is a type that depends on a value.
-            In a dependent type system, we can have functions in which the return \emph{type}
-            depends on the \emph{value} of a parameter.
+            A typical example of dependent type is the type of \emph{dependent pairs},
+            in which the \emph{type} of the second element depends on the \emph{value} of the first:
+            \begin{listing}
+                \ExecuteMetaData[agda/latex/Report/ChapterBackground.tex]{Pair}
+            \end{listing}
 
-            For example, we can imagine having a ``take'' function for vectors that make use
+            In a dependent type system, we can also have functions in which the return \emph{type}
+            depends on the \emph{value} of a parameter.
+            These functions belong to the so-called \emph{dependent function space}.
+
+            For example, we can imagine having a \AF{take} function for vectors which makes use
             of this possibility to have a more precise specification.
             First of all, when indexing or obtaining a prefix from a vector,
             we need to ensure that the the index (or amount to be extracted) is within bounds.
-            That is, we can't ask to ``take'' more elements than the size of the vector.
+            That is, we can't ask to \AF{take} more elements than the size of the vector.
 
             To achieve this goal, we define a datatype \AD{Fin} \AB{n} of natural numbers smaller than \AB{n}.
             \begin{listing}
@@ -204,6 +211,12 @@
             while \AD{Fin} \AN{1} has 1 element (\AI{zero}),
             \AD{Fin} \AN{2} has 2 elements (\AI{zero} and \AI{suc} \AI{zero}), and so forth\ldots
             Thus, the elements of \AD{Fin} \AB{n} correspond to natural numbers smaller than \AB{n}.
+
+            Now, having defined the \AD{Fin} \AB{n} datatype, we can write the type signature for \AF{take}:
+            \begin{listing}
+                \ExecuteMetaData[agda/latex/Report/ChapterBackground.tex]{take-decl}
+            \end{listing}
+
 
             %% TODO: explain better
 
@@ -225,7 +238,7 @@
                 \caption{TODO: Barendregt's "Lambda Cube" \label{fig:lambda-cube}}
             \end{figure}
 
-            %% TODO: introduce logical interpretations for the cube's systems,
+            %% TODO: introduce logical interpretations for the cube's systems, Martin-Löf, etc.
             %% specially intuitionistic first-order logic for λπ.
 
         \subsection{Hardware and dependent types}

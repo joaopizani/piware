@@ -13,12 +13,12 @@
     One infamous example of such a bug reaching the consumer was the \emph{FDIV} bug in Intel's Pentium chip,
     which might have costed the company over 400 million dollars~\cite{intel-fdiv}.
 
-    In the software industry, and specially
-    in application domains requiring high correctness assurance (such as information security, machine control, etc.),
+    In the software industry, specially in application domains requiring high correctness assurance
+    (such as information security, machine control, etc.),
     functional programming techniques have long been used to improve productivity
     and reduce the need for extensive testing and debugging.
-    Advocates of functional programming claim productivity gains of up to 10 times to
-    programmers coming from an imperative environment.
+    Advocates of functional programming claim productivity gains of up to 10 times compared to
+    programmers working in an imperative environment.
 
     Another advantage usually attributed to functional programming is an increased capacity to
     \emph{reason} about your programs, specially to perform what is called \emph{equational reasoning}.
@@ -32,7 +32,7 @@
     In a certain way, we can compare the power of the tools and techniques
     used nowadays in hardware design to the early days of software development.
     Of course there are inherent and fundamental differences between the two activities, but
-    this comparison leads us to ask whether ideas from programming language research,
+    this comparison leads us to ask whether recent ideas from programming language research,
     specially those related to functional programming, could be used to improve hardware design.
 
     \acrodef{EDSL}{Embedded Domain-Specific Language}
@@ -40,46 +40,56 @@
     with the work of Prof. Mary Sheeran and others~\cite{sheeran-survey},
     developing \emph{functional} hardware description languages, such as \emph{μFP}.
     Later, a trend emerged of developing \acp{EDSL} for hardware description,
-    \emph{hosted} in functional languages, such as Haskell.
+    \emph{hosted} in purely functional languages, such as Haskell.
     Prominent examples of this trend are the Lava~\cite{lava-1999} family,
     as well as ForSyDe~\cite{forsyde1999}.
 
     \acrodef{DTP}{Dependently-Typed Programming}
     Staying on the "path" of functional programming but going further in type system power we reach \ac{DTP}.
     A type system with \emph{dependent types} can express strong properties about the programs written in it.
-    In fact, a dependent type can represent any formula of \emph{intuitionistic first-order logic} and,
-    according to the \emph{Curry-Howard correspondence},
-    inhabitants of a type correspond to proofs of the logical statement represented by the type.
+    Systems with dependent types can be seen as regular programming languages,
+    but because of the expressive power of dependent types, we can also see them as interactive theorem provers.
 
     Therefore, using dependent types,
     one can more easily approximate \emph{specification} and \emph{implementation}.
-    The type signature of a function can give much more \emph{guarantees} about its behaviour.
+    The type signature of a function can give many more \emph{guarantees} about its behaviour.
     A classical example when introducing \ac{DTP} is the type of sized vectors,
-    along with the safe ``head'' function, as depicted in listing \ref{lst:sized-vec}
+    along with the safe \AF{head} function, depicted in listing
+
     \begin{listing}[h]
         \ExecuteMetaData[agda/latex/Report/ChapterIntroduction.tex]{Vect-head}
-        \caption{(Natural) sized vectors and the safe head function. \label{lst:sized-vec}}
+        \caption{Type of sized vectors and a safe \AF{head} function. \label{lst:Vect-head}}
     \end{listing}
 
-    We can have, for example, the type of a "vector grouping" function as in listing \ref{lst:group-decl}.
+    In this example, the parameter to \AF{head} function will always be non-empty (size different than \AI{zero}).
+    This is expressed in the parameter's type: \AD{Vect} \AB{α} (\AI{suc} \AB{n}).
+    When checking whether all cases are covered by this function, the type checker will notice that
+    the only constructor of \AD{Vect} which can produce an element of type \AD{Vect} \AB{α} (\AI{suc} \AB{n}) is \AI{\_∷\_}.
+
+    In the safe \AF{head} example, we made the specification more precise by constraining the argument to the function.
+    We can also use dependent types to make the return type of a function more precise.
+    The \AF{group} function for sized vectors in \emph{Agda}'s standard library has the following type:
+
     \begin{listing}[h]
         \ExecuteMetaData[agda/latex/Report/ChapterIntroduction.tex]{group-decl}
-        \caption{Signature of a vector grouping function, with dependent types. \label{lst:group-decl}}
     \end{listing}
 
+    It receives as parameters, besides the vector to be ``sliced'',
+    the number of slices desired (\AB{n}) and the size of each slice (\AB{k}).
+    Notice that the size of the passed vector needs to match (\AB{n} \AF{*} \AB{k}).
     The return type of this function reads as:
     \begin{quote}
         There is a vector \AB{xss} of size \AB{n}
-        (whose elements are of size \AB{k}), such that \texttt{\AB{xs} \AO{≡} \AF{concat} \AB{xss}}.
+        (whose elements are of size \AB{k}), such that \texttt{\AB{xs} \AF{≡} \AF{concat} \AB{xss}}.
     \end{quote}
 
     Therefore, it returns a collection of groups "sliced" from the original vector, with the requested size.
     Additionally, it returns a proof that concatenating all groups results in the original vector.
-    This type serves as a \emph{specification of correctness} for the function.
+    This type serves as a \emph{complete specification of correctness} for the function.
     Any function with this type is, by definition, a \emph{correct "grouping" function}.
 
-    %% Only for deep-embedded
-    In an \ac{EDSL} for hardware there will usually be a \emph{type} whose elements are circuits.
+    \acrodef{DSL}{Domain-Specific Language}
+    In a deep-embedded \acs{DSL} for hardware there will usually be a \emph{type} whose elements are circuits.
     One can imagine that it would be useful to design this type
     in such a way that as few of its elements as possible are \emph{malformed}.
     Therefore, we also want to make the typing of the circuits as strong as possible,
@@ -93,7 +103,7 @@
 
     \begin{figure}[h]
         \centerline{\includegraphics[width=0.5\textwidth]{imgs/floating-wire.pdf}}
-        \caption{TODO: floating wire diagram \label{fig:floating-wire}}
+        \caption{Malformed circuit with a ``floating'' signal. \label{fig:floating-wire}}
     \end{figure}
 
     \acrodef{VHDL}{VHSIC Hardware Description Language}
