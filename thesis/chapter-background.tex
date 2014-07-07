@@ -3,16 +3,12 @@
 
     \section{Hardware Description}
     \label{sec:hardware-description}
-        \begin{itemize}
-            \item Compare software and hardware
-            \item Target models of computation: register machine x boolean circuits
-                \subitem trade-off in complexity (size x cycles)
-
-            \item General trend to raise the level of abstraction of descriptions
-            \item Hardware description languages
-
-            \item Attempts at High-Level Synthesis and so forth (TCC)
-        \end{itemize}
+        %% TODO
+        %% Target models of computation: register machine x boolean circuits
+        %%     trade-off in complexity (size x cycles)
+        %% General trend to raise the level of abstraction of descriptions
+        %% Hardware description languages
+        %% Attempts at High-Level Synthesis and so forth (TCC)
 
         The hardware development process can be well understood by analyzing its
         similarities and differences to software development.
@@ -24,11 +20,11 @@
         while in software the final artifact is machine code (sequence of instructions) for some architecture,
         in hardware the target is usually a \emph{floorplan}, a spacially placed graph of logic gates and wires.
         Also, the transformation steps in the software and hardware chains are different,
-        as depicted in~\ref{fig:sw-hw-chains}.
+        as depicted in figure~\ref{fig:sw-hw-chains}.
 
         \begin{figure}[h]
-            \centerline{\includegraphics[width=0.5\textwidth]{imgs/sw-hw-chains.pdf}}
-            \caption{TODO: Software and Hardware refinement chains \label{fig:sw-hw-chains}}
+            \centerline{\includegraphics[width=0.9\textwidth]{imgs/sw-hw-chains.pdf}}
+            \caption{Software and Hardware refinement chains. \label{fig:sw-hw-chains}}
         \end{figure}
 
         \acrodef{HDL}{Hardware Description Language}
@@ -188,7 +184,7 @@
             A \emph{dependent type} is a type that depends on a value.
             A typical example of dependent type is the type of \emph{dependent pairs},
             in which the \emph{type} of the second element depends on the \emph{value} of the first:
-            \begin{listing}
+            \begin{listing}[h]
                 \ExecuteMetaData[agda/latex/Report/ChapterBackground.tex]{Pair}
             \end{listing}
 
@@ -200,10 +196,10 @@
             of this possibility to have a more precise specification.
             First of all, when indexing or obtaining a prefix from a vector,
             we need to ensure that the the index (or amount to be extracted) is within bounds.
-            That is, we can't ask to \AF{take} more elements than the size of the vector.
+            That is, we cannot \AF{take} more elements than the size of the vector.
 
-            To achieve this goal, we define a datatype \AD{Fin} \AB{n} of natural numbers smaller than \AB{n}.
-            \begin{listing}
+            To achieve this goal, we define a datatype (\AD{Fin} \AB{n}) of natural numbers smaller than \AB{n}.
+            \begin{listing}[h]
                 \ExecuteMetaData[agda/latex/Report/ChapterBackground.tex]{Fin}
             \end{listing}
 
@@ -213,20 +209,27 @@
             Thus, the elements of \AD{Fin} \AB{n} correspond to natural numbers smaller than \AB{n}.
 
             Now, having defined the \AD{Fin} \AB{n} datatype, we can write the type signature for \AF{take}:
-            \begin{listing}
+            \begin{listing}[h]
                 \ExecuteMetaData[agda/latex/Report/ChapterBackground.tex]{take-decl}
             \end{listing}
 
-
-            %% TODO: explain better
+            On the signature of \AF{take}, dependent types are used both to restrict the \emph{domain}
+            ($ k \leq n $) and to express a desired property of the \emph{result}
+            (length of the returned vector should be \AB{k}).
+            Finally, we observe that the type of \AF{take} is not a \emph{sufficient condition} for
+            what we would intuitively conceive as being a ``correct'' prefix-taking function.
+            There are ``wrong'' implementations which still would have this type, for example
+            returning a constant vector of size \AB{k}.
+            This type is, however, provides many more \emph{static guarantees}:
+            All implementations violating bounds and producing incorrectly-sized results
+            are ruled out \emph{by the type checker at compile-time}.
 
 
             \begin{itemize}
-                \item Expressivity of dependent types
-                    \subitem Curry-Howard correspondence
-                    \subitem Practical examples
-                        \subsubitem Especially powerful for EDSLs (The Power of Pi)
-                        \subsubitem Segway into circuit EDSLs
+                \item Curry-Howard correspondence
+                \item Practical examples
+                    \subitem Especially powerful for EDSLs (The Power of Pi)
+                    \subitem Segway into circuit EDSLs
             \end{itemize}
 
             %% TODO: dependent types, without logical interpretation.
@@ -235,7 +238,7 @@
 
             \begin{figure}[h]
                 \centerline{\includegraphics[width=0.5\textwidth]{imgs/lambda-cube.pdf}}
-                \caption{TODO: Barendregt's "Lambda Cube" \label{fig:lambda-cube}}
+                \caption{Barendregt's "Lambda Cube" \label{fig:lambda-cube}}
             \end{figure}
 
             %% TODO: introduce logical interpretations for the cube's systems, Martin-Löf, etc.
@@ -243,10 +246,10 @@
 
         \subsection{Hardware and dependent types}
         \label{sec:hardware-dtp}
-            \begin{itemize}
-                \item Others
-                \item Coquet
-                    \subitem Turning design mistakes into TYPE ERRORS
-                    \subitem Proving properties about circuit behaviour
-                    \subsubitem Functional correctness in particular.
-            \end{itemize}
+
+            %% TODO
+            %% Others
+            %% Coquet
+            %%     Turning design mistakes into TYPE ERRORS
+            %%     Proving properties about circuit behaviour
+            %%         Functional correctness in particular.
