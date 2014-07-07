@@ -19,22 +19,26 @@
         However, the final targets of both hardware and software development differ:
         while in software the final artifact is machine code (sequence of instructions) for some architecture,
         in hardware the target is usually a \emph{floorplan}, a spacially placed graph of logic gates and wires.
+
         Also, the transformation steps in the software and hardware chains are different,
         as depicted in figure~\ref{fig:sw-hw-chains}.
+        In this figure, the rectangular boxes represent transformations steps towards a more detailed description,
+        while the ellipsoid shapes represent artifacts that are consumed/produced by each step.
 
         \begin{figure}[h]
-            \centerline{\includegraphics[width=0.9\textwidth]{imgs/sw-hw-chains.pdf}}
+            \centerline{\includegraphics[width=0.95\textwidth]{imgs/sw-hw-chains.pdf}}
             \caption{Software and Hardware refinement chains. \label{fig:sw-hw-chains}}
         \end{figure}
 
         \acrodef{HDL}{Hardware Description Language}
         \acrodef{RTL}{Register-Transfer Level}
-        The first (higher) levels in the hardware implementation flow is usually described using
+        The first (higher) levels in the hardware implementation flow are usually described using
         so-called \acp{HDL}, most popularly Verilog and \acs{VHDL}.
-        %% Mention usage both for behavioural AND RTL.
+        Nowadays they are used by hardware engineers to write both behavioural specifications of circuits
+        (topmost ellipsis in figure~\ref{fig:sw-hw-chains}) as well as \ac{RTL} descriptions.
         However, these languages were originally designed for \emph{simulation} purposes,
-        and there are several problems that arise when using them to model hardware
-        \emph{architecture} at \ac{RTL}.
+        and there are several problems that arise when using them to
+        model hardware \emph{architecture} at \ac{RTL} level.
 
         First of all, only a \emph{subset} of these languages can be used for \emph{synthesis}
         (actually deriving a netlist and floorplan).
@@ -43,7 +47,7 @@
         To further complicate the matter, this synthesizable subset is not syntactically seggregated.
         One example of complex requirement for \acs{VHDL} to be synthesizable is:
         "in a process, every output must be assigned a value for every possible combination of input values".
-        In listing~\ref{lst:vhdl-unsynth-process} we have a process which violates this requirement.
+        In listing~\ref{lst:vhdl-unsynth-process} we have an example process violating this requirement.
 
         \begin{listing}[h]
             \begin{center}
@@ -52,8 +56,34 @@
             \caption{Unsynthesizable \acs{VHDL} process \label{lst:vhdl-unsynth-process}}
         \end{listing}
 
-        % TODO: go on... Mention HLS, verification efforts, etc, but having synthesizable
-        % model AND proof in the same language is a nicer framework
+        Still on the differences between software and hardware development,
+        another important aspect is the level of \emph{automatization} in the chains (fig.~\ref{fig:sw-hw-chains}):
+        usually, all transformation steps in the software chain are automatic.
+        On the hardware chain the \emph{crucial} ``Architectural design'' step is manual.
+
+        The complex task of making explicit the space-time tradeoff lays in the hands of the hardware designer:
+        she has to decide how much parallelism to use, how to pipeline the processing steps of the algorithm,
+        taking care to not generate data hazards, etc.
+
+        \acrodef{HLS}{High-Level Synthesis}
+        Recently, tools have been developed for this first step -- called \ac{HLS}.
+        They usually take \emph{behavioural \acs{VHDL}}, C or even C++ as input, and produce \ac{RTL} code.
+        However, current \acs{HLS}-based hardware implementation chains still face two main problems:
+
+        \begin{itemize}
+            \item The input language (VHDL, C) is not expressive enough.
+            \item Specification, verification and synthesis are all done with different tools and different languages.
+            \begin{itemize}
+                \item Even behavioural \acs{VHDL} can be considered practically a different language
+                    than \acl{RTL} \acs{VHDL}.
+            \end{itemize}
+        \end{itemize}
+
+        Functional programming languages have been touted as a solution to both of these problems.
+        A functional program is a more abstract and expressive specification of an algorithm than
+        a C function or VHDL entity.
+        Also, functional languages could be used to \emph{both} write the specification of a circuit's behaviour,
+        as well as it's \acl{RTL} description.
 
 
     \section{Functional Hardware Description}
