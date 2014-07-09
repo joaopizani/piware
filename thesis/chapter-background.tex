@@ -8,7 +8,6 @@
         %%     trade-off in complexity (size x cycles)
         %% General trend to raise the level of abstraction of descriptions
         %% Hardware description languages
-        %% Attempts at High-Level Synthesis and so forth (TCC)
 
         The hardware development process can be well understood by analyzing its
         similarities and differences to software development.
@@ -253,6 +252,29 @@
             This type is, however, provides many more \emph{static guarantees}:
             All implementations violating bounds and producing incorrectly-sized results
             are ruled out \emph{by the type checker at compile-time}.
+
+            Until now, we have approached languages with dependent types as a way to help with \emph{programming}.
+            Specificaly, we gave examples on how using dependent types in function's type signatures
+            can rule out incorrect implementations \emph{by design}.
+            Dependently-typed languages can also be seen from a \emph{logical} point of view.
+
+            This remark -- that a programming language (with it's type system) can also be seen as a logic --
+            goes back to the early days of computing, and is known by several names,
+            among which ``Curry-Howard isomorphism'' and ``propositions as types''~\cite{propositions-as-types}.
+            It initially was ``discovered'' as a connection between the simply-typed lambda calculus
+            and intuitionistic propositional logic.
+            As decades went by, this correspondence was found to be much more general,
+            and several connections were drawn between diverse typed lambda calculi and logics.
+
+            The system of dependent types which we use in this thesis (the one used by \emph{Agda})
+            corresponds to \emph{intuitionistic predicate logic}.
+
+            %% TODO: example?
+
+            Even though there are logics connected to other, less powerful typed lambda calculi,
+            dependently-typed lambda calculi (\textbf{λπω}) have a
+            \emph{expressive enough associated logic} to increment radically its use case.
+            In a language with dependent types, we can not only write \emph{programs}, but also \emph{proofs}.
 
 
             \begin{itemize}
