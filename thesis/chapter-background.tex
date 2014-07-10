@@ -269,24 +269,39 @@
             The system of dependent types which we use in this thesis (the one used by \emph{Agda})
             corresponds to \emph{intuitionistic predicate logic}.
 
+            %% TODO: what intuitionistic predicate logic means?
             %% TODO: example?
 
             Even though there are logics connected to other, less powerful typed lambda calculi,
-            dependently-typed lambda calculi (\textbf{λπω}) have a
-            \emph{expressive enough associated logic} to increment radically its use case.
+            dependently-typed lambda calculi (\textbf{λπω}) have an associated logic
+            which is expressive enough to radically improve its area of use.
             In a language with dependent types, we can not only write \emph{programs}, but also \emph{proofs}.
 
+            For example, in Agda, we can model the less-than-or-equal order relation using an
+            \emph{indexed data family}, where the indices are the usual Peano naturals~\ref{lst:nat-le}.
 
-            \begin{itemize}
-                \item Curry-Howard correspondence
-                \item Practical examples
-                    \subitem Especially powerful for EDSLs (The Power of Pi)
-                    \subitem Segway into circuit EDSLs
-            \end{itemize}
+            \begin{listing}[h]
+                \ExecuteMetaData[agda/latex/Report/ChapterBackground.tex]{nat-le}
+                \caption{Order relation ($\le$) over naturals, as an \emph{Agda} indexed data family.
+                    \label{lst:nat-le}}
+            \end{listing}
+
+            Having defined this relation, we can prove several useful properties of it:
+            for example, the fact that this relation is transitive~\ref{lst:le-trans}:
+
+            \begin{listing}[h]
+                \ExecuteMetaData[agda/latex/Report/ChapterBackground.tex]{le-trans}
+                \caption{Proof that the $\le$ relation is transitive. \label{lst:le-trans}}
+            \end{listing}
+
+            %% TODO
+            %% Curry-Howard correspondence
+            %% Practical examples
+            %%     Especially powerful for EDSLs (The Power of Pi)
+            %%     Segway into circuit EDSLs
 
             %% TODO: dependent types, without logical interpretation.
             %% TODO: introduce Barendregt's cube, recapitulate and name properly the type systems.
-            %% TODO: whether (and where) to say specifically that we are using Agda
 
             \begin{figure}[h]
                 \centerline{\includegraphics[width=0.5\textwidth]{imgs/lambda-cube.pdf}}
@@ -294,7 +309,6 @@
             \end{figure}
 
             %% TODO: introduce logical interpretations for the cube's systems, Martin-Löf, etc.
-            %% specially intuitionistic first-order logic for λπ.
 
         \subsection{Hardware and dependent types}
         \label{sec:hardware-dtp}

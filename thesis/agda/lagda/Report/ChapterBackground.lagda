@@ -52,3 +52,19 @@ take (suc ()) []
 take (suc k') (x ∷ xs) = x ∷ take k' xs
 \end{code}
 %</take-def>
+
+%<*nat-le>
+\begin{code}
+data _≤_ : ℕ → ℕ → Set where
+    z≤n : {n : ℕ}   → zero ≤ n
+    s≤s : {m n : ℕ} → m ≤ n → suc m ≤ suc n
+\end{code}
+%</nat-le>
+
+%<*le-trans>
+\begin{code}
+≤-trans : {a b c : ℕ} → a ≤ b → b ≤ c → a ≤ c
+≤-trans z≤n       _         = z≤n
+≤-trans (s≤s ab') (s≤s bc') = s≤s (≤-trans ab' bc')
+\end{code}
+%</le-trans>
