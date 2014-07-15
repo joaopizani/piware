@@ -63,8 +63,21 @@ data _≤_ : ℕ → ℕ → Set where
 
 %<*le-trans>
 \begin{code}
-≤-trans : {a b c : ℕ} → a ≤ b → b ≤ c → a ≤ c
-≤-trans z≤n       _         = z≤n
-≤-trans (s≤s ab') (s≤s bc') = s≤s (≤-trans ab' bc')
+≤trans : {a b c : ℕ} → a ≤ b → b ≤ c → a ≤ c
+≤trans z≤n       _         = z≤n
+≤trans (s≤s ab') (s≤s bc') = s≤s (≤trans ab' bc')
 \end{code}
 %</le-trans>
+
+%<*take-proof-decl>
+\begin{code}
+take' : {α : Set} {n : ℕ} (m : ℕ) {p : m ≤ n} → Vec α n → Vec α m
+\end{code}
+%</take-proof-decl>
+%<*take-proof-def>
+\begin{code}
+take' zero    _                  = []
+take' (suc m) {()}      []
+take' (suc m) {s≤s m≤n} (x ∷ xs) = x ∷ take' m {m≤n} xs
+\end{code}
+%</take-proof-def>

@@ -92,7 +92,7 @@
         These developments were happening at the same time when \ac{VHDL} was being designed and standardized.
 
         The idea was then to come up with new functional languages, \emph{specialized} to do hardware description.
-        One of the prominent examples in this set is μFP~\cite{mufp-1984},
+        One of the prominent early examples in this set is μFP~\cite{mufp-1984},
         which was in turn inspired by John Backus's FP~\cite{backus-turing-lecture}.
         In contrast to \ac{VHDL}, which was later adapted in a non-standardized way to synthesis,
         μFP was designed since the beginning to have both interpretations:
@@ -108,17 +108,69 @@
                 by the required wires.
         \end{description}
 
-        By being an extension of Backus' FP (with only one extra combining form),
-        μFP inherited all the useful algebraic laws of FP.
-        The extension itself (the μ combining form) was very conservative and well-behaved,
-        and had useful algebraic laws of its own.
+        The μFP language was an \emph{extension} of Backus's FP, and contained only one extra combining form.
+        This μ combining form was responsible for the creation of functions (circuits) with internal state.
+        According to the original μFP paper~\cite{mufp-1984}:
 
-        %% TODO: talk about μFP laws, specially state "refinement", and how their handling of state inspired Π-Ware.
+        \begin{quote}
+            The meaning of μf is defined in terms of the meaning of f.
+            The functional ``out'' hides the state
+            so that while $M(f)$ maps a sequence of input-state pairs to a sequence of output-state pairs,
+            $\text{out}(M(f))$ just maps a sequence of inputs to a sequence of outputs.
+            For a given cycle, the next output and the next state depend on the current input and the current state.
+        \end{quote}
 
-        \begin{itemize}
-            \item Embedded functional HDLs
-            \item Lava, etc.
-        \end{itemize}
+        One very simple example of a circuit with internal state is a shift register.
+        In figure~\ref{fig:mufp-shift}, we can see the structure of this circuit.
+        Each of the dotted boxes represent a μFP expression.
+        The smaller box denotes a combinational circuit (with 2 inputs and 2 outputs) that swaps its inputs.
+        The bigger box corresponds to the application of the μ combinator to the smaller one.
+        It adds internal state in the form of the indicated latch, creating a feedback loop.
+
+        \begin{figure}[h]
+            \centerline{\includegraphics[width=0.5\textwidth]{imgs/mufp-shift.pdf}}
+            \caption{\emph{Shift register}: a simple example of sequential circuit in μFP. \label{mufp-shift}}
+        \end{figure}
+
+        By being a conservative extension of Backus's FP,
+        almost all algebraic laws that hold for FP also hold for μFP.
+        Furthermore, the μ combining form has useful algebraic laws of its own.
+
+        The most notable of these laws states that the composition of two ``μ-wrapped'' functions
+        can be converted to one single ``μ-wrapper''.
+        In other words, a circuit with several, localized, memory elements can be converted into a circuit
+        with one ``centralized'' memory bank and a combinational block.
+        If we apply this rewrite rule from right to left, we can see it as a form of ``optimization'',
+        in which we start with a single memory bank and refine the design towards one in which
+        memory elements sit closer to the sub-circuits that actually use them.
+
+        Two of the core ideas of μFP served as inspiration for Π-Ware:
+
+        \begin{description}
+            \item[Double interpretation] As μFP, circuits in Π-Ware have two distinct semantics:
+                they can be simulated (functional semantics) or synthesized to a netlist (geometric semantics).
+            \item[Single sequential constructor] As in μFP, there is only \emph{one way} in Π-Ware
+                to construct a sequential circuit.
+                Also, the same law regarding the ``state-introducing'' constructor holds in Π-Ware,
+                but because we use Agda as host language, this meta-theoretical property can be proven
+                \emph{in the same language} in which circuits are described.
+        \end{description}
+
+
+        \subsection{Embedded Functional Hardware Description}
+        \label{subsec:embedded-functional-hardware}
+            % General context, history
+            General context, history\ldots
+
+            % Clash (not really embedded, but uses the same frontend)
+            Clash~\cite{clash-baaij}.
+
+            % Lava
+            Lava~\cite{lava-1999}.
+
+            % Hawk
+
+            % ForSyDe
 
 
     \section{Dependently-Typed Programming}
@@ -240,6 +292,7 @@
             Now, having defined the \AD{Fin} \AB{n} datatype, we can write the type signature for \AF{take}:
             \begin{listing}[h]
                 \ExecuteMetaData[agda/latex/Report/ChapterBackground.tex]{take-decl}
+                \caption{A ``safe'' prefix-taking function for sized vectors. \label{lst:take-decl}}
             \end{listing}
 
             On the signature of \AF{take}, dependent types are used both to restrict the \emph{domain}
@@ -270,15 +323,13 @@
             corresponds to \emph{intuitionistic predicate logic}.
 
             %% TODO: what intuitionistic predicate logic means?
-            %% TODO: example?
 
-            Even though there are logics connected to other, less powerful typed lambda calculi,
-            dependently-typed lambda calculi (\textbf{λπω}) have an associated logic
-            which is expressive enough to radically improve its area of use.
+            Even though there are logics connected to other -- less powerful -- typed lambda calculi,
+            the one used in Agda is expressive enough to radically improve its area of use.
             In a language with dependent types, we can not only write \emph{programs}, but also \emph{proofs}.
 
             For example, in Agda, we can model the less-than-or-equal order relation using an
-            \emph{indexed data family}, where the indices are the usual Peano naturals~\ref{lst:nat-le}.
+            \emph{indexed data family}~\ref{lst:nat-le}, where the indices are the usual Peano naturals.
 
             \begin{listing}[h]
                 \ExecuteMetaData[agda/latex/Report/ChapterBackground.tex]{nat-le}
@@ -287,28 +338,47 @@
             \end{listing}
 
             Having defined this relation, we can prove several useful properties of it:
-            for example, the fact that this relation is transitive~\ref{lst:le-trans}:
+            for example, the fact~(\ref{lst:le-trans}) that this relation is transitive.
 
             \begin{listing}[h]
                 \ExecuteMetaData[agda/latex/Report/ChapterBackground.tex]{le-trans}
                 \caption{Proof that the $\le$ relation is transitive. \label{lst:le-trans}}
             \end{listing}
 
-            %% TODO
-            %% Curry-Howard correspondence
-            %% Practical examples
-            %%     Especially powerful for EDSLs (The Power of Pi)
-            %%     Segway into circuit EDSLs
+            As proofs are first-class citizens, they can be passed as arguments to functions, and
+            returned as well.
+            This provides yet another powerful way of expressing requirements of function arguments,
+            and showing that the result returned satisfies some desired property.
 
-            %% TODO: dependent types, without logical interpretation.
+            For example, we have already shown (in listing~\ref{lst:take-decl}) how to have a ``safe''
+            version of a prefix-taking function for statically-sized arrays:
+            by using a specially-designed type for the desired amount.
+            Now we have another way to express the same requirement:
+            we can explicitly require a proof argument be passed,
+            guaranteeing that the amount to be ``taken'' is \emph{less than or equal} to the array size.
+
+            \begin{listing}[h]
+                \ExecuteMetaData[agda/latex/Report/ChapterBackground.tex]{take-proof-decl}
+            \end{listing}
+
+            This capability for precisely defining and enforcing requirements and invariants make
+            dependently-typed programming languages natural candidates for hosting \acp{EDSL}.
+            In the paper ``The power of Pi''~\cite{power-pi}, three examples are shown of how to
+            embed \acp{DSL} in Agda and get corresponding \emph{Domain-Specific Type Systems}
+            equipped with desirable properties ``for free''.
+
+            The examples in ``The power of Pi'' -- specially the embedding of \emph{Cryptol},
+            a low-level cryptographic \ac{DSL} -- served as inspiration,
+            and lead us to investigate how dependently-typed programming can benefit hardware
+            design, the main question targeted by this project.
+
             %% TODO: introduce Barendregt's cube, recapitulate and name properly the type systems.
-
-            \begin{figure}[h]
-                \centerline{\includegraphics[width=0.5\textwidth]{imgs/lambda-cube.pdf}}
-                \caption{Barendregt's "Lambda Cube" \label{fig:lambda-cube}}
-            \end{figure}
-
             %% TODO: introduce logical interpretations for the cube's systems, Martin-Löf, etc.
+            % \begin{figure}[h]
+            %     \centerline{\includegraphics[width=0.5\textwidth]{imgs/lambda-cube.pdf}}
+            %     \caption{Barendregt's "Lambda Cube" \label{fig:lambda-cube}}
+            % \end{figure}
+
 
         \subsection{Hardware and dependent types}
         \label{sec:hardware-dtp}
