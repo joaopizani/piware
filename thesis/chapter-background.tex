@@ -160,7 +160,21 @@
         \subsection{Embedded Functional Hardware Description}
         \label{subsec:embedded-functional-hardware}
             % General context, history
-            General context, history\ldots
+            \acrodef{EHDL}{Embedded Hardware Description Language}
+            With the growing popularity and advocacy~\cite{hudak-edsls} of the concept of \emph{embedded} \acp{DSL},
+            a trend emerged of also having embedded \acp{HDL}.
+            Functional programming languages were a natural fit for hosting these \acp{DSL}.
+            In particular, the Haskell programming language proved to be a popular choice of host,
+            due to features such as highly-customizable and overloadable syntax.
+
+            Some examples of highly-successful \acp{DSL} implemented in Haskell are:
+            
+            \begin{itemize}
+                \item Parsec (monadic parsing)
+                \item Accelerate (regular data-parallel computing)
+                \item HaskellDB (database access)
+                \item (X)HTML
+            \end{itemize}
 
             % Clash (not really embedded, but uses the same frontend)
             Clash~\cite{clash-baaij}.
