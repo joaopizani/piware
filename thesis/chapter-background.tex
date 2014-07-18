@@ -129,7 +129,7 @@
 
         \begin{figure}[h]
             \centerline{\includegraphics[width=0.5\textwidth]{imgs/mufp-shift.pdf}}
-            \caption{\emph{Shift register}: a simple example of sequential circuit in μFP. \label{mufp-shift}}
+            \caption{\emph{Shift register}: a simple example of sequential circuit in μFP. \label{fig:mufp-shift}}
         \end{figure}
 
         By being a conservative extension of Backus's FP,
@@ -163,26 +163,97 @@
             \acrodef{EHDL}{Embedded Hardware Description Language}
             With the growing popularity and advocacy~\cite{hudak-edsls} of the concept of \emph{embedded} \acp{DSL},
             a trend emerged of also having embedded \acp{HDL}.
-            Functional programming languages were a natural fit for hosting these \acp{DSL}.
+            Functional programming languages were a natural fit for hosting \acp{DSL}.
             In particular, the Haskell programming language proved to be a popular choice of host,
-            due to features such as highly-customizable and overloadable syntax.
+            due to features such as lazy evaluation, highly-customizable and overloadable syntax.
 
             Some examples of highly-successful \acp{DSL} implemented in Haskell are:
-            
+
             \begin{itemize}
-                \item Parsec (monadic parsing)
-                \item Accelerate (regular data-parallel computing)
-                \item HaskellDB (database access)
-                \item (X)HTML
+                \item Attoparsec~\footnote{\url{https://github.com/bos/attoparsec}} (monadic parsing)
+                \item Accelerate~\footnote{\url{https://github.com/AccelerateHS/accelerate/wiki}} (regular data-parallel computing)
+                \item Esqueleto~\footnote{\url{https://github.com/prowdsponsor/esqueleto}} (SQL queries)
+                \item Diagrams~\footnote{\url{http://projects.haskell.org/diagrams/}} (2D and 3D vector graphics)
             \end{itemize}
 
-            % Clash (not really embedded, but uses the same frontend)
-            Clash~\cite{clash-baaij}.
+            Also, some of the most popular and powerful \acp{EHDL} are hosted by Haskell.
+            Let us now present some of these \acp{EHDL} and discuss their problems,
+            which will lead to the question of to solve them using dependent types.
 
-            % Lava
-            Lava~\cite{lava-1999}.
+            \subsubsection{Lava}
+            Perhaps the most popular family of hardware \acp{DSL} embedded in Haskell is the \emph{Lava} family.
+            Lava's first incarnation~\cite{lava-1999} was developed at Chalmers University of Technology
+            and Xilinx, and used a shallow-embedding in Haskell, along with a monadic description style
+            to handle naming and sharing.
+            These circuit monads were parameterized, and by using different typeclass instances,
+            different interpretations could be given to a single circuit description, such as
+            simulation, synthesis, or model checking.
 
-            % Hawk
+            The design of Lava suffered significant changes later on, abandoning the monadic interface
+            and adopting an observable sharing solution based on a form of reference equality~\cite{observable-sharing-circuits}.
+            Currently, Lava has several dialects, such as \emph{Chalmers-Lava}, \emph{Xilinx-Lava}, \emph{York-Lava} and \emph{Kansas-Lava}.
+            We base our examples in \emph{Chalmers-Lava}~\footnote{\url{https://hackage.haskell.org/package/chalmers-lava2000}},
+            which can be said to be the ``canonical'' dialect, and also the most actively developed.
+
+            In Lava, circuits are written as normal Haskell functions, by using pattern matching,
+            function application and local naming. One extra restriction is that the types of the arguments are
+            constructed by the \texttt{Signal} type constructor.
+            For example, a negation gate in Lava would have the following type signature:
+
+            \begin{haskellcode}
+        inv :: Signal Bool -> Signal Bool
+            \end{haskellcode}
+
+            Another restriction is that all circuit inputs must be ``uncurried'', i.e,
+            even though the \emph{circuit} has several inputs, the \emph{function} modeling that circuit
+            must have only one argument, with all inputs in a \emph{tuple}.
+            A \texttt{NAND} gate in Lava would look like this:
+
+            \begin{haskellcode}
+        nand2 :: (Signal Bool, Signal Bool) -> Signal Bool
+        nand2 (a, b) = inv (and2 (a, b))
+            \end{haskellcode}
+
+            Finally, due to the instances provided for the \texttt{Signal} type, the only way to
+            ``aggregate'' bits in Lava is by using tuples and lists.
+            Using only these structures we forego some type safety that Haskell provides.
+            For example, an n-bit binary (ripple-carry) adder is Lava has the following description:
+
+            \begin{haskellcode}
+        adder :: (Signal Bool, ([Signal Bool], [Signal Bool])) -> ([Signal Bool], Signal Bool)
+        adder (carryIn, ([] ,[]))    = ([], carryIn)
+        adder (carryIn, (a:as, b:bs) = (sum:sums, carryOut)
+            where
+                (sum, carry)     = fullAdd (carryIn, (a, b))
+                (sums, carryOut) = adder (carry, (as, bs))
+            \end{haskellcode}
+
+            In this circuit description, there is an \emph{expectation} that both inputs have the same size.
+            In fact, if they are not, then a \emph{run-time} error will occur, during simulation.
+            This because the given definition is \emph{partial}: the cases
+            for \texttt{(carryIn, ([], b:bs))} and \texttt{(carryIn, (a:as, []))} are left undefined.
+
+            This limitation of Lava can be solved by dependent types, namely by using statically-sized vectors.
+            Another limitation of Lava is related to the way in which it solves the observable sharing question:
+            in order to detect sharing and cycles, the equality over the \texttt{Signal} type is defined
+            as an equality over the references used.
+            Therefore, comparisons of signals that were ``created'' in different sites will fail,
+            even though their values are the same.
+            For example, the following expressions will evaluate to \texttt{False}:
+
+            \begin{haskellcode}
+        test1 :: Bool
+        test1 = low == low
+
+        test2 :: Bool
+        test2 = simulate adder (low, ([low], [low])) == low
+            \end{haskellcode}
+
+            This limitation is also not present in Π-Ware, due to the way in which we describe circuits
+            in a structural fashion, avoiding having to deal with observable sharing.
+
+            \subsubsection{Hawk}
+
 
             % ForSyDe
 
