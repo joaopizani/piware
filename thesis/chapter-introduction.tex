@@ -22,12 +22,20 @@
 
     Another advantage usually attributed to functional programming is an increased capacity to
     \emph{reason} about your programs, specially to perform what is called \emph{equational reasoning}.
-    These claims have been confirmed in practice (and still keep getting more confirmations),
-    and furthermore, functional techniques and constructs keep "penetrating" imperative languages
+    Equational reasoning can be used even as an optimization technique.
+    For example, some libraries for array programming in Haskell take advantage of the following
+    law involving \texttt{map} and function composition.
+    The proof derives by equational reasoning directly from the definitions of the functions involved:
+
+    \begin{haskellcode}
+        map f . map g == map (f . g)
+    \end{haskellcode}
+
+    These advantages of functional programming have been confirmed in practice -- and functional programming
+    languages are becoming more popular in specific problem domain.
+    Furthermore, functional techniques and constructs keep ``penetrating'' imperative languages
     with each new release. For example, the SWIFT language, released by Apple in 2014,
     includes features such as immutable data structures, first-class functions and type inference.
-
-    % TODO: Purely functional programming examples
 
     In a certain way, we can compare the power of the tools and techniques
     used nowadays in hardware design to the early days of software development.
@@ -38,23 +46,29 @@
     \acrodef{EDSL}{Embedded Domain-Specific Language}
     Research trying to answer this broad question started already in the 1980s,
     with the work of Prof. Mary Sheeran and others~\cite{sheeran-survey},
-    developing \emph{functional} hardware description languages, such as \emph{μFP}.
+    developing \emph{functional} hardware description languages, such as \emph{μFP}~\cite{mufp-1984}.
     Later, a trend emerged of developing \acp{EDSL} for hardware description,
     \emph{hosted} in purely functional languages, such as Haskell.
     Prominent examples of this trend are the Lava~\cite{lava-1999} family,
     as well as ForSyDe~\cite{forsyde1999}.
 
+    A circuit description written in Lava -- an \ac{EDSL} hosted by Haskell -- can look like the following:
+
+    \begin{haskellcode}
+        toggle :: Signal Bool
+        toggle = let output = inv (latch output) in output
+    \end{haskellcode}
+
     \acrodef{DTP}{Dependently-Typed Programming}
-    Staying on the "path" of functional programming but going further in type system power we reach \ac{DTP}.
+    Staying on the ``path'' of functional programming but going further in type system power we reach \ac{DTP}.
     A type system with \emph{dependent types} can express strong properties about the programs written in it.
     Systems with dependent types can be seen as regular programming languages,
     but because of the expressive power of dependent types, we can also see them as interactive theorem provers.
 
-    Therefore, using dependent types,
-    one can more easily approximate \emph{specification} and \emph{implementation}.
+    Using dependent types, one can more easily approximate \emph{specification} and \emph{implementation}.
     The type signature of a function can give many more \emph{guarantees} about its behaviour.
     A classical example when introducing \ac{DTP} is the type of sized vectors,
-    along with the safe \AF{head} function, depicted in listing
+    along with the safe \AF{head} function, depicted in listing~\ref{lst:Vect-head}.
 
     \begin{listing}[h]
         \ExecuteMetaData[agda/latex/Report/ChapterIntroduction.tex]{Vect-head}
@@ -89,20 +103,18 @@
     Any function with this type is, by definition, a \emph{correct "grouping" function}.
 
     \acrodef{DSL}{Domain-Specific Language}
-    In a deep-embedded \acs{DSL} for hardware there will usually be a \emph{type} whose elements are circuits.
+    In a deep-embedded \acs{DSL} for hardware there is usually a \emph{type} whose elements are circuits.
     One can imagine that it would be useful to design this type
     in such a way that as few of its elements as possible are \emph{malformed}.
     Therefore, we also want to make the typing of the circuits as strong as possible,
     to eliminate as many classes of design mistakes as possible.
-
-    %% TODO: Tie up motivation here
 
     Depedent type systems allow us to easily express several of these \emph{well-formedness} rules for circuits.
     One simple criterion of circuit \emph{well-formedness} is, for example, that it contains no ``floating'' signals.
     That is, all of a circuit's internal components must have all their ports connected.
 
     \begin{figure}[h]
-        \centerline{\includegraphics[width=0.5\textwidth]{imgs/floating-wire.pdf}}
+        \centerline{\includegraphics[width=0.3\textwidth]{imgs/floating-wire.pdf}}
         \caption{Malformed circuit with a ``floating'' signal. \label{fig:floating-wire}}
     \end{figure}
 
@@ -110,19 +122,23 @@
     In this M.Sc thesis, we developed a hardware \ac{EDSL} -- Π-Ware -- which enforces this and other
     well-formedness rules using dependent types.
     Π-Ware is a \emph{deep-embedded} \ac{EDSL} hosted in the Agda programming language,
-    that supports synthesis to (\acs{VHDL}) netlists and simulation for combinational and synchronous sequential circuits.
+    supporting simulation for combinational and synchronous sequential circuits.
     Furthermore, the user of Π-Ware can prove \emph{expressive} properties about circuits in the logic
     of Agda itself (intuitionistic first-order logic).
 
-    %% TODO: describe chapter/section contents?
+    In Chapter~\ref{chap:background} we will establish the questions, concepts, languages and tools
+    from which we took inspiration to create Π-Ware.
+    We will discuss the process of hardware design, functional languages for hardware,
+    and how dependent types can enter the picture.
 
-    %% TODO
-    %% Research question, methodology
-    %%     In which way can dependent types make circuit design a more precise and efficient activity?
-    %%     We develop an EDSL for hardware - Π-Ware - embedded in the DT language Agda
-    %%         Characteristics of Π-Ware:
-    %%             Deep-embedded
-    %%             Synthesis to netlists
-    %%             Simulation semantics
-    %%             Low AND high level of data abstraction
-    %%             Prove STRONG properties (first-order logic) about circuit behaviour interactively
+    In Chapter~\ref{chap:piware} we dive into a detailed study of the Π-Ware \ac{EDSL} itself.
+    We provide a detailed account of how Π-Ware works currently,
+    what design decisions were involved in its development, and how to use it.
+    Specifically, we give examples of circuits modelled in Π-Ware and proofs of properties involving
+    these circuits.
+
+    Finally, in Chapter~\ref{chap:conclusions}, we discuss what has been achieved by Π-Ware as it stands,
+    by comparing it with other hardware \acp{EDSL}, recent and past.
+    We also clarify what desirable features reamin to be implemented as future work,
+    and what conditions (if any) these implementation efforts depend on.
+
