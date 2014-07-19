@@ -1,17 +1,11 @@
 \chapter{Background}
-\label{chap:hardware}
+\label{chap:background}
 
     \section{Hardware Description}
     \label{sec:hardware-description}
-        %% TODO
-        %% Target models of computation: register machine x boolean circuits
-        %%     trade-off in complexity (size x cycles)
-        %% General trend to raise the level of abstraction of descriptions
-        %% Hardware description languages
-
         The hardware development process can be well understood by analyzing its
         similarities and differences to software development.
-        Both hardware and software development usually "begin" with a high-level \emph{specification}
+        Both hardware and software development usually ``begin'' with a high-level \emph{specification}
         of the algorithm to be implemented.
         Also, both proceed by a series of translations, increasingly adding more details to the description.
 
@@ -31,20 +25,21 @@
 
         \acrodef{HDL}{Hardware Description Language}
         \acrodef{RTL}{Register-Transfer Level}
-        The first (higher) levels in the hardware implementation flow are usually described using
+        The first (highest) two levels in the hardware implementation flow are usually described using
         so-called \acp{HDL}, most popularly Verilog and \acs{VHDL}.
         Nowadays they are used by hardware engineers to write both behavioural specifications of circuits
         (topmost ellipsis in figure~\ref{fig:sw-hw-chains}) as well as \ac{RTL} descriptions.
         However, these languages were originally designed for \emph{simulation} purposes,
         and there are several problems that arise when using them to
-        model hardware \emph{architecture} at \ac{RTL} level.
+        model hardware \emph{architecture} and behaviour.
 
         First of all, only a \emph{subset} of these languages can be used for \emph{synthesis}
         (actually deriving a netlist and floorplan).
-        Although there is a standard defining a \emph{synthesizable subset} of \acs{VHDL}~\cite{ieee1076-3-synth-vhdl},
+        Although there is a standard~\cite{ieee1076-3-synth-vhdl} defining a \emph{synthesizable subset} of \acs{VHDL},
         tools differ greatly in the level of support.
-        To further complicate the matter, this synthesizable subset is not syntactically seggregated.
-        One example of complex requirement for \acs{VHDL} to be synthesizable is:
+
+        To further complicate the matter, this synthesizable subset is not \emph{syntactically seggregated}.
+        One example of complex requirement for synthesizability of \acs{VHDL} is:
         "in a process, every output must be assigned a value for every possible combination of input values".
         In listing~\ref{lst:vhdl-unsynth-process} we have an example process violating this requirement.
 
@@ -61,7 +56,7 @@
         On the hardware chain the \emph{crucial} ``Architectural design'' step is manual.
 
         The complex task of making explicit the space-time tradeoff lays in the hands of the hardware designer:
-        she has to decide how much parallelism to use, how to pipeline the processing steps of the algorithm,
+        they must decide how much parallelism to use, how to pipeline the processing steps of the algorithm,
         taking care to not generate data hazards, etc.
 
         \acrodef{HLS}{High-Level Synthesis}
@@ -90,11 +85,14 @@
         In the beginning of the 1980s, many researchers were trying to use functional programming languages
         to design and reason about hardware circuits.
         These developments were happening at the same time when \ac{VHDL} was being designed and standardized.
+        Even though \ac{VHDL} and Verilog ended up ``winning'' and becoming the \emph{de facto} industry standards,
+        it is still useful to take a look at the ideas behind these early \acp{HDL}, as some of them
+        inspired current approaches.
 
         The idea was then to come up with new functional languages, \emph{specialized} to do hardware description.
         One of the prominent early examples in this set is μFP~\cite{mufp-1984},
         which was in turn inspired by John Backus's FP~\cite{backus-turing-lecture}.
-        In contrast to \ac{VHDL}, which was later adapted in a non-standardized way to synthesis,
+        In contrast to \ac{VHDL}, which was later adapted to synthesis in an ad-hoc way,
         μFP was designed since the beginning to have both interpretations:
 
         \begin{description}
@@ -108,9 +106,9 @@
                 by the required wires.
         \end{description}
 
-        The μFP language was an \emph{extension} of Backus's FP, and contained only one extra combining form.
-        This μ combining form was responsible for the creation of functions (circuits) with internal state.
-        According to the original μFP paper~\cite{mufp-1984}:
+        The μFP language is an \emph{extension} of Backus's FP, and contained only one extra combining form: μ.
+        The μ combining form is responsible for the creation of functions (circuits) with internal state.
+        According to the seminal μFP paper~\cite{mufp-1984}:
 
         \begin{quote}
             The meaning of μf is defined in terms of the meaning of f.
@@ -122,35 +120,35 @@
 
         One very simple example of a circuit with internal state is a shift register.
         In figure~\ref{fig:mufp-shift}, we can see the structure of this circuit.
-        Each of the dotted boxes represent a μFP expression.
+        Each of the dotted boxes represents a μFP expression.
         The smaller box denotes a combinational circuit (with 2 inputs and 2 outputs) that swaps its inputs.
         The bigger box corresponds to the application of the μ combinator to the smaller one.
-        It adds internal state in the form of the indicated latch, creating a feedback loop.
+        It adds the indicated latch and a feedback loop, creating a stateful circuit.
 
         \begin{figure}[h]
             \centerline{\includegraphics[width=0.5\textwidth]{imgs/mufp-shift.pdf}}
             \caption{\emph{Shift register}: a simple example of sequential circuit in μFP. \label{fig:mufp-shift}}
         \end{figure}
 
-        By being a conservative extension of Backus's FP,
-        almost all algebraic laws that hold for FP also hold for μFP.
+        By being a conservative extension of Backus's FP, almost all algebraic laws of FP also hold for μFP.
         Furthermore, the μ combining form has useful algebraic laws of its own.
-
         The most notable of these laws states that the composition of two ``μ-wrapped'' functions
         can be converted to one single ``μ-wrapper''.
-        In other words, a circuit with several, localized, memory elements can be converted into a circuit
+
+        In other words: a circuit with several, localized, memory elements can be converted into a circuit
         with one ``centralized'' memory bank and a combinational block.
         If we apply this rewrite rule from right to left, we can see it as a form of ``optimization'',
         in which we start with a single memory bank and refine the design towards one in which
-        memory elements sit closer to the sub-circuits that actually use them.
+        memory elements sit closer to the sub-circuits using them.
 
         Two of the core ideas of μFP served as inspiration for Π-Ware:
 
         \begin{description}
-            \item[Double interpretation] As μFP, circuits in Π-Ware have two distinct semantics:
+            \item[Double interpretation] As in μFP,
+                each circuit and circuit combinator in Π-Ware has two distinct semantics:
                 they can be simulated (functional semantics) or synthesized to a netlist (geometric semantics).
-            \item[Single sequential constructor] As in μFP, there is only \emph{one way} in Π-Ware
-                to construct a sequential circuit.
+            \item[Single sequential constructor] As in μFP,
+                there is only \emph{one way} in Π-Ware to construct a sequential circuit.
                 Also, the same law regarding the ``state-introducing'' constructor holds in Π-Ware,
                 but because we use Agda as host language, this meta-theoretical property can be proven
                 \emph{in the same language} in which circuits are described.
@@ -161,7 +159,7 @@
         \label{subsec:embedded-functional-hardware}
             % General context, history
             \acrodef{EHDL}{Embedded Hardware Description Language}
-            With the growing popularity and advocacy~\cite{hudak-edsls} of the concept of \emph{embedded} \acp{DSL},
+            With the growing popularity and advocacy~\cite{hudak-edsls} of \emph{embedded} \acp{DSL},
             a trend emerged of also having embedded \acp{HDL}.
             Functional programming languages were a natural fit for hosting \acp{DSL}.
             In particular, the Haskell programming language proved to be a popular choice of host,
@@ -171,32 +169,33 @@
 
             \begin{itemize}
                 \item Attoparsec~\footnote{\url{https://github.com/bos/attoparsec}} (monadic parsing)
-                \item Accelerate~\footnote{\url{https://github.com/AccelerateHS/accelerate/wiki}} (regular data-parallel computing)
+                \item Accelerate~\footnote{\url{https://github.com/AccelerateHS/accelerate/wiki}} (data-parallel computing)
                 \item Esqueleto~\footnote{\url{https://github.com/prowdsponsor/esqueleto}} (SQL queries)
                 \item Diagrams~\footnote{\url{http://projects.haskell.org/diagrams/}} (2D and 3D vector graphics)
             \end{itemize}
 
             Also, some of the most popular and powerful \acp{EHDL} are hosted by Haskell.
-            Let us now present some of these \acp{EHDL} and discuss their problems,
-            which will lead to the question of to solve them using dependent types.
+            Let us now present some of these \acp{EHDL} and discuss some of their limitations,
+            which will lead to the question of how to solve them using dependent types.
 
             \subsubsection{Lava}
             Perhaps the most popular family of hardware \acp{DSL} embedded in Haskell is the \emph{Lava} family.
             Lava's first incarnation~\cite{lava-1999} was developed at Chalmers University of Technology
             and Xilinx, and used a shallow-embedding in Haskell, along with a monadic description style
             to handle naming and sharing.
-            These circuit monads were parameterized, and by using different typeclass instances,
+            These circuit monads were parameterized, and by using different instances,
             different interpretations could be given to a single circuit description, such as
             simulation, synthesis, or model checking.
 
             The design of Lava suffered significant changes later on, abandoning the monadic interface
-            and adopting an observable sharing solution based on a form of reference equality~\cite{observable-sharing-circuits}.
+            and adopting an observable sharing solution based on reference equality~\cite{observable-sharing-circuits}.
             Currently, Lava has several dialects, such as \emph{Chalmers-Lava}, \emph{Xilinx-Lava}, \emph{York-Lava} and \emph{Kansas-Lava}.
             We base our examples in \emph{Chalmers-Lava}~\footnote{\url{https://hackage.haskell.org/package/chalmers-lava2000}},
             which can be said to be the ``canonical'' dialect, and also the most actively developed.
 
             In Lava, circuits are written as normal Haskell functions, by using pattern matching,
-            function application and local naming. One extra restriction is that the types of the arguments are
+            function application and local naming.
+            One extra restriction is that the types of the arguments are
             constructed by the \texttt{Signal} type constructor.
             For example, a negation gate in Lava would have the following type signature:
 
@@ -216,8 +215,8 @@
 
             Finally, due to the instances provided for the \texttt{Signal} type, the only way to
             ``aggregate'' bits in Lava is by using tuples and lists.
-            Using only these structures we forego some type safety that Haskell provides.
-            For example, an n-bit binary (ripple-carry) adder is Lava has the following description:
+            Using only these structures we forego some type safety that Haskell \emph{could} provide.
+            For example, an n-bit binary (ripple-carry) adder in Lava has the following description:
 
             \begin{haskellcode}
         adder :: (Signal Bool, ([Signal Bool], [Signal Bool])) -> ([Signal Bool], Signal Bool)
@@ -229,9 +228,9 @@
             \end{haskellcode}
 
             In this circuit description, there is an \emph{expectation} that both inputs have the same size.
-            In fact, if they are not, then a \emph{run-time} error will occur, during simulation.
-            This because the given definition is \emph{partial}: the cases
-            for \texttt{(carryIn, ([], b:bs))} and \texttt{(carryIn, (a:as, []))} are left undefined.
+            When this expectation is not met, a \emph{run-time} error will occur during simulation.
+            This happens because the given definition is \emph{partial}:
+            the cases for \texttt{(carryIn, ([], b:bs))} and \texttt{(carryIn, (a:as, []))} are left undefined.
 
             This limitation of Lava can be solved by dependent types, namely by using statically-sized vectors.
             Another limitation of Lava is related to the way in which it solves the observable sharing question:
@@ -250,12 +249,64 @@
             \end{haskellcode}
 
             This limitation is also not present in Π-Ware, due to the way in which we describe circuits
-            in a structural fashion, avoiding having to deal with observable sharing.
-
-            \subsubsection{Hawk}
+            in a structural fashion, completely avoiding the need to deal with observable sharing.
 
 
-            % ForSyDe
+            \subsubsection{ForSyDe}
+            Another example of \ac{EHDL} in Haskell is ForSyDe~\cite{forsyde1999}.
+            ForSyDe and Lava differ substantially in description style and internal workings,
+            and a more complete comparison of the two can be found in (cite experimentation project).
+
+            In ForSyDe, the central concepts are those of \emph{process} and \emph{signal}.
+            Whereas in Lava only \emph{synchronous} sequential circuits can be described -- that is
+            also the case in Π-Ware -- in ForSyDe processes can belong to synchronous,
+            asynchronous and continuous \emph{models of computation}.
+
+            In the synchronous model of computation (the which we studied more deeply),
+            process constructors take a combinational function (called \emph{process function} in
+            ForSyDe jargon) and turn it into a synchronous sequential circuit
+            (for example a state machine).
+
+            \acrodef{AST}{Abstract Syntax Tree}
+            But, instead of just using (smart) constructors of a certain ``circuit datatype'' to build
+            this process function, ForSyDe relies on \emph{Template Haskell} to
+            \emph{quote} regular Haskell syntax into an \ac{AST} -- which is then further processed by ForSyDe.
+            For example, the description of an adder in ForSyDe would look like the following:
+            
+            \begin{haskellcode}
+        adderFun :: ProcFun (Int8 -> Int8 -> Int8)
+        adderFun = $(newProcFun [d|
+                adderFun' :: Int8 -> Int8 -> Int8
+                adderFun' x y = x + y
+            |])
+
+        adderProc :: Signal Int8 -> Signal Int8 -> Signal Int8
+        adderProc = zipWithSY "adderProcess" adderFun
+            \end{haskellcode}
+
+            Notice how the \texttt{adderFun} \emph{process function} is built from a ``regular'' haskell function
+            (\texttt{adderFun'}), which is then \emph{quoted} (by the \texttt{[d|} quasi-quoter), processed by
+            \texttt{newProcFun} and finally \emph{spliced} back into place.
+            The process function (combinational) is then ``lifted'' into the synchronous sequential setting
+            by the \texttt{zipWithSY} \emph{process constructor}, which just ``zips'' the inputs signals (streams)
+            by applying the given process function \emph{pointwise}.
+
+            Not quite any haskell function can be quoted and processed by \texttt{newProcFun}
+            and turned into a ForSyDe process function: the argument and return types of a \texttt{ProcType}
+            must belong to the \texttt{ProcType} type class. Instances of this class are provided only for:
+
+            \begin{description}
+                \item[Primitive types] Bla
+                \item[Enumerated types] Bla
+                \item[Containers] Bla
+            \end{description}
+
+            Further, synthesizability restrictions\ldots
+            
+
+            \subsubsection{Hawk and Clash}
+
+
 
 
     \section{Dependently-Typed Programming}
@@ -465,12 +516,12 @@
             % \end{figure}
 
 
-        \subsection{Hardware and dependent types}
-        \label{sec:hardware-dtp}
+    \section{Hardware and dependent types}
+    \label{sec:hardware-dtp}
 
-            %% TODO
-            %% Others
-            %% Coquet
-            %%     Turning design mistakes into TYPE ERRORS
-            %%     Proving properties about circuit behaviour
-            %%         Functional correctness in particular.
+        %% TODO
+        %% Others
+        %% Coquet
+        %%     Turning design mistakes into TYPE ERRORS
+        %%     Proving properties about circuit behaviour
+        %%         Functional correctness in particular.
