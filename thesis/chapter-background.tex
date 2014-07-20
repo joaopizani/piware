@@ -296,17 +296,82 @@
             must belong to the \texttt{ProcType} type class. Instances of this class are provided only for:
 
             \begin{description}
-                \item[Primitive types] Bla
-                \item[Enumerated types] Bla
-                \item[Containers] Bla
+                \item[Primitive types] \texttt{Int}, \texttt{Int8}, \texttt{Int16}, \texttt{Int32}, \texttt{Bool}, \texttt{Bit}
+                \item[Enumerated types] User-defined enumerations, with derived instances for \texttt{Data} and \texttt{Lift}
+                \item[Containers] Tuples and fixed-length vectors (\texttt{Data.Param.FSVec}),
+                    holding a type of the above two categories and unrestrictedly nested.
             \end{description}
 
-            Further, synthesizability restrictions\ldots
-            
+            Under certain conditions, ForSyDe is able to generate \ac{VHDL} netlists from the system description.
+            In order for a ForSyDe system description to be \emph{synthesizable},
+            all \emph{process functions} need to comply with some extra requirements:
 
-            \subsubsection{Hawk and Clash}
+            \begin{description}
+                \item[Pointed notation] Declarations with point-free notation are not accepted
+                \item[Single-clause] To be synthesizable,
+                    the body of a \emph{process function} cannot have multiple clauses,
+                    and it cannot have \texttt{let} or \texttt{where} blocks.
+                    This essentially forbids recursion inside \emph{process functions}.
+                    Pattern matching is only possible by using the \texttt{case} construct.
+            \end{description}
+
+            Despite all these limitations,
+            ForSyDe still provides a more ``typed'' approach to hardware description than Lava,
+            with perhaps its most distinctive feature being the usage of fixed-length vectors.
+            In the \texttt{parameterized-data} package page
+            on \emph{Hackage}~\footnote{\url{http://hackage.haskell.org/package/parameterized-data-0.1.5}},
+            the authors admit that the library's function is to provide
+            ``type-level computations and \emph{emulate dependent types}''.
+            Therefore it is not a stretch to assume that using \emph{actual} dependent types
+            could improve on the ideas proposed by ForSyDe.
 
 
+            \subsubsection{Hawk and Cλash}
+            Finally, in this short review of functional hardware \acp{EDSL},
+            there are two more alternatives to be mentioned: Hawk and Cλash.
+
+            Hawk~\cite{hawk-haskell} is a Haskell-hosted \ac{EDSL} with a different target than
+            the ones presented until now: instead of modelling circuits, it intends to model \emph{microarchitectures}.
+            Therefore, it has a higher level of abstraction than Lava or even ForSyDe.
+
+            Models in Hawk are executable, and \emph{shallow-embedded}.
+            However, Hawk uses a technique similar to the original Lava version~\cite{lava-1999}
+            in order to also allow for symbolic evaluations:
+            The descriptions are ``parameterized'' by type classes
+            (in Hawk's case they are \texttt{Instruction}, \texttt{Boolean}, etc.),
+            and by providing different instances, different \emph{interpretations} are achieved.
+
+            The authors of Hawk mention some shortcomings of Haskell which they met, among which:
+
+            \begin{itemize}
+                \item Haskell's \texttt{List} datatype doesn't quite match
+                    the intended semantics for Hawk's \texttt{Signals}:
+                    the preferred semantics for \texttt{Signal} should be a truly infinite, coinductive \emph{stream}.
+                    The authors mention a parallel effort of them to embed Hawk in the Isabelle theorem prover,
+                    which achieved the desired semantics.
+                    In Π-Ware, we make use of \emph{coinductive streams}~\cite{introduction-coalgebra-jacobs}
+                    to model the inputs and outputs of synchronous sequential circuits,
+                    exactly as the authors of Hawk desired.
+                \item The type class system of Haskell is limited: the authors mention the desire to be able
+                    to explicitly provided specific instances at specific sites,
+                    and also the desire to use \emph{views} on datatypes.
+                    Both features are available on \emph{Agda}.
+            \end{itemize}
+
+            Finally, we would like to mention Cλash~\cite{clash-baaij}.
+            Even though it is not, strictly speaking, an \emph{embedded} \ac{DSL},
+            it is close enough to deserve a quick look.
+
+            Cλash was developed at the University of Twente,
+            as an independent \ac{DSL}, i.e, with a compiler of its own.
+            However, its source language is strongly based on Haskell, and Cλash's compiler
+            reuses several pieces of machinery from Haskell's toolchain (specifically, GHC),
+            in order to perform its term-rewriting and supercompilation.
+
+            The circuit models in Cλash are higher-order, polymorphic functional programs,
+            and they can be synthesized to \ac{VHDL} netlist.
+            In this sense, Cλash serves as a good \emph{target} with which to compare hardware
+            \ac{EDSL} development efforts: it is not -- in itself -- embedded, but has the same goals.
 
 
     \section{Dependently-Typed Programming}
