@@ -546,8 +546,8 @@
                 \caption{Proof that the $\le$ relation is transitive. \label{lst:le-trans}}
             \end{listing}
 
-            As proofs are first-class citizens, they can be passed as arguments to functions, and
-            returned as well.
+            As proofs are first-class citizens, they can be passed as arguments to functions,
+            and returned as well.
             This provides yet another powerful way of expressing requirements of function arguments,
             and showing that the result returned satisfies some desired property.
 
@@ -563,10 +563,10 @@
             \end{listing}
 
             This capability for precisely defining and enforcing requirements and invariants make
-            dependently-typed programming languages natural candidates for hosting \acp{EDSL}.
+            dependently-typed programming languages very good candidates for hosting \acp{EDSL}.
             In the paper ``The power of Pi''~\cite{power-pi}, three examples are shown of how to
             embed \acp{DSL} in Agda and get corresponding \emph{Domain-Specific Type Systems}
-            equipped with desirable properties ``for free''.
+            (equipped with desirable properties) ``for free''.
 
             The examples in ``The power of Pi'' -- specially the embedding of \emph{Cryptol},
             a low-level cryptographic \ac{DSL} -- served as inspiration,
@@ -583,10 +583,19 @@
 
     \section{Hardware and dependent types}
     \label{sec:hardware-dtp}
-
         %% TODO
         %% Others
         %% Coquet
         %%     Turning design mistakes into TYPE ERRORS
         %%     Proving properties about circuit behaviour
         %%         Functional correctness in particular.
+
+        We are aware of three attempts in the literature of bringing dependent types to improve hardware design.
+        Each of them has provided us with specific insights and ideas, some of which Π-Ware incorporates.
+        Let us now briefly review these works, and highlight the most important contributions of each.
+
+        The paper ``Constructing Correct Circuits''~\cite{brady-constructing}, from 2007,
+        gives a clear example of how dependent types can \emph{tie together} specification and implementation.
+        In this paper, the authors give a mapping between the usual, Peano-based, naturals and binary numbers,
+        which they then use
+
