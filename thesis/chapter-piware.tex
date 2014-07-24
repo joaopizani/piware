@@ -13,7 +13,7 @@
 
 
     \section{Circuit Syntax}
-    \label{sec:circuit-types}
+    \label{sec:circuit-syntax}
         %% Shallow vs. deep embedding
         %%     Chose deep because of synthesis and non-functional analyses
         %% Structural modelling
@@ -29,7 +29,7 @@
         kept in mind throughout the whole development.
 
         The circuit datatype (\AD{ℂ'}) is the most \emph{fundamental} of the whole library.
-        It is defined as an dependent inductive family, parameterized by two natural numbers,
+        It is defined as an dependent inductive family, indexed by two natural numbers,
         as shown in listing~\ref{lst:Circuit-core}.
 
         \begin{listing}[h]
@@ -37,9 +37,25 @@
             \caption{The core circuit type (\AD{ℂ'}) of Π-Ware. \label{lst:Circuit-core}}
         \end{listing}
 
+        The indices of \AD{ℂ'} represent, respectively, the \emph{size} of the circuit's input and output.
+        The \emph{size} of a circuit input or output port can be thought of
+        as the number of ``wires'' entering (resp. leaving) that circuit.
+        This notion will become much more concrete in section~\ref{sec:circuit-semantics}, with
+        a detailed presentation of the simulation semantics.
+
+        The several constructors of \AD{ℂ'} ``calculate'' the port sizes of the circuits they construct,
+        based on the sizes of the given arguments.
+        These calculations implement \emph{structural well-formedness} rules for circuits,
+        ensuring that, for example:
+
+        \begin{itemize}
+            \item No wires are floating
+            \item Short-circuits (having two or more sources connected to the same load) cannot happen
+        \end{itemize}
+
 
     \section{Abstraction Mechanisms}
-    \label{sec:abstraction}
+    \label{sec:circuit-abstraction}
         \begin{itemize}
             \item Data abstraction (atom vectors x arbitrary synthesizable types)
                 \subitem Atom (enumeration axioms)
@@ -53,7 +69,7 @@
         \end{itemize}
 
     \section{Circuit Semantics}
-    \label{sec:eval-seq}
+    \label{sec:circuit-semantics}
         \begin{itemize}
             \item Two types of evaluation: combinational and sequential
             \item Combinational eval requires a proof that the circuit contains no loops
