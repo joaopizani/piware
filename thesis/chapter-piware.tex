@@ -1,15 +1,42 @@
 \chapter{The Π-Ware library}
 \label{chap:piware}
 
+    Π-Ware is an \ac{EHDL} that allows for circuit description (modelling),
+    simulation, reasoning (proving correctness or other properties), and synthesis to netlists.
+    In this chapter we will describe in detail how the Π-Ware library is organized,
+    what principles are behind some of the most important design decisions taken in its development,
+    and how to use Π-Ware to model, simulate and reason about circuit behaviour.
+
+    The reader is assumed to be familiar with the \emph{Agda} programming language,
+    as this is the language in which Π-Ware is embedded.
+    An introductory-level knowledge of dependent type theory in general is also appreciated.
+
+
     \section{Circuit Syntax}
     \label{sec:circuit-types}
-        \begin{itemize}
-            \item Shallow vs. deep embedding
-                \subitem Chose deep because of synthesis and non-functional analyses
-            \item Structural modelling
-                \subitem Represent connections among circuits in the DSL, \emph{not in the metalanguage}
-                \subitem Avoid having to deal with observable sharing
-        \end{itemize}
+        %% Shallow vs. deep embedding
+        %%     Chose deep because of synthesis and non-functional analyses
+        %% Structural modelling
+        %%     Represent connections among circuits in the DSL, \emph{not in the metalanguage}
+        %%     Avoid having to deal with observable sharing
+
+        The most basic activity allowed by Π-Ware is the \emph{description} of circuits:
+        as already mentioned briefly in the introduction, Π-Ware is \emph{deeply} embedded,
+        which means there is a \emph{datatype} whose values are circuits.
+
+        A deep embedding was chosen in order to allow for semantics other than execution (simulation).
+        Particularly, the possibility of \emph{synthesizing} circuit models was a requirement
+        kept in mind throughout the whole development.
+
+        The circuit datatype (\AD{ℂ'}) is the most \emph{fundamental} of the whole library.
+        It is defined as an dependent inductive family, parameterized by two natural numbers,
+        as shown in listing~\ref{lst:Circuit-core}.
+
+        \begin{listing}[h]
+            \ExecuteMetaData[agda/latex/PiWare/Circuit/Core.tex]{Circuit-core}
+            \caption{The core circuit type (\AD{ℂ'}) of Π-Ware. \label{lst:Circuit-core}}
+        \end{listing}
+
 
     \section{Abstraction Mechanisms}
     \label{sec:abstraction}
