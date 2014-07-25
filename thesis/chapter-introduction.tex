@@ -1,15 +1,17 @@
 \chapter{Introduction}
 \label{chap:intro}
+    %% TODO: explain factors
+    %% TODO: citation to support factors
     Several factors have been causing an increasing demand for hardware acceleration of algorithms,
     and there is also pressure to reduce the duration and cost of the circuit design process.
-    These trends collide with the techniques and tooling used in the hardware design process,
+    These trends are at odds with the techniques and tooling used in the hardware design process,
     which have not experienced the same evolution as the ones for software development.
 
     \acrodef{ASIC}{Application-Specific Integrated Circuit}
     The design of an \ac{ASIC} imposes strong requirements,
     specially with regards to correctness (functional and otherwise).
     Design mistakes which make their way into the manufacturing process can be very expensive,
-    and errors that reach the consumer even more, as there's no such thing as "updating" a chip.
+    and errors that reach the consumer cost even more, as there's no such thing as "updating" a chip.
     One infamous example of such a bug reaching the consumer was the \emph{FDIV} bug in Intel's Pentium chip,
     which might have costed the company over 400 million dollars~\cite{intel-fdiv}.
 
@@ -17,6 +19,7 @@
     (such as information security, machine control, etc.),
     functional programming techniques have long been used to improve productivity
     and reduce the need for extensive testing and debugging.
+    %% TODO: citation to support claim of improved productivity with FP (Mary Sheeran survey?)
     Advocates of functional programming claim productivity gains of up to 10 times compared to
     programmers working in an imperative environment.
 
@@ -25,17 +28,30 @@
     Equational reasoning can be used even as an optimization technique.
     For example, some libraries for array programming in Haskell take advantage of the following
     law involving \texttt{map} and function composition.
-    The proof derives by equational reasoning directly from the definitions of the functions involved:
+    The proof is derived by structural induction on the array or list,
+    and by using equational reasoning with the definitions of the functions involved:
 
-    \begin{haskellcode}
-        map f . map g == map (f . g)
-    \end{haskellcode}
+    {\centering
+        \begin{haskellcode}
+            map f . map g == map (f . g)
+        \end{haskellcode}
+    }
 
-    These advantages of functional programming have been confirmed in practice -- and functional programming
-    languages are becoming more popular in specific problem domain.
+    %% TODO: citation to support "have been confirmed in practice"
+    These advantages of functional programming have been confirmed in practice -- and
+    functional programming languages are becoming more popular in specific problem domains.
     Furthermore, functional techniques and constructs keep ``penetrating'' imperative languages
-    with each new release. For example, the SWIFT language, released by Apple in 2014,
-    includes features such as immutable data structures, first-class functions and type inference.
+    with each new release. Some examples are:
+
+    \begin{itemize}
+        \item Apple's recently released Swift™ language, which features immutable data structures,
+            first-class functions and type inference.
+        \item Java's adoption of \emph{generics} and -- more recently -- of lambda
+            expressions\footnote{\url{http://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html}}.
+        \item The concept of \emph{nullable type}\footnote{\url{http://msdn.microsoft.com/en-us/library/1t3y8s4s.aspx}}
+            in C\#, which is equivalent to Haskell's \mintinline{haskell}{Maybe}.
+        \item Python's \emph{generator expressions}, inspired by list comprehensions and lazy evaluation.
+    \end{itemize}
 
     In a certain way, we can compare the power of the tools and techniques
     used nowadays in hardware design to the early days of software development.
@@ -48,7 +64,7 @@
     with the work of Prof. Mary Sheeran and others~\cite{sheeran-survey},
     developing \emph{functional} hardware description languages, such as \emph{μFP}~\cite{mufp-1984}.
     Later, a trend emerged of developing \acp{EDSL} for hardware description,
-    \emph{hosted} in purely functional languages, such as Haskell.
+    \emph{hosted} in purely functional languages, such as Haskell~\cite{haskell2010}.
     Prominent examples of this trend are the Lava~\cite{lava-1999} family,
     as well as ForSyDe~\cite{forsyde1999}.
 
@@ -59,6 +75,7 @@
         toggle = let output = inv (latch output) in output
     \end{haskellcode}
 
+    %% TODO: why isn't Haskell good enough? Cite Power of Π?
     \acrodef{DTP}{Dependently-Typed Programming}
     Staying on the ``path'' of functional programming but going further in type system power we reach \ac{DTP}.
     A type system with \emph{dependent types} can express strong properties about the programs written in it.
@@ -75,10 +92,11 @@
         \caption{Type of sized vectors and a safe \AF{head} function. \label{lst:Vect-head}}
     \end{listing}
 
-    In this example, the parameter to \AF{head} function will always be non-empty (size different than \AI{zero}).
+    In this example, the parameter to \AF{head} cannot be empty -- its size will be at least 1 (\AI{suc} \AI{zero}).
     This is expressed in the parameter's type: \AD{Vect} \AB{α} (\AI{suc} \AB{n}).
-    When checking whether all cases are covered by this function, the type checker will notice that
-    the only constructor of \AD{Vect} which can produce an element of type \AD{Vect} \AB{α} (\AI{suc} \AB{n}) is \AI{\_∷\_}.
+    When checking the totality of \AF{head} (whether all cases are covered by pattern matching),
+    the type checker will notice that the only constructor of \AD{Vect}
+    able to produce an element of type \AD{Vect} \AB{α} (\AI{suc} \AB{n}) is \AI{\_∷\_}.
 
     In the safe \AF{head} example, we made the specification more precise by constraining the argument to the function.
     We can also use dependent types to make the return type of a function more precise.
