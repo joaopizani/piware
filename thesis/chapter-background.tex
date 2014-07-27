@@ -14,21 +14,21 @@
         in hardware the target is usually a \emph{floorplan}, a spacially placed graph of logic gates and wires.
 
         Also, the transformation steps in the software and hardware chains are different,
-        as depicted in figure~\ref{fig:sw-hw-chains}.
+        as depicted in Figure~\ref{fig:sw-hw-chains}.
         In this figure, the rectangular boxes represent transformations steps towards a more detailed description,
         while the ellipsoid shapes represent artifacts that are consumed/produced by each step.
 
         \begin{figure}[h]
-            \centerline{\includegraphics[width=0.95\textwidth]{imgs/sw-hw-chains.pdf}}
+            \centerline{\includegraphics[width=1.0\textwidth]{imgs/sw-hw-chains.pdf}}
             \caption{Software and Hardware refinement chains. \label{fig:sw-hw-chains}}
         \end{figure}
 
         \acrodef{HDL}{Hardware Description Language}
         \acrodef{RTL}{Register-Transfer Level}
         The first (highest) two levels in the hardware implementation flow are usually described using
-        so-called \acp{HDL}, most popularly Verilog and \acs{VHDL}.
+        so-called \acp{HDL}, usually Verilog or \acs{VHDL}.
         Nowadays they are used by hardware engineers to write both behavioural specifications of circuits
-        (topmost ellipsis in figure~\ref{fig:sw-hw-chains}) as well as \ac{RTL} descriptions.
+        (topmost ellipsis in Figure~\ref{fig:sw-hw-chains}) as well as \ac{RTL} descriptions.
         However, these languages were originally designed for \emph{simulation} purposes,
         and there are several problems that arise when using them to
         model hardware \emph{architecture} and behaviour.
@@ -41,21 +41,22 @@
         To further complicate the matter, this synthesizable subset is not \emph{syntactically seggregated}.
         One example of complex requirement for synthesizability of \acs{VHDL} is:
         "in a process, every output must be assigned a value for every possible combination of input values".
-        In listing~\ref{lst:vhdl-unsynth-process} we have an example process violating this requirement.
+        In Listing~\ref{lst:vhdl-unsynth-process} we have an example process violating this requirement.
 
         \begin{listing}[h]
             \begin{center}
                 \vhdlfile{code/vhdl-unsynth-process.vhd}
             \end{center}
-            \caption{Unsynthesizable \acs{VHDL} process \label{lst:vhdl-unsynth-process}}
+            \caption{Unsynthesizable \acs{VHDL} process (no \texttt{else} branch).
+                \label{lst:vhdl-unsynth-process}}
         \end{listing}
 
-        Still on the differences between software and hardware development,
-        another important aspect is the level of \emph{automatization} in the chains (fig.~\ref{fig:sw-hw-chains}):
-        usually, all transformation steps in the software chain are automatic.
-        On the hardware chain the \emph{crucial} ``Architectural design'' step is manual.
+        Another significant difference between hardware and software development
+        is the level of \emph{automatization} in the chains (Figure~\ref{fig:sw-hw-chains}).
+        Usually, all transformation steps in the software chain are automatic.
+        On the hardware chain, the \emph{crucial} ``Architectural design'' step is mostly manual.
 
-        The complex task of making explicit the space-time tradeoff lays in the hands of the hardware designer:
+        The complex task of making explicit the space-time trade-offs lays in the hands of the hardware designer:
         they must decide how much parallelism to use, how to pipeline the processing steps of the algorithm,
         taking care to not generate data hazards, etc.
 
@@ -65,7 +66,7 @@
         However, current \acs{HLS}-based hardware implementation chains still face two main problems:
 
         \begin{itemize}
-            \item The input language (VHDL, C) is not expressive enough.
+            \item The input languages (VHDL, C) are not expressive enough.
             \item Specification, verification and synthesis are all done with different tools and different languages.
             \begin{itemize}
                 \item Even behavioural \acs{VHDL} can be considered practically a different language
@@ -77,14 +78,14 @@
         A functional program is a more abstract and expressive specification of an algorithm than
         a C function or VHDL entity.
         Also, functional languages could be used to \emph{both} write the specification of a circuit's behaviour,
-        as well as it's \acl{RTL} description.
+        as well as its \acl{RTL} description.
 
 
     \section{Functional Hardware Description}
     \label{sec:functional-hardware}
         In the beginning of the 1980s, many researchers were trying to use functional programming languages
         to design and reason about hardware circuits.
-        These developments were happening at the same time when \ac{VHDL} was being designed and standardized.
+        These developments were happening at the same time when the \ac{VHDL} was being designed and standardized.
         Even though \ac{VHDL} and Verilog ended up ``winning'' and becoming the \emph{de facto} industry standards,
         it is still useful to take a look at the ideas behind these early \acp{HDL}, as some of them
         inspired current approaches.
@@ -119,7 +120,7 @@
         \end{quote}
 
         One very simple example of a circuit with internal state is a shift register.
-        In figure~\ref{fig:mufp-shift}, we can see the structure of this circuit.
+        In Figure~\ref{fig:mufp-shift}, we can see the structure of this circuit.
         Each of the dotted boxes represents a μFP expression.
         The smaller box denotes a combinational circuit (with 2 inputs and 2 outputs) that swaps its inputs.
         The bigger box corresponds to the application of the μ combinator to the smaller one.

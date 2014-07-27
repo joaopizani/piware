@@ -1,9 +1,14 @@
 \chapter{Introduction}
 \label{chap:intro}
-    %% TODO: explain factors
-    %% TODO: citation to support factors
-    Several factors have been causing an increasing demand for hardware acceleration of algorithms,
-    and there is also pressure to reduce the duration and cost of the circuit design process.
+    %% TODO: put goals (requirements of a hardware DSL) before FP
+    \acrodef{ILP}{Instruction-Level Paralellism}
+    Several factors have been causing an increasing demand for hardware acceleration of algorithms.
+    On the one hand, Moore's law still holds for the near future~\cite{itrs},
+    which means bigger circuits in the same wafer area.
+    On the other hand, advances in \ac{ILP} and microarchitecture are starting to have diminishing
+    returns~\cite{dark-silicon}.
+
+    Also, there is pressure to reduce the duration and cost of the circuit design process.
     These trends are at odds with the techniques and tooling used in the hardware design process,
     which have not experienced the same evolution as the ones for software development.
 
@@ -19,9 +24,8 @@
     (such as information security, machine control, etc.),
     functional programming techniques have long been used to improve productivity
     and reduce the need for extensive testing and debugging.
-    %% TODO: citation to support claim of improved productivity with FP (Mary Sheeran survey?)
-    Advocates of functional programming claim productivity gains of up to 10 times compared to
-    programmers working in an imperative environment.
+    These claims have been confirmed both in industrial settings~\cite{haskell-productivity-wiger}
+    and in experiments~\cite{haskell-productivity-hudak}.
 
     Another advantage usually attributed to functional programming is an increased capacity to
     \emph{reason} about your programs, specially to perform what is called \emph{equational reasoning}.
@@ -37,10 +41,8 @@
         \end{haskellcode}
     }
 
-    %% TODO: citation to support "have been confirmed in practice"
-    These advantages of functional programming have been confirmed in practice -- and
-    functional programming languages are becoming more popular in specific problem domains.
-    Furthermore, functional techniques and constructs keep ``penetrating'' imperative languages
+    Besides the growing usage of functional programming languages in several domain areas,
+    functional techniques and constructs keep ``penetrating'' imperative languages
     with each new release. Some examples are:
 
     \begin{itemize}
@@ -49,7 +51,7 @@
         \item Java's adoption of \emph{generics} and -- more recently -- of lambda
             expressions\footnote{\url{http://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html}}.
         \item The concept of \emph{nullable type}\footnote{\url{http://msdn.microsoft.com/en-us/library/1t3y8s4s.aspx}}
-            in C\#, which is equivalent to Haskell's \mintinline{haskell}{Maybe}.
+            in C\#, equivalent to Haskell's \mintinline{haskell}{Maybe}.
         \item Python's \emph{generator expressions}, inspired by list comprehensions and lazy evaluation.
     \end{itemize}
 
@@ -57,7 +59,7 @@
     used nowadays in hardware design to the early days of software development.
     Of course there are inherent and fundamental differences between the two activities, but
     this comparison leads us to ask whether recent ideas from programming language research,
-    specially those related to functional programming, could be used to improve hardware design.
+    specially those related to functional programming, can be used to improve hardware design.
 
     \acrodef{EDSL}{Embedded Domain-Specific Language}
     Research trying to answer this broad question started already in the 1980s,
@@ -68,24 +70,27 @@
     Prominent examples of this trend are the Lava~\cite{lava-1999} family,
     as well as ForSyDe~\cite{forsyde1999}.
 
-    A circuit description written in Lava -- an \ac{EDSL} hosted by Haskell -- can look like the following:
+    A circuit description written in Lava -- an \ac{EDSL} hosted in Haskell -- can look like the following:
 
     \begin{haskellcode}
         toggle :: Signal Bool
         toggle = let output = inv (latch output) in output
     \end{haskellcode}
 
-    %% TODO: why isn't Haskell good enough? Cite Power of Π?
-    \acrodef{DTP}{Dependently-Typed Programming}
-    Staying on the ``path'' of functional programming but going further in type system power we reach \ac{DTP}.
+    Even though pure functional languages (especially Haskell) are well-suited for implementing \acp{EDSL},
+    there is still room for improvement in the type-safety of the embedded languages.
+    This can be done by hosting the \acp{EDSL} in language supporting \emph{dependent types},
+    as exemplified in the paper ``The Power of Pi''~\cite{power-pi}.
+
     A type system with \emph{dependent types} can express strong properties about the programs written in it.
     Systems with dependent types can be seen as regular programming languages,
-    but because of the expressive power of dependent types, we can also see them as interactive theorem provers.
+    but because of the expressive power of dependent types, we can also see them as \emph{interactive theorem provers}.
 
-    Using dependent types, one can more easily approximate \emph{specification} and \emph{implementation}.
+    \acrodef{DTP}{Dependently-Typed Programming}
+    Using dependent types, one can more easily being together \emph{specification} and \emph{implementation}.
     The type signature of a function can give many more \emph{guarantees} about its behaviour.
     A classical example when introducing \ac{DTP} is the type of sized vectors,
-    along with the safe \AF{head} function, depicted in listing~\ref{lst:Vect-head}.
+    along with the safe \AF{head} function, depicted in Listing~\ref{lst:Vect-head}.
 
     \begin{listing}[h]
         \ExecuteMetaData[agda/latex/Report/ChapterIntroduction.tex]{Vect-head}
@@ -98,7 +103,7 @@
     the type checker will notice that the only constructor of \AD{Vect}
     able to produce an element of type \AD{Vect} \AB{α} (\AI{suc} \AB{n}) is \AI{\_∷\_}.
 
-    In the safe \AF{head} example, we made the specification more precise by constraining the argument to the function.
+    In the safe \AF{head} example, we made the specification more precise by constraining the type of an argument.
     We can also use dependent types to make the return type of a function more precise.
     The \AF{group} function for sized vectors in \emph{Agda}'s standard library has the following type:
 
@@ -109,27 +114,28 @@
     It receives as parameters, besides the vector to be ``sliced'',
     the number of slices desired (\AB{n}) and the size of each slice (\AB{k}).
     Notice that the size of the passed vector needs to match (\AB{n} \AF{*} \AB{k}).
-    The return type of this function reads as:
+    The return type of this function may be read as:
     \begin{quote}
-        There is a vector \AB{xss} of size \AB{n}
-        (whose elements are of size \AB{k}), such that \texttt{\AB{xs} \AF{≡} \AF{concat} \AB{xss}}.
+        A vector (\AB{xss}) of size \AB{n} (whose elements are vectors of size \AB{k}),
+        such that \texttt{\AB{xs} \AF{≡} \AF{concat} \AB{xss}}.
     \end{quote}
 
-    Therefore, it returns a collection of groups "sliced" from the original vector, with the requested size.
+    Therefore, it returns a collection of groups "sliced" from the original vector, each with the requested size.
     Additionally, it returns a proof that concatenating all groups results in the original vector.
     This type serves as a \emph{complete specification of correctness} for the function.
     Any function with this type is, by definition, a \emph{correct "grouping" function}.
 
     \acrodef{DSL}{Domain-Specific Language}
-    In a deep-embedded \acs{DSL} for hardware there is usually a \emph{type} whose elements are circuits.
+    In a deep-embedded \acs{DSL} for hardware there is usually a \emph{type} representing circuits.
     One can imagine that it would be useful to design this type
     in such a way that as few of its elements as possible are \emph{malformed}.
-    Therefore, we also want to make the typing of the circuits as strong as possible,
-    to eliminate as many classes of design mistakes as possible.
+    Therefore, we want to make the typing of the circuits as strong as possible,
+    to eliminate as many \emph{classes of design mistakes} as possible.
 
-    Depedent type systems allow us to easily express several of these \emph{well-formedness} rules for circuits.
+    Depedent type systems allow for easy expression of these \emph{well-formedness} rules for circuits.
     One simple criterion of circuit \emph{well-formedness} is, for example, that it contains no ``floating'' signals.
     That is, all of a circuit's internal components must have all their ports connected.
+    Figure~\ref{fig:floating-wire} shows an example of circuit violating this rule.
 
     \begin{figure}[h]
         \centerline{\includegraphics[width=0.3\textwidth]{imgs/floating-wire.pdf}}
@@ -137,9 +143,9 @@
     \end{figure}
 
     \acrodef{VHDL}{VHSIC Hardware Description Language}
-    In this M.Sc thesis, we developed a hardware \ac{EDSL} -- Π-Ware -- which enforces this and other
+    In this M.Sc thesis we developed a hardware \ac{EDSL} -- Π-Ware -- which enforces this and other
     well-formedness rules using dependent types.
-    Π-Ware is a \emph{deep-embedded} \ac{EDSL} hosted in the Agda programming language,
+    Π-Ware is a \emph{deep-embedded} \ac{DSL} hosted in the Agda programming language,
     supporting simulation for combinational and synchronous sequential circuits.
     Furthermore, the user of Π-Ware can prove \emph{expressive} properties about circuits in the logic
     of Agda itself (intuitionistic first-order logic).
@@ -155,8 +161,8 @@
     Specifically, we give examples of circuits modelled in Π-Ware and proofs of properties involving
     these circuits.
 
-    Finally, in Chapter~\ref{chap:conclusions}, we discuss what has been achieved by Π-Ware as it stands,
+    Finally, in Chapter~\ref{chap:conclusions}, we discuss what has been achieved by Π-Ware as it stands
     by comparing it with other hardware \acp{EDSL}, recent and past.
     We also clarify what desirable features reamin to be implemented as future work,
-    and what conditions (if any) these implementation efforts depend on.
+    and on which conditions (if any) these implementation efforts depend.
 
