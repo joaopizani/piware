@@ -204,7 +204,7 @@
         inv :: Signal Bool -> Signal Bool
             \end{haskellcode}
 
-            Another restriction is that all circuit inputs must be ``uncurried'', i.e,
+            Another restriction is that all circuit inputs must be ``uncurried'', i.e.,
             even though the \emph{circuit} has several inputs, the \emph{function} modeling that circuit
             must have only one argument, with all inputs in a \emph{tuple}.
             A \texttt{NAND} gate in Lava would look like this:
@@ -220,12 +220,13 @@
             For example, an n-bit binary (ripple-carry) adder in Lava has the following description:
 
             \begin{haskellcode}
-        adder :: (Signal Bool, ([Signal Bool], [Signal Bool])) -> ([Signal Bool], Signal Bool)
+        adder :: (Signal Bool, ([Signal Bool], [Signal Bool]))
+              -> ([Signal Bool], Signal Bool)
+
         adder (carryIn, ([] ,[]))    = ([], carryIn)
         adder (carryIn, (a:as, b:bs) = (sum:sums, carryOut)
-            where
-                (sum, carry)     = fullAdd (carryIn, (a, b))
-                (sums, carryOut) = adder (carry, (as, bs))
+            where (sum, carry)     = fullAdd (carryIn, (a, b))
+                  (sums, carryOut) = adder (carry, (as, bs))
             \end{haskellcode}
 
             In this circuit description, there is an \emph{expectation} that both inputs have the same size.
@@ -237,7 +238,7 @@
             Another limitation of Lava is related to the way in which it solves the observable sharing question:
             in order to detect sharing and cycles, the equality over the \texttt{Signal} type is defined
             as an equality over the references used.
-            Therefore, comparisons of signals that were ``created'' in different sites will fail,
+            Therefore, comparisons of signals ``created'' in different sites will fail,
             even though their values are the same.
             For example, the following expressions will evaluate to \texttt{False}:
 
@@ -256,14 +257,16 @@
             \subsubsection{ForSyDe}
             Another example of \ac{EHDL} in Haskell is ForSyDe~\cite{forsyde1999}.
             ForSyDe and Lava differ substantially in description style and internal workings,
-            and a more complete comparison of the two can be found in (cite experimentation project).
+            and a more complete comparison of the two can be found
+            in the final report of the experimentation project we conducted
+            as preparation to this thesis~\cite{functional-hardware-survey}.
 
             In ForSyDe, the central concepts are those of \emph{process} and \emph{signal}.
             Whereas in Lava only \emph{synchronous} sequential circuits can be described -- that is
             also the case in Π-Ware -- in ForSyDe processes can belong to synchronous,
             asynchronous and continuous \emph{models of computation}.
 
-            In the synchronous model of computation (the which we studied more deeply),
+            In the synchronous model of computation (which we studied more deeply),
             process constructors take a combinational function (called \emph{process function} in
             ForSyDe jargon) and turn it into a synchronous sequential circuit
             (for example a state machine).
@@ -273,7 +276,7 @@
             this process function, ForSyDe relies on \emph{Template Haskell} to
             \emph{quote} regular Haskell syntax into an \ac{AST} -- which is then further processed by ForSyDe.
             For example, the description of an adder in ForSyDe would look like the following:
-            
+
             \begin{haskellcode}
         adderFun :: ProcFun (Int8 -> Int8 -> Int8)
         adderFun = $(newProcFun [d|
@@ -288,11 +291,11 @@
             Notice how the \texttt{adderFun} \emph{process function} is built from a ``regular'' haskell function
             (\texttt{adderFun'}), which is then \emph{quoted} (by the \texttt{[d|} quasi-quoter), processed by
             \texttt{newProcFun} and finally \emph{spliced} back into place.
-            The process function (combinational) is then ``lifted'' into the synchronous sequential setting
+            The (combinational) process function is then ``lifted'' into the synchronous sequential setting
             by the \texttt{zipWithSY} \emph{process constructor}, which just ``zips'' the inputs signals (streams)
             by applying the given process function \emph{pointwise}.
 
-            Not quite any haskell function can be quoted and processed by \texttt{newProcFun}
+            Not any Haskell function can be quoted and processed by \texttt{newProcFun}
             and turned into a ForSyDe process function: the argument and return types of a \texttt{ProcType}
             must belong to the \texttt{ProcType} type class. Instances of this class are provided only for:
 
@@ -360,8 +363,8 @@
             \end{itemize}
 
             Finally, we would like to mention Cλash~\cite{clash-baaij}.
-            Even though it is not, strictly speaking, an \emph{embedded} \ac{DSL},
-            it is close enough to deserve a quick look.
+            Even though it is not (strictly speaking) an \emph{embedded} \ac{DSL},
+            it has very powerful features.
 
             Cλash was developed at the University of Twente,
             as an independent \ac{DSL}, i.e, with a compiler of its own.
@@ -381,11 +384,11 @@
         \subsection{Type systems}
         \label{subsec:type-systems}
             A type system, in the context of programming languages,
-            serves the purpose of grouping values, so that "meaningless" and potentially undesirable operations are avoided.
+            serves the purpose of grouping values, so that meaningless and potentially undesirable operations are avoided.
             For example, it would be silly to add an integer number and a character string.
             In fact, it is hard to imagine an addition operation accepting such arguments and having nice algebraic properties.
             To define addition sensibly, therefore, we need the help of a type system,
-            to "ban" all programs that would try to add these "incompatible" values.
+            to ban all programs that would try to add these incompatible values.
 
             Type systems can have very different properties and be implemented in very different ways.
             Some of the ways in which type systems can be categorized are~\cite{understanding-types-cardelli}:
@@ -399,18 +402,22 @@
             %% TODO: the "road to" dependent types. GIVE EXAMPLES AT EACH STEP
             The most basic form of abstraction -- values depending on values (the concept of functions) -- is
             supported in practically all type systems.
-            The result of functions can also depend on the \emph{types} of the arguments
-            (this is called \emph{polymorphism}).
+            In some systems, the result type of functions can also depend on the \emph{types} of the arguments;
+            this property is called \emph{polymorphism}.
+            There are two kinds of polymorphism relevant to our discussion:
 
-            In \emph{parametric polymorphism}, functions are written without mentioning any specific type,
-            and can therefore be applied to any instantiation of the type variable.
-            A typical example of a parametric polymorphic function is obtaining the length of a list,
-            where the same definition works for any type of element in the list.
-            Now in \emph{ad-hoc polymorphism}, the behaviour of a function varies with the type of the inputs.
-            In Haskell ad-hoc polymorphism is implemented in the type class system.
-            A typical example of an ad-hoc polymorphic function would be a comparison-based sorting algorithm,
-            in which depending on the type of the elements in the collection,
-            different comparison operators will be used.
+            \begin{itemize}
+                \item In \emph{parametric polymorphism}, functions are written without mentioning any specific type,
+                    and can therefore be applied to any instantiation of the type variable.
+                    A typical example of a parametric polymorphic function is obtaining the length of a list,
+                    where the same definition works for any type of element in the list.
+
+                \item In \emph{ad-hoc polymorphism}, the behaviour of a function varies with the type of the inputs.
+                    In Haskell, ad-hoc polymorphism is implemented in the \emph{type class system}.
+                    A typical example of an ad-hoc polymorphic function is a comparison-based sorting algorithm
+                    in which -- depending on the type of the elements in the collection -- different
+                    comparison operators are be used.
+            \end{itemize}
 
             Polymorphism adds \emph{expressivity} and makes a type system stronger,
             in the sense that it allows for more precise specifications.
