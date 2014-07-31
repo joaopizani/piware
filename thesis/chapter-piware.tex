@@ -43,15 +43,35 @@
         This notion will become much more concrete in section~\ref{sec:circuit-semantics}, with
         a detailed presentation of the simulation semantics.
 
-        The several constructors of \AD{ℂ'} ``calculate'' the port sizes of the circuits they construct,
-        based on the sizes of the given arguments.
-        These calculations implement \emph{structural well-formedness} rules for circuits,
-        ensuring that, for example:
+        To better understand the reasoning behind the design of the \AD{ℂ'} datatype,
+        its constructors can be considered to belong to one of three categories:
 
-        \begin{itemize}
-            \item No wires are floating
-            \item Short-circuits (having two or more sources connected to the same load) cannot happen
-        \end{itemize}
+        \begin{description}
+            \item[Fundamental] These construct ``predefined'', or ``atomic'' circuits, as they have no sub-circuits.
+                \begin{itemize}
+                    \item \AI{Nil}: The \emph{empty circuit}. Performs no computation and has neither inputs nor outputs.
+                        Even so it is useful as a ``base case'' when building large circuits with recursive definitions.
+                    \item \AI{Gate}: Builds one of the \emph{predefined} circuits, given by a \emph{gate library}
+                        passed as a parameter to the \AM{Circuit} module.
+                \end{itemize}
+
+        \end{description}
+
+        \subsection{Design discipline enforced by circuit constructors}
+            The several constructors of \AD{ℂ'} ``calculate'' the port sizes of the circuits they construct,
+            based on the sizes of the circuits given as arguments.
+            These calculations implement \emph{structural well-formedness} rules for circuits.
+            One example of such rule can be seen in the case of parallel composition (\AI{\_|'\_}),
+            where the input (resp. output) size of the composed circuit equals the \emph{sum}
+            of the input (resp. output) sizes of the constituent sub-circuits.
+            Together, all of these rules ensure:
+
+            \begin{description}
+                \item[No floating wires] Circuit sizes need to match in order for the usage of a constructor
+                    to be type-correct
+                \item [NO short-circuits] The \AI{Plug} constructor, the only one which can be used for
+                    ``rewiring'' purposes, has a type which forbids mapping two sources to the same load.
+            \end{description}
 
 
     \section{Abstraction Mechanisms}
@@ -68,8 +88,14 @@
                 \subitem For synthesis, still need to give these gates a description in terms of technology primitives
         \end{itemize}
 
+        \subsection{Gate library}
+        \label{subsec:gate-library}
+
+
     \section{Circuit Semantics}
     \label{sec:circuit-semantics}
+        Functional semantics for simulation\ldots
+
         \begin{itemize}
             \item Two types of evaluation: combinational and sequential
             \item Combinational eval requires a proof that the circuit contains no loops
@@ -82,3 +108,19 @@
 
             \item There's also an eval function which allows the circuit to be viewed as function from Stream to Stream
         \end{itemize}
+
+        \subsection{Combinational evaluation}
+        \label{subsec:combinational-eval}
+
+        \subsection{Sequential evaluation}
+        \label{subsec:sequential-eval}
+            Initially we tried to write a semantics yielding simply a function over streams.
+
+            But this is not quite a good semantic model for a synchronous sequential circuits,
+            as a stream function is allowed to ``look into future values'' in order to produce
+            the output stream, while a sequential circuit can only use information about its past inputs
+            when calculating the next output.
+
+            Therefore, causal streams\ldots
+
+            \subsubsection{Causal Streams}
