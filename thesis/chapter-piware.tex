@@ -30,7 +30,7 @@
 
         The circuit datatype (\AD{ℂ'}) is the most \emph{fundamental} of the whole library.
         It is defined as an dependent inductive family, indexed by two natural numbers,
-        as shown in listing~\ref{lst:Circuit-core}.
+        as shown in Listing~\ref{lst:Circuit-core}.
 
         \begin{listing}[h]
             \ExecuteMetaData[agda/latex/PiWare/Circuit/Core.tex]{Circuit-core}
@@ -51,10 +51,21 @@
                 \begin{itemize}
                     \item \AI{Nil}: The \emph{empty circuit}. Performs no computation and has neither inputs nor outputs.
                         Even so it is useful as a ``base case'' when building large circuits with recursive definitions.
-                    \item \AI{Gate}: Builds one of the \emph{predefined} circuits, given by a \emph{gate library}
-                        passed as a parameter to the \AM{Circuit} module.
+                    \item \AI{Gate}: Constructs a chosen circuit among those provided by a \emph{gate library}
+                        passed as parameter to the \AM{Circuit} module.
                 \end{itemize}
-
+            \item[Structural] Represent ways in which smaller circuits can be interconnected to build a bigger one.
+                \begin{itemize}
+                    \item \AI{c₁ ⟫' c₂} Sequential composition.
+                        Given $c₁$ and $c₂$, connects the output of $c₁$ into the input of $c₂$.
+                    \item \AI{c₁ |' c₂} Parallel composition.
+                    \item \AI{c₁ |+' c₂} Tagged branching.
+                        Based on the value of a \emph{tag} given in one of the input wires,
+                        feed the remaining input wires into \emph{either} $c₁$ or $c₂$.
+                \end{itemize}
+            \item[Delay]
+                The \AI{DelayLoop} constructor belongs to a category of its own.
+                Its purpose is to construct a state-holding circuit, given a purely combinational circuit as argument.
         \end{description}
 
         \subsection{Design discipline enforced by circuit constructors}
@@ -69,8 +80,8 @@
             \begin{description}
                 \item[No floating wires] Circuit sizes need to match in order for the usage of a constructor
                     to be type-correct
-                \item [NO short-circuits] The \AI{Plug} constructor, the only one which can be used for
-                    ``rewiring'' purposes, has a type which forbids mapping two sources to the same load.
+                \item [No short-circuits] The \AI{Plug} constructor, the only one which can be used for
+                    ``rewiring'' purposes, has a type which forbids mapping multiple sources to the same load.
             \end{description}
 
 
