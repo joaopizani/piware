@@ -15,7 +15,6 @@
     \section{Circuit Syntax}
     \label{sec:circuit-syntax}
         %% Shallow vs. deep embedding
-        %%     Chose deep because of synthesis and non-functional analyses
         %% Structural modelling
         %%     Represent connections among circuits in the DSL, \emph{not in the metalanguage}
         %%     Avoid having to deal with observable sharing
@@ -37,52 +36,97 @@
             \caption{The core circuit type (\AD{ℂ'}) of Π-Ware. \label{lst:Circuit-core}}
         \end{listing}
 
-        The indices of \AD{ℂ'} represent, respectively, the \emph{size} of the circuit's input and output.
-        The \emph{size} of a circuit input or output port can be thought of
-        as the number of ``wires'' entering (resp. leaving) that circuit.
-        This notion will become much more concrete in section~\ref{sec:circuit-semantics}, with
-        a detailed presentation of the simulation semantics.
+        A \emph{structural representation} of a circuit is achieved by the constructors of \AD{ℂ'}.
+        This is in stark contrast with the the description style used in the Lava family, for example.
+        In Lava, the constructors of the circuit datatype represent solely logic (or arithmetic) gates,
+        and metalanguage (Haskell) constructs such as application, tupling and local naming are
+        used to represent sequencing, parallel composition, loops and sharing.
+        In Π-Ware, on the other hand, explicit constructors represent these combinations,
+        avoiding the need to implement some form of \emph{observable sharing}~\cite{gill-typesafe-observable-sharing}.
 
-        To better understand the reasoning behind the design of the \AD{ℂ'} datatype,
+        The indices of \AD{ℂ'} represent, respectively, the \emph{size} of the circuit's input and output.
+        This can be thought of as the number of ``wires'' entering (resp. leaving) that circuit.
+        Notice that the representation of inputs and outputs used in \AD{ℂ'} is untyped and unstructured.
+        However, there is another -- higher-level -- circuit datatype (\AD{ℂ}),
+        which adds a layer of typing \emph{on top} of \AD{ℂ'},
+        and constitutes the actual intended ``interface'' between the user (hardware designer) and Π-Ware.
+        This abstraction layer will be discussed in more detail on Section~\ref{subsec:high-level-circuit}.
+
+        To better understand the reasoning behind the design of the low-level \AD{ℂ'} datatype,
         its constructors can be considered to belong to one of three categories:
 
         \begin{description}
-            \item[Fundamental] These construct ``predefined'', or ``atomic'' circuits, as they have no sub-circuits.
+            \item[Fundamental] These construct ``predefined'', or ``atomic'' circuits, with no sub-components.
                 \begin{itemize}
                     \item \AI{Nil}: The \emph{empty circuit}. Performs no computation and has neither inputs nor outputs.
-                        Even so it is useful as a ``base case'' when building large circuits with recursive definitions.
+                        It is mainly useful as a ``base case'' when building large circuits with recursive definitions.
                     \item \AI{Gate}: Constructs a chosen circuit among those provided by a \emph{gate library}
                         passed as parameter to the \AM{Circuit} module.
+                    \item \AI{Plug}: Constructs a ``rewiring'' circuit. Performs no computation,
+                        but can be used to apply permutations, associativity and to duplicate or discard wires.
                 \end{itemize}
             \item[Structural] Represent ways in which smaller circuits can be interconnected to build a bigger one.
                 \begin{itemize}
                     \item \AI{c₁ ⟫' c₂} Sequential composition.
                         Given $c₁$ and $c₂$, connects the output of $c₁$ into the input of $c₂$.
                     \item \AI{c₁ |' c₂} Parallel composition.
+                        Splits the input into two parts, connected to $c₁$ and $c₂$,
+                        and rejoins the outputs of $c₁$ and $c₂$ into a single output.
                     \item \AI{c₁ |+' c₂} Tagged branching.
                         Based on the value of a \emph{tag} given in one of the input wires,
                         feed the remaining input wires into \emph{either} $c₁$ or $c₂$.
                 \end{itemize}
             \item[Delay]
                 The \AI{DelayLoop} constructor belongs to a category of its own.
-                Its purpose is to construct a state-holding circuit, given a purely combinational circuit as argument.
+                Its purpose is to construct a state-holding circuit given a purely combinational circuit as argument.
         \end{description}
+
+        These descriptions are just a rough summary of the \emph{synthesis semantics} of Π-Ware, that is,
+        how each circuit constructor creates a netlist, given netlists as arguments.
+        The precise \emph{definitions} of the synthesis semantics is given in Section~\ref{sec:circuit-semantics}.
+        In the same secion there is also the detailed definition and explanations of a simulation semantics
+        for Π-Ware circuits, both purely combinational and sequential ones.
 
         \subsection{Design discipline enforced by circuit constructors}
             The several constructors of \AD{ℂ'} ``calculate'' the port sizes of the circuits they construct,
             based on the sizes of the circuits given as arguments.
             These calculations implement \emph{structural well-formedness} rules for circuits.
-            One example of such rule can be seen in the case of parallel composition (\AI{\_|'\_}),
-            where the input (resp. output) size of the composed circuit equals the \emph{sum}
+            One example of such rule can be seen in the case of parallel composition:
+
+            \begin{code}
+                \>[0]\AgdaIndent{4}{}\<[4]%
+                \>[4]\AgdaInductiveConstructor{\_|'\_} \<[11]%
+                \>[11]\AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{i₁} \AgdaBound{o₁} \AgdaBound{i₂} \AgdaBound{o₂}\AgdaSymbol{\}} \<[30]%
+                \>[30]\AgdaSymbol{→} \AgdaDatatype{ℂ'} \AgdaBound{i₁} \AgdaBound{o₁} \AgdaSymbol{→} \AgdaDatatype{ℂ'} \AgdaBound{i₂} \AgdaBound{o₂} \AgdaSymbol{→} \AgdaDatatype{ℂ'} \AgdaSymbol{(}\AgdaBound{i₁} \AgdaPrimitive{+} \AgdaBound{i₂}\AgdaSymbol{)} \AgdaSymbol{(}\AgdaBound{o₁} \AgdaPrimitive{+} \AgdaBound{o₂}\AgdaSymbol{)}\<%
+            \end{code}
+
+            In this case, the input (resp. output) size of the composed circuit equals the \emph{sum}
             of the input (resp. output) sizes of the constituent sub-circuits.
-            Together, all of these rules ensure:
+            Other such rules are also imposed by \AI{\_⟫'\_}, \AI{\_|+'\_}} and \AI{Plug}.
+            Together, all of them ensure:
 
             \begin{description}
                 \item[No floating wires] Circuit sizes need to match in order for the usage of a constructor
-                    to be type-correct
+                    to be type-correct. In particular, no circuit \emph{input} wires are ever left ``disconnected''.
+                    The figure below illustrates an example of a situation banned by the sizing rule present
+                    in the type of \AI{\_⟫'\_}:
+
+                    \includegraphics[width=0.7\textwidth]{imgs/sequencing-floating.pdf}
+
                 \item [No short-circuits] The \AI{Plug} constructor, the only one which can be used for
-                    ``rewiring'' purposes, has a type which forbids mapping multiple sources to the same load.
+                    ``rewiring'' purposes, has a type which forbids connecting multiple sources to the same load.
+                    Its argument is a \emph{function from outputs to inputs}.
+                    In this way, definitions connecting multiple inputs to the same output are banned,
+                    as they are \emph{not} functions from outputs to inputs.
+                    Also, when a plug is used between two sub-circuits $c₁$ and $c₂$,
+                    a definition in which an \emph{input} of $c₂$ would be left ``disconnected'' is disallowed by Agda,
+                    as such a definition would not be \emph{total}.
+                    The diagram below represent such a banned situation:
+
+                    \includegraphics[width=0.8\textwidth]{imgs/plug-seq-disconnected-input.pdf}
             \end{description}
+
+            %% TODO: explain Plug
 
 
     \section{Abstraction Mechanisms}
@@ -98,6 +142,14 @@
                     \subsubitem Their correctness is assumed
                 \subitem For synthesis, still need to give these gates a description in terms of technology primitives
         \end{itemize}
+
+        %% TODO: remark about notation: prime for low-level
+
+        \subsection{High-level circuit datatype}
+        \label{subsec:high-level-circuit}
+
+        \subsection{The \texttt{Synthesizable} type class}
+        \label{subsec:synthesizable}
 
         \subsection{Gate library}
         \label{subsec:gate-library}
