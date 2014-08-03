@@ -42,7 +42,7 @@
     }
 
     Besides the growing usage of functional programming languages in several domain areas,
-    functional techniques and constructs keep ``penetrating'' imperative languages
+    functional techniques and constructs keep "penetrating" imperative languages
     with each new release. Some examples are:
 
     \begin{itemize}
@@ -80,7 +80,7 @@
     Even though pure functional languages (especially Haskell) are well-suited for implementing \acp{EDSL},
     there is still room for improvement in the type-safety of the embedded languages.
     This can be done by hosting the \acp{EDSL} in language supporting \emph{dependent types},
-    as exemplified in the paper ``The Power of Pi''~\cite{power-pi}.
+    as exemplified in the paper "The Power of Pi"~\cite{power-pi}.
 
     A type system with \emph{dependent types} can express strong properties about the programs written in it.
     Systems with dependent types can be seen as regular programming languages,
@@ -111,7 +111,7 @@
         \ExecuteMetaData[agda/latex/Report/ChapterIntroduction.tex]{group-decl}
     \end{listing}
 
-    It receives as parameters, besides the vector to be ``sliced'',
+    It receives as parameters, besides the vector to be "sliced",
     the number of slices desired (\AB{n}) and the size of each slice (\AB{k}).
     Notice that the size of the passed vector needs to match (\AB{n} \AF{*} \AB{k}).
     The return type of this function may be read as:
@@ -133,13 +133,13 @@
     to eliminate as many \emph{classes of design mistakes} as possible.
 
     Depedent type systems allow for easy expression of these \emph{well-formedness} rules for circuits.
-    One simple criterion of circuit \emph{well-formedness} is, for example, that it contains no ``floating'' signals.
+    One simple criterion of circuit \emph{well-formedness} is, for example, that it contains no "floating" signals.
     That is, all of a circuit's internal components must have all their ports connected.
     Figure~\ref{fig:floating-wire} shows an example of circuit violating this rule.
 
     \begin{figure}[h]
         \centerline{\includegraphics[width=0.3\textwidth]{imgs/floating-wire.pdf}}
-        \caption{Malformed circuit with a ``floating'' signal. \label{fig:floating-wire}}
+        \caption{Malformed circuit with a "floating" signal. \label{fig:floating-wire}}
     \end{figure}
 
     \acrodef{VHDL}{VHSIC Hardware Description Language}

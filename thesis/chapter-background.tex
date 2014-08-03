@@ -5,7 +5,7 @@
     \label{sec:hardware-description}
         The hardware development process can be well understood by analyzing its
         similarities and differences to software development.
-        Both hardware and software development usually ``begin'' with a high-level \emph{specification}
+        Both hardware and software development usually "begin" with a high-level \emph{specification}
         of the algorithm to be implemented.
         Also, both proceed by a series of translations, increasingly adding more details to the description.
 
@@ -54,7 +54,7 @@
         Another significant difference between hardware and software development
         is the level of \emph{automatization} in the chains (Figure~\ref{fig:sw-hw-chains}).
         Usually, all transformation steps in the software chain are automatic.
-        On the hardware chain, the \emph{crucial} ``Architectural design'' step is mostly manual.
+        On the hardware chain, the \emph{crucial} "Architectural design" step is mostly manual.
 
         The complex task of making explicit the space-time trade-offs lays in the hands of the hardware designer:
         they must decide how much parallelism to use, how to pipeline the processing steps of the algorithm,
@@ -86,7 +86,7 @@
         In the beginning of the 1980s, many researchers were trying to use functional programming languages
         to design and reason about hardware circuits.
         These developments were happening at the same time when the \ac{VHDL} was being designed and standardized.
-        Even though \ac{VHDL} and Verilog ended up ``winning'' and becoming the \emph{de facto} industry standards,
+        Even though \ac{VHDL} and Verilog ended up "winning" and becoming the \emph{de facto} industry standards,
         it is still useful to take a look at the ideas behind these early \acp{HDL}, as some of them
         inspired current approaches.
 
@@ -113,7 +113,7 @@
 
         \begin{quote}
             The meaning of μf is defined in terms of the meaning of f.
-            The functional ``out'' hides the state
+            The functional "out" hides the state
             so that while $M(f)$ maps a sequence of input-state pairs to a sequence of output-state pairs,
             $\text{out}(M(f))$ just maps a sequence of inputs to a sequence of outputs.
             For a given cycle, the next output and the next state depend on the current input and the current state.
@@ -133,12 +133,12 @@
 
         By being a conservative extension of Backus's FP, almost all algebraic laws of FP also hold for μFP.
         Furthermore, the μ combining form has useful algebraic laws of its own.
-        The most notable of these laws states that the composition of two ``μ-wrapped'' functions
-        can be converted to one single ``μ-wrapper''.
+        The most notable of these laws states that the composition of two "μ-wrapped" functions
+        can be converted to one single "μ-wrapper".
 
         In other words: a circuit with several, localized, memory elements can be converted into a circuit
-        with one ``centralized'' memory bank and a combinational block.
-        If we apply this rewrite rule from right to left, we can see it as a form of ``optimization'',
+        with one "centralized" memory bank and a combinational block.
+        If we apply this rewrite rule from right to left, we can see it as a form of "optimization",
         in which we start with a single memory bank and refine the design towards one in which
         memory elements sit closer to the sub-circuits using them.
 
@@ -150,7 +150,7 @@
                 they can be simulated (functional semantics) or synthesized to a netlist (geometric semantics).
             \item[Single sequential constructor] As in μFP,
                 there is only \emph{one way} in Π-Ware to construct a sequential circuit.
-                Also, the same law regarding the ``state-introducing'' constructor holds in Π-Ware,
+                Also, the same law regarding the "state-introducing" constructor holds in Π-Ware,
                 but because we use Agda as host language, this meta-theoretical property can be proven
                 \emph{in the same language} in which circuits are described.
         \end{description}
@@ -192,7 +192,7 @@
             and adopting an observable sharing solution based on reference equality~\cite{observable-sharing-circuits}.
             Currently, Lava has several dialects, such as \emph{Chalmers-Lava}, \emph{Xilinx-Lava}, \emph{York-Lava} and \emph{Kansas-Lava}.
             We base our examples in \emph{Chalmers-Lava}~\footnote{\url{https://hackage.haskell.org/package/chalmers-lava2000}},
-            which can be said to be the ``canonical'' dialect, and also the most actively developed.
+            which can be said to be the "canonical" dialect, and also the most actively developed.
 
             In Lava, circuits are written as normal Haskell functions, by using pattern matching,
             function application and local naming.
@@ -204,7 +204,7 @@
         inv :: Signal Bool -> Signal Bool
             \end{haskellcode}
 
-            Another restriction is that all circuit inputs must be ``uncurried'', i.e.,
+            Another restriction is that all circuit inputs must be "uncurried", i.e.,
             even though the \emph{circuit} has several inputs, the \emph{function} modeling that circuit
             must have only one argument, with all inputs in a \emph{tuple}.
             A \texttt{NAND} gate in Lava would look like this:
@@ -215,7 +215,7 @@
             \end{haskellcode}
 
             Finally, due to the instances provided for the \texttt{Signal} type, the only way to
-            ``aggregate'' bits in Lava is by using tuples and lists.
+            "aggregate" bits in Lava is by using tuples and lists.
             Using only these structures we forego some type safety that Haskell \emph{could} provide.
             For example, an n-bit binary (ripple-carry) adder in Lava has the following description:
 
@@ -238,7 +238,7 @@
             Another limitation of Lava is related to the way in which it solves the observable sharing question:
             in order to detect sharing and cycles, the equality over the \texttt{Signal} type is defined
             as an equality over the references used.
-            Therefore, comparisons of signals ``created'' in different sites will fail,
+            Therefore, comparisons of signals "created" in different sites will fail,
             even though their values are the same.
             For example, the following expressions will evaluate to \texttt{False}:
 
@@ -272,7 +272,7 @@
             (for example a state machine).
 
             \acrodef{AST}{Abstract Syntax Tree}
-            But, instead of just using (smart) constructors of a certain ``circuit datatype'' to build
+            But, instead of just using (smart) constructors of a certain "circuit datatype" to build
             this process function, ForSyDe relies on \emph{Template Haskell} to
             \emph{quote} regular Haskell syntax into an \ac{AST} -- which is then further processed by ForSyDe.
             For example, the description of an adder in ForSyDe would look like the following:
@@ -288,11 +288,11 @@
         adderProc = zipWithSY "adderProcess" adderFun
             \end{haskellcode}
 
-            Notice how the \texttt{adderFun} \emph{process function} is built from a ``regular'' haskell function
+            Notice how the \texttt{adderFun} \emph{process function} is built from a "regular" haskell function
             (\texttt{adderFun'}), which is then \emph{quoted} (by the \texttt{[d|} quasi-quoter), processed by
             \texttt{newProcFun} and finally \emph{spliced} back into place.
-            The (combinational) process function is then ``lifted'' into the synchronous sequential setting
-            by the \texttt{zipWithSY} \emph{process constructor}, which just ``zips'' the inputs signals (streams)
+            The (combinational) process function is then "lifted" into the synchronous sequential setting
+            by the \texttt{zipWithSY} \emph{process constructor}, which just "zips" the inputs signals (streams)
             by applying the given process function \emph{pointwise}.
 
             Not any Haskell function can be quoted and processed by \texttt{newProcFun}
@@ -320,12 +320,12 @@
             \end{description}
 
             Despite all these limitations,
-            ForSyDe still provides a more ``typed'' approach to hardware description than Lava,
+            ForSyDe still provides a more "typed" approach to hardware description than Lava,
             with perhaps its most distinctive feature being the usage of fixed-length vectors.
             In the \texttt{parameterized-data} package page
             on \emph{Hackage}~\footnote{\url{http://hackage.haskell.org/package/parameterized-data-0.1.5}},
             the authors admit that the library's function is to provide
-            ``type-level computations and \emph{emulate dependent types}''.
+            "type-level computations and \emph{emulate dependent types}".
             Therefore it is not a stretch to assume that using \emph{actual} dependent types
             could improve on the ideas proposed by ForSyDe.
 
@@ -341,7 +341,7 @@
             Models in Hawk are executable, and \emph{shallow-embedded}.
             However, Hawk uses a technique similar to the original Lava version~\cite{lava-1999}
             in order to also allow for symbolic evaluations:
-            The descriptions are ``parameterized'' by type classes
+            The descriptions are "parameterized" by type classes
             (in Hawk's case they are \texttt{Instruction}, \texttt{Boolean}, etc.),
             and by providing different instances, different \emph{interpretations} are achieved.
 
@@ -421,25 +421,25 @@
 
             Polymorphism adds \emph{expressivity} and makes a type system stronger,
             in the sense that it allows for more precise specifications.
-            For example, if we want to implement a ``swap'' function for pairs in Haskell,
+            For example, if we want to implement a "swap" function for pairs in Haskell,
             we could do start by specifying the type of the function in a non-polymorphic way:
             \begin{haskellcode}
         swap' :: (Int , Int) -> (Int , Int)
             \end{haskellcode}
 
             There are several definitions satisfying the above type which do not swap the elements.
-            For example, one ``wrong'' implementation would output a constant pair:
+            For example, one "wrong" implementation would output a constant pair:
             \begin{haskellcode}
         swap' _ = (1 , 1)
             \end{haskellcode}
 
-            Notice how the argument is ignored (we use the ``don't care'' pattern).
+            Notice how the argument is ignored (we use the "don't care" pattern).
             To \emph{rule out} this class of wrong implementations, we could make the type polymorphic:
             \begin{haskellcode}
         swap'' :: (a , a) -> (a , a)
             \end{haskellcode}
 
-            Now any ``constant'' definition will \emph{not anymore fit the type specified}.
+            Now any "constant" definition will \emph{not anymore fit the type specified}.
             This because the only way to get an element of the \emph{polymorphic type} \texttt{a}
             is to use what is in the parameter passed to the function.
             However, we could still write a wrong function with this type, namely the identity:
@@ -466,7 +466,7 @@
             In Haskell, this form of abstraction is implemented as regular parameterized type constructors
             (\texttt{List}, \texttt{Maybe}, etc.) and as \emph{indexed type families}.
 
-            The last step then in our ``ladder'' of type system expressiveness is \emph{dependent types}.
+            The last step then in our "ladder" of type system expressiveness is \emph{dependent types}.
 
         \subsection{Dependent types}
         \label{subsec:dependent-types}
@@ -501,15 +501,15 @@
             Now, having defined the \AD{Fin} \AB{n} datatype, we can write the type signature for \AF{take}:
             \begin{listing}[h]
                 \ExecuteMetaData[agda/latex/Report/ChapterBackground.tex]{take-decl}
-                \caption{A ``safe'' prefix-taking function for sized vectors. \label{lst:take-decl}}
+                \caption{A "safe" prefix-taking function for sized vectors. \label{lst:take-decl}}
             \end{listing}
 
             On the signature of \AF{take}, dependent types are used both to restrict the \emph{domain}
             ($ k \leq n $) and to express a desired property of the \emph{result}
             (length of the returned vector should be \AB{k}).
             Finally, we observe that the type of \AF{take} is not a \emph{sufficient condition} for
-            what we would intuitively conceive as being a ``correct'' prefix-taking function.
-            There are ``wrong'' implementations which still would have this type, for example
+            what we would intuitively conceive as being a "correct" prefix-taking function.
+            There are "wrong" implementations which still would have this type, for example
             returning a constant vector of size \AB{k}.
             This type is, however, provides many more \emph{static guarantees}:
             All implementations violating bounds and producing incorrectly-sized results
@@ -522,8 +522,8 @@
 
             This remark -- that a programming language (with it's type system) can also be seen as a logic --
             goes back to the early days of computing, and is known by several names,
-            among which ``Curry-Howard isomorphism'' and ``propositions as types''~\cite{propositions-as-types}.
-            It initially was ``discovered'' as a connection between the simply-typed lambda calculus
+            among which "Curry-Howard isomorphism" and "propositions as types"~\cite{propositions-as-types}.
+            It initially was "discovered" as a connection between the simply-typed lambda calculus
             and intuitionistic propositional logic.
             As decades went by, this correspondence was found to be much more general,
             and several connections were drawn between diverse typed lambda calculi and logics.
@@ -559,12 +559,12 @@
             This provides yet another powerful way of expressing requirements of function arguments,
             and showing that the result returned satisfies some desired property.
 
-            For example, we have already shown (in listing~\ref{lst:take-decl}) how to have a ``safe''
+            For example, we have already shown (in listing~\ref{lst:take-decl}) how to have a "safe"
             version of a prefix-taking function for statically-sized arrays:
             by using a specially-designed type for the desired amount.
             Now we have another way to express the same requirement:
             we can explicitly require a proof argument be passed,
-            guaranteeing that the amount to be ``taken'' is \emph{less than or equal} to the array size.
+            guaranteeing that the amount to be "taken" is \emph{less than or equal} to the array size.
 
             \begin{listing}[h]
                 \ExecuteMetaData[agda/latex/Report/ChapterBackground.tex]{take-proof-decl}
@@ -572,11 +572,11 @@
 
             This capability for precisely defining and enforcing requirements and invariants make
             dependently-typed programming languages very good candidates for hosting \acp{EDSL}.
-            In the paper ``The power of Pi''~\cite{power-pi}, three examples are shown of how to
+            In the paper "The power of Pi"~\cite{power-pi}, three examples are shown of how to
             embed \acp{DSL} in Agda and get corresponding \emph{Domain-Specific Type Systems}
-            (equipped with desirable properties) ``for free''.
+            (equipped with desirable properties) "for free".
 
-            The examples in ``The power of Pi'' -- specially the embedding of \emph{Cryptol},
+            The examples in "The power of Pi" -- specially the embedding of \emph{Cryptol},
             a low-level cryptographic \ac{DSL} -- served as inspiration,
             and lead us to investigate how dependently-typed programming can benefit hardware
             design, the main question targeted by this project.
@@ -602,7 +602,7 @@
         Each of them has provided us with specific insights and ideas, some of which Π-Ware incorporates.
         Let us now briefly review these works, and highlight the most important contributions of each.
 
-        The paper ``Constructing Correct Circuits''~\cite{brady-constructing}, from 2007,
+        The paper "Constructing Correct Circuits"~\cite{brady-constructing}, from 2007,
         gives a clear example of how dependent types can \emph{tie together} specification and implementation.
         In this paper, the authors give a mapping between the usual, Peano-based, naturals and binary numbers,
         which they then use to build a (ripple-carry) binary adder which is \emph{correct by construction}.

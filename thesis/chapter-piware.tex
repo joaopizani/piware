@@ -45,24 +45,24 @@
         avoiding the need to implement some form of \emph{observable sharing}~\cite{gill-typesafe-observable-sharing}.
 
         The indices of \AD{ℂ'} represent, respectively, the \emph{size} of the circuit's input and output.
-        This can be thought of as the number of ``wires'' entering (resp. leaving) that circuit.
+        This can be thought of as the number of "wires" entering (resp. leaving) that circuit.
         Notice that the representation of inputs and outputs used in \AD{ℂ'} is untyped and unstructured.
         However, there is another -- higher-level -- circuit datatype (\AD{ℂ}),
         which adds a layer of typing \emph{on top} of \AD{ℂ'},
-        and constitutes the actual intended ``interface'' between the user (hardware designer) and Π-Ware.
+        and constitutes the actual intended "interface" between the user (hardware designer) and Π-Ware.
         This abstraction layer will be discussed in more detail on Section~\ref{subsec:high-level-circuit}.
 
         To better understand the reasoning behind the design of the low-level \AD{ℂ'} datatype,
         its constructors can be considered to belong to one of three categories:
 
         \begin{description}
-            \item[Fundamental:] These construct ``predefined'', or ``atomic'' circuits, with no sub-components.
+            \item[Fundamental:] These construct "predefined", or "atomic" circuits, with no sub-components.
                 \begin{itemize}
                     \item \AI{Nil}: The \emph{empty circuit}. Performs no computation and has neither inputs nor outputs.
-                        It is mainly useful as a ``base case'' when building large circuits with recursive definitions.
+                        It is mainly useful as a "base case" when building large circuits with recursive definitions.
                     \item \AI{Gate}: Constructs a chosen circuit among those provided by a \emph{gate library}
                         passed as parameter to the \AM{Circuit} module.
-                    \item \AI{Plug}: Constructs a ``rewiring'' circuit. Performs no computation,
+                    \item \AI{Plug}: Constructs a "rewiring" circuit. Performs no computation,
                         but can be used to apply permutations, associativity and to duplicate or discard wires.
                 \end{itemize}
             \item[Structural:] Represent ways in which smaller circuits can be interconnected to build a bigger one.
@@ -88,7 +88,7 @@
         for Π-Ware circuits, both purely combinational and sequential ones.
 
         \subsection{Design discipline enforced by circuit constructors}
-            The several constructors of \AD{ℂ'} ``calculate'' the port sizes of the circuits they construct,
+            The several constructors of \AD{ℂ'} "calculate" the port sizes of the circuits they construct,
             based on the sizes of the circuits given as arguments.
             These calculations implement \emph{structural well-formedness} rules for circuits.
             One example of such rule can be seen in the case of parallel composition:
@@ -108,7 +108,7 @@
 
             \begin{description}
                 \item[No floating wires] Circuit sizes need to match in order for the usage of a constructor
-                    to be type-correct. In particular, no circuit \emph{input} wires are ever left ``disconnected''.
+                    to be type-correct. In particular, no circuit \emph{input} wires are ever left "disconnected".
                     Figure~\ref{fig:sequencing-floating} illustrates an example of a situation banned by the sizing rule present
                     in the type of \AI{\_⟫'\_}.
 
@@ -118,12 +118,12 @@
                     \end{figure}
 
                 \item [No short-circuits] The \AI{Plug} constructor, the only one which can be used for
-                    ``rewiring'' purposes, has a type which forbids connecting multiple sources to the same load.
+                    "rewiring" purposes, has a type which forbids connecting multiple sources to the same load.
                     Its argument is a \emph{function from outputs to inputs}.
                     In this way, definitions connecting multiple inputs to the same output are banned,
                     as they are \emph{not} functions from outputs to inputs.
                     Also, when a plug is used between two sub-circuits $c₁$ and $c₂$,
-                    a definition in which an \emph{input} of $c₂$ would be left ``disconnected'' is disallowed by Agda,
+                    a definition in which an \emph{input} of $c₂$ would be left "disconnected" is disallowed by Agda,
                     as such a definition would not be \emph{total}.
                     The diagram on Figure~\ref{fig:plug-seq-disconnected-input} represents such a banned situation:
 
@@ -164,7 +164,7 @@
         \label{subsec:atoms}
             In \acp{EDSL} of the current Lava family~\cite{observable-sharing-circuits},
             only values of type \mintinline{haskell}{Bool} and \mintinline{haskell}{Int}
-            can be carried by the ``wires'', and circuits can only operate on inputs and outputs
+            can be carried by the "wires", and circuits can only operate on inputs and outputs
             which are tuples or lists of these basic types.
 
             There is a little more flexibility in ForSyDe~\cite{forsyde1999},
@@ -176,7 +176,7 @@
             at compile time.
 
             Π-Ware's approach is similar to ForSyDe's, in that it shares the same goal
-            (to ``carry'' in the wires any type that belongs to a type class).
+            (to "carry" in the wires any type that belongs to a type class).
             However, Π-Ware does not use any metaprogramming, and uses dependent types
             to ensure that the provided instances satisfy desired properties.
             The type class \AD{Atomic} (shown in Listing~\ref{lst:atomic})
@@ -275,7 +275,7 @@
             Initially we tried to write a semantics yielding simply a function over streams.
 
             But this is not quite a good semantic model for a synchronous sequential circuits,
-            as a stream function is allowed to ``look into future values'' in order to produce
+            as a stream function is allowed to "look into future values" in order to produce
             the output stream, while a sequential circuit can only use information about its past inputs
             when calculating the next output.
 
