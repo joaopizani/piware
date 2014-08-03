@@ -133,7 +133,39 @@
                     \end{figure}
             \end{description}
 
-            %% TODO: explain Plug more?
+            \subsubsection{Purely combination vs. possibly sequential}
+            Another piece of information "carried" together with circuits is whether it is
+            \emph{purely combinational}, i.e., has no internal state, no notion of "history",
+            and the value of its current outputs depend only on the value of its current inputs.
+
+            This information is represented by a metalanguage truth value,
+            an Agda \AF{Set} which can be either \AF{⊤} (the \AF{Set} with one value -- "top") or
+            \AF{⊥} (the \AF{Set} with no values -- "bottom").
+
+            The predicate \AF{comb'} over low-level (\AF{ℂ'}) circuits defines when is a circuit purely combinational.
+            The code for \AF{comb'} is shown on Listing~\ref{lst:comb-core}.
+
+            \begin{listing}[h]
+                \ExecuteMetaData[agda/latex/PiWare/Circuit/Core.tex]{comb-core}
+                \caption{Predicate telling whether a low-level circuit is purely combinational.\label{lst:comb-core}}
+            \end{listing}
+
+            Notice that the fundamental constructors \AI{Nil}, \AI{Gate} and \AI{Plug} \emph{always}
+            build purely combinational circuits, while \AI{DelayLoop} always produces circuits with internal state.
+            The structural constructors (\AI{\_⟫'\_}, \AI{\_|'\_} and \AI{\_|+'\_})
+            yield a purely combinational circuit only when \emph{both} of its argument are themselves purely combinational.
+            This is expressed by using the product type constructor \AF{\_×\_}, which in the \AF{Set}
+            level corresponds to a logical conjunction.
+
+            This categorization of circuits as stateful or stateless has one main goal:
+            To avoid the evaluation of \emph{combinational loops}.
+            Their presence in a circuit is almost always a design mistake, and by combining
+            the \AI{DelayLoop} constructor with the \AF{comb'} predicate we guarantee that:
+
+            \begin{itemize}
+                \item The only way to create a loop in a circuit (\AI{DelayLoop}) also introduces a delay.
+                \item Combinational evaluation (ignoring past inputs) only happens when safe.
+            \end{itemize}
 
 
     \section{Abstraction Mechanisms}
@@ -148,16 +180,6 @@
         which requirements are imposed upon the parameters in each case of parameterization.
         Also, the motivation behind the chosen requirements is presented,
         based on the general goals of Π-Ware as well as the wish to impose as few constraints as possible.
-
-        %% Data abstraction (atom vectors x arbitrary synthesizable types)
-        %%     Atom (enumeration axioms)
-        %%     Word / Synthesizable
-        %%         Proof search?
-        %% Gate abstraction (Technology primitives x Semantic fundamentals)
-        %%     Circuits descriptions are parameterized by a set of fundamental gates
-        %%         Always combinational
-        %%         Their correctness is assumed
-        %%     For synthesis, still need to give these gates a description in terms of technology primitives
 
 
         \subsection{Atoms}
@@ -228,25 +250,121 @@
             to the equation, as the Agda typechecker can verify that
             there is no \AB{x} such that \AI{Fs} \AY{(}\AI{Fs} \AB{x}\AY{)} belongs to \AD{Fin} \AN{2}.
 
-            Finally, there are the proofs stating that \AF{\text{n→B}} has a two-sided inverse (namely, \AF{\text{B→n}}),
-            and, therefore, it is a bijection. The proofs work by simple case analysis (and reflexivity).
+            Finally, there are the proofs stating that \AF{n→B} has a two-sided inverse (namely, \AF{B→n}),
+            and, therefore, it is a bijection. The proofs use simple case analysis (and reflexivity).
 
             \begin{center}
                 \ExecuteMetaData[agda/latex/PiWare/Atom/Bool.tex]{inv-Bool}
             \end{center}
 
             \subsubsection{Other possibly interesting instances}
+            Even though currently \AD{Bool} (from the Agda standard library) is the only type for which
+            there is already a predefined instance of \AD{Atomic}, other types could be interestingly used as atoms.
+            For example:
+
+            \begin{description}
+                \item[Three-valued logic types]
+                    Representing the values \texttt{TRUE}, \texttt{FALSE} and \texttt{UNKNOWN}
+                \item[IEEE1164 nine-valued logic]
+                    Standardized logic used widely in industry as a VHDL/Verilog type.
+                    Besides the usual \texttt{FALSE} and \texttt{TRUE} logical values
+                    (represented respectively by '0' and '1')
+                    it accomodates also the following others:
+                    \begin{itemize}
+                        \item \texttt{'Z'}: \emph{High impedance}, means output is not being driven.
+                        \item \texttt{'X'}: \emph{Strong drive, unknown logic value}.
+                        \item \texttt{'W'}: \emph{Weak drive, unknown logic value}.
+                        \item \texttt{'L'}: \emph{Weak drive, logic zero}.
+                        \item \texttt{'H'}: \emph{Weak drive, logic one}.
+                        \item \texttt{'U'}: \emph{Uninitialized}. Used as default initial value in simulation.
+                        \item \texttt{'-'}: \emph{Don't care}.
+                    \end{itemize}
+            \end{description}
 
 
         \subsection{Gate library}
         \label{subsec:gate-library}
+            Besides being parameterized by the type of \AD{Atom}s that can be carried in their wires,
+            Π-Ware low-level circuit descriptions (\AD{ℂ'}) are also parameterized by
+            a \emph{library of fundamental gates} upon which circuits are built.
+
+            There are several interesting possible gate libraries which could be used to describe circuits,
+            among which:
+
+            \acrodef{DSP}{Digital Signal Processing}
+            \begin{itemize}
+                \item \emph{Functionally complete} sets of boolean functions such as
+                    $\{ \text{\texttt{NAND}} \}$, $\{ \text{\texttt{NOR}} \}$ or
+                    $\{ \text{\texttt{NOT}}, \text{\texttt{AND}}, \text{\texttt{OR}} \}$
+                    (predefined in the Π-Ware library).
+                \item Arithmetic primitives over boolean vectors, such as $\{ \text{\texttt{\_+\_}}, \text{\texttt{\_*\_}} \}$.
+                \item A logic-arithmetic library together with some purpose-specific primitives,
+                    for example cryptographic and \ac{DSP} functions.
+            \end{itemize}
+
+            A gate library is defined as an element of the \AD{Gates} record type, shown in Listing~\ref{lst:gates}.
+
+            \begin{listing}[h]
+                \ExecuteMetaData[agda/latex/PiWare/Synthesizable.tex]{Word}
+                \newline
+                \ExecuteMetaData[agda/latex/PiWare/Gates.tex]{Gates}
+                \caption{Definition of a gate library: the \AD{Gates} record.\label{lst:gates}}
+            \end{listing}
+
+            The first field of the \AD{Gates} record (\AL{|Gates|-1}) determines \emph{how many}
+            gates the library has, and consequently also the \emph{the type used as gate index}
+            (or "gate identifier"), which is \AF{Gates\#} \AY{=} \AF{Fin} \AF{|Gates|}.
+
+            For each gate identifier, the functions \AL{ins} and \AL{outs} determine, respectively,
+            the size of the input and output of that gate; therefore together they determine the gate's \emph{interface}.
+
+            Finally, the \AL{spec} field determines the \emph{functional specification} of a given gate identifier.
+            Notice how the whole \AM{Gates} module is parameterized by an instance of \AD{Atomic}.
+            In this way, the \AL{spec} function yields, given a gate identifier, a function over \emph{words}
+            (\AD{Atom} vectors) of the correct length.
+            This functional specification of each fundamental gate is used for the \emph{simulation semantics}.
+
+            \subsubsection{Assumed correctness}
+            Later, in Section~\ref{sec:proving-circuit-properties}, we will give a precise definition
+            for what is considered the \emph{functional correctness} of a circuit; its \emph{compliance}
+            to a certain functional specification.
+
+            Usually, the proof of functional correctness for a circuit is built using, in some way,
+            the correctness proofs of its subcomponents.
+            However, fundamental gates have no subcomponents, so their correctness is assumed.
+            By definition, the simulation semantics of a fundamental gate is equal to the \AL{spec}
+            function given for it in the gate library definition.
+
+            \subsubsection{Relation to synthesis}
+            Even though fundamental gates are "atomic" (have no subcomponents) \emph{at the Π-Ware level},
+            they are not in any way directly synthesizable to \ac{VHDL}.
+            To convert a Π-Ware circuit to \ac{VHDL}, each fundamental gate in the library being used
+            needs to have a corresponding excerpt of \ac{VHDL} code representing it.
+
+            This feature is not integrated in the current version of Π-Ware, but assuming the existence
+            of a hierarchy of datatypes representing \ac{VHDL} code, and specifically the existence
+            of a type \AD{VHDLEntity}, we could have an extra field in the \AD{Gates} record, as such:
+
+            \begin{center}
+               \AL{netlist} \AY{:} \AY{(}\AB{g} \AY{:} \AD{Fin} \AY{(}\AI{suc} \AL{|Gates|-1}\AY{)}\AY{)} \AY{→} \AD{VHDLEntity} \AY{(}\AL{ins} \AB{g}\AY{)} \AY{(}\AL{out} \AB{g}\AY{)}
+            \end{center}
+
+            Notice that the \AD{VHDLEntity} is also parameterized by the input and output sizes of the circuit,
+            tying in this way the Π-Ware fundamental gate interface with the \ac{VHDL} abstract syntax.
+
+            \subsubsection{Instance for \texttt{BoolTrio}}
+
 
         \subsection{High-level circuit datatype}
         \label{subsec:high-level-circuit}
             %% TODO: remark about notation: prime for low-level
 
+
         \subsection{The \texttt{Synthesizable} type class}
         \label{subsec:synthesizable}
+            %% Data abstraction (atom vectors x arbitrary synthesizable types)
+            %%     Word / Synthesizable
+            %%         Proof search?
 
 
 
@@ -282,3 +400,6 @@
             Therefore, causal streams\ldots
 
             \subsubsection{Causal Streams}
+
+    \section{Proving circuit properties}
+    \label{sec:proving-circuit-properties}
