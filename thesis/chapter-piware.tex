@@ -437,7 +437,7 @@
             The block diagram in Figure~\ref{fig:xor-sample} illustrates the architecture of such circuit.
 
             \begin{figure}[h]
-                \centering{\includegraphics[width=0.45\textwidth]{imgs/xor-sample.pdf}}
+                \centering{\includegraphics[width=0.50\textwidth]{imgs/xor-sample.pdf}}
                 \caption{Architecture of a sample \texttt{XOR} gate.\label{fig:xor-sample}}
             \end{figure}
 
@@ -454,14 +454,48 @@
             and is defined (together with other useful plugs) in the \AM{PiWare.Plugs} module.
 
 
-
-
         \subsection{The \texttt{Synthesizable} type class}
         \label{subsec:synthesizable}
-            %% Data abstraction (atom vectors x arbitrary synthesizable types)
-            %%     Word / Synthesizable
-            %%         Proof search?
+            The "connection" between the low-level (\AD{ℂ'}) and high-level (\AD{ℂ}) circuit types
+            is done by the \AD{⇓𝕎⇑} type class (pronounced "Synthesizable").
+            Instances of the \AD{⇓𝕎⇑} class define a mapping between a given Agda type
+            and an appropriately-sized \emph{word} type.
+            Word types (\AD{𝕎} \AB{n}, for some \AB{n}) are \emph{synthesizable} to \ac{VHDL} vectors,
+            thus the name of the class.
+            Listing~\ref{lst:Synth} shows the definition of \AD{⇓𝕎⇑}:
 
+            \begin{listing}[h]
+                \ExecuteMetaData[agda/latex/PiWare/Synthesizable.tex]{Word}
+                \newline
+                \ExecuteMetaData[agda/latex/PiWare/Synthesizable.tex]{Synth}
+                \caption{The \AD{⇓𝕎⇑} (Synthesizable) type class.\label{lst:Synth}}
+            \end{listing}
+
+            The type class has two parameters: the type which it encodes (\AB{α}),
+            and the size of the \emph{word type} to which \AB{α} corresponds (\AB{i}).
+            Notice that the size parameter is passed \emph{implicitly}, because in some occasions
+            Agda might be able to automatically infer (by unification) this value.
+
+            One can imagine that all \emph{finite types} (types with finitely many elements)
+            can be made synthesizable under the definition of \AD{⇓𝕎⇑}, given a certain encoding scheme.
+            We do not give a proof of this statement, but one way of doing it would be to translate
+            Agda datatype definitions into a sum-of-products view and then use a standardized
+            encoding scheme (for example, some form of \emph{Church encoding}).
+
+            Π-Ware does \emph{not} provide facilities for mapping arbitrary Agda datatypes into
+            a sum-of-products view (we believe this is the domain of a \emph{generic programming} library,
+            not of a hardware \ac{EDSL}).
+            However, Π-Ware \emph{does} provide predefined instances of \AD{⇓𝕎⇑} for units (\AD{⊤}),
+            booleans (\AD{Bool}), products (\AD{\_×\_}), vectors (\AD{Vec}) and sums (\AD{\_⊎\_}),
+            in order to facilitate working with complex types when modelling hardware.
+
+            One interesting instance to look at is the one for Agda's standard library vectors (\AD{Vec}),
+            shown in Listing~\ref{lst:Synth-Vec}.
+
+            \begin{listing}[h]
+                \ExecuteMetaData[agda/latex/PiWare/Synthesizable.tex]{Synth-Vec}
+                \caption{Predefined instance of \AD{⇓𝕎⇑} for fixed-length vectors.\label{lst:Synth-Vec}}
+            \end{listing}
 
 
     \section{Circuit Semantics}
