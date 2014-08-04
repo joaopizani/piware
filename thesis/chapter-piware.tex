@@ -497,6 +497,63 @@
                 \caption{Predefined instance of \AD{⇓𝕎⇑} for fixed-length vectors.\label{lst:Synth-Vec}}
             \end{listing}
 
+            In the \AF{down} definition,
+            the \emph{bind} (\AF{>>=}) operator is defined as \AF{concat} \AO{∘} \AF{map}, i.e.,
+            first each element of the vector is serialized (using the passed instance for \AB{α}),
+            then all the words (each with size \AB{i}) are concatenated, giving a total size of
+            \AY{(}\AB{n} \AF{*} \AB{i}\AY{)}.
+
+            To convert a serialized \AD{Vec} back \AF{up}, first the given word is \AF{group}ed
+            into \AB{n} smaller words (each of size \AB{i}), which is possible because the size of
+            the passed word is \AY{(}\AB{n} \AF{*} \AB{i}\AY{)}.
+            Then, ignoring the proof object returned by \AF{group} (which is in the second position
+            of a pair, therefore we take \AL{proj₁}), we map the \AF{up} instance of \AB{α} over
+            each of the smaller words, obtaining in this way an element of type
+            \AD{Vec} \AB{α} \AB{n}.
+
+            \subsubsection{Proof of bijection}
+            It is very desirable that the pair of fields "down" (\AL{⇓}) and "up" (\AL{⇓}),
+            for any instance of \AD{⇓𝕎⇑}, are inverses of each other, that is:
+
+            \begin{center}
+                \AY{∀} \AY{(}\AB{x} \AY{:} \AB{α}\AY{)} \AY{→} \AL{⇑} \AY{(}\AL{⇓} \AB{x}\AY{)} \AF{≡} \AB{x}
+                \\
+                \AY{∀} \AY{(}\AB{w} \AY{:} \AD{𝕎} \AB{i}\AY{)} \AY{→} \AL{⇓} \AY{(}\AL{⇑} \AB{w}\AY{)} \AF{≡} \AB{w}
+            \end{center}
+
+            We indeed tried to embed these proofs also as methods of the \AD{⇓𝕎⇑} class.
+            However, when trying to write the proofs for the included instances,
+            we faced some difficulties (especially in the sum case) and left this endeavour for future work
+            (discussed in more detail in Section~\ref{subsec:current-limitations}.
+
+            \subsubsection{\texttt{Synthesizable} instance for sums}
+            The instance of \AD{⇓𝕎⇑} for sums (disjoint unions) is the most complex among all predefined
+            instances included with Π-Ware.
+            This complexity comes mostly from the need to \emph{distinguish} which set is concerned
+            when converting a word "up" (\AL{⇑}).
+            Assuming that we want \AL{⇓} and \AL{⇑} to form a bijection (no information may be lost),
+            let's first calculate how many atoms are necessary to represent a sum.
+
+            With a given encoding for set \AB{α} (\AB{sα} \AY{:} \AD{𝕎} \AB{i})
+            and one for β (\AB{β} \AY{:} \AD{𝕎} \AB{j}), it is clear that at least \AB{i} \AF{⊔} \AB{j} atoms
+            are necessary to encode \AB{α} \AD{⊎} \AB{β}; the size of a sum is at least the maximum
+            among the sizes of its summands.
+            Furthermore, it is necessary to somehow encode the choice (whether the sum was built from
+            the left (\AL{inj₁}) or the right (\AL{inj₂}). This requires at least one more atom,
+            bringing the size to \AI{suc} \AY{(}\AB{i} \AF{⊔} \AB{j}\AY{)}.
+
+            The predefined instance for sums included with Π-Ware is shown on Listing~\ref{lst:Synth-Sum}.
+
+            \begin{listing}[h]
+                \ExecuteMetaData[agda/latex/PiWare/Synthesizable.tex]{Synth-Sum}
+                \caption{Predefined instance of \AD{⇓𝕎⇑} for sums.\label{lst:Synth-Sum}}
+            \end{listing}
+
+            Besides the encodings of the summands (named \AB{sα} and \AB{sβ},
+            given as \emph{instance arguments}), this instance is also passed some extra parameters:
+            three \emph{atom indices} (\AB{n}, \AB{m} and \AB{p}) and a proof that \AB{n} and \AB{m} are different.
+            The atom index \AB{n} gives the \AD{Atom} to be used in case the sum is built from the left (\AL{inj₁}).
+            and \AB{m} for the case when it is built from the right (\AL{inj₂}).
 
     \section{Circuit Semantics}
     \label{sec:circuit-semantics}
