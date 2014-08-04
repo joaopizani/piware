@@ -411,29 +411,35 @@
             \end{listing}
 
             First of all, notice the \emph{lack of a prime symbol in the name of the datatype}.
-            This is a general naming convention used throughout the whole Π-Ware library:
-            whenever there are two versions of a definition, one at a low level of abstraction and
-            one higher, the low-level gets the same name of the high-level one, with a prime symbol as suffix.
+            This is a general naming convention:
+            whenever there are two versions of a definition, one at a low level of abstraction and one higher,
+            the low-level gets the same name of the high-level one, with a prime symbol as suffix.
 
             In contrast to the low-level (\AD{ℂ'}) circuit type, \AD{ℂ} is parameterized by two Agda \AD{Set}s,
             and has only one constructor - \AI{Mkℂ} - which "packs" the low-level circuit description
-            together with the information about how to convert between the input/output Agda types
+            with the information on how to convert between the input/output Agda types
             (resp. \AB{α} and \AB{β}) and the appropriately-sized \emph{words} used in the low level.
-            This conversion information is represented by the \AD{⇓𝕎⇑} type class (pronounced "Synthesizable"),
+            This conversion information is coded in the \AD{⇓𝕎⇑} type class (pronounced "Synthesizable"),
             which is covered in more detail on Section~\ref{subsec:synthesizable}.
 
-            Further, the \AM{PiWare.Circuit} module defines also \emph{smart constructors} for \AD{ℂ},
+            Furthermore, the \AM{PiWare.Circuit} module defines also \emph{smart constructors} for \AD{ℂ},
             corresponding to each of the constructors at the low level.
-            One example is the smart constructor for parallel composition:
+            One example is parallel composition:
 
             \begin{center}
                 \ExecuteMetaData[agda/latex/PiWare/Circuit.tex]{par}
             \end{center}
 
-            Using a \emph{gate library} together with these smart constructors, one can then model
-            hardware circuits which operate over Agda types.
+            Using a \emph{gate library} together with these smart constructors, one can model
+            hardware circuits operating over Agda types.
             One very simple example is a \texttt{XOR} circuit (shown in Listing~\ref{lst:xor-sample}),
             built using the \texttt{BoolTrio} gate library mentioned before.
+            The block diagram in Figure~\ref{fig:xor-sample} illustrates the architecture of such circuit.
+
+            \begin{figure}[h]
+                \centering{\includegraphics[width=0.45\textwidth]{imgs/xor-sample.pdf}}
+                \caption{Architecture of a sample \texttt{XOR} gate.\label{fig:xor-sample}}
+            \end{figure}
 
             \begin{listing}[h]
                 \ExecuteMetaData[agda/latex/PiWare/Samples/BoolTrioComb.tex]{fundamentals}
@@ -441,6 +447,13 @@
                 \ExecuteMetaData[agda/latex/PiWare/Samples/BoolTrioComb.tex]{xor}
                 \caption{Example of a \texttt{XOR} gate built with the \texttt{BoolTrio} library.\label{lst:xor-sample}}
             \end{listing}
+
+            Again in this example, as customary, we renamed \AD{Bool} to \AD{B},
+            and \AF{pid} is the \emph{identity plug}.
+            The identity plug can be substituted in the netlist by a bus (with the adequate sizes),
+            and is defined (together with other useful plugs) in the \AM{PiWare.Plugs} module.
+
+
 
 
         \subsection{The \texttt{Synthesizable} type class}
