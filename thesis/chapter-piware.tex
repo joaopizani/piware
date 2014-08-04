@@ -349,15 +349,98 @@
                \AL{netlist} \AY{:} \AY{(}\AB{g} \AY{:} \AD{Fin} \AY{(}\AI{suc} \AL{|Gates|-1}\AY{)}\AY{)} \AY{→} \AD{VHDLEntity} \AY{(}\AL{ins} \AB{g}\AY{)} \AY{(}\AL{out} \AB{g}\AY{)}
             \end{center}
 
-            Notice that the \AD{VHDLEntity} is also parameterized by the input and output sizes of the circuit,
-            tying in this way the Π-Ware fundamental gate interface with the \ac{VHDL} abstract syntax.
+            The \AD{VHDLEntity} is also parameterized by the input and output sizes of the circuit,
+            tying the Π-Ware fundamental gate interface with the \ac{VHDL} abstract syntax.
 
             \subsubsection{Instance for \texttt{BoolTrio}}
+            One specific instance of gate library is already "shipped" with Π-Ware:
+            the usual set of boolean gates
+            $\{ \text{\texttt{NOT}}, \text{\texttt{AND}}, \text{\texttt{OR}} \}$, together with
+            the constants $\{ \text{\texttt{FALSE}}, \text{\texttt{TRUE}} \}$.
+            The first definitions establish that this library contains five gates:
+
+            \begin{center}
+                \ExecuteMetaData[agda/latex/PiWare/Gates/BoolTrio.tex]{cardinality}
+            \end{center}
+
+            Then, as already done in the instance of \AD{Atomic}, we define some \emph{pattern synonyms}
+            to make the gate identifiers easier to read:
+
+            \begin{center}
+                \ExecuteMetaData[agda/latex/PiWare/Gates/BoolTrio.tex]{pattern-synonyms}
+            \end{center}
+
+            The next step is to define the \emph{interface} of each gate on the library.
+            All gates have exactly one output, while the number of inputs vary from 0 to 2.
+
+            \begin{center}
+                \ExecuteMetaData[agda/latex/PiWare/Gates/BoolTrio.tex]{ins-outs}
+            \end{center}
+
+            Finally, the last piece of information needed to define the gate library is
+            the functional specification of each gate.
+
+            \begin{center}
+                \ExecuteMetaData[agda/latex/PiWare/Gates/BoolTrio.tex]{spec}
+            \end{center}
+
+            Notice that the gates use \AD{Bool} from Agda's standard library as their \AD{Atom} type.
+            Also the logic operators from the standard library (\AM{Data.Bool}) are used in the specification.
+            With all the necessary pieces of the puzzle in hand, the definition of the \AD{BoolTrio}
+            gate library is as follows:
+
+            \begin{center}
+                \ExecuteMetaData[agda/latex/PiWare/Gates/BoolTrio.tex]{BoolTrio}
+            \end{center}
 
 
         \subsection{High-level circuit datatype}
         \label{subsec:high-level-circuit}
-            %% TODO: remark about notation: prime for low-level
+            When presenting the low-level circuit datatype (\AD{ℂ'}) on Section~\ref{sec:circuit-syntax},
+            it was mentioned that the representation using \AD{ℂ'} is untyped and unstructured, i.e.,
+            all circuit inputs and outputs at that level are just sequences of \AD{Atom}s (for example, bits).
+
+            However, the user of Π-Ware is not supposed to actually model circuits using the \AD{ℂ'} datatype.
+            There is a layer of abstraction sitting on top of \AD{ℂ'},
+            and circuits at this higher level have inputs and outputs with Agda types.
+            This layer is coded as the \AD{ℂ} datatype, shown in Listing~\ref{lst:Circuit}.
+
+            \begin{listing}[h]
+                \ExecuteMetaData[agda/latex/PiWare/Circuit.tex]{Circuit}
+                \caption{High-level circuit datatype (\AD{ℂ}).\label{lst:Circuit}}
+            \end{listing}
+
+            First of all, notice the \emph{lack of a prime symbol in the name of the datatype}.
+            This is a general naming convention used throughout the whole Π-Ware library:
+            whenever there are two versions of a definition, one at a low level of abstraction and
+            one higher, the low-level gets the same name of the high-level one, with a prime symbol as suffix.
+
+            In contrast to the low-level (\AD{ℂ'}) circuit type, \AD{ℂ} is parameterized by two Agda \AD{Set}s,
+            and has only one constructor - \AI{Mkℂ} - which "packs" the low-level circuit description
+            together with the information about how to convert between the input/output Agda types
+            (resp. \AB{α} and \AB{β}) and the appropriately-sized \emph{words} used in the low level.
+            This conversion information is represented by the \AD{⇓𝕎⇑} type class (pronounced "Synthesizable"),
+            which is covered in more detail on Section~\ref{subsec:synthesizable}.
+
+            Further, the \AM{PiWare.Circuit} module defines also \emph{smart constructors} for \AD{ℂ},
+            corresponding to each of the constructors at the low level.
+            One example is the smart constructor for parallel composition:
+
+            \begin{center}
+                \ExecuteMetaData[agda/latex/PiWare/Circuit.tex]{par}
+            \end{center}
+
+            Using a \emph{gate library} together with these smart constructors, one can then model
+            hardware circuits which operate over Agda types.
+            One very simple example is a \texttt{XOR} circuit (shown in Listing~\ref{lst:xor-sample}),
+            built using the \texttt{BoolTrio} gate library mentioned before.
+
+            \begin{listing}[h]
+                \ExecuteMetaData[agda/latex/PiWare/Samples/BoolTrioComb.tex]{fundamentals}
+                \newline
+                \ExecuteMetaData[agda/latex/PiWare/Samples/BoolTrioComb.tex]{xor}
+                \caption{Example of a \texttt{XOR} gate built with the \texttt{BoolTrio} library.\label{lst:xor-sample}}
+            \end{listing}
 
 
         \subsection{The \texttt{Synthesizable} type class}
@@ -378,8 +461,7 @@
                 \subitem Eval of a fundamental gate is just its \emph{definitional behaviour}
 
             \item For sequential circuits we use a \emph{causal stream semantics}
-            %% TODO: couldn't we restrict it even more and just keep ONE PAST VALUE in the context?
-                \subitem Current output depends on the current input and (possibly) on the past input
+                \subitem Current output depends on the current input and (possibly) on the past inputs
                 \subitem \emph{Different} than plain Stream functions
 
             \item There's also an eval function which allows the circuit to be viewed as function from Stream to Stream
