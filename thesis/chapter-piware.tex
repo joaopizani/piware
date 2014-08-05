@@ -535,7 +535,7 @@
             let's first calculate how many atoms are necessary to represent a sum.
 
             With a given encoding for set \AB{α} (\AB{sα} \AY{:} \AD{𝕎} \AB{i})
-            and one for β (\AB{β} \AY{:} \AD{𝕎} \AB{j}), it is clear that at least \AB{i} \AF{⊔} \AB{j} atoms
+            and one for β (\AB{sβ} \AY{:} \AD{𝕎} \AB{j}), it is clear that at least \AB{i} \AF{⊔} \AB{j} atoms
             are necessary to encode \AB{α} \AD{⊎} \AB{β}; the size of a sum is at least the maximum
             among the sizes of its summands.
             Furthermore, it is necessary to somehow encode the choice (whether the sum was built from
@@ -554,6 +554,54 @@
             three \emph{atom indices} (\AB{n}, \AB{m} and \AB{p}) and a proof that \AB{n} and \AB{m} are different.
             The atom index \AB{n} gives the \AD{Atom} to be used in case the sum is built from the left (\AL{inj₁}).
             and \AB{m} for the case when it is built from the right (\AL{inj₂}).
+            They need to be different in order for the choice information not to be lost when synthesizing a sum.
+            At last, the \AB{p} parameter identifies the atom used for padding.
+
+            In the \AF{down} function, the \AF{[\_,\_]} sum \emph{destructor} is used,
+            and is passed two functions: one to operate at the left case and one at the right.
+            They prepend to the output word an atom identified by either \AB{n} or \AB{m} and pad
+            either \AB{a} or \AB{b} to fit \AB{i} \AF{⊔} \AB{j}.
+
+            In the \AF{up} conversion, first the \emph{tag} is used to transform the input word into
+            a sum of words (\AD{𝕎} \AB{i} \AD{⊎} \AD{𝕎} \AB{j}),
+            then the \AF{map⊎} function is used to apply either the \AL{⇑} instance for \AB{α} or for \AB{β},
+            giving the desired result type of \AB{α} \AD{⊎} \AB{β}.
+
+            \subsubsection{Recursive instance search}
+            To model synthesizable datatypes, we used the Agda way of implementing Haskell's type classes,
+            namely, to code a type class as a record type, in which each field corresponds to a method.
+            In this analogy, instances are just elements of the record type, and class constraints are
+            coded in Agda by passing \emph{instance arguments}~\cite{typeclasses-agda} to the constrained function.
+            Arguments passed in this way will be searched among the identifiers available in scope,
+            in a type-directed fashion, similar to how the mechanism of instance search works in Haskell.
+
+            However, there was (until recently) a big drawback to Agda's instance search implementation:
+            it was not recursive.
+            There were some arguments for this decision in the seminal paper,
+            most notably that having fully recursive instance resolution would
+            "expose an additional computational model" and that the instance search mechanism
+            would need to "perform a reasonably powerful automated proof search".
+
+            During the last years, since the publication of the paper on instance arguments~\cite{typeclasses-agda},
+            demand has grown for recursive instance search in Agda, and in a recent contribution to the Agda codebase
+            by Guillaume Brunerie~\footnote{\url{https://github.com/agda/agda/commit/7ca60fd60aec1b73d9f14aaa6e1aeef184bcca79}},
+            costs and benefits were again weighted, and a reasonably efficient implementation was released
+            in Agda version 2.4.0.2 (current version at the time of writing this report).
+
+            The impact of this change for Π-Ware is immense.
+            Recursive instance resolution removes the need for a great deal of boilerplate code.
+            For example, before the advent of recursive resolution, modelling the \texttt{XOR} circuit
+            on Listing~\ref{lst:xor-sample} required the user to manually construct instances of \AD{⇓𝕎⇑}
+            for more than 5 types
+            ( \AD{𝔹} \AD{×} \AD{𝔹}
+            , \AY{(}\AD{𝔹} \AD{×} \AD{𝔹}\AY{)} \AD{×} \AD{𝔹}
+            , \AD{𝔹} \AD{×} \AY{(}\AD{𝔹} \AD{×} \AD{𝔹}\AY{)}
+            , \AY{(}\AD{𝔹} \AD{×} \AY{(}\AD{𝔹} \AD{×} \AD{𝔹}\AY{)}\AY{)} \AD{×} \AY{(}\AD{𝔹} \AD{×} \AD{𝔹}\AY{)}
+            , etc.).
+            Now all of this work is done by Agda itself.
+            On the other hand, the typechecking time grew a little,
+            and this could be a problem when modelling big circuits, as discussed in Section~\ref{subsec:current-limitations}.
+
 
     \section{Circuit Semantics}
     \label{sec:circuit-semantics}
