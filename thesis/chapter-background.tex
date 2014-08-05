@@ -159,7 +159,6 @@
 
         \subsection{Embedded Functional Hardware Description}
         \label{subsec:embedded-functional-hardware}
-            % General context, history
             \acrodef{EHDL}{Embedded Hardware Description Language}
             With the growing popularity and advocacy~\cite{hudak-edsls} of \emph{embedded} \acp{DSL},
             a trend emerged of also having embedded \acp{HDL}.
@@ -573,7 +572,7 @@
             This provides yet another powerful way of expressing requirements of function arguments,
             and showing that the result returned satisfies some desired property.
 
-            For example, we have already shown (in listing~\ref{lst:take-decl}) how to have a safe
+            For example, we have already shown (in Listing~\ref{lst:take-decl}) how to have a safe
             version of a prefix-taking function for statically-sized arrays:
             by using a specially-designed type for the desired amount.
             Now we have another way to express the same requirement:
@@ -601,8 +600,6 @@
 
     \section{Hardware and dependent types}
     \label{sec:hardware-dtp}
-        %% TODO
-        %% Others
         %% Coquet
         %%     Turning design mistakes into TYPE ERRORS
         %%     Proving properties about circuit behaviour
@@ -617,8 +614,18 @@
         In this paper, the authors give a mapping between the usual, Peano-based, naturals and binary numbers,
         which they then use to build a (ripple-carry) binary adder which is \emph{correct by construction}.
 
-        \begin{itemize}
-            \item Elaborate on~\cite{certifying-circuits-cic}
-            \item Describe Coquet and elaborate on which points Π-Ware borrows from it.
-        \end{itemize}
+        This approach is significantly different than the one taken in Π-Ware.
+        In the paper by Brady, McKinna \& Hammond~\cite{brady-constructing},
+        the functional specification of a circuit is carried \emph{in the type} of the circuit.
+        This, according to the authors, means that
+        "a type correct program is a constructive proof that the programm meets its specification".
+        In Π-Ware, on the other hand, a circuit's type only express its input and output types,
+        and give some \emph{structural well-formedness guarantees} (correct sizing).
+        The development of Π-Ware was already underway as this paper first came to my knowledge.
+        Even so, the decision of keeping circuits and proofs apart (though in the same language)
+        still seems to have been the right one; mainly because of the requirement that circuits
+        be synthesizable to \ac{VHDL}.
+
+        \subsection{Coquet}
+        \label{subsec:coquet}
 
