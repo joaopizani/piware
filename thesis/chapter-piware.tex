@@ -47,7 +47,7 @@
         The indices of \AD{ℂ'} represent, respectively, the \emph{size} of the circuit's input and output.
         This can be thought of as the number of "wires" entering (resp. leaving) that circuit.
         Notice that the representation of inputs and outputs used in \AD{ℂ'} is untyped and unstructured.
-        However, there is another -- higher-level -- circuit datatype (\AD{ℂ}),
+        However, there is another – higher-level – circuit datatype (\AD{ℂ}),
         which adds a layer of typing \emph{on top} of \AD{ℂ'},
         and constitutes the actual intended \emph{interface} between the user (hardware designer) and Π-Ware.
         This abstraction layer will be discussed in more detail on Section~\ref{subsec:high-level-circuit}.
@@ -139,8 +139,8 @@
             and the value of its current outputs depend only on the value of its current inputs.
 
             This information is represented by a metalanguage truth value,
-            an Agda \AF{Set} which can be either \AF{⊤} (the \AF{Set} with one value -- "top") or
-            \AF{⊥} (the \AF{Set} with no values -- "bottom").
+            an Agda \AF{Set} which can be either \AF{⊤} (the \AF{Set} with one value – "top") or
+            \AF{⊥} (the \AF{Set} with no values – "bottom").
 
             The predicate \AF{comb'} over low-level (\AF{ℂ'}) circuits defines when is a circuit purely combinational.
             The code for \AF{comb'} is shown on Listing~\ref{lst:comb-core}.

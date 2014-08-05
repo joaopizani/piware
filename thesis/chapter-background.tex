@@ -62,7 +62,7 @@
         taking care to not generate data hazards, etc.
 
         \acrodef{HLS}{High-Level Synthesis}
-        Recently, tools have been developed for this first step -- called \ac{HLS}.
+        Recently, tools have been developed for this first step – called \ac{HLS}.
         They usually take \emph{behavioural \acs{VHDL}}, C or even C++ as input, and produce \ac{RTL} code.
         However, current \acs{HLS}-based hardware implementation chains still face two main problems:
 
@@ -263,8 +263,8 @@
             of the experimentation project conducted as preparation to this thesis.
 
             In ForSyDe, the central concepts are those of \emph{process} and \emph{signal}.
-            Whereas in Lava only \emph{synchronous} sequential circuits can be described -- that is
-            also the case in Π-Ware -- in ForSyDe processes can belong to synchronous,
+            Whereas in Lava only \emph{synchronous} sequential circuits can be described – that is
+            also the case in Π-Ware – in ForSyDe processes can belong to synchronous,
             asynchronous and continuous \emph{models of computation}.
 
             In the synchronous model of computation (which we studied more deeply),
@@ -275,7 +275,7 @@
             \acrodef{AST}{Abstract Syntax Tree}
             Instead of just using (smart) constructors of a certain \emph{circuit datatype} to build
             process functions, ForSyDe relies on \emph{Template Haskell} to
-            \emph{quote} regular Haskell syntax into an \ac{AST} -- which is then further processed by ForSyDe.
+            \emph{quote} regular Haskell syntax into an \ac{AST} – which is then further processed by ForSyDe.
             For example, the description of an adder in ForSyDe would look like the following:
 
             \begin{haskellcode}
@@ -376,7 +376,7 @@
             The circuit models in Cλash are higher-order, polymorphic functional programs,
             and they can be synthesized to \ac{VHDL} netlist.
             In this sense, Cλash serves as a good \emph{target} with which to compare hardware
-            \ac{EDSL} development efforts: it is not -- in itself -- embedded, but has the same goals.
+            \ac{EDSL} development efforts: it is not – in itself – embedded, but has the same goals.
 
 
     \section{Dependently-Typed Programming}
@@ -404,7 +404,7 @@
                 \item Polymorphism (parametric, ad-hoc, subtyping)
             \end{itemize}
 
-            The most basic form of abstraction -- values depending on values (the concept of functions) -- is
+            The most basic form of abstraction – values depending on values (the concept of functions) – is
             supported in practically all type systems.
             In some systems, the result type of functions can also depend on the \emph{types} of the arguments;
             this property is called \emph{polymorphism}.
@@ -419,7 +419,7 @@
                 \item In \emph{ad-hoc polymorphism}, the behaviour of a function varies with the type of the inputs.
                     In Haskell, ad-hoc polymorphism is implemented in the \emph{type class system}.
                     A typical example of an ad-hoc polymorphic function is a comparison-based sorting algorithm
-                    in which -- depending on the type of the elements in the collection -- different
+                    in which – depending on the type of the elements in the collection – different
                     comparison operators are be used.
             \end{itemize}
 
@@ -517,7 +517,7 @@
             can rule out incorrect implementations \emph{by design}.
             Dependently-typed languages can also be seen from a \emph{logical} point of view.
 
-            This remark -- that a programming language (with it's type system) can also be seen as a logic --
+            This remark – that a programming language (with it's type system) can also be seen as a logic –
             goes back to the early days of computing, and is known by several names,
             among which "Curry-Howard isomorphism" and "propositions as types"~\cite{propositions-as-types}.
             It initially was "discovered" as a connection between the simply-typed lambda calculus
@@ -528,7 +528,7 @@
             The system of dependent types which we use in this thesis (the one used by \emph{Agda})
             corresponds to \emph{intuitionistic predicate logic}.
 
-            Even though there are logics connected to other -- less powerful -- typed lambda calculi,
+            Even though there are logics connected to other – less powerful – typed lambda calculi,
             the one used in Agda is expressive enough to radically improve its area of use.
             In a language with dependent types, we can not only write \emph{programs}, but also \emph{proofs}.
 
@@ -590,8 +590,8 @@
             embed \acp{DSL} in Agda and get corresponding \emph{Domain-Specific Type Systems}
             (equipped with desirable properties) "for free".
 
-            The examples in "The power of Pi" -- specially the embedding of \emph{Cryptol},
-            a low-level cryptographic \ac{DSL} -- served as inspiration,
+            The examples in "The power of Pi" – specially the embedding of \emph{Cryptol},
+            a low-level cryptographic \ac{DSL} – served as inspiration,
             and lead us to investigate how dependently-typed programming can benefit hardware
             design, the main question targeted by this project.
 

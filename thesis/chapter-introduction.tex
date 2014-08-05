@@ -48,7 +48,7 @@
     \begin{itemize}
         \item Apple's recently released Swift™ language, which features immutable data structures,
             first-class functions and type inference.
-        \item Java's adoption of \emph{generics} and -- more recently -- of lambda
+        \item Java's adoption of \emph{generics} and – more recently – of lambda
             expressions\footnote{\url{http://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html}}.
         \item The concept of \emph{nullable type}\footnote{\url{http://msdn.microsoft.com/en-us/library/1t3y8s4s.aspx}}
             in C\#, equivalent to Haskell's \mintinline{haskell}{Maybe}.
@@ -70,7 +70,7 @@
     Prominent examples of this trend are the Lava~\cite{lava-1999} family,
     as well as ForSyDe~\cite{forsyde1999}.
 
-    A circuit description written in Lava -- an \ac{EDSL} hosted in Haskell -- can look like the following:
+    A circuit description written in Lava – an \ac{EDSL} hosted in Haskell – can look like the following:
 
     \begin{haskellcode}
         toggle :: Signal Bool
@@ -97,7 +97,7 @@
         \caption{Type of sized vectors and the safe \AF{head} function. \label{lst:Vect-head}}
     \end{listing}
 
-    In this example, the parameter to \AF{head} cannot be empty -- its size will be at least 1 (\AI{suc} \AI{zero}).
+    In this example, the parameter to \AF{head} cannot be empty – its size will be at least 1 (\AI{suc} \AI{zero}).
     This is expressed in the parameter's type: \AD{Vect} \AB{α} (\AI{suc} \AB{n}).
     When checking the totality of \AF{head} (whether all cases are covered by pattern matching),
     the type checker will notice that the only constructor of \AD{Vect}
@@ -143,7 +143,7 @@
     \end{figure}
 
     \acrodef{VHDL}{VHSIC Hardware Description Language}
-    In this M.Sc thesis we developed a hardware \ac{EDSL} -- Π-Ware -- which enforces this and other
+    In this M.Sc thesis we developed a hardware \ac{EDSL} – Π-Ware – which enforces this and other
     well-formedness rules using dependent types.
     Π-Ware is a \emph{deep-embedded} \ac{DSL} hosted in the Agda programming language,
     supporting simulation for combinational and synchronous sequential circuits.
