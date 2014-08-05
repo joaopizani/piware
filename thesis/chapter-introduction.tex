@@ -5,8 +5,8 @@
     Several factors have been causing an increasing demand for hardware acceleration of algorithms.
     On the one hand, Moore's law still holds for the near future~\cite{itrs},
     which means bigger circuits in the same wafer area.
-    On the other hand, advances in \ac{ILP} and microarchitecture are starting to have diminishing
-    returns~\cite{dark-silicon}.
+    On the other hand, advances in \ac{ILP} and microarchitecture of processors
+    are starting to have diminishing returns~\cite{dark-silicon}.
 
     Also, there is pressure to reduce the duration and cost of the circuit design process.
     These trends are at odds with the techniques and tooling used in the hardware design process,
@@ -20,7 +20,7 @@
     One infamous example of such a bug reaching the consumer was the \emph{FDIV} bug in Intel's Pentium chip,
     which might have costed the company over 400 million dollars~\cite{intel-fdiv}.
 
-    In the software industry, specially in application domains requiring high correctness assurance
+    In the software industry, especially in application domains requiring high correctness assurance
     (such as information security, machine control, etc.),
     functional programming techniques have long been used to improve productivity
     and reduce the need for extensive testing and debugging.
@@ -79,7 +79,7 @@
 
     Even though pure functional languages (especially Haskell) are well-suited for implementing \acp{EDSL},
     there is still room for improvement in the type-safety of the embedded languages.
-    This can be done by hosting the \acp{EDSL} in language supporting \emph{dependent types},
+    This can be done by hosting the \acp{EDSL} in a language supporting \emph{dependent types},
     as exemplified in the paper "The Power of Pi"~\cite{power-pi}.
 
     A type system with \emph{dependent types} can express strong properties about the programs written in it.
@@ -87,14 +87,14 @@
     but because of the expressive power of dependent types, we can also see them as \emph{interactive theorem provers}.
 
     \acrodef{DTP}{Dependently-Typed Programming}
-    Using dependent types, one can more easily being together \emph{specification} and \emph{implementation}.
+    Using dependent types, one can more easily bring together \emph{specification} and \emph{implementation}.
     The type signature of a function can give many more \emph{guarantees} about its behaviour.
-    A classical example when introducing \ac{DTP} is the type of sized vectors,
+    A classical example when introducing \ac{DTP} is the type of statically-sized vectors,
     along with the safe \AF{head} function, depicted in Listing~\ref{lst:Vect-head}.
 
     \begin{listing}[h]
         \ExecuteMetaData[agda/latex/Report/ChapterIntroduction.tex]{Vect-head}
-        \caption{Type of sized vectors and a safe \AF{head} function. \label{lst:Vect-head}}
+        \caption{Type of sized vectors and the safe \AF{head} function. \label{lst:Vect-head}}
     \end{listing}
 
     In this example, the parameter to \AF{head} cannot be empty -- its size will be at least 1 (\AI{suc} \AI{zero}).
@@ -148,7 +148,7 @@
     Π-Ware is a \emph{deep-embedded} \ac{DSL} hosted in the Agda programming language,
     supporting simulation for combinational and synchronous sequential circuits.
     Furthermore, the user of Π-Ware can prove \emph{expressive} properties about circuits in the logic
-    of Agda itself (intuitionistic first-order logic).
+    of Agda itself (intuitionistic logic).
 
     In Chapter~\ref{chap:background} we will establish the questions, concepts, languages and tools
     from which we took inspiration to create Π-Ware.
@@ -158,7 +158,7 @@
     In Chapter~\ref{chap:piware} we dive into a detailed study of the Π-Ware \ac{EDSL} itself.
     We provide a detailed account of how Π-Ware works currently,
     what design decisions were involved in its development, and how to use it.
-    Specifically, we give examples of circuits modelled in Π-Ware and proofs of properties involving
+    We give examples of circuits modelled in Π-Ware and proofs of properties involving
     these circuits.
 
     Finally, in Chapter~\ref{chap:conclusions}, we discuss what has been achieved by Π-Ware as it stands
