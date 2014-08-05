@@ -41,14 +41,15 @@
         To further complicate the matter, this synthesizable subset is not \emph{syntactically seggregated}.
         One example of complex requirement for synthesizability of \acs{VHDL} is:
         "in a process, every output must be assigned a value for every possible combination of input values".
-        In Listing~\ref{lst:vhdl-unsynth-process} we have an example process violating this requirement.
+        In Listing~\ref{lst:vhdl-unsynth-process} we have an example process violating this requirement
+        (the \texttt{if} statement lacks an \texttt{else} branch, and the \texttt{y} output has no assigned
+        value when \texttt{sel} is different than zero).
 
         \begin{listing}[h]
             \begin{center}
                 \vhdlfile{code/vhdl-unsynth-process.vhd}
             \end{center}
-            \caption{Unsynthesizable \acs{VHDL} process (no \texttt{else} branch).
-                \label{lst:vhdl-unsynth-process}}
+            \caption{Unsynthesizable \acs{VHDL} process.\label{lst:vhdl-unsynth-process}}
         \end{listing}
 
         Another significant difference between hardware and software development
@@ -164,7 +165,7 @@
             a trend emerged of also having embedded \acp{HDL}.
             Functional programming languages were a natural fit for hosting \acp{DSL}.
             In particular, the Haskell programming language proved to be a popular choice of host,
-            due to features such as lazy evaluation, highly-customizable and overloadable syntax.
+            due to features such as lazy evaluation and a highly-customizable syntax.
 
             Some examples of highly-successful \acp{DSL} implemented in Haskell are:
 
@@ -196,7 +197,7 @@
 
             In Lava, circuits are written as normal Haskell functions, by using pattern matching,
             function application and local naming.
-            One extra restriction is that the types of the arguments are
+            One restriction is that the types of the arguments are
             constructed by the \texttt{Signal} type constructor.
             For example, a negation gate in Lava would have the following type signature:
 
@@ -204,7 +205,7 @@
         inv :: Signal Bool -> Signal Bool
             \end{haskellcode}
 
-            Another restriction is that all circuit inputs must be "uncurried", i.e.,
+            Another restriction is that all circuit inputs must be \emph{uncurried}, i.e.,
             even though the \emph{circuit} has several inputs, the \emph{function} modeling that circuit
             must have only one argument, with all inputs in a \emph{tuple}.
             A \texttt{NAND} gate in Lava would look like this:
@@ -258,8 +259,8 @@
             Another example of \ac{EHDL} in Haskell is ForSyDe~\cite{forsyde1999}.
             ForSyDe and Lava differ substantially in description style and internal workings,
             and a more complete comparison of the two can be found
-            in the final report of the experimentation project we conducted
-            as preparation to this thesis~\cite{functional-hardware-survey}.
+            in the final report~\cite{functional-hardware-survey}
+            of the experimentation project conducted as preparation to this thesis.
 
             In ForSyDe, the central concepts are those of \emph{process} and \emph{signal}.
             Whereas in Lava only \emph{synchronous} sequential circuits can be described -- that is
@@ -272,7 +273,7 @@
             (for example a state machine).
 
             \acrodef{AST}{Abstract Syntax Tree}
-            But, instead of just using (smart) constructors of a certain "circuit datatype" to build
+            Instead of just using (smart) constructors of a certain "circuit datatype" to build
             this process function, ForSyDe relies on \emph{Template Haskell} to
             \emph{quote} regular Haskell syntax into an \ac{AST} -- which is then further processed by ForSyDe.
             For example, the description of an adder in ForSyDe would look like the following:
@@ -288,10 +289,10 @@
         adderProc = zipWithSY "adderProcess" adderFun
             \end{haskellcode}
 
-            Notice how the \texttt{adderFun} \emph{process function} is built from a "regular" haskell function
+            Notice how the \texttt{adderFun} \emph{process function} is built from a regular Haskell function
             (\texttt{adderFun'}), which is then \emph{quoted} (by the \texttt{[d|} quasi-quoter), processed by
             \texttt{newProcFun} and finally \emph{spliced} back into place.
-            The (combinational) process function is then "lifted" into the synchronous sequential setting
+            The (combinational) process function is then \emph{lifted} into the synchronous sequential setting
             by the \texttt{zipWithSY} \emph{process constructor}, which just "zips" the inputs signals (streams)
             by applying the given process function \emph{pointwise}.
 
@@ -385,10 +386,14 @@
         \label{subsec:type-systems}
             A type system, in the context of programming languages,
             serves the purpose of grouping values, so that meaningless and potentially undesirable operations are avoided.
-            For example, it would be silly to add an integer number and a character string.
-            In fact, it is hard to imagine an addition operation accepting such arguments and having nice algebraic properties.
-            To define addition sensibly, therefore, we need the help of a type system,
-            to ban all programs that would try to add these incompatible values.
+            For example, in some dynamic languages, a string and an integer can be "added",
+            because the language runtime first \emph{implicitly casts} the integer to a string,
+            effectively performing string concatenation.
+            This \emph{implicit} behaviour can cause all sorts of programmer mistakes to go undetected.
+            It is also hard to formulate properties about addition \emph{in general} when all sorts
+            of coercions can happen at runtime.
+            To define addition sensibly, therefore, a type system can help by
+            banning all programs that would try to add incompatible values.
 
             Type systems can have very different properties and be implemented in very different ways.
             Some of the ways in which type systems can be categorized are~\cite{understanding-types-cardelli}:
@@ -399,7 +404,6 @@
                 \item Polymorphism (parametric, ad-hoc, subtyping)
             \end{itemize}
 
-            %% TODO: the "road to" dependent types. GIVE EXAMPLES AT EACH STEP
             The most basic form of abstraction -- values depending on values (the concept of functions) -- is
             supported in practically all type systems.
             In some systems, the result type of functions can also depend on the \emph{types} of the arguments;
@@ -442,7 +446,7 @@
             Now any "constant" definition will \emph{not anymore fit the type specified}.
             This because the only way to get an element of the \emph{polymorphic type} \texttt{a}
             is to use what is in the parameter passed to the function.
-            However, we could still write a wrong function with this type, namely the identity:
+            However, we could still write a wrong functions with this type, for example the identity:
             \begin{haskellcode}
         swap'' (x , y) = (x , y)
             \end{haskellcode}
@@ -454,7 +458,7 @@
         swap :: (a , b) -> (b , a)
             \end{haskellcode}
 
-            Now, \emph{any definition with this type} is a correct definition of swap.
+            Now, \emph{any total definition with this type} is a correct definition of swap.
             Because of the way in which we use type variables (\texttt{a} and \texttt{b}) in the signature,
             there is only one possible implementation of \texttt{swap}:
             \begin{haskellcode}
@@ -487,32 +491,25 @@
             First of all, when indexing or obtaining a prefix from a vector,
             we need to ensure that the index (or amount to be extracted) is within bounds.
             That is, we cannot \AF{take} more elements than the size of the vector.
+            The type signature of \AF{take} is shown in Listing~\ref{lst:take-decl}.
 
-            To achieve this goal, we define a datatype (\AD{Fin} \AB{n}) of natural numbers smaller than \AB{n}.
-            \begin{listing}[h]
-                \ExecuteMetaData[agda/latex/Report/ChapterBackground.tex]{Fin}
-            \end{listing}
-
-            With this definition, \AD{Fin} \AN{0} is a type with no elements,
-            while \AD{Fin} \AN{1} has 1 element (\AI{zero}),
-            \AD{Fin} \AN{2} has 2 elements (\AI{zero} and \AI{suc} \AI{zero}), and so forth\ldots
-            Thus, the elements of \AD{Fin} \AB{n} correspond to natural numbers smaller than \AB{n}.
-
-            Now, having defined the \AD{Fin} \AB{n} datatype, we can write the type signature for \AF{take}:
             \begin{listing}[h]
                 \ExecuteMetaData[agda/latex/Report/ChapterBackground.tex]{take-decl}
                 \caption{A "safe" prefix-taking function for sized vectors. \label{lst:take-decl}}
             \end{listing}
 
-            On the signature of \AF{take}, dependent types are used both to restrict the \emph{domain}
-            ($ k \leq n $) and to express a desired property of the \emph{result}
-            (length of the returned vector should be \AB{k}).
-            Finally, we observe that the type of \AF{take} is not a \emph{sufficient condition} for
-            what we would intuitively conceive as being a "correct" prefix-taking function.
+            In the signature of \AF{take}, a dependent function space is used both
+            to restrict the \emph{domain} and to express a desired property of the \emph{result}.
+            Notice how the vector parameter has a type (\AD{Vec} \AB{α} \AY{(}\AB{k} \AF{+} \AB{n}\AY{)})
+            which \emph{depends on the value} of the first (explicit) parameter: \AB{k}.
+            Also, the result type is restricted to \AD{Vec} \AB{α} \AB{k}.
+
+            Finally, we observe that the type of \AF{take} is a \emph{necessary but not sufficient condition}
+            for what we would intuitively conceive as being a "correct" prefix-taking function.
             There are "wrong" implementations which still would have this type, for example
             returning a constant vector of size \AB{k}.
-            This type is, however, provides many more \emph{static guarantees}:
-            All implementations violating bounds and producing incorrectly-sized results
+            This type, however, provides many more \emph{static guarantees}:
+            all implementations violating bounds and producing incorrectly-sized results
             are ruled out \emph{by the type checker at compile-time}.
 
             Until now, we have approached languages with dependent types as a way to help with \emph{programming}.
@@ -531,8 +528,6 @@
             The system of dependent types which we use in this thesis (the one used by \emph{Agda})
             corresponds to \emph{intuitionistic predicate logic}.
 
-            %% TODO: what intuitionistic predicate logic means?
-
             Even though there are logics connected to other -- less powerful -- typed lambda calculi,
             the one used in Agda is expressive enough to radically improve its area of use.
             In a language with dependent types, we can not only write \emph{programs}, but also \emph{proofs}.
@@ -546,8 +541,27 @@
                     \label{lst:nat-le}}
             \end{listing}
 
-            Having defined this relation, we can prove several useful properties of it:
-            for example, the fact~(\ref{lst:le-trans}) that this relation is transitive.
+            Having defined this relation, we can then prove facts which involve it.
+            For example, one trivial fact is that two is smaller-than-or-equal to four,
+            which has the trivial proof shown in Listing~\ref{lst:le-two-four}.
+
+            \begin{listing}[h]
+                \ExecuteMetaData[agda/latex/Report/ChapterBackground.tex]{le-two-four}
+                \caption{A very simple proof involving the $\le$ relation over natural numbers.
+                    \label{lst:le-two-four}}
+            \end{listing}
+
+            Following the "propositions as types" isomorphism, the type of \AF{twoLEQFour}
+            is a logic statement, and the expression to the right-hand side of the equals sign
+            (the body of the function) is a \emph{proof} of this statement.
+            The proof is built with \AI{z≤n} as its "basis", the fact that \AI{zero} is
+            lesser-than-or equal to any number.
+            Then \AI{s≤s} is applied twice, producing, respectively, \AN{1} \AD{≤} \AN{4}
+            and finally \AN{2} \AD{≤} \AN{4}.
+
+            Of course more "interesting" and general statements can be proved.
+            For example, the fact that the $\le$ relation is \emph{transitive} is
+            stated and proved in Listing~\ref{lst:le-trans}.
 
             \begin{listing}[h]
                 \ExecuteMetaData[agda/latex/Report/ChapterBackground.tex]{le-trans}
