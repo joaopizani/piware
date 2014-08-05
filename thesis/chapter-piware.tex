@@ -49,14 +49,14 @@
         Notice that the representation of inputs and outputs used in \AD{ℂ'} is untyped and unstructured.
         However, there is another -- higher-level -- circuit datatype (\AD{ℂ}),
         which adds a layer of typing \emph{on top} of \AD{ℂ'},
-        and constitutes the actual intended "interface" between the user (hardware designer) and Π-Ware.
+        and constitutes the actual intended \emph{interface} between the user (hardware designer) and Π-Ware.
         This abstraction layer will be discussed in more detail on Section~\ref{subsec:high-level-circuit}.
 
         To better understand the reasoning behind the design of the low-level \AD{ℂ'} datatype,
         its constructors can be considered to belong to one of three categories:
 
         \begin{description}
-            \item[Fundamental:] These construct "predefined", or "atomic" circuits, with no sub-components.
+            \item[Fundamental:] These construct predefined, or "atomic" circuits, with no sub-components.
                 \begin{itemize}
                     \item \AI{Nil}: The \emph{empty circuit}. Performs no computation and has neither inputs nor outputs.
                         It is mainly useful as a "base case" when building large circuits with recursive definitions.
@@ -108,7 +108,7 @@
 
             \begin{description}
                 \item[No floating wires] Circuit sizes need to match in order for the usage of a constructor
-                    to be type-correct. In particular, no circuit \emph{input} wires are ever left "disconnected".
+                    to be type-correct. In particular, no circuit \emph{input} wires are ever left \emph{disconnected}.
                     Figure~\ref{fig:sequencing-floating} illustrates an example of a situation banned by the sizing rule present
                     in the type of \AI{\_⟫'\_}.
 
@@ -123,7 +123,7 @@
                     In this way, definitions connecting multiple inputs to the same output are banned,
                     as they are \emph{not} functions from outputs to inputs.
                     Also, when a plug is used between two sub-circuits $c₁$ and $c₂$,
-                    a definition in which an \emph{input} of $c₂$ would be left "disconnected" is disallowed by Agda,
+                    a definition in which an \emph{input} of $c₂$ would be left \emph{disconnected} is disallowed by Agda,
                     as such a definition would not be \emph{total}.
                     The diagram on Figure~\ref{fig:plug-seq-disconnected-input} represents such a banned situation:
 
@@ -135,7 +135,7 @@
 
             \subsubsection{Purely combination vs. possibly sequential}
             Another piece of information "carried" together with circuits is whether it is
-            \emph{purely combinational}, i.e., has no internal state, no notion of "history",
+            \emph{purely combinational}, i.e., has no internal state, no notion of \emph{history},
             and the value of its current outputs depend only on the value of its current inputs.
 
             This information is represented by a metalanguage truth value,
@@ -313,7 +313,7 @@
 
             The first field of the \AD{Gates} record (\AL{|Gates|-1}) determines \emph{how many}
             gates the library has, and consequently also the \emph{the type used as gate index}
-            (or "gate identifier"), which is \AF{Gates\#} \AY{=} \AF{Fin} \AF{|Gates|}.
+            (or \emph{gate identifier}), which is \AF{Gates\#} \AY{=} \AF{Fin} \AF{|Gates|}.
 
             For each gate identifier, the functions \AL{ins} and \AL{outs} determine, respectively,
             the size of the input and output of that gate; therefore together they determine the gate's \emph{interface}.
@@ -336,7 +336,7 @@
             function given for it in the gate library definition.
 
             \subsubsection{Relation to synthesis}
-            Even though fundamental gates are "atomic" (have no subcomponents) \emph{at the Π-Ware level},
+            Even though fundamental gates have no subcomponents \emph{at the Π-Ware level},
             they are not in any way directly synthesizable to \ac{VHDL}.
             To convert a Π-Ware circuit to \ac{VHDL}, each fundamental gate in the library being used
             needs to have a corresponding excerpt of \ac{VHDL} code representing it.
@@ -419,7 +419,7 @@
             and has only one constructor - \AI{Mkℂ} - which "packs" the low-level circuit description
             with the information on how to convert between the input/output Agda types
             (resp. \AB{α} and \AB{β}) and the appropriately-sized \emph{words} used in the low level.
-            This conversion information is coded in the \AD{⇓𝕎⇑} type class (pronounced "Synthesizable"),
+            This conversion information is coded in the \AD{⇓𝕎⇑} type class (pronounced \texttt{Synthesizable}),
             which is covered in more detail on Section~\ref{subsec:synthesizable}.
 
             Furthermore, the \AM{PiWare.Circuit} module defines also \emph{smart constructors} for \AD{ℂ},
@@ -457,7 +457,7 @@
         \subsection{The \texttt{Synthesizable} type class}
         \label{subsec:synthesizable}
             The "connection" between the low-level (\AD{ℂ'}) and high-level (\AD{ℂ}) circuit types
-            is done by the \AD{⇓𝕎⇑} type class (pronounced "Synthesizable").
+            is done by the \AD{⇓𝕎⇑} type class (pronounced \texttt{Synthesizable}).
             Instances of the \AD{⇓𝕎⇑} class define a mapping between a given Agda type
             and an appropriately-sized \emph{word} type.
             Word types (\AD{𝕎} \AB{n}, for some \AB{n}) are \emph{synthesizable} to \ac{VHDL} vectors,

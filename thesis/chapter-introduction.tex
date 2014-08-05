@@ -123,7 +123,7 @@
     Therefore, it returns a collection of groups "sliced" from the original vector, each with the requested size.
     Additionally, it returns a proof that concatenating all groups results in the original vector.
     This type serves as a \emph{complete specification of correctness} for the function.
-    Any function with this type is, by definition, a \emph{correct "grouping" function}.
+    Any function with this type is, by definition, a \emph{correct grouping function}.
 
     \acrodef{DSL}{Domain-Specific Language}
     In a deep-embedded \acs{DSL} for hardware there is usually a \emph{type} representing circuits.
@@ -133,13 +133,13 @@
     to eliminate as many \emph{classes of design mistakes} as possible.
 
     Depedent type systems allow for easy expression of these \emph{well-formedness} rules for circuits.
-    One simple criterion of circuit \emph{well-formedness} is, for example, that it contains no "floating" signals.
+    One simple criterion of circuit \emph{well-formedness} is, for example, that it contains no \emph{floating} signals.
     That is, all of a circuit's internal components must have all their ports connected.
     Figure~\ref{fig:floating-wire} shows an example of circuit violating this rule.
 
     \begin{figure}[h]
         \centerline{\includegraphics[width=0.3\textwidth]{imgs/floating-wire.pdf}}
-        \caption{Malformed circuit with a "floating" signal. \label{fig:floating-wire}}
+        \caption{Malformed circuit with a \emph{floating} signal. \label{fig:floating-wire}}
     \end{figure}
 
     \acrodef{VHDL}{VHSIC Hardware Description Language}
