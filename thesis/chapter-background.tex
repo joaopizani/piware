@@ -46,9 +46,7 @@
         value when \texttt{sel} is different than zero).
 
         \begin{listing}[h]
-            \begin{center}
-                \vhdlfile{code/vhdl-unsynth-process.vhd}
-            \end{center}
+            \centering{\vhdlfile{code/vhdl/vhdl-unsynth-process.vhd}}
             \caption{Unsynthesizable \acs{VHDL} process.\label{lst:vhdl-unsynth-process}}
         \end{listing}
 
@@ -618,7 +616,8 @@
         In the paper by Brady, McKinna \& Hammond~\cite{brady-constructing},
         the functional specification of a circuit is carried \emph{in the type} of the circuit.
         This, according to the authors, means that
-        "a type correct program is a constructive proof that the programm meets its specification".
+        "a type correct program is a constructive proof that the program meets its specification".
+
         In Π-Ware, on the other hand, a circuit's type only express its input and output types,
         and give some \emph{structural well-formedness guarantees} (correct sizing).
         The development of Π-Ware was already underway as this paper first came to my knowledge.
@@ -628,4 +627,52 @@
 
         \subsection{Coquet}
         \label{subsec:coquet}
+            The most significant source of inspiration for the design of Π-Ware was
+            Coquet~\cite{coquet2011}, a \ac{DSL} for hardware embedded in the Coq
+            language\footnote{Referring to Coq as a language is a misnomer, as it is
+                an interactive theorem prover that uses different languages for defining terms,
+                interactive commands, and user-defined proof tactics}.
+            Coquet and Π-Ware share some very important characteristics and differ on several others,
+            with these differences caused not only by the different host languages used (Coq and Agda),
+            but also by different implementations chosen for some core concepts.
 
+            First of all, the similarities.
+            Coquet's circuit datatype utilizes the same concept of \emph{structural} description
+            as Π-Ware, with a "fundamental" gate constructor and constructors for structural combination.
+            The \mintinline{coq}{Circuit} datatype of Coquet is shown on Listing~\ref{lst:coquet-circuit}.
+
+            \begin{listing}[h]
+                \centering{\coqfile{code/coq/coquet-circuit.v}}
+                \caption{Coquet's \mintinline{coq}{Circuit} datatype.\label{lst:coquet-circuit}}
+            \end{listing}
+
+            Some differences between Coquet's \mintinline{coq}{Circuit} and that of Π-Ware
+            (detailed in Section~\ref{sec:circuit-syntax}) are immediately noticeable:
+
+            \begin{description}
+                \item[Indices are \mintinline{coq}{Type}s, instead of just sizes]
+                    In Π-Ware, the core circuit datatype is indexed by two natural numbers,
+                    representing the \emph{sizes} of the circuits input and output.
+                    In Coquet, the indices are arbitrary types, \emph{constrained} by the
+                    \mintinline{coq}{Fin} \emph{type class}.
+                    The definition of \mintinline{coq}{Fin} makes synthesis of Coquet's circuits
+                    \emph{interfaces} to \ac{VHDL} harder.
+                    Before settling for the natural number indices on Π-Ware, another alternative
+                    for generalization was considered, detailed in Section~\ref{subsec:current-limitations}.
+
+                \item[Lack of a "sum" constructor]
+                    Both Coquet and Π-Ware have a "parallel composition" constructor
+                    which, given two circuits as arguments (with inputs respectively \AB{α} and \AB{β}),
+                    will build a circuit which has the \emph{product} \AB{α} \AD{×} \AB{β} as its input.
+                    Π-Ware, however, has an extra "sum" constructor, building a circuit which is capable
+                    of "deciding" which one of the two subcircuits to apply to an input depending on a \emph{tag}.
+                    This is useful for implementing, for example, generic multiplexers.
+
+                \item[Single fundamental gate vs. \emph{gate library}]
+                    Coquet's fundamental constructor (\mintinline{coq}{Atom}) is parameterized
+                    by the \mintinline{coq}{techno} instance, which gives the description of \textbf{one}
+                    technology-dependent gate (\texttt{NAND}, \texttt{NOR}, etc.).
+                    Π-Ware circuit descriptions, however, are parameterized by a \emph{gate library},
+                    which has attached specification functions to each of its elements,
+                    as detailed in Section~\ref{subsec:gate-library}.
+            \end{description}
