@@ -23,7 +23,7 @@
         kept in mind throughout the whole development.
 
         The circuit datatype (\AD{ℂ'}) is the most \emph{fundamental} of the whole library.
-        It is defined as an dependent inductive family, indexed by two natural numbers,
+        It is defined as a dependent inductive family, indexed by two natural numbers,
         as shown in Listing~\ref{lst:Circuit-core}.
 
         \begin{listing}[h]
@@ -51,7 +51,7 @@
         its constructors can be considered to belong to one of three categories:
 
         \begin{description}
-            \item[Fundamental:] These construct predefined, or "atomic" circuits, with no sub-components.
+            \item[Fundamental:] These construct predefined or "atomic" circuits, with no sub-components.
                 \begin{itemize}
                     \item \AI{Nil}: The \emph{empty circuit}. Performs no computation and has neither inputs nor outputs.
                         It is mainly useful as a "base case" when building large circuits with recursive definitions.
@@ -78,8 +78,8 @@
 
         These descriptions are just a rough summary of the \emph{synthesis semantics} of Π-Ware, that is,
         how each circuit constructor creates a netlist, given netlists as arguments.
-        The precise \emph{definitions} of the synthesis semantics is given in Section~\ref{sec:circuit-semantics}.
-        The same section also contains a detailed definition and explanation of a simulation semantics
+        The precise \emph{definition} of the synthesis semantics is given in Section~\ref{sec:circuit-semantics}.
+        The same section contains a detailed definition and explanation of a simulation semantics
         for Π-Ware circuits, both purely combinational and sequential ones.
 
         \subsection{Design discipline enforced by circuit constructors}
@@ -128,7 +128,7 @@
                     \end{figure}
             \end{description}
 
-            \subsubsection{Purely combination vs. possibly sequential}
+            \subsubsection{Purely combinational vs. possibly sequential}
             Another piece of information "carried" together with circuits is whether it is
             \emph{purely combinational}, i.e., has no internal state, no notion of \emph{history},
             and the value of its current outputs depend only on the value of its current inputs.
@@ -137,7 +137,7 @@
             an Agda \AF{Set} which can be either \AF{⊤} (the \AF{Set} with one value – "top") or
             \AF{⊥} (the \AF{Set} with no values – "bottom").
 
-            The predicate \AF{comb'} over low-level (\AF{ℂ'}) circuits defines when is a circuit purely combinational.
+            The predicate \AF{comb'} over low-level (\AF{ℂ'}) circuits defines whether a circuit purely combinational.
             The code for \AF{comb'} is shown on Listing~\ref{lst:comb-core}.
 
             \begin{listing}[h]
@@ -148,7 +148,7 @@
             Notice that the fundamental constructors \AI{Nil}, \AI{Gate} and \AI{Plug} \emph{always}
             build purely combinational circuits, while \AI{DelayLoop} always produces circuits with internal state.
             The structural constructors (\AI{\_⟫'\_}, \AI{\_|'\_} and \AI{\_|+'\_})
-            yield a purely combinational circuit only when \emph{both} of its argument are themselves purely combinational.
+            yield a purely combinational circuit if and only if \emph{both} of its argument are themselves purely combinational.
             This is expressed by using the product type constructor \AF{\_×\_}, which in the \AF{Set}
             level corresponds to a logical conjunction.
 
@@ -165,14 +165,14 @@
 
     \section{Abstraction Mechanisms}
     \label{sec:circuit-abstraction}
-        Several of the definitions (modules, datatypes, functions) of Π-Ware are parameterized
-        in order to provide for better code reuse.
+        Several of the definitions (modules, datatypes, functions) of Π-Ware
+        are parameterized in order to improve code reuse.
         The library allows for a choice of the type of data carried in individual wires,
         the types that serve as inputs and ouputs to circuits,
         and the set of fundamental gates from which circuits are built.
 
         In this section we present how this flexibility is achieved,
-        which requirements are imposed upon the parameters in each case of parameterization.
+        and which requirements are imposed upon the parameters in each case of parameterization.
         Also, the motivation behind the chosen requirements is presented,
         based on the general goals of Π-Ware as well as the wish to impose as few constraints as possible.
 
@@ -185,11 +185,11 @@
             which are tuples or lists of these basic types.
 
             There is a little more flexibility in ForSyDe~\cite{forsyde1999},
-            where the \mintinline{haskell}{ProcType} type class determines what values of what types
-            can be used as inputs and outputs of \emph{process functions} (combinational circuits).
+            where the \mintinline{haskell}{ProcType} type class determines what types can be used
+            as input and output types of \emph{process functions} (combinational circuits).
             ForSyDe has predefined instances of \mintinline{haskell}{ProcType} for fixed-width numeric types
             (\mintinline{haskell}{Int8}, \mintinline{haskell}{Int16}, etc.) and \mintinline{haskell}{Bool},
-            while relying on \emph{Template Haskell} to generate instances for user-defined \emph{enumerations}
+            while relying on \emph{Template Haskell} to generate instances for user-defined \emph{enumeration types}
             at compile time.
 
             Π-Ware's approach is similar to ForSyDe's, in that it shares the same goal
@@ -209,7 +209,7 @@
             are to be used as atoms (the number of atoms is actually \AF{|Atom|} \AY{=} \AI{suc} \AL{|Atom|-1}).
 
             Then there are the fields \AL{n→atom} and \AL{atom→n}, which define a \emph{bijection}
-            between the \AL{Atom} type and \AD{Fin} \AB{|Atom|} (naturals from \AI{zero} to \AF{|Atom|}).
+            between the \AL{Atom} type and \AD{Fin} \AF{|Atom|} (naturals from \AI{zero} to \AF{|Atom|}).
             Finally, the two last fields in \AF{Atomic} are proofs
             that \AL{n→atom} and \AL{atom→n} are inverses of each other,
             therefore proving that they are also bijections.
@@ -227,7 +227,7 @@
             \end{center}
 
             Now, before defining the bijections that enumerate the set of atoms,
-            we give more convenient \emph{names} to the elements of \AD{Fin} \AB{|B|} used in the enumeration
+            we give more convenient \emph{names} to the elements of \AD{Fin} \AF{|B|} used in the enumeration
             by using an Agda feature known as \emph{pattern synonyms}:
 
             \begin{center}
@@ -263,7 +263,7 @@
                 \item[IEEE1164 nine-valued logic]
                     Standardized logic used widely in industry as a VHDL/Verilog type.
                     Besides the usual \texttt{FALSE} and \texttt{TRUE} logical values
-                    (represented respectively by '0' and '1')
+                    (represented respectively by '0' and '1'),
                     it accomodates also the following others:
                     \begin{itemize}
                         \item \texttt{'Z'}: \emph{High impedance}, means output is not being driven.
@@ -359,13 +359,13 @@
             \end{center}
 
             Then, as already done in the instance of \AD{Atomic}, we define some \emph{pattern synonyms}
-            to make the gate identifiers easier to read:
+            to make the gate identifiers more readable:
 
             \begin{center}
                 \ExecuteMetaData[agda/latex/PiWare/Gates/BoolTrio.tex]{pattern-synonyms}
             \end{center}
 
-            The next step is to define the \emph{interface} of each gate on the library.
+            The next step is to define the \emph{interface} of each gate in the library.
             All gates have exactly one output, while the number of inputs vary from 0 to 2.
 
             \begin{center}
@@ -445,7 +445,7 @@
 
             Again in this example, as customary, we renamed \AD{Bool} to \AD{B},
             and \AF{pid} is the \emph{identity plug}.
-            The identity plug can be substituted in the netlist by a bus (with the adequate sizes),
+            The identity plug can be substituted in the netlist by a \emph{bus} (with the adequate size),
             and is defined (together with other useful plugs) in the \AM{PiWare.Plugs} module.
 
 
@@ -529,10 +529,10 @@
             Assuming that we want \AL{⇓} and \AL{⇑} to form a bijection (no information may be lost),
             let's first calculate how many atoms are necessary to represent a sum.
 
-            With a given encoding for set \AB{α} (\AB{sα} \AY{:} \AD{𝕎} \AB{i})
-            and one for β (\AB{sβ} \AY{:} \AD{𝕎} \AB{j}), it is clear that at least \AB{i} \AF{⊔} \AB{j} atoms
-            are necessary to encode \AB{α} \AD{⊎} \AB{β}; the size of a sum is at least the maximum
-            among the sizes of its summands.
+            With a given encoding for set \AB{α} (\AB{sα} \AY{:} \AD{⇓𝕎⇑} \AB{α} \AY{\{}\AB{i}\AY{\}})
+            and one for β (\AB{sβ} \AY{:} \AD{⇓𝕎⇑} \AB{β} \AY{\{}\AB{j}\AY{\}}),
+            it is clear that at least \AB{i} \AF{⊔} \AB{j} atoms are necessary to encode \AB{α} \AD{⊎} \AB{β};
+            the size of a sum is at least the maximum among the sizes of its summands.
             Furthermore, it is necessary to somehow encode the choice (whether the sum was built from
             the left (\AL{inj₁}) or the right (\AL{inj₂}). This requires at least one more atom,
             bringing the size to \AI{suc} \AY{(}\AB{i} \AF{⊔} \AB{j}\AY{)}.
@@ -547,7 +547,7 @@
             Besides the encodings of the summands (named \AB{sα} and \AB{sβ},
             given as \emph{instance arguments}), this instance is also passed some extra parameters:
             three \emph{atom indices} (\AB{n}, \AB{m} and \AB{p}) and a proof that \AB{n} and \AB{m} are different.
-            The atom index \AB{n} gives the \AD{Atom} to be used in case the sum is built from the left (\AL{inj₁}).
+            The atom index \AB{n} indicates the \AD{Atom} to be used in case the sum is built from the left (\AL{inj₁}).
             and \AB{m} for the case when it is built from the right (\AL{inj₂}).
             They need to be different in order for the choice information not to be lost when synthesizing a sum.
             At last, the \AB{p} parameter identifies the atom used for padding.
