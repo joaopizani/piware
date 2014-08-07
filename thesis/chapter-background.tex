@@ -628,17 +628,19 @@
         \subsection{Coquet}
         \label{subsec:coquet}
             The most significant source of inspiration for the design of Π-Ware was
-            Coquet~\cite{coquet2011}, a \ac{DSL} for hardware embedded in the Coq
+            Coquet~\cite{coquet2011}, a hardware \ac{DSL} embedded in the Coq
             language\footnote{Referring to Coq as a language is a misnomer, as it is
                 an interactive theorem prover that uses different languages for defining terms,
                 interactive commands, and user-defined proof tactics}.
             Coquet and Π-Ware share some very important characteristics and differ on several others,
             with these differences caused not only by the different host languages used (Coq and Agda),
-            but also by different implementations chosen for some core concepts.
+            but also by different implementations chosen for some concepts.
 
             First of all, the similarities.
             Coquet's circuit datatype utilizes the same concept of \emph{structural} description
             as Π-Ware, with a "fundamental" gate constructor and constructors for structural combination.
+            Also, the idea of dedicating one specific constructor for building "rewiring" circuits
+            was inspired by Coquet's \mintinline{coq}{Plug}.
             The \mintinline{coq}{Circuit} datatype of Coquet is shown on Listing~\ref{lst:coquet-circuit}.
 
             \begin{listing}[h]
@@ -646,24 +648,24 @@
                 \caption{Coquet's \mintinline{coq}{Circuit} datatype.\label{lst:coquet-circuit}}
             \end{listing}
 
-            Some differences between Coquet's \mintinline{coq}{Circuit} and that of Π-Ware
-            (detailed in Section~\ref{sec:circuit-syntax}) are immediately noticeable:
+            Some differences between Coquet's \mintinline{coq}{Circuit} type and that of Π-Ware
+            (detailed in Section~\ref{sec:circuit-syntax}) are, however, immediately noticeable:
 
             \begin{description}
                 \item[Indices are \mintinline{coq}{Type}s, instead of just sizes]
                     In Π-Ware, the core circuit datatype is indexed by two natural numbers,
-                    representing the \emph{sizes} of the circuits input and output.
+                    representing the \emph{sizes} of the circuit's input and output.
                     In Coquet, the indices are arbitrary types, \emph{constrained} by the
                     \mintinline{coq}{Fin} \emph{type class}.
-                    The definition of \mintinline{coq}{Fin} makes synthesis of Coquet's circuits
+                    The definition of \mintinline{coq}{Fin} makes the synthesis of Coquet's circuits
                     \emph{interfaces} to \ac{VHDL} harder.
-                    Before settling for the natural number indices on Π-Ware, another alternative
+                    Before deciding to use natural number indices on Π-Ware, another alternative
                     for generalization was considered, detailed in Section~\ref{subsec:current-limitations}.
 
                 \item[Lack of a "sum" constructor]
                     Both Coquet and Π-Ware have a "parallel composition" constructor
                     which, given two circuits as arguments (with inputs respectively \AB{α} and \AB{β}),
-                    will build a circuit which has the \emph{product} \AB{α} \AD{×} \AB{β} as its input.
+                    will build a circuit with the \emph{product} \AB{α} \AD{×} \AB{β} as its input.
                     Π-Ware, however, has an extra "sum" constructor, building a circuit which is capable
                     of "deciding" which one of the two subcircuits to apply to an input depending on a \emph{tag}.
                     This is useful for implementing, for example, generic multiplexers.
@@ -673,6 +675,35 @@
                     by the \mintinline{coq}{techno} instance, which gives the description of \textbf{one}
                     technology-dependent gate (\texttt{NAND}, \texttt{NOR}, etc.).
                     Π-Ware circuit descriptions, however, are parameterized by a \emph{gate library},
-                    which has attached specification functions to each of its elements,
+                    with an attached specification function to each of its elements,
                     as detailed in Section~\ref{subsec:gate-library}.
             \end{description}
+
+            Another similarity between Coquet and Π-Ware is the usage of \emph{data abstraction},
+            embodied in Coquet by the \mintinline{coq}{Iso} type class and in Π-Ware by \texttt{Synthesizable},
+            described in more detail in Section~\ref{subsec:synthesizable}.
+
+            The goal of data abstraction is to be able to express the specification of circuits in
+            more user-friendly (high-level) types, while the circuits themselves are just described
+            in terms of sizes and wires.
+
+            Finally, some of the the more fundamental differences between Π-Ware and Coquet are:
+
+            \begin{description}
+                \item[Relational vs. functional semantics]
+                    Coquet defines a \emph{relational} semantics for circuits,
+                    that is, the semantics of a circuit is a datatype defined by recursion on circuit structure.
+                    Π-Ware, on the other hand, has an executable
+                    \emph{functional semantics}\footnote{another term commonly used in the literature is \emph{denotational} semantics},
+                    in which each circuit is mapped to an Agda function over sequences of bits (or other types).
+                \item[Semantics of sequential circuits]
+                    Π-Ware, in contrast to Coquet, makes a clear distinction between \emph{purely combinational}
+                    and \emph{possibly sequential} circuits.
+                    We maintain the invariant that \emph{purely combinational circuits never contain loops}.
+                    Also, in Π-Ware, the only constructor which builds loops also adds a
+                    \emph{delay element}\footnote{in harware terms, a \emph{flip-flop}},
+                    eliminating the need to consider an extra "sequential fundamental gate", as in Coquet.
+                    The functional semantics of sequential circuits in Π-Ware is defined as a \emph{causal stream function}
+                    (detailed in Section~\ref{subsubsec:causal-streams}), while Coquet uses regular functions over streams.
+            \end{description}
+
