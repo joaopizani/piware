@@ -331,6 +331,7 @@
             function given for it in the gate library definition.
 
             \subsubsection{Relation to synthesis}
+            \label{subsubsec:relation-to-synthesis}
             Even though fundamental gates have no subcomponents \emph{at the Π-Ware level},
             they are not in any way directly synthesizable to \ac{VHDL}.
             To convert a Π-Ware circuit to \ac{VHDL}, each fundamental gate in the library being used
@@ -411,7 +412,7 @@
             the low-level gets the same name of the high-level one, with a prime symbol as suffix.
 
             In contrast to the low-level (\AD{ℂ'}) circuit type, \AD{ℂ} is parameterized by two Agda \AD{Set}s,
-            and has only one constructor - \AI{Mkℂ} - which "packs" the low-level circuit description
+            and has only one constructor – \AI{Mkℂ} – which "packs" the low-level circuit description
             with the information on how to convert between the input/output Agda types
             (resp. \AB{α} and \AB{β}) and the appropriately-sized \emph{words} used in the low level.
             This conversion information is coded in the \AD{⇓𝕎⇑} type class (pronounced \texttt{Synthesizable}),
@@ -600,25 +601,96 @@
 
     \section{Circuit Semantics}
     \label{sec:circuit-semantics}
-        Functional semantics for simulation\ldots
+        In this chapter we will expose and discuss the \emph{semantics} of circuits described using Π-Ware.
+        Namely, Π-Ware circuits can be interpreted in two ways:
+        they can be \emph{simulated} (fed with certain inputs and calculate the correspoding outputs)
+        or \emph{synthesized} (converted to a \emph{netlist}).
 
-        \begin{itemize}
-            \item Two types of evaluation: combinational and sequential
-            \item Combinational eval requires a proof that the circuit contains no loops
-                \subitem Eval of a fundamental gate is just its \emph{definitional behaviour}
+        When presenting the simulation semantics, we will separately discuss the evaluation of
+        purely combinational circuits and of sequential ones,
+        also recapitulating the need to distinguish between the two.
 
-            \item For sequential circuits we use a \emph{causal stream semantics}
-                \subitem Current output depends on the current input and (possibly) on the past inputs
-                \subitem \emph{Different} than plain Stream functions
+        \subsection{Synthesis semantics}
+        \label{subsec:synthesis-semantics}
+            The synthesis semantics establishes how Π-Ware circuits can be converted to netlists.
+            Each element of the low-level circuit datatype (\AD{ℂ'}) has a corresponding netlist
+            according to the semantics,
+            and to each circuit constructor corresponds a netlist transformation.
 
-            \item There's also an eval function which allows the circuit to be viewed as function from Stream to Stream
-        \end{itemize}
+            Figure~\ref{fig:semantics-syn-fundamental} shows the semantic rules for the
+            fundamental constructors of \AD{ℂ'}, as well as for \AI{DelayLoop}.
+            To the left of each diagram there is a typing rule for that case,
+            with the constructor's arguments (and their types) above the bar and the result type below it.
+
+            \begin{figure}[h]
+                \centering{\includegraphics[width=0.93\textwidth]{imgs/semantics-syn-fundamental.pdf}}
+                \caption{Synthesis semantics of the fundamental circuit constructors.\label{fig:semantics-syn-fundamental}}
+            \end{figure}
+
+            In the diagrams, all ellipses denote elements of type \AD{ℂ'}, i.e., low-level circuits.
+            Assuming the existence of a hierarchy of datatypes for representing \ac{VHDL} code
+            (as already mentioned in Section~\ref{subsubsec:relation-to-synthesis}),
+            each of these ellipses correspond to a \ac{VHDL} \emph{entity} (an element of \AD{VHDLEntity}).
+
+            The line segments connecting the ellipses are signals (\AD{VHDLSignal}) – with their size
+            denoted by the variable above the perpendicular "dash" in the segment.
+            Each of the little dots on the extremity of a line segment correspond to a \emph{port declaration}
+            (\AD{VHDLPortDecl}). The arrows on the line segments indicate the direction of the flow of information.
+
+            \acrodef{FPGA}{Field-Programmable Gate Array}
+            It is important that these diagrams \emph{do not prescribe any placement} for the circuit components.
+            They denote only \emph{netlists}, i.e., directed graphs in which the nodes are elements of \AD{ℂ'}
+            and the edges are the signals connecting them (labeled by signal \emph{size}).
+            The actual \emph{placement} of this netlist into physical slots (of an \ac{FPGA} or \ac{ASIC}),
+            with the accompanying \emph{routing} of wires, is a further step in the implementation chain,
+            \emph{not performed by Π-Ware}.
+
+            The semantics of structural circuit constructors (sequential, parallel, sum) is
+            shown in Figure~\ref{fig:semantics-syn-structural}.
+
+            \begin{figure}[ht]
+                \centering{\includegraphics[width=0.93\textwidth]{imgs/semantics-syn-structural.pdf}}
+                \caption{Synthesis semantics of structural circuit constructors.\label{fig:semantics-syn-structural}}
+            \end{figure}
+
+            In the sum case (\AI{\_|+'\_}), the \texttt{UNPAD} block only "slices" the input into three outputs:
+            the tag (first bit) is used as the selector for the \emph{multiplexer}, and the other two outputs
+            have, respectively, the first \AB{i₁} and \AB{i₂} bits of the input.
+            The diagram on Figure~\ref{fig:semantics-syn-unpad} shows which slices of input go to each
+            output of the \texttt{UNPAD} block in the sum case.
+
+            \begin{figure}[ht]
+                \centering{\includegraphics[width=0.60\textwidth]{imgs/semantics-syn-unpad.pdf}}
+                \caption{How \texttt{UNPAD} "slices" its input into three outputs.\label{fig:semantics-syn-unpad}}
+            \end{figure}
+
+            Finally, it is important to emphasize that the labels '0' and '1' were used in the multiplexer
+            only as a mnemonic device to make the description more convenient.
+            The same remark applies to describing the information flowing through the wires as "bits".
+            In reality, any \AD{Atomic} type can flow through the wires, and any two distinct \AD{Atom}s
+            can be used as labels for the two inputs of the multiplexer, as they are passed as argument
+            to the \AI{\_|+'\_} constructor.
+
 
         \subsection{Combinational evaluation}
         \label{subsec:combinational-eval}
+            \begin{itemize}
+                \item Two types of evaluation: combinational and sequential
+                \item Combinational eval requires a proof that the circuit contains no loops
+                    \subitem Eval of a fundamental gate is just its \emph{definitional behaviour}
+            \end{itemize}
+
 
         \subsection{Sequential evaluation}
         \label{subsec:sequential-eval}
+            \begin{itemize}
+                \item For sequential circuits we use a \emph{causal stream semantics}
+                    \subitem Current output depends on the current input and (possibly) on the past inputs
+                    \subitem \emph{Different} than plain Stream functions
+
+                \item There's also an eval function which allows the circuit to be viewed as function from Stream to Stream
+            \end{itemize}
+
             Initially we tried to write a semantics yielding simply a function over streams.
 
             But this is not quite a good semantic model for a synchronous sequential circuits,
