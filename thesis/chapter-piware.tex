@@ -26,7 +26,7 @@
         It is defined as a dependent inductive family, indexed by two natural numbers,
         as shown in Listing~\ref{lst:Circuit-core}.
 
-        \begin{listing}[h]
+        \begin{listing}[ht]
             \ExecuteMetaData[agda/latex/PiWare/Circuit/Core.tex]{Circuit-core}
             \caption{The core circuit type (\AD{ℂ'}) of Π-Ware. \label{lst:Circuit-core}}
         \end{listing}
@@ -107,7 +107,7 @@
                     Figure~\ref{fig:sequencing-floating} illustrates an example of a situation banned by the sizing rule present
                     in the type of \AI{\_⟫'\_}.
 
-                    \begin{figure}[h]
+                    \begin{figure}[ht]
                         \centering{\includegraphics[width=0.6\textwidth]{imgs/sequencing-floating.pdf}}
                         \caption{Example of circuit banned by the type of \AI{\_⟫'\_}.\label{fig:sequencing-floating}}
                     \end{figure}
@@ -122,7 +122,7 @@
                     as such a definition would not be \emph{total}.
                     The diagram on Figure~\ref{fig:plug-seq-disconnected-input} represents such a banned situation:
 
-                    \begin{figure}[h]
+                    \begin{figure}[ht]
                         \centering{\includegraphics[width=0.8\textwidth]{imgs/plug-seq-disconnected-input.pdf}}
                         \caption{This circuit cannot be constructed because $f_{p}$ is not \emph{total}.\label{fig:plug-seq-disconnected-input}}
                     \end{figure}
@@ -140,7 +140,7 @@
             The predicate \AF{comb'} over low-level (\AF{ℂ'}) circuits defines whether a circuit purely combinational.
             The code for \AF{comb'} is shown on Listing~\ref{lst:comb-core}.
 
-            \begin{listing}[h]
+            \begin{listing}[ht]
                 \ExecuteMetaData[agda/latex/PiWare/Circuit/Core.tex]{comb-core}
                 \caption{Predicate telling whether a low-level circuit is purely combinational.\label{lst:comb-core}}
             \end{listing}
@@ -199,7 +199,7 @@
             The type class \AD{Atomic} (shown in Listing~\ref{lst:atomic})
             expresses in Π-Ware what are the requirements for a type to be carried in the wires of a circuit.
 
-            \begin{listing}[h]
+            \begin{listing}[ht]
                 \centering{\ExecuteMetaData[agda/latex/PiWare/Atom.tex]{Atomic}}
                 \caption{The \AD{Atomic} type class.\label{lst:atomic}}
             \end{listing}
@@ -299,7 +299,7 @@
 
             A gate library is defined as an element of the \AD{Gates} record type, shown in Listing~\ref{lst:gates}.
 
-            \begin{listing}[h]
+            \begin{listing}[ht]
                 \ExecuteMetaData[agda/latex/PiWare/Synthesizable.tex]{Word}
                 \newline
                 \ExecuteMetaData[agda/latex/PiWare/Gates.tex]{Gates}
@@ -401,7 +401,7 @@
             and circuits at this higher level have inputs and outputs with Agda types.
             This layer is coded as the \AD{ℂ} datatype, shown in Listing~\ref{lst:Circuit}.
 
-            \begin{listing}[h]
+            \begin{listing}[ht]
                 \ExecuteMetaData[agda/latex/PiWare/Circuit.tex]{Circuit}
                 \caption{High-level circuit datatype (\AD{ℂ}).\label{lst:Circuit}}
             \end{listing}
@@ -432,12 +432,12 @@
             built using the \texttt{BoolTrio} gate library mentioned before.
             The block diagram in Figure~\ref{fig:xor-sample} illustrates the architecture of such circuit.
 
-            \begin{figure}[h]
+            \begin{figure}[ht]
                 \centering{\includegraphics[width=0.50\textwidth]{imgs/xor-sample.pdf}}
                 \caption{Architecture of a sample \texttt{XOR} gate.\label{fig:xor-sample}}
             \end{figure}
 
-            \begin{listing}[h]
+            \begin{listing}[ht]
                 \ExecuteMetaData[agda/latex/PiWare/Samples/BoolTrioComb.tex]{fundamentals}
                 \newline
                 \ExecuteMetaData[agda/latex/PiWare/Samples/BoolTrioComb.tex]{xor}
@@ -460,7 +460,7 @@
             thus the name of the class.
             Listing~\ref{lst:Synth} shows the definition of \AD{⇓𝕎⇑}:
 
-            \begin{listing}[h]
+            \begin{listing}[ht]
                 \ExecuteMetaData[agda/latex/PiWare/Synthesizable.tex]{Word}
                 \newline
                 \ExecuteMetaData[agda/latex/PiWare/Synthesizable.tex]{Synth}
@@ -488,7 +488,7 @@
             One interesting instance to look at is the one for Agda's standard library vectors (\AD{Vec}),
             shown in Listing~\ref{lst:Synth-Vec}.
 
-            \begin{listing}[h]
+            \begin{listing}[ht]
                 \ExecuteMetaData[agda/latex/PiWare/Synthesizable.tex]{Synth-Vec}
                 \caption{Predefined instance of \AD{⇓𝕎⇑} for fixed-length vectors.\label{lst:Synth-Vec}}
             \end{listing}
@@ -540,7 +540,7 @@
 
             The predefined instance for sums included with Π-Ware is shown on Listing~\ref{lst:Synth-Sum}.
 
-            \begin{listing}[h]
+            \begin{listing}[ht]
                 \ExecuteMetaData[agda/latex/PiWare/Synthesizable.tex]{Synth-Sum}
                 \caption{Predefined instance of \AD{⇓𝕎⇑} for sums.\label{lst:Synth-Sum}}
             \end{listing}
@@ -622,7 +622,7 @@
             To the left of each diagram there is a typing rule for that case,
             with the constructor's arguments (and their types) above the bar and the result type below it.
 
-            \begin{figure}[h]
+            \begin{figure}[ht]
                 \centering{\includegraphics[width=0.93\textwidth]{imgs/semantics-syn-fundamental.pdf}}
                 \caption{Synthesis semantics of the fundamental circuit constructors.\label{fig:semantics-syn-fundamental}}
             \end{figure}
@@ -664,21 +664,85 @@
                 \caption{How \texttt{UNPAD} "slices" its input into three outputs.\label{fig:semantics-syn-unpad}}
             \end{figure}
 
-            Finally, it is important to emphasize that the labels '0' and '1' were used in the multiplexer
-            only as a mnemonic device to make the description more convenient.
-            The same remark applies to describing the information flowing through the wires as "bits".
-            In reality, any \AD{Atomic} type can flow through the wires, and any two distinct \AD{Atom}s
-            can be used as labels for the two inputs of the multiplexer, as they are passed as argument
-            to the \AI{\_|+'\_} constructor.
+            Finally, it is important to emphasize that the labels \texttt{'0'} and \texttt{'1'}
+            were used in the multiplexer only as a mnemonic device.
+            The same remark applies to describing the information on the wires as "bits".
+            In reality, any \AD{Atomic} type can flow through the wires, and any two \AD{Atom}s
+            can label the inputs of the multiplexer (passed to \AI{\_|+'\_}).
 
 
         \subsection{Combinational evaluation}
         \label{subsec:combinational-eval}
-            \begin{itemize}
-                \item Two types of evaluation: combinational and sequential
-                \item Combinational eval requires a proof that the circuit contains no loops
-                    \subitem Eval of a fundamental gate is just its \emph{definitional behaviour}
-            \end{itemize}
+            %% Two types of evaluation: combinational and sequential
+            %% Combinational eval requires a proof that the circuit contains no loops
+            %%     Eval of a fundamental gate is just its \emph{definitional behaviour}
+
+            As already mentioned in Section~\ref{sec:circuit-syntax},
+            the \AF{comb'} predicate determines whether its circuit argument is \emph{purely combinational}.
+            In fact, \AF{comb'} can be seen as one (very simple) semantics of circuits (\AD{ℂ'}).
+            To recapitulate, here is the type of \AF{comb'}:
+
+            \begin{center}
+                \ExecuteMetaData[agda/latex/PiWare/Circuit/Core.tex]{comb-core-decl}
+            \end{center}
+
+            This predicate is used in several places in the Π-Ware library, particularly in what concerns
+            the \emph{simulation} semantics.
+            Purely combinational circuits have no notion of time or state, so their simulation semantics
+            is modelled as just a function over \emph{words} (\AD{Atom} vectors).
+
+            The Agda function giving a time-independent (combinational) semantics for circuits requires then
+            that \emph{an element of type \AF{comb'}} be passed as (implicit) argument.
+            Furthermore, this semantics of course depends on the \emph{gate library} and the
+            \AD{Atom} type being used, which are parameters to the \AM{PiWare.Simulation.Core} module as a whole.
+            Listing~\ref{lst:eval-core} shows the Agda code for the combinational simulation semantics:
+
+            \begin{listing}[ht]
+                \centering{\ExecuteMetaData[agda/latex/PiWare/Simulation/Core.tex]{eval-core}}
+                \caption{Agda code for the combinational simulation semantics of \AD{ℂ'}.\label{lst:eval-core}}
+            \end{listing}
+
+            First of all, notice the prime symbol on the function's name (\AF{⟦\_⟧'}),
+            indicating that it concerns \emph{low-level} circuits (\AD{ℂ'}).
+            From the cases for fundamental constructors, we highlight the usage of the \AF{spec}
+            function from the chosen gate library, returning the specification function for a given gate.
+            Furthermore, the \AI{DelayLoop} case can be \emph{discharged}, i.e.,
+            it is not necessary to provide a definition in this case,
+            as \AF{comb'} \AY{(}\AI{DelayLoop} \AB{c}\AY{)} evaluates to \AD{⊥}
+            and – by definition – no elements of this type can be constructed.
+
+            The cases for structural constructors are somewhat straightforward.
+            Sequencing (\AI{\_⟫'\_}) is interpreted just as function composition.
+            In the parallel composition (\AI{\_|'\_}) case, first the input vector is \emph{splitted}, creating a pair.
+            Then the \AF{map} function over pairs is used, to apply (respectively) the semantics of \AB{c₁}
+            and \AB{c₂} over each element of the pair.
+            Finally, both transformed pair elements are concatenated to build the output.
+            In the sum (\AI{\_|+'\_}) case, the \AF{untag} function uses the first atom of the input
+            to decode it into a sum.
+            Then the sum destructor (\AF{[\_,\_]'}) is used with the appropriate functions
+            (semantics of \AB{c₁} and \AB{c₂}) to build the output accordingly.
+
+            Notice how the (implicit) arguments of type \AF{comb'} \AB{c} are matched against and passed.
+            In the cases for structural constructors, we know that – by definition – the
+            \emph{whole circuit is combinational if and only if all its subcircuits are combinational}.
+            Therefore, we can pattern match with the \emph{pair constructor} (\AB{p₁} \AI{,} \AB{p₂}),
+            and pass each of \AB{p₁} and \AB{p₂} to the calls of \AF{⟦\_⟧'} on the subcircuits.
+
+            \subsubsection{High-level combinational evaluation}
+            Analogous to the dichotomy between low-level \emph{circuits} (\AD{ℂ'}) and high-level ones (\AD{ℂ}),
+            there are also both low and high-level simulation
+            semantics~\footnote{There is no such "high-level" concept for the \emph{synthesis} semantics,
+                as it concerns actual hardware.}.
+
+            While the low-level simulation semantics (\AF{⟦\_⟧'}) maps a low-level circuit (\AD{ℂ'})
+            to a function over \emph{words},
+            the high-level simulation semantics (\AF{⟦\_⟧} – shown in Listing~\ref{lst:eval})
+            maps a high-level circuit (\AD{ℂ}) to a function over arbitrary (synthesizable) Agda types.
+
+            \begin{listing}[ht]
+                \centering{\ExecuteMetaData[agda/latex/PiWare/Simulation.tex]{eval}}
+                \caption{Simulation semantics for high-level circuits (\AD{ℂ}).\label{lst:eval}}
+            \end{listing}
 
 
         \subsection{Sequential evaluation}
