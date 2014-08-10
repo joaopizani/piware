@@ -797,7 +797,7 @@
             is convenient as an \emph{interface} to interact with sequential circuits, it does not
             reflect accurately the way in which synchronous sequential circuits actually work.
 
-            The type of a "normal" stream function (\AD{Stream} \AB{α} \AY{→} \AD{Stream} \AB{β})
+            The type of a general stream function (\AD{Stream} \AB{α} \AY{→} \AD{Stream} \AB{β})
             can be read as:
 
             \begin{quote}
@@ -805,9 +805,24 @@
                 produce an infinite sequence of values of type \AB{β}.
             \end{quote}
 
-            As such, it has no notion of \emph{current} value, neither of past, and it \emph{can}
-            "look ahead", that is, use future input values to calculate the next output value.
+            As such, a general stream function has no notion of \emph{current} value, neither of past,
+            and it \emph{can} "look ahead", that is, use future input values to calculate the next output value.
             One example of such a future-dependent behaviour.
+            %% TODO: example of future-dependent stream function
+
+            Therefore, in Π-Ware, the semantic function for sequential circuits is built upon an
+            auxiliary definition, which gives \emph{one step} of a causal stream function, i.e,
+            given the current and past values, it produces \emph{the next} value on the output.
+            This auxiliary step function (named \AF{⟦\_⟧ᶜ}) is shown in Listing~\ref{lst:eval-causal}.
+
+            \begin{listing}[h]
+                \centering{\ExecuteMetaData[agda/latex/Data/CausalStream.tex]{causal-context}}
+                \newline
+                \centering{\ExecuteMetaData[agda/latex/Data/CausalStream.tex]{causal-step}}
+                \newline
+                \centering{\ExecuteMetaData[agda/latex/PiWare/Simulation/Core.tex]{eval-causal}}
+                \caption{Causal step function.\label{lst:eval-causal}}
+            \end{listing}
 
 
             Therefore, causal streams\ldots
