@@ -159,7 +159,7 @@
 
             \begin{itemize}
                 \item The only way to create a loop in a circuit (\AI{DelayLoop}) also introduces a delay.
-                \item Combinational evaluation (ignoring past inputs) only happens when safe.
+                \item Combinational simulation (ignoring past inputs) only happens when safe.
             \end{itemize}
 
 
@@ -606,7 +606,7 @@
         they can be \emph{simulated} (fed with certain inputs and calculate the correspoding outputs)
         or \emph{synthesized} (converted to a \emph{netlist}).
 
-        When presenting the simulation semantics, we will separately discuss the evaluation of
+        When presenting the simulation semantics, we will separately discuss the simulation of
         purely combinational circuits and of sequential ones,
         also recapitulating the need to distinguish between the two.
 
@@ -671,7 +671,7 @@
             can label the inputs of the multiplexer (passed to \AI{\_|+'\_}).
 
 
-        \subsection{Combinational evaluation}
+        \subsection{Combinational simulation}
         \label{subsec:combinational-eval}
             %% Two types of evaluation: combinational and sequential
             %% Combinational eval requires a proof that the circuit contains no loops
@@ -728,7 +728,7 @@
             Therefore, we can pattern match with the \emph{pair constructor} (\AB{p₁} \AI{,} \AB{p₂}),
             and pass each of \AB{p₁} and \AB{p₂} to the calls of \AF{⟦\_⟧'} on the subcircuits.
 
-            \subsubsection{High-level combinational evaluation}
+            \subsubsection{High-level combinational simulation}
             Analogous to the dichotomy between low-level \emph{circuits} (\AD{ℂ'}) and high-level ones (\AD{ℂ}),
             there are also both low and high-level simulation
             semantics~\footnote{There is no such "high-level" concept for the \emph{synthesis} semantics,
@@ -745,15 +745,12 @@
             \end{listing}
 
 
-        \subsection{Sequential evaluation}
+        \subsection{Sequential simulation}
         \label{subsec:sequential-eval}
-            \begin{itemize}
-                \item For sequential circuits we use a \emph{causal stream semantics}
-                    \subitem Current output depends on the current input and (possibly) on the past inputs
-                    \subitem \emph{Different} than plain Stream functions
-
-                \item There's also an eval function which allows the circuit to be viewed as function from Stream to Stream
-            \end{itemize}
+            %% For sequential circuits we use a \emph{causal stream semantics}
+            %%     Current output depends on the current input and (possibly) on the past inputs
+            %%     \emph{Different} than plain Stream functions
+            %% There's also an eval function which allows the circuit to be viewed as function from Stream to Stream
 
             Initially we tried to write a semantics yielding simply a function over streams.
 
