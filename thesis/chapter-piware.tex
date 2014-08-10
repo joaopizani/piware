@@ -27,7 +27,7 @@
         as shown in Listing~\ref{lst:Circuit-core}.
 
         \begin{listing}[h]
-            \centering{\ExecuteMetaData[agda/latex/PiWare/Circuit/Core.tex]{Circuit-core}}
+            \centering{\ExecuteMetaData[code/agda/latex/PiWare/Circuit/Core.tex]{Circuit-core}}
             \caption{The core circuit type (\AD{ℂ'}) of Π-Ware. \label{lst:Circuit-core}}
         \end{listing}
 
@@ -141,7 +141,7 @@
             The code for \AF{comb'} is shown on Listing~\ref{lst:comb-core}.
 
             \begin{listing}[h]
-                \centering{\ExecuteMetaData[agda/latex/PiWare/Circuit/Core.tex]{comb-core}}
+                \centering{\ExecuteMetaData[code/agda/latex/PiWare/Circuit/Core.tex]{comb-core}}
                 \caption{Predicate telling whether a low-level circuit is purely combinational.\label{lst:comb-core}}
             \end{listing}
 
@@ -200,7 +200,7 @@
             expresses in Π-Ware what are the requirements for a type to be carried in the wires of a circuit.
 
             \begin{listing}[h]
-                \centering{\ExecuteMetaData[agda/latex/PiWare/Atom.tex]{Atomic}}
+                \centering{\ExecuteMetaData[code/agda/latex/PiWare/Atom.tex]{Atomic}}
                 \caption{The \AD{Atomic} type class.\label{lst:atomic}}
             \end{listing}
 
@@ -223,7 +223,7 @@
             (\AD{B} is used as synonym for \AD{Bool}):
 
             \begin{center}
-                \ExecuteMetaData[agda/latex/PiWare/Atom/Bool.tex]{cardinality}
+                \ExecuteMetaData[code/agda/latex/PiWare/Atom/Bool.tex]{cardinality}
             \end{center}
 
             Now, before defining the bijections that enumerate the set of atoms,
@@ -231,14 +231,14 @@
             by using an Agda feature known as \emph{pattern synonyms}:
 
             \begin{center}
-                \ExecuteMetaData[agda/latex/PiWare/Atom/Bool.tex]{pattern-synonyms}
+                \ExecuteMetaData[code/agda/latex/PiWare/Atom/Bool.tex]{pattern-synonyms}
             \end{center}
 
             The usage of the \AI{Absurd\#} pattern becomes clearer when we take a look at
             the definitions of the bijections themselves:
 
             \begin{center}
-                \ExecuteMetaData[agda/latex/PiWare/Atom/Bool.tex]{nToBool}
+                \ExecuteMetaData[code/agda/latex/PiWare/Atom/Bool.tex]{nToBool}
             \end{center}
 
             In the case of the \AI{Absurd\#} pattern, there is no need to provide a right-hand side
@@ -249,7 +249,7 @@
             and, therefore, it is a bijection. The proofs use simple case analysis (and reflexivity).
 
             \begin{center}
-                \ExecuteMetaData[agda/latex/PiWare/Atom/Bool.tex]{inv-Bool}
+                \ExecuteMetaData[code/agda/latex/PiWare/Atom/Bool.tex]{inv-Bool}
             \end{center}
 
             \subsubsection{Other possibly interesting instances}
@@ -300,9 +300,9 @@
             A gate library is defined as an element of the \AD{Gates} record type, shown in Listing~\ref{lst:gates}.
 
             \begin{listing}[h]
-                \centering{\ExecuteMetaData[agda/latex/PiWare/Synthesizable.tex]{Word}}
+                \centering{\ExecuteMetaData[code/agda/latex/PiWare/Synthesizable.tex]{Word}}
                 \newline
-                \centering{\ExecuteMetaData[agda/latex/PiWare/Gates.tex]{Gates}}
+                \centering{\ExecuteMetaData[code/agda/latex/PiWare/Gates.tex]{Gates}}
                 \caption{Definition of a gate library: the \AD{Gates} record.\label{lst:gates}}
             \end{listing}
 
@@ -356,28 +356,28 @@
             The first definitions establish that this library contains five gates:
 
             \begin{center}
-                \ExecuteMetaData[agda/latex/PiWare/Gates/BoolTrio.tex]{cardinality}
+                \ExecuteMetaData[code/agda/latex/PiWare/Gates/BoolTrio.tex]{cardinality}
             \end{center}
 
             Then, as already done in the instance of \AD{Atomic}, we define some \emph{pattern synonyms}
             to make the gate identifiers more readable:
 
             \begin{center}
-                \ExecuteMetaData[agda/latex/PiWare/Gates/BoolTrio.tex]{pattern-synonyms}
+                \ExecuteMetaData[code/agda/latex/PiWare/Gates/BoolTrio.tex]{pattern-synonyms}
             \end{center}
 
             The next step is to define the \emph{interface} of each gate in the library.
             All gates have exactly one output, while the number of inputs vary from 0 to 2.
 
             \begin{center}
-                \ExecuteMetaData[agda/latex/PiWare/Gates/BoolTrio.tex]{ins-outs}
+                \ExecuteMetaData[code/agda/latex/PiWare/Gates/BoolTrio.tex]{ins-outs}
             \end{center}
 
             Finally, the last piece of information needed to define the gate library is
             the functional specification of each gate.
 
             \begin{center}
-                \ExecuteMetaData[agda/latex/PiWare/Gates/BoolTrio.tex]{spec}
+                \ExecuteMetaData[code/agda/latex/PiWare/Gates/BoolTrio.tex]{spec}
             \end{center}
 
             Notice that the gates use \AD{Bool} from Agda's standard library as their \AD{Atom} type.
@@ -386,7 +386,7 @@
             gate library is as follows:
 
             \begin{center}
-                \ExecuteMetaData[agda/latex/PiWare/Gates/BoolTrio.tex]{BoolTrio}
+                \ExecuteMetaData[code/agda/latex/PiWare/Gates/BoolTrio.tex]{BoolTrio}
             \end{center}
 
 
@@ -402,7 +402,7 @@
             This layer is coded as the \AD{ℂ} datatype, shown in Listing~\ref{lst:Circuit}.
 
             \begin{listing}[h]
-                \centering{\ExecuteMetaData[agda/latex/PiWare/Circuit.tex]{Circuit}}
+                \centering{\ExecuteMetaData[code/agda/latex/PiWare/Circuit.tex]{Circuit}}
                 \caption{High-level circuit datatype (\AD{ℂ}).\label{lst:Circuit}}
             \end{listing}
 
@@ -423,7 +423,7 @@
             One example is parallel composition:
 
             \begin{center}
-                \ExecuteMetaData[agda/latex/PiWare/Circuit.tex]{par}
+                \ExecuteMetaData[code/agda/latex/PiWare/Circuit.tex]{par}
             \end{center}
 
             Using a \emph{gate library} together with these smart constructors, one can model
@@ -438,9 +438,9 @@
             \end{figure}
 
             \begin{listing}[h]
-                \centering{\ExecuteMetaData[agda/latex/PiWare/Samples/BoolTrioComb.tex]{fundamentals}}
+                \centering{\ExecuteMetaData[code/agda/latex/PiWare/Samples/BoolTrioComb.tex]{fundamentals}}
                 \newline
-                \centering{\ExecuteMetaData[agda/latex/PiWare/Samples/BoolTrioComb.tex]{xor}}
+                \centering{\ExecuteMetaData[code/agda/latex/PiWare/Samples/BoolTrioComb.tex]{xor}}
                 \caption{Example of a \texttt{XOR} gate built with the \texttt{BoolTrio} library.\label{lst:xor-sample}}
             \end{listing}
 
@@ -461,9 +461,9 @@
             Listing~\ref{lst:Synth} shows the definition of \AD{⇓𝕎⇑}:
 
             \begin{listing}[h]
-                \centering{\ExecuteMetaData[agda/latex/PiWare/Synthesizable.tex]{Word}}
+                \centering{\ExecuteMetaData[code/agda/latex/PiWare/Synthesizable.tex]{Word}}
                 \newline
-                \centering{\ExecuteMetaData[agda/latex/PiWare/Synthesizable.tex]{Synth}}
+                \centering{\ExecuteMetaData[code/agda/latex/PiWare/Synthesizable.tex]{Synth}}
                 \caption{The \AD{⇓𝕎⇑} (Synthesizable) type class.\label{lst:Synth}}
             \end{listing}
 
@@ -489,7 +489,7 @@
             shown in Listing~\ref{lst:Synth-Vec}.
 
             \begin{listing}[h]
-                \centering{\ExecuteMetaData[agda/latex/PiWare/Synthesizable.tex]{Synth-Vec}}
+                \centering{\ExecuteMetaData[code/agda/latex/PiWare/Synthesizable.tex]{Synth-Vec}}
                 \caption{Predefined instance of \AD{⇓𝕎⇑} for fixed-length vectors.\label{lst:Synth-Vec}}
             \end{listing}
 
@@ -541,7 +541,7 @@
             The predefined instance for sums included with Π-Ware is shown on Listing~\ref{lst:Synth-Sum}.
 
             \begin{listing}[h]
-                \centering{\ExecuteMetaData[agda/latex/PiWare/Synthesizable.tex]{Synth-Sum}}
+                \centering{\ExecuteMetaData[code/agda/latex/PiWare/Synthesizable.tex]{Synth-Sum}}
                 \caption{Predefined instance of \AD{⇓𝕎⇑} for sums.\label{lst:Synth-Sum}}
             \end{listing}
 
@@ -683,7 +683,7 @@
             To recapitulate, here is the type of \AF{comb'}:
 
             \begin{center}
-                \ExecuteMetaData[agda/latex/PiWare/Circuit/Core.tex]{comb-core-decl}
+                \ExecuteMetaData[code/agda/latex/PiWare/Circuit/Core.tex]{comb-core-decl}
             \end{center}
 
             This predicate is used in several places in the Π-Ware library, particularly in what concerns
@@ -698,7 +698,7 @@
             Listing~\ref{lst:eval-core} shows the Agda code for the combinational simulation semantics:
 
             \begin{listing}[h]
-                \centering{\ExecuteMetaData[agda/latex/PiWare/Simulation/Core.tex]{eval-core}}
+                \centering{\ExecuteMetaData[code/agda/latex/PiWare/Simulation/Core.tex]{eval-core}}
                 \caption{Agda code for the combinational simulation semantics of \AD{ℂ'}.\label{lst:eval-core}}
             \end{listing}
 
@@ -740,7 +740,7 @@
             maps a high-level circuit (\AD{ℂ}) to a function over arbitrary (synthesizable) Agda types.
 
             \begin{listing}[h]
-                \centering{\ExecuteMetaData[agda/latex/PiWare/Simulation.tex]{eval}}
+                \centering{\ExecuteMetaData[code/agda/latex/PiWare/Simulation.tex]{eval}}
                 \caption{Simulation semantics for high-level circuits (\AD{ℂ}).\label{lst:eval}}
             \end{listing}
 
@@ -773,7 +773,7 @@
             sequential simulation of low-level (\AD{ℂ'}) circuits:
 
             \begin{listing}[h]
-                \centering{\ExecuteMetaData[agda/latex/PiWare/Simulation/Core.tex]{eval-seq-core-decl}}
+                \centering{\ExecuteMetaData[code/agda/latex/PiWare/Simulation/Core.tex]{eval-seq-core-decl}}
                 \caption{Type signature of the semantic function for low-level sequential simulation.
                     \label{lst:eval-seq-core-decl}}
             \end{listing}
@@ -818,9 +818,9 @@
             First, let's start by introducing (in Listing~\ref{lst:causal-types}) the types used to model causal streams.
 
             \begin{listing}[h]
-                \centering{\ExecuteMetaData[agda/latex/Data/CausalStream.tex]{causal-context}}
+                \centering{\ExecuteMetaData[code/agda/latex/Data/CausalStream.tex]{causal-context}}
                 \newline
-                \centering{\ExecuteMetaData[agda/latex/Data/CausalStream.tex]{causal-step}}
+                \centering{\ExecuteMetaData[code/agda/latex/Data/CausalStream.tex]{causal-step}}
                 \caption{Types used to model causal streams.\label{lst:causal-types}}
             \end{listing}
 
