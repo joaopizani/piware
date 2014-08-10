@@ -752,12 +752,63 @@
             %%     \emph{Different} than plain Stream functions
             %% There's also an eval function which allows the circuit to be viewed as function from Stream to Stream
 
-            Initially we tried to write a semantics yielding simply a function over streams.
+            So-called \emph{sequential} circuits have an internal state,
+            and their behaviour is \emph{history-dependent}:
+            The current value of a circuit's output depends not only on the current input,
+            but also on the history of previous inputs.
+            Therefore, to simulate these circuits, there is the need of some concept of \emph{time dimension}
+            where the values of inputs and outputs are situated.
 
-            But this is not quite a good semantic model for a synchronous sequential circuits,
-            as a stream function is allowed to "look into future values" in order to produce
-            the output stream, while a sequential circuit can only use information about its past inputs
-            when calculating the next output.
+            Π-Ware supports modelling and simulating a specific class of sequential circuits,
+            namely \emph{synchronous} sequential circuits.
+            In synchronous sequential circuits, state transitions in all memory elements happen
+            at the same time, and they can only happen at the (rising or falling) \emph{edge}
+            of a global clock circuit.
+            Because of this \emph{discrete} nature of signals in synchronous circuits,
+            they are usually modelled as \emph{streams} in hardware \acp{DSL}.
+            This is also the way in which sequential simulation works in Π-Ware:
+            it converts a circuit into a function over streams.
+
+            Listing~\ref{lst:eval-seq-core-decl} shows the type of the semantic function for
+            sequential simulation of low-level (\AD{ℂ'}) circuits:
+
+            \begin{listing}[h]
+                \centering{\ExecuteMetaData[agda/latex/PiWare/Simulation/Core.tex]{eval-seq-core-decl}}
+                \caption{Type signature of the semantic function for low-level sequential simulation.
+                    \label{lst:eval-seq-core-decl}}
+            \end{listing}
+
+            This type signature differs from the purely combinational case (depicted in Listing~\ref{lst:eval-core})
+            in only two important ways:
+
+            \begin{itemize}
+                \item There is no argument of type \AF{comb'} \AB{c} anymore
+                    requiring the circuit to be purely combinational.
+                \item The result of evaluating the circuit is now "lifted" to the \AD{Stream} setting,
+                    that is, it becomes
+                    \AD{Stream} \AY{(}\AD{W} \AB{i}\AY{)} \AY{→} \AD{Stream} \AY{(}\AD{W} \AB{o}\AY{)}.
+                    instead of \AD{W} \AB{i} \AY{→} \AD{W} \AB{o}.
+            \end{itemize}
+
+            The implementation of the history-dependent behaviour needed in sequential simulation
+            uses so-called \emph{causal streams}~\cite{essence-dataflow-programming}.
+            Even though the type
+            \AD{Stream} \AY{(}\AD{W} \AB{i}\AY{)} \AY{→} \AD{Stream} \AY{(}\AD{W} \AB{o}\AY{)}
+            is convenient as an \emph{interface} to interact with sequential circuits, it does not
+            reflect accurately the way in which synchronous sequential circuits actually work.
+
+            The type of a "normal" stream function (\AD{Stream} \AB{α} \AY{→} \AD{Stream} \AB{β})
+            can be read as:
+
+            \begin{quote}
+                Given an infinite sequence of values of type \AB{α},
+                produce an infinite sequence of values of type \AB{β}.
+            \end{quote}
+
+            As such, it has no notion of \emph{current} value, neither of past, and it \emph{can}
+            "look ahead", that is, use future input values to calculate the next output value.
+            One example of such a future-dependent behaviour.
+
 
             Therefore, causal streams\ldots
 
