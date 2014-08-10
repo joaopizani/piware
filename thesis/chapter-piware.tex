@@ -26,7 +26,7 @@
         It is defined as a dependent inductive family, indexed by two natural numbers,
         as shown in Listing~\ref{lst:Circuit-core}.
 
-        \begin{listing}[ht]
+        \begin{listing}[h]
             \centering{\ExecuteMetaData[agda/latex/PiWare/Circuit/Core.tex]{Circuit-core}}
             \caption{The core circuit type (\AD{ℂ'}) of Π-Ware. \label{lst:Circuit-core}}
         \end{listing}
@@ -107,7 +107,7 @@
                     Figure~\ref{fig:sequencing-floating} illustrates an example of a situation banned by the sizing rule present
                     in the type of \AI{\_⟫'\_}.
 
-                    \begin{figure}[ht]
+                    \begin{figure}[h]
                         \centering{\includegraphics[width=0.6\textwidth]{imgs/sequencing-floating.pdf}}
                         \caption{Example of circuit banned by the type of \AI{\_⟫'\_}.\label{fig:sequencing-floating}}
                     \end{figure}
@@ -122,7 +122,7 @@
                     as such a definition would not be \emph{total}.
                     The diagram on Figure~\ref{fig:plug-seq-disconnected-input} represents such a banned situation:
 
-                    \begin{figure}[ht]
+                    \begin{figure}[h]
                         \centering{\includegraphics[width=0.8\textwidth]{imgs/plug-seq-disconnected-input.pdf}}
                         \caption{This circuit cannot be constructed because $f_{p}$ is not \emph{total}.\label{fig:plug-seq-disconnected-input}}
                     \end{figure}
@@ -140,7 +140,7 @@
             The predicate \AF{comb'} over low-level (\AF{ℂ'}) circuits defines whether a circuit purely combinational.
             The code for \AF{comb'} is shown on Listing~\ref{lst:comb-core}.
 
-            \begin{listing}[ht]
+            \begin{listing}[h]
                 \centering{\ExecuteMetaData[agda/latex/PiWare/Circuit/Core.tex]{comb-core}}
                 \caption{Predicate telling whether a low-level circuit is purely combinational.\label{lst:comb-core}}
             \end{listing}
@@ -199,7 +199,7 @@
             The type class \AD{Atomic} (shown in Listing~\ref{lst:atomic})
             expresses in Π-Ware what are the requirements for a type to be carried in the wires of a circuit.
 
-            \begin{listing}[ht]
+            \begin{listing}[h]
                 \centering{\ExecuteMetaData[agda/latex/PiWare/Atom.tex]{Atomic}}
                 \caption{The \AD{Atomic} type class.\label{lst:atomic}}
             \end{listing}
@@ -299,7 +299,7 @@
 
             A gate library is defined as an element of the \AD{Gates} record type, shown in Listing~\ref{lst:gates}.
 
-            \begin{listing}[ht]
+            \begin{listing}[h]
                 \centering{\ExecuteMetaData[agda/latex/PiWare/Synthesizable.tex]{Word}}
                 \newline
                 \centering{\ExecuteMetaData[agda/latex/PiWare/Gates.tex]{Gates}}
@@ -401,7 +401,7 @@
             and circuits at this higher level have inputs and outputs with Agda types.
             This layer is coded as the \AD{ℂ} datatype, shown in Listing~\ref{lst:Circuit}.
 
-            \begin{listing}[ht]
+            \begin{listing}[h]
                 \centering{\ExecuteMetaData[agda/latex/PiWare/Circuit.tex]{Circuit}}
                 \caption{High-level circuit datatype (\AD{ℂ}).\label{lst:Circuit}}
             \end{listing}
@@ -432,12 +432,12 @@
             built using the \texttt{BoolTrio} gate library mentioned before.
             The block diagram in Figure~\ref{fig:xor-sample} illustrates the architecture of such circuit.
 
-            \begin{figure}[ht]
+            \begin{figure}[h]
                 \centering{\includegraphics[width=0.50\textwidth]{imgs/xor-sample.pdf}}
                 \caption{Architecture of a sample \texttt{XOR} gate.\label{fig:xor-sample}}
             \end{figure}
 
-            \begin{listing}[ht]
+            \begin{listing}[h]
                 \centering{\ExecuteMetaData[agda/latex/PiWare/Samples/BoolTrioComb.tex]{fundamentals}}
                 \newline
                 \centering{\ExecuteMetaData[agda/latex/PiWare/Samples/BoolTrioComb.tex]{xor}}
@@ -460,7 +460,7 @@
             thus the name of the class.
             Listing~\ref{lst:Synth} shows the definition of \AD{⇓𝕎⇑}:
 
-            \begin{listing}[ht]
+            \begin{listing}[h]
                 \centering{\ExecuteMetaData[agda/latex/PiWare/Synthesizable.tex]{Word}}
                 \newline
                 \centering{\ExecuteMetaData[agda/latex/PiWare/Synthesizable.tex]{Synth}}
@@ -488,7 +488,7 @@
             One interesting instance to look at is the one for Agda's standard library vectors (\AD{Vec}),
             shown in Listing~\ref{lst:Synth-Vec}.
 
-            \begin{listing}[ht]
+            \begin{listing}[h]
                 \centering{\ExecuteMetaData[agda/latex/PiWare/Synthesizable.tex]{Synth-Vec}}
                 \caption{Predefined instance of \AD{⇓𝕎⇑} for fixed-length vectors.\label{lst:Synth-Vec}}
             \end{listing}
@@ -540,7 +540,7 @@
 
             The predefined instance for sums included with Π-Ware is shown on Listing~\ref{lst:Synth-Sum}.
 
-            \begin{listing}[ht]
+            \begin{listing}[h]
                 \centering{\ExecuteMetaData[agda/latex/PiWare/Synthesizable.tex]{Synth-Sum}}
                 \caption{Predefined instance of \AD{⇓𝕎⇑} for sums.\label{lst:Synth-Sum}}
             \end{listing}
@@ -622,7 +622,7 @@
             To the left of each diagram there is a typing rule for that case,
             with the constructor's arguments (and their types) above the bar and the result type below it.
 
-            \begin{figure}[ht]
+            \begin{figure}[h]
                 \centering{\includegraphics[width=0.93\textwidth]{imgs/semantics-syn-fundamental.pdf}}
                 \caption{Synthesis semantics of the fundamental circuit constructors.\label{fig:semantics-syn-fundamental}}
             \end{figure}
@@ -648,7 +648,7 @@
             The semantics of structural circuit constructors (sequential, parallel, sum) is
             shown in Figure~\ref{fig:semantics-syn-structural}.
 
-            \begin{figure}[ht]
+            \begin{figure}[h]
                 \centering{\includegraphics[width=0.93\textwidth]{imgs/semantics-syn-structural.pdf}}
                 \caption{Synthesis semantics of structural circuit constructors.\label{fig:semantics-syn-structural}}
             \end{figure}
@@ -659,7 +659,7 @@
             The diagram on Figure~\ref{fig:semantics-syn-unpad} shows which slices of input go to each
             output of the \texttt{UNPAD} block in the sum case.
 
-            \begin{figure}[ht]
+            \begin{figure}[h]
                 \centering{\includegraphics[width=0.60\textwidth]{imgs/semantics-syn-unpad.pdf}}
                 \caption{How \texttt{UNPAD} "slices" its input into three outputs.\label{fig:semantics-syn-unpad}}
             \end{figure}
@@ -697,7 +697,7 @@
             \AD{Atom} type being used, which are parameters to the \AM{PiWare.Simulation.Core} module as a whole.
             Listing~\ref{lst:eval-core} shows the Agda code for the combinational simulation semantics:
 
-            \begin{listing}[ht]
+            \begin{listing}[h]
                 \centering{\ExecuteMetaData[agda/latex/PiWare/Simulation/Core.tex]{eval-core}}
                 \caption{Agda code for the combinational simulation semantics of \AD{ℂ'}.\label{lst:eval-core}}
             \end{listing}
@@ -739,7 +739,7 @@
             the high-level simulation semantics (\AF{⟦\_⟧} – shown in Listing~\ref{lst:eval})
             maps a high-level circuit (\AD{ℂ}) to a function over arbitrary (synthesizable) Agda types.
 
-            \begin{listing}[ht]
+            \begin{listing}[h]
                 \centering{\ExecuteMetaData[agda/latex/PiWare/Simulation.tex]{eval}}
                 \caption{Simulation semantics for high-level circuits (\AD{ℂ}).\label{lst:eval}}
             \end{listing}

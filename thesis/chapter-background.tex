@@ -18,7 +18,7 @@
         In this figure, the rectangular boxes represent transformations steps towards a more detailed description,
         while the ellipsoid shapes represent artifacts that are consumed/produced by each step.
 
-        \begin{figure}[ht]
+        \begin{figure}[h]
             \centering{\includegraphics[width=1.0\textwidth]{imgs/sw-hw-chains.pdf}}
             \caption{Software and Hardware refinement chains. \label{fig:sw-hw-chains}}
         \end{figure}
@@ -45,7 +45,7 @@
         (the \texttt{if} statement lacks an \texttt{else} branch, and the \texttt{y} output has no assigned
         value when \texttt{sel} is different than zero).
 
-        \begin{listing}[ht]
+        \begin{listing}[h]
             \centering{\vhdlfile{code/vhdl/vhdl-unsynth-process.vhd}}
             \caption{Unsynthesizable \acs{VHDL} process.\label{lst:vhdl-unsynth-process}}
         \end{listing}
@@ -125,7 +125,7 @@
         The bigger box corresponds to the application of the μ combinator to the smaller one.
         It adds the indicated latch and a feedback loop, creating a stateful circuit.
 
-        \begin{figure}[ht]
+        \begin{figure}[h]
             \centering{\includegraphics[width=0.5\textwidth]{imgs/mufp-shift.pdf}}
             \caption{\emph{Shift register}: a simple example of sequential circuit in μFP. \label{fig:mufp-shift}}
         \end{figure}
@@ -491,7 +491,7 @@
             That is, we cannot \AF{take} more elements than the size of the vector.
             The type signature of \AF{take} is shown in Listing~\ref{lst:take-decl}.
 
-            \begin{listing}[ht]
+            \begin{listing}[h]
                 \centering{\ExecuteMetaData[agda/latex/Report/ChapterBackground.tex]{take-decl}}
                 \caption{A "size-safe" prefix-taking function for sized vectors. \label{lst:take-decl}}
             \end{listing}
@@ -533,7 +533,7 @@
             For example, in Agda, we can model the less-than-or-equal order relation using an
             \emph{indexed data family}~\ref{lst:nat-le}, where the indices are the usual Peano naturals.
 
-            \begin{listing}[ht]
+            \begin{listing}[h]
                 \centering{\ExecuteMetaData[agda/latex/Report/ChapterBackground.tex]{nat-le}}
                 \caption{Order relation ($\le$) over naturals, as an \emph{Agda} indexed data family.
                     \label{lst:nat-le}}
@@ -543,7 +543,7 @@
             For example, one trivial fact is that two is smaller-than-or-equal to four,
             which has the trivial proof shown in Listing~\ref{lst:le-two-four}.
 
-            \begin{listing}[ht]
+            \begin{listing}[h]
                 \centering{\ExecuteMetaData[agda/latex/Report/ChapterBackground.tex]{le-two-four}}
                 \caption{A very simple proof involving the $\le$ relation over natural numbers.
                     \label{lst:le-two-four}}
@@ -561,7 +561,7 @@
             For example, the fact that the $\le$ relation is \emph{transitive} is
             stated and proved in Listing~\ref{lst:le-trans}.
 
-            \begin{listing}[ht]
+            \begin{listing}[h]
                 \centering{\ExecuteMetaData[agda/latex/Report/ChapterBackground.tex]{le-trans}}
                 \caption{Proof that the $\le$ relation is transitive. \label{lst:le-trans}}
             \end{listing}
@@ -639,7 +639,7 @@
             was inspired by Coquet's \mintinline{coq}{Plug}.
             The \mintinline{coq}{Circuit} datatype of Coquet is shown on Listing~\ref{lst:coquet-circuit}.
 
-            \begin{listing}[ht]
+            \begin{listing}[h]
                 \centering{\coqfile{code/coq/coquet-circuit.v}}
                 \caption{Coquet's \mintinline{coq}{Circuit} datatype.\label{lst:coquet-circuit}}
             \end{listing}
