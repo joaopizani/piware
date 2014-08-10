@@ -27,7 +27,7 @@
         as shown in Listing~\ref{lst:Circuit-core}.
 
         \begin{listing}[ht]
-            \ExecuteMetaData[agda/latex/PiWare/Circuit/Core.tex]{Circuit-core}
+            \centering{\ExecuteMetaData[agda/latex/PiWare/Circuit/Core.tex]{Circuit-core}}
             \caption{The core circuit type (\AD{ℂ'}) of Π-Ware. \label{lst:Circuit-core}}
         \end{listing}
 
@@ -141,7 +141,7 @@
             The code for \AF{comb'} is shown on Listing~\ref{lst:comb-core}.
 
             \begin{listing}[ht]
-                \ExecuteMetaData[agda/latex/PiWare/Circuit/Core.tex]{comb-core}
+                \centering{\ExecuteMetaData[agda/latex/PiWare/Circuit/Core.tex]{comb-core}}
                 \caption{Predicate telling whether a low-level circuit is purely combinational.\label{lst:comb-core}}
             \end{listing}
 
@@ -300,9 +300,9 @@
             A gate library is defined as an element of the \AD{Gates} record type, shown in Listing~\ref{lst:gates}.
 
             \begin{listing}[ht]
-                \ExecuteMetaData[agda/latex/PiWare/Synthesizable.tex]{Word}
+                \centering{\ExecuteMetaData[agda/latex/PiWare/Synthesizable.tex]{Word}}
                 \newline
-                \ExecuteMetaData[agda/latex/PiWare/Gates.tex]{Gates}
+                \centering{\ExecuteMetaData[agda/latex/PiWare/Gates.tex]{Gates}}
                 \caption{Definition of a gate library: the \AD{Gates} record.\label{lst:gates}}
             \end{listing}
 
@@ -402,7 +402,7 @@
             This layer is coded as the \AD{ℂ} datatype, shown in Listing~\ref{lst:Circuit}.
 
             \begin{listing}[ht]
-                \ExecuteMetaData[agda/latex/PiWare/Circuit.tex]{Circuit}
+                \centering{\ExecuteMetaData[agda/latex/PiWare/Circuit.tex]{Circuit}}
                 \caption{High-level circuit datatype (\AD{ℂ}).\label{lst:Circuit}}
             \end{listing}
 
@@ -438,9 +438,9 @@
             \end{figure}
 
             \begin{listing}[ht]
-                \ExecuteMetaData[agda/latex/PiWare/Samples/BoolTrioComb.tex]{fundamentals}
+                \centering{\ExecuteMetaData[agda/latex/PiWare/Samples/BoolTrioComb.tex]{fundamentals}}
                 \newline
-                \ExecuteMetaData[agda/latex/PiWare/Samples/BoolTrioComb.tex]{xor}
+                \centering{\ExecuteMetaData[agda/latex/PiWare/Samples/BoolTrioComb.tex]{xor}}
                 \caption{Example of a \texttt{XOR} gate built with the \texttt{BoolTrio} library.\label{lst:xor-sample}}
             \end{listing}
 
@@ -461,9 +461,9 @@
             Listing~\ref{lst:Synth} shows the definition of \AD{⇓𝕎⇑}:
 
             \begin{listing}[ht]
-                \ExecuteMetaData[agda/latex/PiWare/Synthesizable.tex]{Word}
+                \centering{\ExecuteMetaData[agda/latex/PiWare/Synthesizable.tex]{Word}}
                 \newline
-                \ExecuteMetaData[agda/latex/PiWare/Synthesizable.tex]{Synth}
+                \centering{\ExecuteMetaData[agda/latex/PiWare/Synthesizable.tex]{Synth}}
                 \caption{The \AD{⇓𝕎⇑} (Synthesizable) type class.\label{lst:Synth}}
             \end{listing}
 
@@ -489,7 +489,7 @@
             shown in Listing~\ref{lst:Synth-Vec}.
 
             \begin{listing}[ht]
-                \ExecuteMetaData[agda/latex/PiWare/Synthesizable.tex]{Synth-Vec}
+                \centering{\ExecuteMetaData[agda/latex/PiWare/Synthesizable.tex]{Synth-Vec}}
                 \caption{Predefined instance of \AD{⇓𝕎⇑} for fixed-length vectors.\label{lst:Synth-Vec}}
             \end{listing}
 
@@ -541,7 +541,7 @@
             The predefined instance for sums included with Π-Ware is shown on Listing~\ref{lst:Synth-Sum}.
 
             \begin{listing}[ht]
-                \ExecuteMetaData[agda/latex/PiWare/Synthesizable.tex]{Synth-Sum}
+                \centering{\ExecuteMetaData[agda/latex/PiWare/Synthesizable.tex]{Synth-Sum}}
                 \caption{Predefined instance of \AD{⇓𝕎⇑} for sums.\label{lst:Synth-Sum}}
             \end{listing}
 

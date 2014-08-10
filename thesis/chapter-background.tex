@@ -19,7 +19,7 @@
         while the ellipsoid shapes represent artifacts that are consumed/produced by each step.
 
         \begin{figure}[ht]
-            \centerline{\includegraphics[width=1.0\textwidth]{imgs/sw-hw-chains.pdf}}
+            \centering{\includegraphics[width=1.0\textwidth]{imgs/sw-hw-chains.pdf}}
             \caption{Software and Hardware refinement chains. \label{fig:sw-hw-chains}}
         \end{figure}
 
@@ -126,7 +126,7 @@
         It adds the indicated latch and a feedback loop, creating a stateful circuit.
 
         \begin{figure}[ht]
-            \centerline{\includegraphics[width=0.5\textwidth]{imgs/mufp-shift.pdf}}
+            \centering{\includegraphics[width=0.5\textwidth]{imgs/mufp-shift.pdf}}
             \caption{\emph{Shift register}: a simple example of sequential circuit in μFP. \label{fig:mufp-shift}}
         \end{figure}
 
@@ -277,7 +277,7 @@
 
             \begin{haskellcode}
         adderFun :: ProcFun (Int8 -> Int8 -> Int8)
-        adderFun = $(newProcFun [d|
+        adderFun = \$(newProcFun [d|
                 adderFun' :: Int8 -> Int8 -> Int8
                 adderFun' x y = x + y
             |])
@@ -475,9 +475,10 @@
             A \emph{dependent type} is a type that depends on a value.
             A typical example of dependent type is the type of \emph{dependent pairs},
             in which the \emph{type} of the second element depends on the \emph{value} of the first:
-            \begin{listing}[ht]
+
+            \begin{center}
                 \ExecuteMetaData[agda/latex/Report/ChapterBackground.tex]{Pair}
-            \end{listing}
+            \end{center}
 
             In a dependent type system, we can also have functions in which the return \emph{type}
             depends on the \emph{value} of a parameter.
@@ -491,7 +492,7 @@
             The type signature of \AF{take} is shown in Listing~\ref{lst:take-decl}.
 
             \begin{listing}[ht]
-                \ExecuteMetaData[agda/latex/Report/ChapterBackground.tex]{take-decl}
+                \centering{\ExecuteMetaData[agda/latex/Report/ChapterBackground.tex]{take-decl}}
                 \caption{A "size-safe" prefix-taking function for sized vectors. \label{lst:take-decl}}
             \end{listing}
 
@@ -533,7 +534,7 @@
             \emph{indexed data family}~\ref{lst:nat-le}, where the indices are the usual Peano naturals.
 
             \begin{listing}[ht]
-                \ExecuteMetaData[agda/latex/Report/ChapterBackground.tex]{nat-le}
+                \centering{\ExecuteMetaData[agda/latex/Report/ChapterBackground.tex]{nat-le}}
                 \caption{Order relation ($\le$) over naturals, as an \emph{Agda} indexed data family.
                     \label{lst:nat-le}}
             \end{listing}
@@ -543,7 +544,7 @@
             which has the trivial proof shown in Listing~\ref{lst:le-two-four}.
 
             \begin{listing}[ht]
-                \ExecuteMetaData[agda/latex/Report/ChapterBackground.tex]{le-two-four}
+                \centering{\ExecuteMetaData[agda/latex/Report/ChapterBackground.tex]{le-two-four}}
                 \caption{A very simple proof involving the $\le$ relation over natural numbers.
                     \label{lst:le-two-four}}
             \end{listing}
@@ -561,7 +562,7 @@
             stated and proved in Listing~\ref{lst:le-trans}.
 
             \begin{listing}[ht]
-                \ExecuteMetaData[agda/latex/Report/ChapterBackground.tex]{le-trans}
+                \centering{\ExecuteMetaData[agda/latex/Report/ChapterBackground.tex]{le-trans}}
                 \caption{Proof that the $\le$ relation is transitive. \label{lst:le-trans}}
             \end{listing}
 
@@ -577,9 +578,9 @@
             we can explicitly require a proof argument be passed,
             guaranteeing that the amount to be "taken" is \emph{less than or equal} to the array size.
 
-            \begin{listing}[ht]
+            \begin{center}
                 \ExecuteMetaData[agda/latex/Report/ChapterBackground.tex]{take-proof-decl}
-            \end{listing}
+            \end{center}
 
             This capability for precisely defining and enforcing requirements and invariants make
             dependently-typed programming languages very good candidates for hosting \acp{EDSL}.
@@ -598,11 +599,6 @@
 
     \section{Hardware and dependent types}
     \label{sec:hardware-dtp}
-        %% Coquet
-        %%     Turning design mistakes into TYPE ERRORS
-        %%     Proving properties about circuit behaviour
-        %%         Functional correctness in particular.
-
         We are aware of three attempts in the literature of bringing dependent types to improve hardware design.
         Each of them has provided us with specific insights and ideas, some of which Π-Ware incorporates.
         Let us now briefly review these works, and highlight the most important contributions of each.
