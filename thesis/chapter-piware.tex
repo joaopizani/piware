@@ -772,6 +772,8 @@
             Listing~\ref{lst:eval-seq-core-decl} shows the type of the semantic function for
             sequential simulation of low-level (\AD{ℂ'}) circuits:
 
+            %% TODO: talk about using Agda Coinduction for simulation and proofs
+
             \begin{listing}[h]
                 \centering{\ExecuteMetaData[code/agda/latex/PiWare/Simulation/Core.tex]{eval-seq-core-decl}}
                 \caption{Type signature of the semantic function for low-level sequential simulation.
@@ -826,8 +828,23 @@
 
             We represent a \emph{causal context} with values of type \AB{α} by \AD{Γc} \AB{α}.
             It contains the current \emph{and} past values of the stream.
-            We use Agda's \emph{non-empty lists} to implement the context, which means
-            the current value is always present, even though there might be no past.
+            Agda's \emph{non-empty lists} are used to implement the context type.
+            In this way, there is always a current value (head of a list), while the past (tail)
+            might be empty.
+            In the \AM{Data.List.NonEmpty} module, the type \AD{List⁺} \AB{α} is defined
+            as just a \emph{type synonym} of \AB{α} \AD{×} \AD{List} \AB{α}, therefore, in some
+            places, to avoid confusion with normal lists, we use the \emph{pair constructor} (comma)
+            to pattern match on non-empty lists.
+
+            The \emph{causal step semantics} (\AF{⟦\_⟧c}) maps a circuit into a \emph{causal step function},
+            i.e., given a circuit, it returns the function which has current and past inputs as arguments
+            and produces the immediately next output as result.
+            The code for \AF{⟦\_⟧c} is shown in Listing~\ref{lst:eval-causal}.
+
+            \begin{listing}[h]
+                \centering{\ExecuteMetaData[code/agda/latex/PiWare/Simulation/Core.tex]{eval-causal}}
+                \caption{Causal step semantics for sequential circuits.\label{lst:eval-causal}}
+            \end{listing}
 
 
     \section{Proving circuit properties}
