@@ -850,7 +850,7 @@
             of \AB{c₁}.
             These outputs are calculated by \emph{mapping} the causal step function (\AF{⟦\_⟧c})
             over \emph{all previous} contexts of \AB{c₁} (from most recent to oldest, given by \AF{tails⁺}).
-            
+
             The parallel composition (\AI{\_|'\_}) case has the expected definition:
             it splits the input context pointwise at offset \AB{i₁},
             then applies \AF{⟦} \AB{c₁} \AF{⟧c} and \AF{⟦} \AB{c₂} \AF{⟧c} correspondingly and concatenates the results.
@@ -876,7 +876,7 @@
             Listing~\ref{lst:delay} shows the definition of \AF{delay}.
 
             \begin{listing}[h]
-                \raggedleft{\ExecuteMetaData[code/agda/latex/PiWare/Simulation/Core.patched.tex]{delay}}
+                \raggedleft{\ExecuteMetaData[code/agda/latex/PiWare/Simulation/Core.tex]{delay}}
                 \caption{Function expressing the behaviour of a circuit memory element.\label{lst:delay}}
             \end{listing}
 

@@ -1,0 +1,51 @@
+*** latex/PiWare/Simulation/Core.tex	2014-08-11 13:06:33.378135500 +0200
+--- latex/PiWare/Simulation/Core.patched.tex	2014-08-11 13:10:24.753619000 +0200
+***************
+*** 109,131 ****
+  -- again the "uncurrying trick" to convince the termination checker
+  %<*delay>
+  \begin{code}%
+! \>\AgdaFunction{delay} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{i} \AgdaBound{o} \AgdaBound{l}\AgdaSymbol{\}} \AgdaSymbol{(}\AgdaBound{c} \AgdaSymbol{:} \AgdaDatatype{ℂ'} \AgdaSymbol{(}\AgdaBound{i} \AgdaPrimitive{+} \AgdaBound{l}\AgdaSymbol{)} \AgdaSymbol{(}\AgdaBound{o} \AgdaPrimitive{+} \AgdaBound{l}\AgdaSymbol{))} \AgdaSymbol{\{}\AgdaBound{p} \AgdaSymbol{:} \AgdaFunction{comb'} \AgdaBound{c}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaFunction{W} \AgdaBound{i} \AgdaFunction{⇒c} \AgdaFunction{W} \AgdaSymbol{(}\AgdaBound{o} \AgdaPrimitive{+} \AgdaBound{l}\AgdaSymbol{)}\<%
+  \\
+! \>\AgdaFunction{delay} \AgdaSymbol{\{}\AgdaBound{i}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{o}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{l}\AgdaSymbol{\}} \AgdaBound{c} \AgdaSymbol{\{}\AgdaBound{p}\AgdaSymbol{\}} \AgdaSymbol{=} \AgdaFunction{uncurry′} \AgdaSymbol{(}\AgdaFunction{delay'} \AgdaSymbol{\{}\AgdaBound{i}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{o}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{l}\AgdaSymbol{\}} \AgdaBound{c} \AgdaSymbol{\{}\AgdaBound{p}\AgdaSymbol{\})}\<%
+  \\
+  \>[0]\AgdaIndent{2}{}\<[2]%
+  \>[2]\AgdaKeyword{where}\<%
+  \\
+  \>[2]\AgdaIndent{4}{}\<[4]%
+! \>[4]\AgdaFunction{delay'} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{i} \AgdaBound{o} \AgdaBound{l}\AgdaSymbol{\}} \AgdaSymbol{(}\AgdaBound{c} \AgdaSymbol{:} \AgdaDatatype{ℂ'} \AgdaSymbol{(}\AgdaBound{i} \AgdaPrimitive{+} \AgdaBound{l}\AgdaSymbol{)} \AgdaSymbol{(}\AgdaBound{o} \AgdaPrimitive{+} \AgdaBound{l}\AgdaSymbol{))} \AgdaSymbol{\{}\AgdaBound{p} \AgdaSymbol{:} \AgdaFunction{comb'} \AgdaBound{c}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaFunction{W} \AgdaBound{i} \AgdaSymbol{→} \AgdaDatatype{List} \AgdaSymbol{(}\AgdaFunction{W} \AgdaBound{i}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaFunction{W} \AgdaSymbol{(}\AgdaBound{o} \AgdaPrimitive{+} \AgdaBound{l}\AgdaSymbol{)}\<%
+  \\
+  \>[2]\AgdaIndent{4}{}\<[4]%
+! \>[4]\AgdaFunction{delay'} \AgdaSymbol{\{\_\}} \AgdaSymbol{\{\_\}} \AgdaBound{c} \AgdaSymbol{\{}\AgdaBound{p}\AgdaSymbol{\}} \AgdaBound{w⁰} \AgdaInductiveConstructor{[]} \<[40]%
+  \>[40]\AgdaSymbol{=} \AgdaFunction{⟦} \AgdaBound{c} \AgdaFunction{⟧'} \AgdaSymbol{\{}\AgdaBound{p}\AgdaSymbol{\}} \AgdaSymbol{(}\AgdaBound{w⁰} \AgdaFunction{++} \AgdaFunction{replicate} \AgdaSymbol{(}\AgdaFunction{n→atom} \AgdaInductiveConstructor{Fz}\AgdaSymbol{))}\<%
+  \\
+  \>[2]\AgdaIndent{4}{}\<[4]%
+! \>[4]\AgdaFunction{delay'} \AgdaSymbol{\{\_\}} \AgdaSymbol{\{}\AgdaBound{o}\AgdaSymbol{\}} \AgdaBound{c} \AgdaSymbol{\{}\AgdaBound{p}\AgdaSymbol{\}} \AgdaBound{w⁰} \AgdaSymbol{(}\AgdaBound{w⁻¹} \AgdaInductiveConstructor{∷} \AgdaBound{w⁻}\AgdaSymbol{)} \<[40]%
+! \>[40]\AgdaSymbol{=} \AgdaFunction{⟦} \AgdaBound{c} \AgdaFunction{⟧'} \AgdaSymbol{\{}\AgdaBound{p}\AgdaSymbol{\}} \AgdaSymbol{(}\AgdaBound{w⁰} \AgdaFunction{++} \AgdaFunction{drop} \AgdaBound{o} \AgdaSymbol{(}\AgdaFunction{delay'} \AgdaSymbol{\{\_\}} \AgdaSymbol{\{}\AgdaBound{o}\AgdaSymbol{\}} \AgdaBound{c} \AgdaSymbol{\{}\AgdaBound{p}\AgdaSymbol{\}} \AgdaBound{w⁻¹} \AgdaBound{w⁻}\AgdaSymbol{))}\<%
+  \end{code}
+  %</delay>
+  -- HERE, (⟦ c ⟧' {p} (w⁰ ++ b⁻¹)), in the time difference between w⁰ and b⁻¹, resides the delay!
+--- 109,131 ----
+  -- again the "uncurrying trick" to convince the termination checker
+  %<*delay>
+  \begin{code}%
+! \>\AgdaFunction{delay} \AgdaSymbol{:} \AgdaSymbol{(}\AgdaBound{c} \AgdaSymbol{:} \AgdaDatatype{ℂ'} \AgdaSymbol{(}\AgdaBound{i} \AgdaPrimitive{+} \AgdaBound{l}\AgdaSymbol{)} \AgdaSymbol{(}\AgdaBound{o} \AgdaPrimitive{+} \AgdaBound{l}\AgdaSymbol{))} \AgdaSymbol{\{}\AgdaBound{p} \AgdaSymbol{:} \AgdaFunction{comb'} \AgdaBound{c}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaFunction{W} \AgdaBound{i} \AgdaFunction{⇒c} \AgdaFunction{W} \AgdaSymbol{(}\AgdaBound{o} \AgdaPrimitive{+} \AgdaBound{l}\AgdaSymbol{)}\<%
+  \\
+! \>\AgdaFunction{delay} \AgdaBound{c} \AgdaSymbol{\{}\AgdaBound{p}\AgdaSymbol{\}} \AgdaSymbol{=} \AgdaFunction{uncurry′} \AgdaSymbol{(}\AgdaFunction{delay'} \AgdaBound{c} \AgdaSymbol{\{}\AgdaBound{p}\AgdaSymbol{\})}\<%
+  \\
+  \>[0]\AgdaIndent{2}{}\<[2]%
+  \>[2]\AgdaKeyword{where}\<%
+  \\
+  \>[2]\AgdaIndent{4}{}\<[4]%
+! \>[4]\AgdaFunction{delay'} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{(}\AgdaBound{c} \AgdaSymbol{:} \AgdaDatatype{ℂ'} \AgdaSymbol{(}\AgdaBound{i} \AgdaPrimitive{+} \AgdaBound{l}\AgdaSymbol{)} \AgdaSymbol{(}\AgdaBound{o} \AgdaPrimitive{+} \AgdaBound{l}\AgdaSymbol{))} \AgdaSymbol{\{}\AgdaBound{p} \AgdaSymbol{:} \AgdaFunction{comb'} \AgdaBound{c}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaFunction{W} \AgdaBound{i} \AgdaSymbol{→} \AgdaDatatype{List} \AgdaSymbol{(}\AgdaFunction{W} \AgdaBound{i}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaFunction{W} \AgdaSymbol{(}\AgdaBound{o} \AgdaPrimitive{+} \AgdaBound{l}\AgdaSymbol{)}\<%
+  \\
+  \>[2]\AgdaIndent{4}{}\<[4]%
+! \>[4]\AgdaFunction{delay'} \AgdaBound{c} \AgdaSymbol{\{}\AgdaBound{p}\AgdaSymbol{\}} \AgdaBound{w⁰} \AgdaInductiveConstructor{[]} \<[40]%
+  \>[40]\AgdaSymbol{=} \AgdaFunction{⟦} \AgdaBound{c} \AgdaFunction{⟧'} \AgdaSymbol{\{}\AgdaBound{p}\AgdaSymbol{\}} \AgdaSymbol{(}\AgdaBound{w⁰} \AgdaFunction{++} \AgdaFunction{replicate} \AgdaSymbol{(}\AgdaFunction{n→atom} \AgdaInductiveConstructor{Fz}\AgdaSymbol{))}\<%
+  \\
+  \>[2]\AgdaIndent{4}{}\<[4]%
+! \>[4]\AgdaFunction{delay'} \AgdaBound{c} \AgdaSymbol{\{}\AgdaBound{p}\AgdaSymbol{\}} \AgdaBound{w⁰} \AgdaSymbol{(}\AgdaBound{w⁻¹} \AgdaInductiveConstructor{∷} \AgdaBound{w⁻}\AgdaSymbol{)} \<[40]%
+! \>[40]\AgdaSymbol{=} \AgdaFunction{⟦} \AgdaBound{c} \AgdaFunction{⟧'} \AgdaSymbol{\{}\AgdaBound{p}\AgdaSymbol{\}} \AgdaSymbol{(}\AgdaBound{w⁰} \AgdaFunction{++} \AgdaFunction{drop} \AgdaBound{o} \AgdaSymbol{(}\AgdaFunction{delay'} \AgdaBound{c} \AgdaSymbol{\{}\AgdaBound{p}\AgdaSymbol{\}} \AgdaBound{w⁻¹} \AgdaBound{w⁻}\AgdaSymbol{))}\<%
+  \end{code}
+  %</delay>
+  -- HERE, (⟦ c ⟧' {p} (w⁰ ++ b⁻¹)), in the time difference between w⁰ and b⁻¹, resides the delay!
