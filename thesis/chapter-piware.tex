@@ -815,7 +815,7 @@
             \subsubsection{Causal Streams}
             \label{subsubsec:causal-streams}
             Therefore, in Π-Ware, the semantic function for sequential circuits is built upon an
-            auxiliary definition, which gives \emph{one step} of a causal stream function, i.e,
+            helper definition, which gives \emph{one step} of a causal stream function, i.e,
             given the current and past values, it produces \emph{the next} value on the output.
             First, let's start by introducing (in Listing~\ref{lst:causal-types}) the types used to model causal streams.
 
@@ -845,6 +845,41 @@
                 \centering{\ExecuteMetaData[code/agda/latex/PiWare/Simulation/Core.tex]{eval-causal}}
                 \caption{Causal step semantics for sequential circuits.\label{lst:eval-causal}}
             \end{listing}
+
+            In the \AI{Nil}, \AI{Gate} and \AI{Plug} cases, the purely combinational semantics (\AF{⟦\_⟧'})
+            can be used (ignoring past inputs), and is passed (implicitly) the necessary proof of purity.
+            For example, in the \AI{Nil} case, the implicit argument has type
+            \AF{comb'} \AI{Nil} \AY{=} \AD{⊤}, therefore its only value (which Agda guesses) is \AF{tt}.
+
+            The \AI{DelayLoop} case makes use of a helper function (\AF{delay}) expressing the behaviour
+            of the memory element (flip-flop) \emph{inside} the \AI{DelayLoop} block
+            (as depicted in Figure~\ref{fig:semantics-syn-fundamental}).
+            Listing~\ref{lst:delay} shows the definition of \AF{delay}.
+
+            \begin{listing}[h]
+                \raggedleft{\ExecuteMetaData[code/agda/latex/PiWare/Simulation/Core.patched.tex]{delay}}
+                \caption{Function expressing the behaviour of a circuit memory element.\label{lst:delay}}
+            \end{listing}
+
+            It consists of just "uncurrying" another local definition (\AF{delay'}) which actually
+            performs the work.
+            This indirect definition is necessary in order to pass Agda's termination checker,
+            which needs that recursive calls be performed on at least one \emph{structurally smaller}
+            argument – in this case, the list of past inputs
+            (\AB{w⁻¹} \AI{∷} \AB{w⁻} becomes \AB{w⁻¹}).
+
+            The \AB{c} parameter to \AF{delay} is the \emph{combinational} part inside the \AI{DelayLoop}
+            block, thus its type (\AB{c} \AY{:} \AY{(}\AB{i} \AF{+} \AB{l}\AY{)} \AY{(}\AB{o} \AF{+} \AB{l}\AY{)})
+            increases the size of the input/output by the amount of wires that "loop back" through the flip-flop.
+            In the base case (no past), \AF{delay'} just simulates \AF{⟦} \AB{c} \AF{⟧'} with an \emph{undefined}
+            state – the \AD{Atom} indexed by zero (\AI{Fz}).
+            In the recursive case, the state is calculate by a recursive call to \AF{delay'}
+            where the "current" input has been substituted by the most recent past (\AB{w⁻¹}) and the "past"
+            by the even farther past (\AB{w⁻}).
+
+            %% TODO: structural constructor cases
+            %% runC and the "stream interface"
+            %% high-level sequential simulation
 
 
     \section{Proving circuit properties}
