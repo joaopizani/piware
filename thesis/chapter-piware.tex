@@ -895,8 +895,53 @@
             where the "current" input has been substituted by the first past value (\AB{w⁻¹}) and the "past"
             by the even farther past (\AB{w⁻}).
 
-            %% runC and the "stream interface"
-            %% high-level sequential simulation
+            \subsubsection{From step function to stream function}
+            The \emph{causal step function} (\AF{⟦\_⟧'}) produces only the next value of the
+            output stream, but the desired interface for simulation is one which, given a stream of
+            inputs, produces a stream of outputs, i.e, with type
+            \AD{Stream} \AY{(}\AD{W} \AB{i}\AY{)} \AY{→} \AD{Stream} \AY{(}\AD{W} \AB{o}\AY{)}.
+
+            To "bridge" this gap, the \AF{runc} function is used (Listing~\ref{lst:run-causal}).
+            It was translated into Agda from the paper
+            "The essence of dataflow programming"~\cite{essence-dataflow-programming}.
+
+            \begin{listing}[h]
+                \centering{\ExecuteMetaData[code/agda/latex/PiWare/Simulation/Core.tex]{run-causal}}
+                \caption{Producing a stream function from a causal step function.\label{lst:run-causal}}
+            \end{listing}
+
+            The implementation is based on a helper function (\AF{runc'}),
+            implemented using Agda's \emph{corecursion} features.
+            These features are located in a module of Agda's standard library called \AM{Coinduction},
+            but the term "coinduction" actually refers to a related proof technique,
+            used to prove facts about corecursive functions and coalgebraic datatypes.
+
+            A good introduction to coalgebras, coinduction and corecursion can be found in
+            Bart Jacobs's "Introduction to coalgebra"~\cite{introduction-coalgebra-jacobs}.
+            In essence, algorithms written using corecursion are a way to deal with (potentially) infinite
+            data structures in total languages.
+
+            In these languages, recursive functions need to \emph{terminate},
+            and in Agda the \emph{termination checker} uses a syntactic heuristic to ensure termination:
+            recursive calls must be performed with \emph{structurally smaller} arguments.
+            On the other hand, \emph{corecursive} functions must be \emph{productive}:
+            they must produce the "next" piece of information in finite time.
+            Agda's heuristics to ensure productivity is to look out for \emph{guardedness}.
+            Research about corecursion, coinduction and their implementation in total languages is thriving,
+            and the reader is directed to~\cite{coinductive-inductive-termination} for more information.
+
+            In the case of Π-Ware, it suffices to say that the corecursive call of \AF{runc'}
+            is indeed guarded (therefore productive), and that using \AF{runc} we can finally define
+            a \emph{sequential simulation semantics} (Listing~\ref{lst:eval-seq-core}) which both
+            has a convenient interface (stream-based) and models synchronous hardware faithfully (is causal).
+
+            \begin{listing}[h]
+                \ExecuteMetaData[code/agda/latex/PiWare/Simulation/Core.tex]{eval-seq-core-decl}
+                \ExecuteMetaData[code/agda/latex/PiWare/Simulation/Core.tex]{eval-seq-core-def}
+                \caption{The sequential simulation semantics.\label{lst:eval-seq-core}}
+            \end{listing}
+
+            %% TODO: high-level sequential simulation
 
 
     \section{Proving circuit properties}
