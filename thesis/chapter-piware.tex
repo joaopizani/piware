@@ -812,12 +812,13 @@
             One example of such a future-dependent behaviour.
             %% TODO: example of future-dependent stream function
 
-            \subsubsection{Causal Streams}
-            \label{subsubsec:causal-streams}
-            Therefore, in Π-Ware, the semantic function for sequential circuits is built upon an
-            helper definition, which gives \emph{one step} of a causal stream function, i.e,
-            given the current and past values, it produces \emph{the next} value on the output.
-            First, let's start by introducing (in Listing~\ref{lst:causal-types}) the types used to model causal streams.
+            \subsubsection{Causal step semantics}
+            \label{subsubsec:causal-step-semantics}
+            Therefore, in Π-Ware, the \emph{sequential semantics} for circuits (\AF{⟦\_⟧*'}) uses a
+            helper definition, a so-called \emph{causal step} semantics.
+            A \emph{causal step function} is a function which, given a \emph{causal context},
+            produces \emph{one} next value of the output stream.
+            Listing~\ref{lst:causal-types} shows the types used in Π-Ware to represent these concepts.
 
             \begin{listing}[h]
                 \centering{\ExecuteMetaData[code/agda/latex/Data/CausalStream.tex]{causal-context}}
@@ -826,15 +827,11 @@
                 \caption{Types used to model causal streams.\label{lst:causal-types}}
             \end{listing}
 
-            We represent a \emph{causal context} with values of type \AB{α} by \AD{Γc} \AB{α}.
-            It contains the current \emph{and} past values of the stream.
-            Agda's \emph{non-empty lists} are used to implement the context type.
-            In this way, there is always a current value (head of a list), while the past (tail)
-            might be empty.
-            In the \AM{Data.List.NonEmpty} module, the type \AD{List⁺} \AB{α} is defined
-            as just a \emph{type synonym} of \AB{α} \AD{×} \AD{List} \AB{α}, therefore, in some
-            places, to avoid confusion with normal lists, we use the \emph{pair constructor} (comma)
-            to pattern match on non-empty lists.
+            A \emph{causal context} with values of type \AB{α} is written as \AD{Γc} \AB{α}.
+            It is implemented as a \emph{type synonym} of Agda's non-empty lists.
+            In this way, there is always a current value (head), while the past (tail) might be empty.
+            In some places, when pattern matching non-empty lists, a comma (\AI{\_,\_}) is used
+            instead of the normal \emph{cons} operator (\AI{\_∷\_}), to avoid confusion with general lists.
 
             The \emph{causal step semantics} (\AF{⟦\_⟧c}) maps a circuit into a \emph{causal step function},
             i.e., given a circuit, it returns the function which has current and past inputs as arguments
@@ -846,13 +843,35 @@
                 \caption{Causal step semantics for sequential circuits.\label{lst:eval-causal}}
             \end{listing}
 
-            In the \AI{Nil}, \AI{Gate} and \AI{Plug} cases, the purely combinational semantics (\AF{⟦\_⟧'})
-            can be used (ignoring past inputs), and is passed (implicitly) the necessary proof of purity.
-            For example, in the \AI{Nil} case, the implicit argument has type
-            \AF{comb'} \AI{Nil} \AY{=} \AD{⊤}, therefore its only value (which Agda guesses) is \AF{tt}.
+            In the \AI{Nil}, \AI{Gate} and \AI{Plug} cases, the purely combinational semantic function
+            is called (ignoring past inputs), passing (implicitly) the necessary proof of purity.
+            In the definition of \AF{⟦\_⟧c} for \AI{\_⟫'\_}, the context of \AB{c₁} is just the context
+            of the sequence block as a whole, while the context of \AB{c₂} consists of the \emph{outputs}
+            of \AB{c₁}.
+            These outputs are calculated by \emph{mapping} the causal step function (\AF{⟦\_⟧c})
+            over \emph{all previous} contexts of \AB{c₁} (from most recent to oldest, given by \AF{tails⁺}).
+            
+            The parallel composition (\AI{\_|'\_}) case has the expected definition:
+            it splits the input context pointwise at offset \AB{i₁},
+            then applies \AF{⟦} \AB{c₁} \AF{⟧c} and \AF{⟦} \AB{c₂} \AF{⟧c} correspondingly and concatenates the results.
+            In the sum (\AI{\_|+'\_}) case, the past part of the context is seggregated into a product
+            with only \emph{left summands} in the first projection and \emph{right summands} in the second.
+            The type of \AF{untagList} helps to clarify its purpose:
 
-            The \AI{DelayLoop} case makes use of a helper function (\AF{delay}) expressing the behaviour
-            of the memory element (flip-flop) \emph{inside} the \AI{DelayLoop} block
+            \begin{center}
+                \ExecuteMetaData[code/agda/latex/PiWare/Synthesizable.tex]{untagList-decl}
+            \end{center}
+
+            These two seggregated pasts are then passed as the pasts of \AB{c₁} and \AB{c₂}, respectively.
+            The definition of \AI{\_|+'\_} is completed by pattern matching on the sum generated
+            by \AF{untag} \AY{\{}\AB{i₁}\AY{\}} \AB{w₀}, which gives the current input
+            (\AB{w⁰₁} resp. \AB{w⁰₂}) to be passed in the recursive calls with the subcircuits
+            (\AF{⟦} \AB{c₁} \AF{⟧c} resp. \AF{⟦} \AB{c₂} \AF{⟧c}).
+
+
+            \AI{DelayLoop} is the most important case, and a bit more involved.
+            It calls a helper function (\AF{delay})
+            expressing the behaviour of the memory element \emph{inside} the \AI{DelayLoop} block
             (as depicted in Figure~\ref{fig:semantics-syn-fundamental}).
             Listing~\ref{lst:delay} shows the definition of \AF{delay}.
 
@@ -863,21 +882,19 @@
 
             It consists of just "uncurrying" another local definition (\AF{delay'}) which actually
             performs the work.
-            This indirect definition is necessary in order to pass Agda's termination checker,
-            which needs that recursive calls be performed on at least one \emph{structurally smaller}
-            argument – in this case, the list of past inputs
-            (\AB{w⁻¹} \AI{∷} \AB{w⁻} becomes \AB{w⁻¹}).
+            This indirect definition is necessary to pass Agda's \emph{termination checker},
+            which requires recursive calls to be performed on at least one \emph{structurally smaller}
+            argument – in this case, the list of past inputs (\AB{w⁻¹} \AI{∷} \AB{w⁻} becomes \AB{w⁻¹}).
 
-            The \AB{c} parameter to \AF{delay} is the \emph{combinational} part inside the \AI{DelayLoop}
-            block, thus its type (\AB{c} \AY{:} \AY{(}\AB{i} \AF{+} \AB{l}\AY{)} \AY{(}\AB{o} \AF{+} \AB{l}\AY{)})
-            increases the size of the input/output by the amount of wires that "loop back" through the flip-flop.
-            In the base case (no past), \AF{delay'} just simulates \AF{⟦} \AB{c} \AF{⟧'} with an \emph{undefined}
-            state – the \AD{Atom} indexed by zero (\AI{Fz}).
-            In the recursive case, the state is calculate by a recursive call to \AF{delay'}
-            where the "current" input has been substituted by the most recent past (\AB{w⁻¹}) and the "past"
+            The \AB{c} parameter to \AF{delay} is the \emph{combinational} subcircuit inside the \AI{DelayLoop} block,
+            thus its type (\AB{c} \AY{:} \AY{(}\AB{i} \AF{+} \AB{l}\AY{)} \AY{(}\AB{o} \AF{+} \AB{l}\AY{)})
+            includes the amount of wires (\AB{l}) "looping back" through the memory element.
+            In the base case (empty past), \AF{delay'} simulates \AF{⟦} \AB{c} \AF{⟧'}
+            with an \emph{undefined} state – consisting of \AD{Atom}s indexed by zero (\AI{Fz}).
+            In the recursive case, the state is calculate by a recursive call,
+            where the "current" input has been substituted by the first past value (\AB{w⁻¹}) and the "past"
             by the even farther past (\AB{w⁻}).
 
-            %% TODO: structural constructor cases
             %% runC and the "stream interface"
             %% high-level sequential simulation
 
