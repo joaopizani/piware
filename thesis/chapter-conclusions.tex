@@ -1,35 +1,25 @@
 \chapter{Conclusions}
 \label{chap:conclusions}
+    %% TODO: before the sections, "tie the knots" and give a general conclusion
 
-    \section{Discussion and Related Work}
-    \label{sec:related-work}
+    \section{Current limitations}
+    \label{sec:current-limitations}
         \begin{itemize}
-            \item Reiterate what was achieved
-            \item Compare to other \acp{EDSL} for similarities and differences
+            \item Synthesizable instances are not proven bijections?
+            \item Big circuits consume too much time and memory to typecheck
+                \subitem Who to blame?
+                \subitem Instance search
+                \subitem Combinational proofs
+            \item Circuit interfaces are described by \emph{just a size}
+                \subitem Simple, but generates ugly VHDL
+                \subitem All circuits have one big vector input and one output
+                \subitem Could we make the interface indices more \emph{structured}?
         \end{itemize}
 
-
-    \section{Future work}
-    \label{sec:future-work}
-
-        \subsection{Current limitations}
-        \label{subsec:current-limitations}
-            \begin{itemize}
-                \item Synthesizable instances are not proven bijections?
-                \item Big circuits consume too much time and memory to typecheck
-                    \subitem Who to blame?
-                    \subitem Instance search
-                    \subitem Combinational proofs
-                \item Circuit interfaces are described by \emph{just a size}
-                    \subitem Simple, but generates ugly VHDL
-                    \subitem All circuits have one big vector input and one output
-                    \subitem Could we make the interface indices more \emph{structured}?
-            \end{itemize}
-
-        \subsection{Future research}
-        \label{subsec:future-research}
-            \begin{itemize}
-                \item More broadly, considering \emph{Π-Ware}, what would be the ``next steps''.
-                \item Map arbitrary Agda types to words (via sum-of-products) in a GP way.
-            \end{itemize}
+    \section{Future research}
+    \label{sec:future-research}
+        \begin{itemize}
+            \item More broadly, considering \emph{Π-Ware}, what would be the ``next steps''.
+            \item Map arbitrary Agda types to words (via sum-of-products) in a GP way.
+        \end{itemize}
 
