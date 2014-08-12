@@ -38,6 +38,7 @@
         This construct is called the "μ combining form" in μFP, and actually gave the language its name,
         as μFP is an extension of Backus's FP~\cite{backus-turing-lecture} with exactly this one
         extra combining form.
+
         The Π-Ware equivalent of μ is called the \AI{DelayLoop} constructor, but it works in exactly the same way:
         given a combinational circuit, it "loops" part of the output back into that circuit's input,
         passing it through a memory element (a \emph{clocked latch}).
@@ -55,10 +56,15 @@
         input stream and the head is an "undefined" \AD{Atom} (the \AD{Atom} indexed by \AI{zero}).
         The output stream can be said to be "shifted" by one clock cycle, thus the circuit's name.
 
+        Making use of dependent types, Π-Ware "tags" circuits with information on whether or not
+        they have cycles (and thus state).
+        In this way, \emph{combination simulation} (which disregards past inputs) only happens
+        when a circuits is \emph{provably} cycle-free.
+
         \subsubsection{Lava}
         From Lava~\cite{observable-sharing-circuits} Π-Ware borrowed the idea of \emph{connection patterns}.
-        Connection patterns are higher-order functions parameterized by circuits in order to produce
-        larger, more powerful circuits.
+        Connection patterns are functions that, given a circuit or circuits,
+        produce a larger, more powerful circuit by connecting its arguments in a certain \emph{pattern}.
         Usually these connection patterns are parameterized by a \emph{size} parameter,
         and are defined by induction on it.
 
@@ -78,6 +84,76 @@
             }
             \caption{Lava's \mintinline{haskell}{compose} connection pattern.\label{lst:lava-compose}}
         \end{listing}
+
+        And for comparison, Π-Ware's version of it (named \AF{seqs'}) is shown in Listing~\ref{lst:seqs-core}.
+
+        \begin{listing}[h]
+            \centering{\ExecuteMetaData[code/agda/latex/PiWare/Patterns/Core.tex]{seqs-core}}
+            \caption{Π-Ware's version of the \texttt{compose} connection pattern.\label{lst:seqs-core}}
+        \end{listing}
+
+        Even though the \AF{seqs'} is written by using a fold on the vector of circuits and
+        Lava's \mintinline{haskell}{compose} uses explicit recursion, the behaviour of both is the same:
+        they connect the given circuit in series, i.e.,
+        with the output of circuit $n$ connected to the input of circuit $n+1$.
+        It is important to notice, however, how Π-Ware uses an \emph{explicit} sequential combination
+        operator in the fold (\AI{\_⟫'\_}), while Lava uses Haskell's own function application syntax for
+        this – the output of the first circuit in the list (\mintinline{haskell}{x = circ inp})
+        is fed to the remainder of the "chain".
+
+        In Lava's \mintinline{haskell}{compose}, an ordinary Haskell \texttt{List} is used
+        as the collection of circuits to be connected.
+        Therefore, as Haskell's lists are homogeneous, all of its elements – in this case,
+        all of the circuits to be combined – must have the \emph{same type}.
+        Using Agda, this unnecessary constraint imposed upon the collection of circuits could
+        be lifted, and a more general pattern achieved.
+
+        The minimum requirement to connect a collection of circuits in series is that their \emph{interfaces match},
+        i.e., the output of circuit $n$ has the same size as the input of circuit $n+1$.
+        The \AM{PiWare.Patterns} module is still very much a work-in-progress,
+        and therefore such a generalized sequencing pattern is not yet implemented,
+        but we expect that the concept of \emph{typed lists} as defined in a paper by
+        McKinna and Wright~\cite{typed-stack-safe-compiler} will be useful to capture this notion of
+        \emph{constrained} heterogeneous list.
+
+        Moving away from connection patters, one aspect in which Π-Ware improves significantly
+        upon Lava is the \emph{size checking} of circuits.
+        As already mentioned briefly in Section~\ref{subsec:embedded-functional-hardware},
+        Lava's usage of Haskell lists to express generically-sized circuit definitions leaves some
+        mistakes undetected.
+
+        For example, in the case of a generically-sized adder, the two inputs are expected to be
+        of the \emph{same size}, but the \texttt{List} type cannot provide this guarantee,
+        thus if mismatching inputs are provided, the error will only be detected at runtime.
+        Notice how in the example Lava definition of a binary adder,
+        the case with input lists of mismatching sizes is left undefined, making a runtime error possible:
+
+        \begin{haskellcode}
+        adder :: (Signal Bool, ([Signal Bool], [Signal Bool]))
+              -> ([Signal Bool], Signal Bool)
+
+        adder (carryIn, ([] ,[]))    = ([], carryIn)
+        adder (carryIn, (a:as, b:bs) = (sum:sums, carryOut)
+            where (sum, carry)     = fullAdd (carryIn, (a, b))
+                  (sums, carryOut) = adder (carry, (as, bs))
+        \end{haskellcode}
+
+        In contrast, Π-Ware makes use of dependent types and has its circuit type (\AD{ℂ'})
+        \emph{indexed by the size} of circuit inputs and outputs, thus enforcing these constraints easily.
+        In Listing~\ref{lst:ripple} is an example of a ripple-carry added modelled in Π-Ware.
+        Notice how the.
+
+        \begin{listing}[h]
+            \centering{\ExecuteMetaData[code/agda/latex/PiWare/Samples/RippleCarry.tex]{ripple}}
+            \caption{Example of a ripple-carry adder modelled in Π-Ware.\label{lst:ripple}}
+        \end{listing}
+
+        Possibility to use \emph{high-level}, Agda types to model and simulate circuits.
+        In contrast, Lava's circuit descriptions are essentially untyped.
+        There in only a choice between
+        %% TODO: lava low-level vs. Π-Ware high-level
+
+        \subsubsection{ForSyDe}
 
 
     \section{Dependently-Typed Hardware \acp{EDSL}}
