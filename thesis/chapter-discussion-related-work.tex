@@ -11,6 +11,8 @@
 
     \section{Functional hardware \acp{EDSL}}
     \label{sec:discussion-functional}
+
+        \subsubsection{μFP}
         Π-Ware is a \emph{deep}-embedded \ac{DSL}, and was made so in order to allow for multiple
         interpretations or \emph{semantics} of circuits.
         The mapping between Π-Ware circuits and different semantics is similar to the behaviour
@@ -52,6 +54,33 @@
         When simulated, this circuit produces an output stream in which the tail is a copy of the
         input stream and the head is an "undefined" \AD{Atom} (the \AD{Atom} indexed by \AI{zero}).
         The output stream can be said to be "shifted" by one clock cycle, thus the circuit's name.
+
+        \subsubsection{Lava}
+        From Lava~\cite{observable-sharing-circuits} Π-Ware borrowed the idea of \emph{connection patterns}.
+        Connection patterns are higher-order functions parameterized by circuits in order to produce
+        larger, more powerful circuits.
+        Usually these connection patterns are parameterized by a \emph{size} parameter,
+        and are defined by induction on it.
+
+        One example in Lava of such a connection pattern is \mintinline{haskell}{compose},
+        the sequential composition of a series of circuits.
+        The code for \mintinline{haskell}{compose} is shown on Listing~\ref{lst:lava-compose}.
+
+        \begin{listing}[h]
+            \centering{
+                \begin{haskellcode}
+        compose [] inp = inp
+        compose (circ : circs) = out
+            where
+                x = circ inp
+                out = compose circs x
+                \end{haskellcode}
+            }
+            \caption{Lava's \mintinline{haskell}{compose} connection pattern.\label{lst:lava-compose}}
+        \end{listing}
+
+
+    \section{Dependently-Typed Hardware \acp{EDSL}}
 
     % Lava similarities
     %     Deep embedded
