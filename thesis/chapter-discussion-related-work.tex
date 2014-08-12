@@ -1,20 +1,57 @@
 \chapter{Discussion and related work}
 \label{chap:discussion-related-work}
-    \begin{itemize}
-        \item Reiterate what was achieved
-        \item Compare to other \acp{EDSL} for similarities and differences
-            \subitem To normal functional hardware DSLs, highlight how π types help
-            \subitem To DTP hardware EDSLs, focusing on differences
-    \end{itemize}
 
-    % μFP similarities
-    %     Double interpretation – simulation and synthesis
-    %     Single construct for introducing state – μ
-    %       (reiterate shift register example and show Π-Ware code)
-    % μFP differences
-    %     The synthesis interpretation is not geometrical, but only produces a netlist
-    %     Π-Ware is of course embedded, so hardware connection patterns are expressed
-    %       by explicit operators instead of language builtins (_>>'_ instead of application)
+    The goals of Π-Ware and the techniques used in the library were very much inspired by the
+    \acp{EDSL} already mentioned in Sections~\ref{subsec:embedded-functional-hardware}
+    and~\ref{sec:hardware-dtp}, some of which were more deeply studied in a project
+    predating this thesis.
+
+    In this chapter we provide an overviwe of Π-Ware's features by means of example circuits and
+    drawing comparisons with related work.
+
+    \section{Functional hardware \acp{EDSL}}
+    \label{sec:discussion-functional}
+        Π-Ware is a \emph{deep}-embedded \ac{DSL}, and was made so in order to allow for multiple
+        interpretations or \emph{semantics} of circuits.
+        The mapping between Π-Ware circuits and different semantics is similar to the behaviour
+        of μFP~\cite{mufp-1984}.
+        Each constructor of Π-Ware's low-level circuit datatype (\AD{ℂ'}) corresponds to two
+        semantics, as in μFP: the \emph{simulation} semantics and the \emph{synthesis} semantics.
+        Even though μFP is not embedded, and therefore does not have "circuit constructors" as
+        (deep) \acp{EDSL} would have, we can still relate μFP's composition to Π-Ware's sequencing,
+        μFP's tupling to Π-Ware parallel composition and so forth, keeping the analogy.
+
+        There is a fundamental difference in what regards the \emph{synthesis} semantics of Π-Ware
+        and μFP: the synthesis semantics of μFP prescribes a \emph{floorplan}, while Π-Ware synthesis
+        only specifies a \emph{netlist}.
+        A \emph{netlist} is a directed graph with logic gates as nodes and signals (wires) as edges.
+        Producing a \emph{floorplan} goes one (slight) step further, by specifying relative
+        physical positions between the components, such as "besides", "adjacent to", etc.
+        In Π-Ware's case, it is the job of \emph{other} tools in the implementation chain to take
+        Π-Ware's generated \ac{VHDL} as input and perform placement and routing.
+
+        A last idea from μFP which inspired Π-Ware greatly was the definition of a
+        single operator capable of introducing \emph{state} into circuits.
+        It is also the only way to introduce loops in circuits.
+        This construct is called the "μ combining form" in μFP, and actually gave the language its name,
+        as μFP is an extension of Backus's FP~\cite{backus-turing-lecture} with exactly this one
+        extra combining form.
+        The Π-Ware equivalent of μ is called the \AI{DelayLoop} constructor, but it works in exactly the same way:
+        given a combinational circuit, it "loops" part of the output back into that circuit's input,
+        passing it through a memory element (a latch).
+        Being the \emph{only} way to introduce loops, it also ensures that circuits contain no
+        \emph{combinational loops}.
+
+        The example of a shift register – with its μFP geometrical semantics shown in
+        Figure~\ref{fig:mufp-shift} – has the following equivalent description in Π-Ware:
+
+        \begin{center}
+            \ExecuteMetaData[code/agda/latex/PiWare/Samples/BoolTrioSeq.tex]{shift}
+        \end{center}
+
+        When simulated, this circuit produces an output stream in which the tail is a copy of the
+        input stream and the head is an "undefined" \AD{Atom} (the \AD{Atom} indexed by \AI{zero}).
+        The output stream can be said to be "shifted" by one clock cycle, thus the circuit's name.
 
     % Lava similarities
     %     Deep embedded
@@ -32,4 +69,12 @@
     % ForSyDe differences
     %     No facilities to reason about and prove circuit properties
     %     Π-Ware only deals with the synchronous model of computation
+
+    % Coquet
+    %     Circuit type with same structure
+    %     Sizes instead of more structures types as indices
+    %     Coquet's general types hard to synthesize
+    %         Elaborate example
+    %     Elaborate over semantics of sequential circuits
+    %     (DelayLoop vs. Delay, Coquet not synthesizing loops, etc.)
 
