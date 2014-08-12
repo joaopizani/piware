@@ -1,0 +1,59 @@
+*** latex/PiWare/Samples/RippleCarry.tex	2014-08-13 00:33:38.546489600 +0200
+--- latex/PiWare/Samples/RippleCarry.patched.tex	2014-08-13 00:32:49.280728500 +0200
+***************
+*** 45,47 ****
+--- 45,98 ----
+      ⟫ pCons || pid
+      where pAssoc = pARL ⟫ pARL || pid
+  %</ripple-commented>
++ 
++ 
++ %<*ripple>
++ \begin{code}
++ \>\AF{ripple} \AY{:} \AY{(}\AR{n} \AY{:} \AD{ℕ}\AY{)} \AY{→} \AK{let} \AR{W} \AY{=} \AD{Vec} \AD{B} \AB{n} \AK{in} \AD{ℂ} \AY{(}\AD{B} \AD{×} \AR{W} \AD{×} \AR{W}\AY{)} \AY{(}\AR{W} \AD{×} \AD{B}\AY{)}\<%
++ \\
++ \>\AF{ripple} \AI{zero} \<[13]%
++ \>[13]\AY{=} \AF{pid} \AF{||} \AF{pFst} \AF{⟫} \AF{pSwap}\<%
++ \\
++ \>\AF{ripple} \AY{(}\AI{suc} \AB{m}\AY{)} \<[13]%
++ \>[13]\AY{=}\<%
++ \\
++ \>[5]\AT{9}{}\<[9]%
++ \>[9]\AF{pid} \<[14]%
++ \>[14]\AF{||} \<[17]%
++ \>[17]\AY{(}\AF{pUncons} \AF{||} \AF{pUncons} \AF{⟫} \AF{pIntertwine}\AY{)}\<%
++ \\
++ \>[5]\AT{12}{}\<[7]%
++ \>[7]\AF{⟫} \<[12]%
++ \>[12]\AT{12}{}\AF{pAssoc}\<%
++ \\
++ \>[5]\AT{12}{}\<[7]%
++ \>\AF{⟫} \<[9]%
++ \>[9]\AF{fadd} \<[14]%
++ \>[14]\AF{||} \<[17]%
++ \>[17]\AF{pid}\<%
++ \\
++ \>[5]\AT{12}{}\<[7]%
++ \>[7]\AF{⟫} \<[12]%
++ \>[12]\AT{12}{}\AF{pALR}\<%
++ \\
++ \>[5]\AT{12}{}\<[7]%
++ \>[7]\AF{⟫} \<[9]%
++ \>[9]\AF{pid} \<[14]%
++ \>[14]\AF{||} \<[17]%
++ \>[17]\AF{ripple} \AB{m}\<%
++ \\
++ \>[5]\AT{12}{}\<[7]%
++ \>[7]\AF{⟫} \<[12]%
++ \>[12]\AT{12}{}\AF{pARL}\<%
++ \\
++ \>[5]\AT{12}{}\<[7]%
++ \>[7]\AF{⟫} \<[9]%
++ \>[9]\AF{pCons} \<[14]%
++ \>[14]\AF{||} \<[17]%
++ \>[17]\AF{pid}\<%
++ \\
++ \>[5]\AT{12}{}\<[7]%
++ \>[7]\AF{where} \AF{pAssoc} \AF{=} \AF{pARL} \AF{⟫} \AF{pARL} \AF{||} \AF{pid}\<%
++ \end{code}
++ %</ripple>
