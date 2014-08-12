@@ -15,7 +15,7 @@
 
         Also, the transformation steps in the software and hardware chains are different,
         as depicted in Figure~\ref{fig:sw-hw-chains}.
-        In this figure, the rectangular boxes represent transformations steps towards a more detailed description,
+        In this figure, the rectangular boxes represent transformation steps towards a more detailed description,
         while the ellipsoid shapes represent artifacts that are consumed/produced by each step.
 
         \begin{figure}[h]
@@ -30,8 +30,7 @@
         Nowadays they are used by hardware engineers to write both behavioural specifications of circuits
         (topmost ellipsis in Figure~\ref{fig:sw-hw-chains}) as well as \ac{RTL} descriptions.
         However, these languages were originally designed for \emph{simulation} purposes,
-        and there are several problems that arise when using them to
-        model hardware \emph{architecture} and behaviour.
+        and several problems arise when using them to model hardware \emph{architecture} and behaviour.
 
         First of all, only a \emph{subset} of these languages can be used for \emph{synthesis}
         (actually deriving a netlist and floorplan).
@@ -195,7 +194,7 @@
             In Lava, circuits are written as normal Haskell functions, by using pattern matching,
             function application and local naming.
             One restriction is that the types of the arguments are
-            constructed by the \texttt{Signal} type constructor.
+            constructed by the \mintinline{haskell}{Signal} type constructor.
             For example, a negation gate in Lava would have the following type signature:
 
             \begin{haskellcode}
@@ -212,7 +211,7 @@
         nand2 (a, b) = inv (and2 (a, b))
             \end{haskellcode}
 
-            Finally, due to the instances provided for the \texttt{Signal} type, the only way to
+            Finally, due to the instances provided for the \mintinline{haskell}{Signal} type, the only way to
             aggregate bits in Lava is by using tuples and lists.
             Using only these structures we forego some type safety that Haskell \emph{could} provide.
             For example, an n-bit binary (ripple-carry) adder in Lava has the following description:
@@ -229,16 +228,16 @@
 
             In this circuit description, there is an \emph{expectation} that both inputs have the same size.
             When this expectation is not met, a \emph{run-time} error will occur during simulation.
-            This happens because the given definition is \emph{partial}:
-            the cases for \texttt{(carryIn, ([], b:bs))} and \texttt{(carryIn, (a:as, []))} are left undefined.
+            This happens because the given definition is \emph{partial}: the cases for
+            \mintinline{haskell}{(carryIn, ([], b:bs))} and \mintinline{haskell}{(carryIn, (a:as, []))} are left undefined.
 
-            This limitation of Lava can be solved by dependent types, namely by using statically-sized vectors.
+            This limitation of Lava can be solved by dependent types, namely using statically-sized vectors.
             Another limitation of Lava is related to the way in which it solves the observable sharing question:
-            in order to detect sharing and cycles, the equality over the \texttt{Signal} type is defined
+            in order to detect sharing and cycles, the equality over the \mintinline{haskell}{Signal} type is defined
             as an equality over the references used.
             Therefore, comparisons of signals "created" in different sites will fail,
             even though their values are the same.
-            For example, the following expressions will evaluate to \texttt{False}:
+            For example, the following expressions will evaluate to \mintinline{haskell}{False}:
 
             \begin{haskellcode}
         test1 :: Bool
@@ -286,21 +285,25 @@
         adderProc = zipWithSY "adderProcess" adderFun
             \end{haskellcode}
 
-            Notice how the \texttt{adderFun} \emph{process function} is built from a regular Haskell function
-            (\texttt{adderFun'}), which is then \emph{quoted} (by the \texttt{[d|} quasi-quoter), processed by
-            \texttt{newProcFun} and finally \emph{spliced} back into place.
+            Notice how the \mintinline{haskell}{adderFun} \emph{process function} is built from a regular Haskell function
+            (\mintinline{haskell}{adderFun'}), which is then \emph{quoted} (by the \texttt{[d|} quasi-quoter),
+            processed by \mintinline{haskell}{newProcFun} and finally \emph{spliced} back into place.
             The (combinational) process function is then \emph{lifted} into the synchronous sequential setting
-            by the \texttt{zipWithSY} \emph{process constructor}, which just "zips" the inputs signals (streams)
-            by applying the given process function \emph{pointwise}.
+            by the \mintinline{haskell}{zipWithSY} \emph{process constructor},
+            which just "zips" the inputs signals (streams) by applying the given process function \emph{pointwise}.
 
-            Not any Haskell function can be quoted and processed by \texttt{newProcFun}
-            and turned into a ForSyDe process function: the argument and return types of a \texttt{ProcType}
-            must belong to the \texttt{ProcType} type class. Instances of this class are provided only for:
+            Not any Haskell function can be quoted and processed by \mintinline{haskell}{newProcFun}
+            and turned into a ForSyDe process function:
+            the argument and return types of a \mintinline{haskell}{ProcFun} must belong
+            to the \mintinline{haskell}{ProcType} type class.
+            Instances of this class are provided only for:
 
             \begin{description}
-                \item[Primitive types] \texttt{Int}, \texttt{Int8}, \texttt{Int16}, \texttt{Int32}, \texttt{Bool}, \texttt{Bit}
-                \item[Enumerated types] User-defined enumerations, with derived instances for \texttt{Data} and \texttt{Lift}
-                \item[Containers] Tuples and fixed-length vectors (\texttt{Data.Param.FSVec}),
+                \item[Primitive types] \mintinline{haskell}{Int}, \mintinline{haskell}{Int8}, \mintinline{haskell}{Int16},
+                    \mintinline{haskell}{Int32}, \mintinline{haskell}{Bool}, \mintinline{haskell}{Bit}
+                \item[Enumerated types] User-defined enumerations,
+                    with instances for \mintinline{haskell}{Data} and \mintinline{haskell}{Lift}
+                \item[Containers] Tuples and fixed-length vectors (\mintinline{haskell}{Data.Param.FSVec}),
                     holding a type of the above two categories and unrestrictedly nested.
             \end{description}
 
@@ -312,17 +315,17 @@
                 \item[Pointed notation] Declarations with point-free notation are not accepted
                 \item[Single-clause] To be synthesizable,
                     the body of a \emph{process function} cannot have multiple clauses,
-                    and it cannot have \texttt{let} or \texttt{where} blocks.
+                    and it cannot have \mintinline{haskell}{let} or \mintinline{haskell}{where} blocks.
                     This essentially forbids recursion inside \emph{process functions}.
-                    Pattern matching is only possible by using the \texttt{case} construct.
+                    Pattern matching is only possible by using the \mintinline{haskell}{case} construct.
             \end{description}
 
             Despite all these limitations,
             ForSyDe still provides a more typed approach to hardware description than Lava,
             with perhaps its most distinctive feature being the usage of fixed-length vectors.
-            In the \texttt{parameterized-data} package page
-            on \emph{Hackage}~\footnote{\url{http://hackage.haskell.org/package/parameterized-data-0.1.5}},
-            the authors admit that the library's function is to provide
+            In the \texttt{parameterized-data} page on
+            \emph{Hackage}~\footnote{\url{http://hackage.haskell.org/package/parameterized-data-0.1.5}},
+            the authors admit that the library's goal is to provide
             "type-level computations and \emph{emulate dependent types}".
             Therefore it is not a stretch to assume that using \emph{actual} dependent types
             could improve on the ideas proposed by ForSyDe.
@@ -387,10 +390,10 @@
             because the language runtime first \emph{implicitly casts} the integer to a string,
             effectively performing string concatenation.
             This \emph{implicit} behaviour can cause all sorts of programmer mistakes to go undetected.
-            It is also hard to formulate properties about addition \emph{in general} when all sorts
+            It is also hard to reason about addition \emph{in general} when all sorts
             of coercions can happen at runtime.
             To define addition sensibly, therefore, a type system can help by
-            banning all programs that would try to add incompatible values.
+            banning all programs trying to add incompatible values.
 
             Type systems can have very different properties and be implemented in very different ways.
             Some of the ways in which type systems can be categorized are~\cite{understanding-types-cardelli}:
@@ -417,13 +420,13 @@
                     In Haskell, ad-hoc polymorphism is implemented in the \emph{type class system}.
                     A typical example of an ad-hoc polymorphic function is a comparison-based sorting algorithm
                     in which – depending on the type of the elements in the collection – different
-                    comparison operators are be used.
+                    comparison operators are used.
             \end{itemize}
 
             Polymorphism adds \emph{expressivity} and makes a type system stronger,
             in the sense that it allows for more precise specifications.
             For example, if we want to implement a \texttt{swap} function for pairs in Haskell,
-            we could do start by specifying the type of the function in a non-polymorphic way:
+            we could start by specifying the type of the function in a non-polymorphic way:
             \begin{haskellcode}
         swap' :: (Int , Int) -> (Int , Int)
             \end{haskellcode}
@@ -440,10 +443,10 @@
         swap'' :: (a , a) -> (a , a)
             \end{haskellcode}
 
-            Now any "constant" definition will \emph{not anymore fit the type specified}.
+            Now "constant" definitions will \emph{not have the specified type} anymore.
             This because the only way to get an element of the \emph{polymorphic type} \texttt{a}
-            is to use what is in the parameter passed to the function.
-            However, we could still write a wrong functions with this type, for example the identity:
+            is to use the parameter passed to the function.
+            However, we could still write a wrong function with this type, for example the identity:
             \begin{haskellcode}
         swap'' (x , y) = (x , y)
             \end{haskellcode}
@@ -455,7 +458,7 @@
         swap :: (a , b) -> (b , a)
             \end{haskellcode}
 
-            Now, \emph{any total definition with this type} is a correct definition of swap.
+            Now, \emph{any total definition with this type} is a correct definition of \texttt{swap}.
             Because of the way in which we use type variables (\texttt{a} and \texttt{b}) in the signature,
             there is only one possible implementation of \texttt{swap}:
             \begin{haskellcode}
@@ -497,7 +500,7 @@
             \end{listing}
 
             In the signature of \AF{take}, a dependent function space is used both
-            to restrict the \emph{domain} and to express a desired property of the \emph{result}.
+            to restrict the \emph{domain} and to express a desired property of the \emph{codomain}.
             Notice how the vector parameter has a type (\AD{Vec} \AB{α} \AY{(}\AB{k} \AF{+} \AB{n}\AY{)})
             which \emph{depends on the value} of the first (explicit) parameter: \AB{k}.
             Also, the result type is restricted to \AD{Vec} \AB{α} \AB{k}.
@@ -511,12 +514,12 @@
             are ruled out \emph{by the type checker at compile-time}.
 
             Until now, we have approached languages with dependent types as a way to help with \emph{programming}.
-            Specificaly, we gave examples on how using dependent types in function's type signatures
+            Specifically, we gave examples on how using dependent types in function's type signatures
             can rule out incorrect implementations \emph{by design}.
             Dependently-typed languages can also be seen from a \emph{logical} point of view.
 
-            This remark – that a programming language (with it's type system) can also be seen as a logic –
-            goes back to the early days of computing, and is known by several names,
+            This remark – that a programming language (with it's type system) can also be seen
+            as a logic system – goes back to the early days of computing, and is known by several names,
             among which "Curry-Howard isomorphism" and "propositions as types"~\cite{propositions-as-types}.
             It initially was "discovered" as a connection between the simply-typed lambda calculus
             and intuitionistic propositional logic.
@@ -540,7 +543,7 @@
                     \label{lst:nat-le}}
             \end{listing}
 
-            Having defined this relation, we can then prove facts which involve it.
+            Having defined this relation, we can then prove facts involving it.
             For example, one trivial fact is that two is smaller-than-or-equal to four,
             which has the trivial proof shown in Listing~\ref{lst:le-two-four}.
 
@@ -551,11 +554,11 @@
             \end{listing}
 
             Following the "propositions as types" isomorphism, the type of \AF{twoLEQFour}
-            is a logic statement, and the expression to the right-hand side of the equals sign
-            (the body of the function) is a \emph{proof} of this statement.
-            The proof is built with \AI{z≤n} as its "basis", the fact that \AI{zero} is
-            lesser-than-or equal to any number.
-            Then \AI{s≤s} is applied twice, producing, respectively, \AN{1} \AD{≤} \AN{4}
+            can be seen as a logic statement, and the expression to the right-hand side of the equals sign
+            (the body of the function) as a \emph{proof} of this statement.
+            The proof is built with \AI{z≤n} as its "basis" (the fact that \AI{zero} is
+            lesser-than-or equal to any number), producing \AN{0} \AD{≤} \AN{2}.
+            Then \AI{s≤s} is applied twice, producing, respectively, \AN{1} \AD{≤} \AN{3}
             and finally \AN{2} \AD{≤} \AN{4}.
 
             Of course more "interesting" and general statements can be proved.
@@ -574,7 +577,7 @@
 
             For example, we have already shown (in Listing~\ref{lst:take-decl}) how to have a safe
             version of a prefix-taking function for statically-sized arrays:
-            by using a specially-designed type for the desired amount.
+            by using a specially-crafted input type.
             Now we have another way to express the same requirement:
             we can explicitly require a proof argument be passed,
             guaranteeing that the amount to be "taken" is \emph{less than or equal} to the array size.
@@ -613,10 +616,10 @@
         In the paper by Brady, McKinna \& Hammond~\cite{brady-constructing},
         the functional specification of a circuit is carried \emph{in the type} of the circuit.
         This, according to the authors, means that
-        "a type correct program is a constructive proof that the program meets its specification".
+        "a type-correct program is a constructive proof that the program meets its specification".
 
-        In Π-Ware, on the other hand, a circuit's type only express its input and output types,
-        and give some \emph{structural well-formedness guarantees} (correct sizing).
+        In Π-Ware, on the other hand, a circuit's type only expresses its input and output types,
+        and gives some \emph{structural well-formedness guarantees} (correct sizing).
         The development of Π-Ware was already underway as this paper first came to my knowledge.
         Even so, the decision of keeping circuits and proofs apart (though in the same language)
         still seems to have been the right one; mainly because of the requirement that circuits
@@ -631,7 +634,7 @@
                 interactive commands, and user-defined proof tactics}.
             Coquet and Π-Ware share some very important characteristics and differ on several others,
             with these differences caused not only by the different host languages used (Coq and Agda),
-            but also by different implementations chosen for some concepts.
+            but also by different implementations chosen for some core concepts.
 
             First of all, the similarities.
             Coquet's circuit datatype utilizes the same concept of \emph{structural} description
