@@ -6,3 +6,30 @@
             \subitem To normal functional hardware DSLs, highlight how π types help
             \subitem To DTP hardware EDSLs, focusing on differences
     \end{itemize}
+
+    % μFP similarities
+    %     Double interpretation – simulation and synthesis
+    %     Single construct for introducing state – μ
+    %       (reiterate shift register example and show Π-Ware code)
+    % μFP differences
+    %     The synthesis interpretation is not geometrical, but only produces a netlist
+    %     Π-Ware is of course embedded, so hardware connection patterns are expressed
+    %       by explicit operators instead of language builtins (_>>'_ instead of application)
+
+    % Lava similarities
+    %     Deep embedded
+    %     Synthesis and simulation
+    %     Kinda same idea of connection patterns?
+    % Lava differences
+    %     No model checking output – no need as there's native proving using Agda
+    %     Proofs can be written for statements regarding whole families of circuits (for all sizes, etc)
+    %     High-level layer of types instead of just Bools, lists and tuples
+
+    % ForSyDe similarities
+    %     Deep embedded
+    %     Uses statically-sized vectors (just an emulation of dependent types)
+    %     Simulation and synthesis (synthesis to hierarchical VHDL)
+    % ForSyDe differences
+    %     No facilities to reason about and prove circuit properties
+    %     Π-Ware only deals with the synchronous model of computation
+
