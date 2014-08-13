@@ -216,15 +216,9 @@
             Using only these structures we forego some type safety that Haskell \emph{could} provide.
             For example, an n-bit binary (ripple-carry) adder in Lava has the following description:
 
-            \begin{haskellcode}
-        adder :: (Signal Bool, ([Signal Bool], [Signal Bool]))
-              -> ([Signal Bool], Signal Bool)
-
-        adder (carryIn, ([] ,[]))    = ([], carryIn)
-        adder (carryIn, (a:as, b:bs) = (sum:sums, carryOut)
-            where (sum, carry)     = fullAdd (carryIn, (a, b))
-                  (sums, carryOut) = adder (carry, (as, bs))
-            \end{haskellcode}
+            \begin{center}
+                \haskellfile{code/haskell/LavaAdder.hs}
+            \end{center}
 
             In this circuit description, there is an \emph{expectation} that both inputs have the same size.
             When this expectation is not met, a \emph{run-time} error will occur during simulation.
@@ -239,13 +233,9 @@
             even though their values are the same.
             For example, the following expressions will evaluate to \mintinline{haskell}{False}:
 
-            \begin{haskellcode}
-        test1 :: Bool
-        test1 = low == low
-
-        test2 :: Bool
-        test2 = simulate adder (low, ([low], [low])) == low
-            \end{haskellcode}
+            \begin{center}
+                \haskellfile{code/haskell/LavaEquality.hs}
+            \end{center}
 
             This limitation is also not present in Π-Ware, due to the way in which we describe circuits
             in a structural fashion, completely avoiding the need to deal with observable sharing.
@@ -274,16 +264,9 @@
             \emph{quote} regular Haskell syntax into an \ac{AST} – which is then further processed by ForSyDe.
             For example, the description of an adder in ForSyDe would look like the following:
 
-            \begin{haskellcode}
-        adderFun :: ProcFun (Int8 -> Int8 -> Int8)
-        adderFun = \$(newProcFun [d|
-                adderFun' :: Int8 -> Int8 -> Int8
-                adderFun' x y = x + y
-            |])
-
-        adderProc :: Signal Int8 -> Signal Int8 -> Signal Int8
-        adderProc = zipWithSY "adderProcess" adderFun
-            \end{haskellcode}
+            \begin{center}
+                \haskellfile{code/haskell/ForSyDeAdder.hs}
+            \end{center}
 
             Notice how the \mintinline{haskell}{adderFun} \emph{process function} is built from a regular Haskell function
             (\mintinline{haskell}{adderFun'}), which is then \emph{quoted} (by the \texttt{[d|} quasi-quoter),

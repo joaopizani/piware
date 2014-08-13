@@ -673,10 +673,6 @@
 
         \subsection{Combinational simulation}
         \label{subsec:combinational-eval}
-            %% Two types of evaluation: combinational and sequential
-            %% Combinational eval requires a proof that the circuit contains no loops
-            %%     Eval of a fundamental gate is just its \emph{definitional behaviour}
-
             As already mentioned in Section~\ref{sec:circuit-syntax},
             the \AF{comb'} predicate determines whether its circuit argument is \emph{purely combinational}.
             In fact, \AF{comb'} can be seen as one (very simple) semantics of circuits (\AD{ℂ'}).
@@ -747,11 +743,6 @@
 
         \subsection{Sequential simulation}
         \label{subsec:sequential-eval}
-            %% For sequential circuits we use a \emph{causal stream semantics}
-            %%     Current output depends on the current input and (possibly) on the past inputs
-            %%     \emph{Different} than plain Stream functions
-            %% There's also an eval function which allows the circuit to be viewed as function from Stream to Stream
-
             So-called \emph{sequential} circuits have an internal state,
             and their behaviour is \emph{history-dependent}:
             The current value of a circuit's output depends not only on the current input,
@@ -946,3 +937,19 @@
 
     \section{Proving circuit properties}
     \label{sec:proving-circuit-properties}
+
+        \draftnote{Note to reviewer: what exactly should be here?}
+
+        \draftnote{
+        The idea, I guess, was to explain how to prove properties about Π-Ware circuits in Agda.
+        The concepts can be explained, and I can also expose the work-in-progress with proof combinators
+        and etc.
+        }
+
+        \draftnote{
+        A problem is that I have very small examples of proofs and none of them for
+        generic circuits. I tried a really minimal generic proof (that the identity circuit iterated n times
+        is just the identity), but even this one has reduction stuck.
+        }
+
+        \draftnote{Maybe we should talk about this on the meeting Friday, as it's pretty critical.}

@@ -73,12 +73,7 @@
         The code for \mintinline{haskell}{compose} is shown on Listing~\ref{lst:lava-compose}.
 
         \begin{listing}[h]
-            \begin{haskellcode}
-        compose [] inp = inp
-        compose (circ : circs) = out
-            where x   = circ inp
-                  out = compose circs x
-            \end{haskellcode}
+            \haskellfile{code/haskell/LavaCompose.hs}
             \caption{Lava's \mintinline{haskell}{compose} connection pattern.\label{lst:lava-compose}}
         \end{listing}
 
@@ -126,15 +121,9 @@
         the case with input lists of mismatching sizes is left undefined,
         making a pattern match failure possible:
 
-        \begin{haskellcode}
-        adder :: (Signal Bool, ([Signal Bool], [Signal Bool]))
-              -> ([Signal Bool], Signal Bool)
-
-        adder (carryIn, ([] ,[]))    = ([], carryIn)
-        adder (carryIn, (a:as, b:bs) = (sum:sums, carryOut)
-            where (sum, carry)     = fullAdd (carryIn, (a, b))
-                  (sums, carryOut) = adder (carry, (as, bs))
-        \end{haskellcode}
+        \begin{center}
+            \haskellfile{code/haskell/LavaAdder.hs}
+        \end{center}
 
         In contrast, Π-Ware makes use of dependent types and has its circuit type (\AD{ℂ'})
         \emph{indexed by the size} of circuit inputs and outputs, thus enforcing these constraints easily.
