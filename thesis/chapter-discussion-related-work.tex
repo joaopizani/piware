@@ -226,11 +226,40 @@
 
     \section{Dependently-Typed Hardware \acp{EDSL}}
 
-    % Coquet
-    %     Circuit type with same structure
-    %     Sizes instead of more structures types as indices
-    %     Coquet's general types hard to synthesize
-    %         Elaborate example
-    %     Elaborate over semantics of sequential circuits
-    %     (DelayLoop vs. Delay, Coquet not synthesizing loops, etc.)
+        \draftnote{Note to reviewer: talk about Brady's correct-by-construction adder?~\cite{brady-constructing}}
+
+        With Coquet~\cite{coquet2011} Π-Ware shares the basic ideas about circuit \emph{syntax}.
+        Both use a \emph{strucutural} representation, in which specific constructors of the circuit
+        datatype represent patterns of connection between subcircuits.
+        Also, both Π-Ware and Coquet use indexed data families to represent circuits, in which
+        the indices carry information about the circuit's input and output ports.
+
+        The difference lies in exactly what indices are used: Π-Ware's
+        circuits~\footnote{low-level circuits, in the \AD{ℂ'} family}
+        are indexed simply by two natural numbers, representing the \emph{size} of a circuit's input and output.
+        For example, the type of an n-bit adder in Π-Ware would be something like the following:
+
+        \begin{center}
+            \AF{adder} \AY{:} \AD{ℂ'} \AY{(}\AB{n} \AF{+} \AB{n}\AY{)} \AY{(}\AI{suc} \AB{n}\AY{)}
+        \end{center}
+
+        An instance of such an adder (for a particular $n$) can add two n-bit numbers, producing
+        an output of size $n+1$. The information that this circuit has \emph{two} inputs, however,
+        is not expressed in the signature – The signature says that the circuit has
+        \emph{one input of size $n+n$}.
+        Π-Ware's low-level descriptions (which are the ones effectively synthesized) are translated
+        into \ac{VHDL} entities with \emph{always} one input and one output.
+        The \emph{knowledge of how the circuit's ports are organized} is not present in the \ac{VHDL}
+        level, only in Agda.
+
+        Coquet, on the other hand, allows for more \emph{structured} types to be used as indices in
+        the \mintinline{coq}{Circuit} data family.
+        In fact, any type belonging to Coquet's \mintinline{coq}{Fin} (finite) class can be used.
+        The problem, however, is that the requirement imposed upon types in order to belong to
+        \mintinline{coq}{Fin} is that they need to be \emph{enumerable}, that is, there needs to be a
+        list defined with all the type's elements.
+        Enumerations, products, coproducts, etc. all can easily have instances of this type class.
+        But the class provides \emph{no information on how to synthesize them}, i.e.,
+        how to write the \ac{VHDL} \emph{port declaration} when a circuit's input is a complex
+        sum-of-products.
 
