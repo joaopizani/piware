@@ -232,23 +232,10 @@
         for model checking with \emph{external} tools (such as SAT solvers), but only by using
         dependently-typed programming proofs can be written in the same language as circuits are described.
 
-        %% TODO: example here? being too repetitive?
+        %% TODO: example proof here? being too repetitive?
 
 
     \section{Dependently-Typed Hardware \acp{EDSL}}
-
-    % Lava differences
-    %     No model checking output – no need as there's native proving using Agda
-    %     Proofs can be written for statements regarding whole families of circuits (for all sizes, etc)
-    %     High-level layer of types instead of just Bools, lists and tuples
-
-    % ForSyDe similarities
-    %     Deep embedded
-    %     Uses statically-sized vectors (just an emulation of dependent types)
-    %     Simulation and synthesis (synthesis to hierarchical VHDL)
-    % ForSyDe differences
-    %     No facilities to reason about and prove circuit properties
-    %     Π-Ware only deals with the synchronous model of computation
 
     % Coquet
     %     Circuit type with same structure
