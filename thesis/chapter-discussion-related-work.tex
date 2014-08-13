@@ -73,14 +73,12 @@
         The code for \mintinline{haskell}{compose} is shown on Listing~\ref{lst:lava-compose}.
 
         \begin{listing}[h]
-            \centerline{
-                \begin{haskellcode}
+            \begin{haskellcode}
         compose [] inp = inp
         compose (circ : circs) = out
             where x   = circ inp
                   out = compose circs x
-                \end{haskellcode}
-            }
+            \end{haskellcode}
             \caption{Lava's \mintinline{haskell}{compose} connection pattern.\label{lst:lava-compose}}
         \end{listing}
 
@@ -147,22 +145,98 @@
             \caption{Example of a ripple-carry adder modelled in Π-Ware.\label{lst:ripple}}
         \end{listing}
 
-        Notice how the.
+        Notice how the input to the circuit defined in \AF{ripple} is a product where two of the factors
+        \emph{must be of the same type}, namely, a boolean vector of size $n$, for any $n$.
+        Furthermore, the description \emph{style} changed drastically: in Π-Ware, circuits are described
+        in a \emph{nameless} fashion, i.e., internal signals cannot be named and connected arbitrarily,
+        \emph{plugs} must be used to do the job of \emph{rewiring} (reordering, forking, etc.).
+        Some examples of plugs used in \AF{ripple} are \AF{pCons}, \AF{pALR} and \AF{pIntertwine},
+        all of them defined in \AM{PiWare.Plugs} together with several others.
 
-        Possibility to use \emph{high-level}, Agda types to model and simulate circuits.
-        In contrast, Lava's circuit descriptions are essentially untyped.
-        There in only a choice between
-        %% TODO: lava low-level vs. Π-Ware high-level
+        Finally, perhaps the biggest improvement of Π-Ware when compared to Lava and similar \acp{EDSL}
+        is the possibility to use high-level, Agda types to model and simulate circuits.
+        In contrast, Lava's circuit descriptions are essentially untyped – there is only a choice
+        between \mintinline{haskell}{Bool}, \mintinline{haskell}{Int}, and tuples and lists thereof.
+        For example, when modelling a CPU one might want to have a datatype definition corresponding
+        to instructions of that CPU. In Lava, the best bet would be a simple \emph{type synonym},
+        something along these lines:
+
+        \begin{haskellcode}
+        type SB = Signal Bool
+        type ALUControlBits = (SB, SB, SB, SB, SB, SB)
+        type HackInstruction = (SB, SB, SB, SB, SB, SB, SB, SB, SB, SB, ALUControlBits)
+        \end{haskellcode}
+
+        This description is not only cumbersome to work with
+        (tuples don't have as many useful associated functions as sized vectors),
+        but also error-prone.
+        Any other tuple of 16 bits which might happen to be in scope
+        (for example, from a register bank or some other part of the circuit),
+        can be passed \emph{by mistake} to a function accepting a \mintinline{haskell}{HackInstruction},
+        and the type checker will not be able to detect this mistake.
+
+        In Π-Ware, one can normally design a custom datatype for \AD{HackInstruction} and, by defining
+        an instance of \AD{⇓W⇑} (\texttt{Synthesizable}) for it, have circuits operating over this
+        high-level datatype.
 
         \subsubsection{ForSyDe}
+
+        ForSyDe~\cite{forsyde1999} and Π-Ware are both deeply embedded, but in ForSyDe the user
+        writes combinational circuits as Haskell functions and then they are \emph{reified}
+        by Template Haskell into an \ac{AST} that ForSyDe actually uses to build the circuit at compile-time.
+        On the other hand, circuits in Π-Ware are written with a specific syntax, using specific constructors
+        and combinators.
+
+        In terms of type safety, ForSyDe already improved a little over Lava, by essentially
+        \emph{emulating dependent types}.
+        While ForSyDe's "emulation" is far from the full power of dependent types
+        (implementing only type-level naturals and statically-sized vectors),
+        it is already enough to make circuit descriptions more "typed", less error prone and
+        easier to understand.
+
+        The range of types which can be \emph{synthesized} with ForSyDe, however, is still small
+        compared to Π-Ware. The already mentioned datatype for a CPU instruction, for example, can
+        easily be used as a circuit's input or output type in Π-Ware, but not in ForSyDe.
+        In ForSyDe, the most typed possible representation would have an \emph{enumerated type} for the
+        \emph{opcodes}~\footnote{Shortening of "operation codes",
+            usually written in assembly language as \texttt{ADD}, \texttt{LOAD}, etc.},
+        but simple sized vectors for the other fields (addresses, etc.);
+        ForSyDe can synthesize enumerations, but not other, more complex forms of user-defined datatypes.
+
+        This limitation has to do with the different ways in which Π-Ware and ForSyDe define
+        the semantics of a \emph{synthesizable type}.
+        In ForSyDe, to synthesize a datatype means to actually translate it to an equivalent in \ac{VHDL}.
+        Standard \ac{VHDL}~\cite{vhdl-standard} has (limited) typing capabilities
+        (namely, enumerations and records are supported), so ForSyDe will translate
+        a Haskell \mintinline{haskell}{Int16} to a correspondingly ranged integer in VHDL,
+        and a Haskell \mintinline{haskell}{OpCode} enumerated type will result in a corresponding
+        \ac{VHDL} enumeration.
+
+        Π-Ware, on the other hand, generates untyped \ac{VHDL}, where all circuit ports and signals
+        are vectors of the chosen \AD{Atom} type (for example, \mintinline{vhdl}{std_logic}).
+        In this way, any type which can be mapped into a vector of \AD{Atom}s – by writing an
+        instance of \AD{⇓W⇑} – can be used as circuit IO, and the circuit will be able to be synthesized.
+        This design decision was taken as we believe that all correctness checking and architectural
+        manipulation of circuits should be done at the meta (Agda) level anyway,
+        so when a \ac{VHDL} netlist is generated, a typed representation would not bring enough benefits.
+        Furthermore, the typed \ac{VHDL} generated by ForSyDe is problematic in terms of tool support.
+        When – in the experimentation project~\cite{functional-hardware-survey} carried out as preparation
+        for this thesis – we tried to implement ForSyDe-generated \ac{VHDL} on an \ac{FPGA},
+        it could be processed by one manufacturer's toolchain (Altera™) but not the other (Xilinx™).
+
+        To conclude, when comparing Π-Ware to functional hardware \acp{EDSL} in general,
+        the most significant feature is the capability to \emph{prove properties of circuit behaviour},
+        and to be able to formulate statements and proofs
+        \emph{in the same language as the circuits themselves}.
+        Some functional hardware \acp{EDSL} (Lava, for example), are capable of exporting formulas
+        for model checking with \emph{external} tools (such as SAT solvers), but only by using
+        dependently-typed programming proofs can be written in the same language as circuits are described.
+
+        %% TODO: example here? being too repetitive?
 
 
     \section{Dependently-Typed Hardware \acp{EDSL}}
 
-    % Lava similarities
-    %     Deep embedded
-    %     Synthesis and simulation
-    %     Kinda same idea of connection patterns?
     % Lava differences
     %     No model checking output – no need as there's native proving using Agda
     %     Proofs can be written for statements regarding whole families of circuits (for all sizes, etc)
