@@ -424,29 +424,27 @@
             and circuits at this higher level have inputs and outputs with Agda types.
             This layer is coded as the \AD{ℂ} datatype, shown in Listing~\ref{lst:Circuit}.
 
-            %% TODO: talk about Synthesizable parameter BEFORE mentioning the listing?
-
             \begin{listing}[h]
                 \centering{\ExecuteMetaData[code/agda/latex/PiWare/Circuit.tex]{Circuit}}
                 \caption{High-level circuit datatype (\AD{ℂ}).\label{lst:Circuit}}
             \end{listing}
-
-            Furthermore, notice the \emph{lack of a prime symbol in the name of the datatype}.
-            This is a general naming convention:
-            whenever there are two versions of a definition, one at a low level of abstraction and one higher,
-            the low-level gets the same name of the high-level one, with a prime symbol as suffix.
 
             In contrast to the low-level (\AD{ℂ'}) circuit type, \AD{ℂ} is parameterized by two \AD{Set}s
             and has only one constructor – \AI{Mkℂ} – which packs the low-level circuit description
             with information on how to convert between the input/output Agda types (resp. \AB{α} and \AB{β})
             and the appropriately-sized \emph{words}\footnote{A \emph{word} is a vector of \AD{Atom}s.}
             used in the low level.
+            This conversion information is coded in the two first parameters passed to the \AI{Mkℂ} constructor,
+            which are \emph{instances} of the \AD{⇓W⇑} type class (pronounced \texttt{Synthesizable}),
+            This type class is covered in more detail on Section~\ref{subsec:synthesizable}.
+            Roughly, it ensures that a type can be converted to \emph{words} (vectors of \AD{Atom}s).
 
-            This conversion information is coded in the \AD{⇓W⇑} type class (pronounced \texttt{Synthesizable}),
-            which is covered in more detail on Section~\ref{subsec:synthesizable}.
-            Roughly, it ensures that a type can be converted to \emph{words}.
+            Furthermore, notice the \emph{lack of a prime symbol in the name of the datatype}.
+            This is a general naming convention:
+            whenever there are two versions of a definition, one at a low level of abstraction and one higher,
+            the low-level gets the same name of the high-level one, with a prime symbol as suffix.
 
-            Furthermore, the \AM{PiWare.Circuit} module defines also \emph{smart constructors} for \AD{ℂ},
+            The \AM{PiWare.Circuit} module defines also \emph{smart constructors} for \AD{ℂ},
             corresponding to each of the constructors at the low level.
             One example is parallel composition – shown here without passing instance arguments for brevity:
 
@@ -834,7 +832,7 @@
 
             As such, a general stream function has no notion of \emph{current} value, neither of past,
             and it \emph{can} "look ahead", that is, use future input values to calculate the next output value.
-            One example of such a future-dependent behaviour.
+
             %% TODO: example of future-dependent stream function
 
             \subsubsection{Causal step semantics}
