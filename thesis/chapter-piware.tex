@@ -57,11 +57,14 @@
             \item[Fundamental:] These construct predefined or "atomic" circuits, with no sub-components.
                 \begin{description}
                     \item[\AI{Nil}:] The \emph{empty circuit}. Performs no computation and has neither inputs nor outputs.
-                        It is mainly useful as a "base case" when building large circuits with recursive definitions.
+                        It is mainly useful as a "base case" when building large circuits through recursive definitions.
                     \item[\AI{Gate}:] Constructs a chosen circuit among those provided by a \emph{gate library}
-                        passed as parameter to the \AM{Circuit} module.
+                        passed as parameter to the \AM{Circuit} module. Such libraries can consist of, for example,
+                        logic primitives ($\{ \text{\texttt{NOT}}, \text{\texttt{AND}}, \text{\texttt{OR}} \}$)
+                        or even arithmetic gates (adders, etc.).
                     \item[\AI{Plug}:] Constructs a "rewiring" circuit. Performs no computation,
-                        but can be used to apply permutations, associativity and to duplicate or discard wires.
+                        but can be used to apply permutations and to duplicate or discard wires.
+                        The type of the function passed as argument to \AI{Plug} ensures that no short circuit can occur.
                 \end{description}
             \item[Structural:] Represent ways in which smaller circuits can be interconnected to build a bigger one.
                 \begin{description}
@@ -77,6 +80,9 @@
             \item[Delay:]
                 The \AI{DelayLoop} constructor belongs to a category of its own.
                 Its purpose is to construct a state-holding circuit given a purely combinational circuit as argument.
+                Part of the output of the circuit given as argument to \AI{DelayLoop}
+                is passed through a memory element and \emph{looped back} to that circuit's input.
+                State machines and other sequential circuits can be created with this constructor.
         \end{description}
 
         These descriptions are just a rough summary of the \emph{synthesis semantics} of Π-Ware, that is,
@@ -156,19 +162,27 @@
             This is expressed by using the product type constructor \AF{\_×\_},
             which corresponds to a logical conjunction.
 
-            %% TODO: example of dangerous combinational loop by mistake?
-
             This categorization of circuits as stateful or stateless has one main goal:
             To avoid the evaluation of \emph{combinational loops}.
-            Their presence in a circuit is almost always a design mistake, and by combining
-            the \AI{DelayLoop} constructor with the \AF{comb'} predicate we guarantee that:
+            Their presence in a circuit is almost always a design mistake.
+            Altera™, for example, explains in their manual of "Recommended Design
+            Practices"\footnote{\url{http://www.altera.com/literature/hb/qts/qts\_qii51006.pdf}}:
+
+            \begin{quote}
+                Combinational loop behavior generally depends on relative propagation delays
+                through the logic involved in the loop. As discussed, propagation delays can change,
+                which means the behavior of the loop is unpredictable.
+            \end{quote}
+
+            In Π-Ware, the semantics of the \AI{DelayLoop} constructor, and the clear \emph{partitioning}
+            of circuits into combinational or sequential done by the \AF{comb'} predicate guarantee that:
 
             \begin{itemize}
                 \item The only way to create a loop in a circuit (\AI{DelayLoop}) also introduces a
                     delay\footnote{in hardware terms, a \emph{clocked latch}.}.
 
                 \item Combinational simulation (ignoring past inputs) only happens when
-                    the circuit is provably cycle-free, thus stateless.
+                    the circuit is provably cycle-free, thus stateless and free of race conditions.
             \end{itemize}
 
 
@@ -205,7 +219,7 @@
             (to carry in the wires any type belonging to a type class).
             However, Π-Ware does not use any metaprogramming, and uses dependent types
             to ensure that the provided instances satisfy desired properties.
-            The \AD{Atomic} record (shown in Listing~\ref{lst:atomic})
+            The \ARR{Atomic} record (shown in Listing~\ref{lst:atomic})
             captures the requirements for a type to be carried in the wires of a circuit.
 
             \begin{listing}[h]
@@ -218,13 +232,13 @@
             are to be used as atoms (the number of atoms is actually \AF{|Atom|} \AY{=} \AI{suc} \AL{|Atom|-1}).
 
             Then there are the fields \AL{n→atom} and \AL{atom→n}, which define a \emph{bijection}
-            between the \AL{Atom} type and \AD{Fin} \AF{|Atom|} (naturals from \AI{zero} to \AF{|Atom|}).
-            Finally, the two last fields in \AF{Atomic} are proofs
+            between the \AL{Atom} type and \AD{Fin} \AF{|Atom|} (naturals from \AI{zero} to \AL{|Atom|-1}).
+            Finally, the two last fields in \ARR{Atomic} are proofs
             that \AL{n→atom} and \AL{atom→n} are inverses of each other,
             therefore proving that they are also bijections.
 
             \subsubsection{Instance for \texttt{Bool}}
-            Included with Π-Ware there is already a predefined instance of \AD{Atomic} for \AD{Bool}
+            Included with Π-Ware there is already a predefined instance of \ARR{Atomic} for \AD{Bool}
             (the boolean type in Agda's standard library).
             Knowing the meaning of each field, the definitions comprising the instance
             are mostly easy to understand.
@@ -263,7 +277,7 @@
 
             \subsubsection{Other possibly interesting instances}
             Even though currently \AD{Bool} (from the Agda standard library) is the only type for which
-            there is already a predefined instance of \AD{Atomic}, other types could be interestingly used as atoms.
+            there is already a predefined instance of \ARR{Atomic}, other types could be interestingly used as atoms.
             For example:
 
             \begin{description}
@@ -308,16 +322,16 @@
                     for example cryptographic and \ac{DSP} functions.
             \end{itemize}
 
-            A gate library is defined as an element of the \AD{Gates} record type, shown in Listing~\ref{lst:gates}.
+            A gate library is defined as an element of the \ARR{Gates} record type, shown in Listing~\ref{lst:gates}.
 
             \begin{listing}[h]
                 \centering{\ExecuteMetaData[code/agda/latex/PiWare/Synthesizable.tex]{Word}}
                 \newline
                 \centering{\ExecuteMetaData[code/agda/latex/PiWare/Gates.tex]{Gates}}
-                \caption{Definition of a gate library: the \AD{Gates} record.\label{lst:gates}}
+                \caption{Definition of a gate library: the \ARR{Gates} record.\label{lst:gates}}
             \end{listing}
 
-            The first field of the \AD{Gates} record (\AL{|Gates|-1}) determines \emph{how many}
+            The first field of the \ARR{Gates} record (\AL{|Gates|-1}) determines \emph{how many}
             gates the library has, and consequently also the \emph{the type used as gate index}
             (or \emph{gate identifier}), which is \AF{Gates\#} \AY{=} \AF{Fin} \AF{|Gates|}.
 
@@ -325,7 +339,7 @@
             the size of the input and output of that gate; therefore together they determine the gate's \emph{interface}.
 
             Finally, the \AL{spec} field determines the \emph{functional specification} of a given gate identifier.
-            Notice how the whole \AM{Gates} module is parameterized by an instance of \AD{Atomic}.
+            Notice how the whole \AM{Gates} module is parameterized by an instance of \ARR{Atomic}.
             In this way, the \AL{spec} function yields, given a gate identifier, a function over \emph{words}
             (\AD{Atom} vectors) of the correct length.
             This functional specification of each fundamental gate is used for the \emph{simulation semantics}.
@@ -350,7 +364,7 @@
 
             This feature is not integrated in the current version of Π-Ware, but assuming the existence
             of a hierarchy of datatypes representing \ac{VHDL} code, and specifically the existence
-            of a type \AD{VHDLEntity}, we could have an extra field in the \AD{Gates} record, as such:
+            of a type \AD{VHDLEntity}, we could have an extra field in the \ARR{Gates} record, as such:
 
             \begin{center}
                \AL{netlist} \AY{:} \AY{(}\AB{g} \AY{:} \AD{Fin} \AY{(}\AI{suc} \AL{|Gates|-1}\AY{)}\AY{)} \AY{→} \AD{VHDLEntity} \AY{(}\AL{ins} \AB{g}\AY{)} \AY{(}\AL{out} \AB{g}\AY{)}
@@ -370,7 +384,7 @@
                 \ExecuteMetaData[code/agda/latex/PiWare/Gates/BoolTrio.tex]{cardinality}
             \end{center}
 
-            Then, as already done in the instance of \AD{Atomic}, we define some \emph{pattern synonyms}
+            Then, as already done in the instance of \ARR{Atomic}, we define some \emph{pattern synonyms}
             to make the gate identifiers more readable:
 
             \begin{center}
@@ -689,7 +703,7 @@
             Finally, it is important to emphasize that the labels \texttt{'0'} and \texttt{'1'}
             were used in the multiplexer only as a mnemonic device.
             The same remark applies to describing the information on the wires as "bits".
-            In reality, any \AD{Atomic} type can flow through the wires, and any two \AD{Atom}s
+            In reality, any \ARR{Atomic} type can flow through the wires, and any two \AD{Atom}s
             can label the inputs of the multiplexer (passed to \AI{\_|+'\_}).
 
 
@@ -953,8 +967,6 @@
                 \ExecuteMetaData[code/agda/latex/PiWare/Simulation/Core.tex]{eval-seq-core-def}
                 \caption{The sequential simulation semantics.\label{lst:eval-seq-core}}
             \end{listing}
-
-            %% TODO: high-level sequential simulation
 
 
     \section{Proving circuit properties}
