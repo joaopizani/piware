@@ -1,5 +1,5 @@
-*** latex/PiWare/Circuit.tex	2014-08-14 16:20:49.208189800 +0200
---- latex/PiWare/Circuit.patched.tex	2014-08-14 16:25:23.474774900 +0200
+*** latex/PiWare/Circuit.tex	2014-08-14 16:31:56.772142900 +0200
+--- latex/PiWare/Circuit.patched.tex	2014-08-14 16:32:44.810951200 +0200
 ***************
 *** 77,96 ****
   
@@ -28,7 +28,7 @@
   \begin{code}%
 ! \>\AgdaFunction{\_||\_} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{α} \AgdaBound{γ} \AgdaBound{β} \AgdaBound{δ}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaDatatype{ℂ} \AgdaBound{α} \AgdaBound{γ} \AgdaSymbol{→} \AgdaDatatype{ℂ} \AgdaBound{β} \AgdaBound{δ} \AgdaSymbol{→} \AgdaDatatype{ℂ} \AgdaSymbol{(}\AgdaBound{α} \AgdaFunction{×} \AgdaBound{β}\AgdaSymbol{)} \AgdaSymbol{(}\AgdaBound{γ} \AgdaFunction{×} \AgdaBound{δ}\AgdaSymbol{)}\<%
   \\
-! \>\AgdaSymbol{(}\AgdaInductiveConstructor{Mkℂ} \AgdaBound{c₁}\AgdaSymbol{)} \AgdaFunction{\_||\_} \AgdaSymbol{(}\AgdaInductiveConstructor{Mkℂ} \AgdaBound{c₂}\AgdaSymbol{)} \AgdaSymbol{=} \AgdaInductiveConstructor{Mkℂ} \AgdaSymbol{(}\AgdaBound{c₁} \AgdaInductiveConstructor{|'} \AgdaBound{c₂}\AgdaSymbol{)}\<%
+! \>\AgdaInductiveConstructor{Mkℂ} \AgdaBound{c₁} \AgdaFunction{||} \AgdaInductiveConstructor{Mkℂ} \AgdaBound{c₂} \AgdaSymbol{=} \AgdaInductiveConstructor{Mkℂ} \AgdaSymbol{(}\AgdaBound{c₁} \AgdaInductiveConstructor{|'} \AgdaBound{c₂}\AgdaSymbol{)}\<%
   \end{code}
   %</par>
   
