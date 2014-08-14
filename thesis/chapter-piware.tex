@@ -1,16 +1,16 @@
 \chapter{The Π-Ware library}
 \label{chap:piware}
 
-    Π-Ware is an \ac{EHDL} that allows for circuit description (modelling),
-    simulation, reasoning (proving correctness or other properties), and synthesis to netlists.
+    Π-Ware is an embedded hardware description language that allows
+    for circuit description (modelling), simulation, verification and synthesis.
     In this chapter we will describe in detail how the Π-Ware library is organized,
     what principles are behind some of the most important design decisions taken in its development,
     and how to use Π-Ware to model, simulate and reason about circuit behaviour.
 
-    The reader is assumed to be familiar with the \emph{Agda} programming language,
-    as this is the language in which Π-Ware is embedded.
-    An introductory-level knowledge of dependent type theory in general is also appreciated.
-
+    The reader is assumed to be familiar with the \emph{Agda} programming language
+    and with \acl{DTP} in general.
+    For readers familiar with functional programming, but not Agda nor \ac{DTP},
+    a good introduction can be found in the official Agda tutorial~\cite{agda-tutorial-norell}.
 
     \section{Circuit Syntax}
     \label{sec:circuit-syntax}
@@ -37,7 +37,8 @@
         and metalanguage (Haskell) constructs such as application, tupling and local naming are
         used to represent sequencing, parallel composition, loops and sharing.
         In Π-Ware, on the other hand, explicit constructors represent these combinations,
-        avoiding the need to implement some form of \emph{observable sharing}~\cite{gill-typesafe-observable-sharing}.
+        avoiding the need to implement some form of
+        \emph{observable sharing}~\cite{gill-typesafe-observable-sharing} in the host language.
 
         The indices of \AD{ℂ'} represent, respectively, the \emph{size} of the circuit's input and output.
         This can be thought of as the number of "wires" entering (resp. leaving) that circuit.
@@ -50,27 +51,29 @@
         To better understand the reasoning behind the design of the low-level \AD{ℂ'} datatype,
         its constructors can be considered to belong to one of three categories:
 
+        %% TODO: implement reviewer's suggestions on this description.
+
         \begin{description}
             \item[Fundamental:] These construct predefined or "atomic" circuits, with no sub-components.
-                \begin{itemize}
-                    \item \AI{Nil}: The \emph{empty circuit}. Performs no computation and has neither inputs nor outputs.
+                \begin{description}
+                    \item[\AI{Nil}:] The \emph{empty circuit}. Performs no computation and has neither inputs nor outputs.
                         It is mainly useful as a "base case" when building large circuits with recursive definitions.
-                    \item \AI{Gate}: Constructs a chosen circuit among those provided by a \emph{gate library}
+                    \item[\AI{Gate}:] Constructs a chosen circuit among those provided by a \emph{gate library}
                         passed as parameter to the \AM{Circuit} module.
-                    \item \AI{Plug}: Constructs a "rewiring" circuit. Performs no computation,
+                    \item[\AI{Plug}:] Constructs a "rewiring" circuit. Performs no computation,
                         but can be used to apply permutations, associativity and to duplicate or discard wires.
-                \end{itemize}
+                \end{description}
             \item[Structural:] Represent ways in which smaller circuits can be interconnected to build a bigger one.
-                \begin{itemize}
-                    \item \AI{c₁ ⟫' c₂}: Sequential composition.
+                \begin{description}
+                    \item[\AI{c₁ ⟫' c₂}:] Sequential composition.
                         Given $c₁$ and $c₂$, connects the output of $c₁$ into the input of $c₂$.
-                    \item \AI{c₁ |' c₂}: Parallel composition.
+                    \item[\AI{c₁ |' c₂}:] Parallel composition.
                         Splits the input into two parts, connected to $c₁$ and $c₂$,
                         and rejoins the outputs of $c₁$ and $c₂$ into a single output.
-                    \item \AI{c₁ |+' c₂}: Tagged branching.
+                    \item[\AI{c₁ |+' c₂}:] Tagged branching.
                         Based on the value of a \emph{tag} given in one of the input wires,
                         feed the remaining input wires into \emph{either} $c₁$ or $c₂$.
-                \end{itemize}
+                \end{description}
             \item[Delay:]
                 The \AI{DelayLoop} constructor belongs to a category of its own.
                 Its purpose is to construct a state-holding circuit given a purely combinational circuit as argument.
@@ -129,28 +132,31 @@
             \end{description}
 
             \subsubsection{Purely combinational vs. possibly sequential}
-            Another piece of information "carried" together with circuits is whether it is
-            \emph{purely combinational}, i.e., has no internal state, no notion of \emph{history},
-            and the value of its current outputs depend only on the value of its current inputs.
+            Circuits in Π-Ware can be \emph{purely combinational} or \emph{sequential}.
+            Combinational circuits have no internal state and can be simulated without regarding past inputs.
+            A very simple semantics is defined over the circuit datatype in order to distinguish
+            these two classes of circuits.
 
-            This information is represented by a metalanguage truth value,
-            an Agda \AF{Set} which can be either \AF{⊤} (the \AF{Set} with one value – "top") or
-            \AF{⊥} (the \AF{Set} with no values – "bottom").
-
-            The predicate \AF{comb'} over low-level (\AF{ℂ'}) circuits defines whether a circuit purely combinational.
-            The code for \AF{comb'} is shown on Listing~\ref{lst:comb-core}.
+            The semantic function is the \AF{comb'} predicate, defined over low-level (\AF{ℂ'}).
+            The \AF{comb'} function returns an Agda \AF{Set} which can be either \AF{⊤}
+            (the \AF{Set} with one value) or \AF{⊥} (the \AF{Set} with no values).
+            This returned \AD{Set} can therefore be interpreted as a \emph{truth value}.
+            Listing~\ref{lst:comb-core} shows the code of the \AF{comb'} predicate
 
             \begin{listing}[h]
-                \centering{\ExecuteMetaData[code/agda/latex/PiWare/Circuit/Core.tex]{comb-core}}
+                \ExecuteMetaData[code/agda/latex/PiWare/Circuit/Core.tex]{comb-core-decl}
+                \ExecuteMetaData[code/agda/latex/PiWare/Circuit/Core.tex]{comb-core}
                 \caption{Predicate telling whether a low-level circuit is purely combinational.\label{lst:comb-core}}
             \end{listing}
 
-            Notice that the fundamental constructors \AI{Nil}, \AI{Gate} and \AI{Plug} \emph{always}
+            Notice how the fundamental constructors (\AI{Nil}, \AI{Gate} and \AI{Plug}) \emph{always}
             build purely combinational circuits, while \AI{DelayLoop} always produces circuits with internal state.
-            The structural constructors (\AI{\_⟫'\_}, \AI{\_|'\_} and \AI{\_|+'\_})
-            yield a purely combinational circuit if and only if \emph{both} of its argument are themselves purely combinational.
-            This is expressed by using the product type constructor \AF{\_×\_}, which in the \AF{Set}
-            level corresponds to a logical conjunction.
+            The structural constructors (\AI{\_⟫'\_}, \AI{\_|'\_} and \AI{\_|+'\_}) yield a combinational circuit
+            \emph{if and only if} \emph{both} of its arguments are themselves combinational.
+            This is expressed by using the product type constructor \AF{\_×\_},
+            which corresponds to a logical conjunction.
+
+            %% TODO: example of dangerous combinational loop by mistake?
 
             This categorization of circuits as stateful or stateless has one main goal:
             To avoid the evaluation of \emph{combinational loops}.
@@ -158,8 +164,11 @@
             the \AI{DelayLoop} constructor with the \AF{comb'} predicate we guarantee that:
 
             \begin{itemize}
-                \item The only way to create a loop in a circuit (\AI{DelayLoop}) also introduces a delay.
-                \item Combinational simulation (ignoring past inputs) only happens when safe.
+                \item The only way to create a loop in a circuit (\AI{DelayLoop}) also introduces a
+                    delay~\footnote{in hardware terms, a \emph{clocked latch}.}.
+
+                \item Combinational simulation (ignoring past inputs) only happens when
+                    the circuit is provably cycle-free, thus stateless.
             \end{itemize}
 
 
@@ -173,7 +182,7 @@
 
         In this section we present how this flexibility is achieved,
         and which requirements are imposed upon the parameters in each case of parameterization.
-        Also, the motivation behind the chosen requirements is presented,
+        Furthermore, we discuss the motivation behind the chosen requirements,
         based on the general goals of Π-Ware as well as the wish to impose as few constraints as possible.
 
 
@@ -193,11 +202,11 @@
             at compile time.
 
             Π-Ware's approach is similar to ForSyDe's, in that it shares the same goal
-            (to "carry" in the wires any type that belongs to a type class).
+            (to carry in the wires any type belonging to a type class).
             However, Π-Ware does not use any metaprogramming, and uses dependent types
             to ensure that the provided instances satisfy desired properties.
-            The type class \AD{Atomic} (shown in Listing~\ref{lst:atomic})
-            expresses in Π-Ware what are the requirements for a type to be carried in the wires of a circuit.
+            The \AD{Atomic} record (shown in Listing~\ref{lst:atomic})
+            captures the requirements for a type to be carried in the wires of a circuit.
 
             \begin{listing}[h]
                 \centering{\ExecuteMetaData[code/agda/latex/PiWare/Atom.tex]{Atomic}}
@@ -276,6 +285,8 @@
                     \end{itemize}
             \end{description}
 
+            %% TODO: make sure there is no confusion between Atom abstraction and Synthesizable types.
+
 
         \subsection{Gate library}
         \label{subsec:gate-library}
@@ -349,11 +360,11 @@
             tying the Π-Ware fundamental gate interface with the \ac{VHDL} abstract syntax.
 
             \subsubsection{Instance for \texttt{BoolTrio}}
-            One specific instance of gate library is already "shipped" with Π-Ware:
-            the usual set of boolean gates
-            $\{ \text{\texttt{NOT}}, \text{\texttt{AND}}, \text{\texttt{OR}} \}$, together with
-            the constants $\{ \text{\texttt{FALSE}}, \text{\texttt{TRUE}} \}$.
-            The first definitions establish that this library contains five gates:
+            One specific instance of gate library is already defined in the Π-Ware library
+            (in module \AM{PiWare.Gates.BoolTrio}): the usual set of boolean gates
+            $\{ \text{\texttt{NOT}}, \text{\texttt{AND}}, \text{\texttt{OR}} \}$,
+            together with the constants $\{ \text{\texttt{FALSE}}, \text{\texttt{TRUE}} \}$.
+            The first definitions in that module establish that the library contains five gates:
 
             \begin{center}
                 \ExecuteMetaData[code/agda/latex/PiWare/Gates/BoolTrio.tex]{cardinality}
@@ -401,22 +412,27 @@
             and circuits at this higher level have inputs and outputs with Agda types.
             This layer is coded as the \AD{ℂ} datatype, shown in Listing~\ref{lst:Circuit}.
 
+            %% TODO: talk about Synthesizable parameter BEFORE mentioning the listing?
+
             \begin{listing}[h]
                 \centering{\ExecuteMetaData[code/agda/latex/PiWare/Circuit.tex]{Circuit}}
                 \caption{High-level circuit datatype (\AD{ℂ}).\label{lst:Circuit}}
             \end{listing}
 
-            First of all, notice the \emph{lack of a prime symbol in the name of the datatype}.
+            Furthermore, notice the \emph{lack of a prime symbol in the name of the datatype}.
             This is a general naming convention:
             whenever there are two versions of a definition, one at a low level of abstraction and one higher,
             the low-level gets the same name of the high-level one, with a prime symbol as suffix.
 
-            In contrast to the low-level (\AD{ℂ'}) circuit type, \AD{ℂ} is parameterized by two Agda \AD{Set}s,
-            and has only one constructor – \AI{Mkℂ} – which "packs" the low-level circuit description
-            with the information on how to convert between the input/output Agda types
-            (resp. \AB{α} and \AB{β}) and the appropriately-sized \emph{words} used in the low level.
+            In contrast to the low-level (\AD{ℂ'}) circuit type, \AD{ℂ} is parameterized by two \AD{Set}s
+            and has only one constructor – \AI{Mkℂ} – which packs the low-level circuit description
+            with information on how to convert between the input/output Agda types (resp. \AB{α} and \AB{β})
+            and the appropriately-sized \emph{words}\footnote{A \emph{word} is a vector of \AD{Atom}s.}
+            used in the low level.
+
             This conversion information is coded in the \AD{⇓𝕎⇑} type class (pronounced \texttt{Synthesizable}),
             which is covered in more detail on Section~\ref{subsec:synthesizable}.
+            Roughly, it ensures that a type can be converted to \emph{words}.
 
             Furthermore, the \AM{PiWare.Circuit} module defines also \emph{smart constructors} for \AD{ℂ},
             corresponding to each of the constructors at the low level.
@@ -467,6 +483,8 @@
                 \caption{The \AD{⇓𝕎⇑} (Synthesizable) type class.\label{lst:Synth}}
             \end{listing}
 
+            %% TODO: Synthesizable vs. Atom
+
             The type class has two parameters: the type which it encodes (\AB{α}),
             and the size of the \emph{word type} to which \AB{α} corresponds (\AB{i}).
             Notice that the size parameter is passed \emph{implicitly}, because in some occasions
@@ -474,6 +492,9 @@
 
             One can imagine that all \emph{finite types} (types with finitely many elements)
             can be made synthesizable under the definition of \AD{⇓𝕎⇑}, given a certain encoding scheme.
+            Intuitively, any finite type is isomorphic to Agda's \AD{Fin} \AB{n}, for some \AB{n},
+            for which an instance of \AD{⇓W⇑} can easily be defined.
+
             We do not give a proof of this statement, but one way of doing it would be to translate
             Agda datatype definitions into a sum-of-products view and then use a standardized
             encoding scheme (for example, some form of \emph{Church encoding}).
@@ -508,7 +529,8 @@
             \AD{Vec} \AB{α} \AB{n}.
 
             \subsubsection{Proof of bijection}
-            It is very desirable that the pair of fields "down" (\AL{⇓}) and "up" (\AL{⇓}),
+            %% TODO: rephrase
+            It is very desirable that the pair of fields "down" (\AL{⇓}) and "up" (\AL{⇑}),
             for any instance of \AD{⇓𝕎⇑}, are inverses of each other, that is:
 
             \begin{center}
@@ -573,7 +595,7 @@
 
             However, there was (until recently) a big drawback to Agda's instance search implementation:
             it was not recursive.
-            There were some arguments for this decision in the seminal paper,
+            There were some arguments for this decision in the original paper,
             most notably that having fully recursive instance resolution would
             "expose an additional computational model" and that the instance search mechanism
             would need to "perform a reasonably powerful automated proof search".
