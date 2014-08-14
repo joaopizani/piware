@@ -1,0 +1,34 @@
+*** latex/PiWare/Circuit.tex	2014-08-14 16:20:49.208189800 +0200
+--- latex/PiWare/Circuit.patched.tex	2014-08-14 16:25:23.474774900 +0200
+***************
+*** 77,96 ****
+  
+  %<*par>
+  \begin{code}%
+! \>\AgdaFunction{\_||\_} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{α} \AgdaBound{i} \AgdaBound{γ} \AgdaBound{k} \AgdaBound{β} \AgdaBound{j} \AgdaBound{δ} \AgdaBound{l}\AgdaSymbol{\}} \<[28]%
+! \>[28]\AgdaSymbol{→} \AgdaSymbol{⦃} \AgdaBound{sα} \AgdaSymbol{:} \AgdaRecord{⇓W⇑} \AgdaBound{α} \AgdaSymbol{\{}\AgdaBound{i}\AgdaSymbol{\}} \AgdaSymbol{⦄} \AgdaSymbol{⦃} \AgdaBound{sγ} \AgdaSymbol{:} \AgdaRecord{⇓W⇑} \AgdaBound{γ} \AgdaSymbol{\{}\AgdaBound{k}\AgdaSymbol{\}} \AgdaSymbol{⦄}\<%
+  \\
+! \>[4]\AgdaIndent{28}{}\<[28]%
+! \>[28]\AgdaSymbol{→} \AgdaSymbol{⦃} \AgdaBound{sβ} \AgdaSymbol{:} \AgdaRecord{⇓W⇑} \AgdaBound{β} \AgdaSymbol{\{}\AgdaBound{j}\AgdaSymbol{\}} \AgdaSymbol{⦄} \AgdaSymbol{⦃} \AgdaBound{sδ} \AgdaSymbol{:} \AgdaRecord{⇓W⇑} \AgdaBound{δ} \AgdaSymbol{\{}\AgdaBound{l}\AgdaSymbol{\}} \AgdaSymbol{⦄}\<%
+! \\
+! \>[0]\AgdaIndent{7}{}\<[7]%
+! \>[7]\AgdaSymbol{→} \AgdaDatatype{ℂ} \AgdaBound{α} \AgdaBound{γ} \AgdaSymbol{\{}\AgdaBound{i}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{k}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaDatatype{ℂ} \AgdaBound{β} \AgdaBound{δ} \AgdaSymbol{\{}\AgdaBound{j}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{l}\AgdaSymbol{\}} \AgdaSymbol{→} \<[42]%
+! \>[42]\AgdaDatatype{ℂ} \AgdaSymbol{(}\AgdaBound{α} \AgdaFunction{×} \AgdaBound{β}\AgdaSymbol{)} \AgdaSymbol{(}\AgdaBound{γ} \AgdaFunction{×} \AgdaBound{δ}\AgdaSymbol{)} \AgdaSymbol{\{}\AgdaBound{i} \AgdaPrimitive{+} \AgdaBound{j}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{k} \AgdaPrimitive{+} \AgdaBound{l}\AgdaSymbol{\}}\<%
+! \\
+! \>\AgdaFunction{\_||\_} \AgdaSymbol{⦃} \AgdaBound{sα} \AgdaSymbol{⦄} \AgdaSymbol{⦃} \AgdaBound{sγ} \AgdaSymbol{⦄} \AgdaSymbol{⦃} \AgdaBound{sβ} \AgdaSymbol{⦄} \AgdaSymbol{⦃} \AgdaBound{sδ} \AgdaSymbol{⦄} \AgdaSymbol{(}\AgdaInductiveConstructor{Mkℂ} \AgdaBound{c₁}\AgdaSymbol{)} \AgdaSymbol{(}\AgdaInductiveConstructor{Mkℂ} \AgdaBound{c₂}\AgdaSymbol{)} \AgdaSymbol{=}\<%
+! \\
+! \>[0]\AgdaIndent{4}{}\<[4]%
+! \>[4]\AgdaInductiveConstructor{Mkℂ} \AgdaSymbol{⦃} \AgdaFunction{⇓W⇑-×} \AgdaSymbol{⦃} \AgdaBound{sα} \AgdaSymbol{⦄} \AgdaSymbol{⦃} \AgdaBound{sβ} \AgdaSymbol{⦄} \AgdaSymbol{⦄} \AgdaSymbol{⦃} \AgdaFunction{⇓W⇑-×} \AgdaSymbol{⦃} \AgdaBound{sγ} \AgdaSymbol{⦄} \AgdaSymbol{⦃} \AgdaBound{sδ} \AgdaSymbol{⦄} \AgdaSymbol{⦄} \AgdaSymbol{(}\AgdaBound{c₁} \AgdaInductiveConstructor{|'} \AgdaBound{c₂}\AgdaSymbol{)}\<%
+  \end{code}
+  %</par>
+  
+--- 77,85 ----
+  
+  %<*par>
+  \begin{code}%
+! \>\AgdaFunction{\_||\_} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{α} \AgdaBound{γ} \AgdaBound{β} \AgdaBound{δ}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaDatatype{ℂ} \AgdaBound{α} \AgdaBound{γ} \AgdaSymbol{→} \AgdaDatatype{ℂ} \AgdaBound{β} \AgdaBound{δ} \AgdaSymbol{→} \AgdaDatatype{ℂ} \AgdaSymbol{(}\AgdaBound{α} \AgdaFunction{×} \AgdaBound{β}\AgdaSymbol{)} \AgdaSymbol{(}\AgdaBound{γ} \AgdaFunction{×} \AgdaBound{δ}\AgdaSymbol{)}\<%
+  \\
+! \>\AgdaSymbol{(}\AgdaInductiveConstructor{Mkℂ} \AgdaBound{c₁}\AgdaSymbol{)} \AgdaFunction{\_||\_} \AgdaSymbol{(}\AgdaInductiveConstructor{Mkℂ} \AgdaBound{c₂}\AgdaSymbol{)} \AgdaSymbol{=} \AgdaInductiveConstructor{Mkℂ} \AgdaSymbol{(}\AgdaBound{c₁} \AgdaInductiveConstructor{|'} \AgdaBound{c₂}\AgdaSymbol{)}\<%
+  \end{code}
+  %</par>
+  
