@@ -187,7 +187,7 @@
         compared to Π-Ware. The already mentioned datatype for a CPU instruction, for example, can
         easily be used as a circuit's input or output type in Π-Ware, but not in ForSyDe.
         In ForSyDe, the most typed possible representation would have an \emph{enumerated type} for the
-        \emph{opcodes}~\footnote{Shortening of "operation codes",
+        \emph{opcodes}\footnote{Shortening of "operation codes",
             usually written in assembly language as \texttt{ADD}, \texttt{LOAD}, etc.},
         but simple sized vectors for the other fields (addresses, etc.);
         ForSyDe can synthesize enumerations, but not other, more complex forms of user-defined datatypes.
@@ -235,7 +235,7 @@
         the indices carry information about the circuit's input and output ports.
 
         The difference lies in exactly what indices are used: Π-Ware's
-        circuits~\footnote{low-level circuits, in the \AD{ℂ'} family}
+        circuits\footnote{low-level circuits, in the \AD{ℂ'} family}
         are indexed simply by two natural numbers, representing the \emph{size} of a circuit's input and output.
         For example, the type of an n-bit adder in Π-Ware would be something like the following:
 
