@@ -430,7 +430,7 @@
             and the appropriately-sized \emph{words}\footnote{A \emph{word} is a vector of \AD{Atom}s.}
             used in the low level.
 
-            This conversion information is coded in the \AD{⇓𝕎⇑} type class (pronounced \texttt{Synthesizable}),
+            This conversion information is coded in the \AD{⇓W⇑} type class (pronounced \texttt{Synthesizable}),
             which is covered in more detail on Section~\ref{subsec:synthesizable}.
             Roughly, it ensures that a type can be converted to \emph{words}.
 
@@ -469,18 +469,18 @@
         \subsection{The \texttt{Synthesizable} type class}
         \label{subsec:synthesizable}
             The "connection" between the low-level (\AD{ℂ'}) and high-level (\AD{ℂ}) circuit types
-            is done by the \AD{⇓𝕎⇑} type class (pronounced \texttt{Synthesizable}).
-            Instances of the \AD{⇓𝕎⇑} class define a mapping between a given Agda type
+            is done by the \AD{⇓W⇑} type class (pronounced \texttt{Synthesizable}).
+            Instances of the \AD{⇓W⇑} class define a mapping between a given Agda type
             and an appropriately-sized \emph{word} type.
-            Word types (\AD{𝕎} \AB{n}, for some \AB{n}) are \emph{synthesizable} to \ac{VHDL} vectors,
+            Word types (\AD{W} \AB{n}, for some \AB{n}) are \emph{synthesizable} to \ac{VHDL} vectors,
             thus the name of the class.
-            Listing~\ref{lst:Synth} shows the definition of \AD{⇓𝕎⇑}:
+            Listing~\ref{lst:Synth} shows the definition of \AD{⇓W⇑}:
 
             \begin{listing}[h]
                 \centering{\ExecuteMetaData[code/agda/latex/PiWare/Synthesizable.tex]{Word}}
                 \newline
                 \centering{\ExecuteMetaData[code/agda/latex/PiWare/Synthesizable.tex]{Synth}}
-                \caption{The \AD{⇓𝕎⇑} (Synthesizable) type class.\label{lst:Synth}}
+                \caption{The \AD{⇓W⇑} (Synthesizable) type class.\label{lst:Synth}}
             \end{listing}
 
             %% TODO: Synthesizable vs. Atom
@@ -491,7 +491,7 @@
             Agda might be able to automatically infer (by unification) this value.
 
             One can imagine that all \emph{finite types} (types with finitely many elements)
-            can be made synthesizable under the definition of \AD{⇓𝕎⇑}, given a certain encoding scheme.
+            can be made synthesizable under the definition of \AD{⇓W⇑}, given a certain encoding scheme.
             Intuitively, any finite type is isomorphic to Agda's \AD{Fin} \AB{n}, for some \AB{n},
             for which an instance of \AD{⇓W⇑} can easily be defined.
 
@@ -502,7 +502,7 @@
             Π-Ware does \emph{not} provide facilities for mapping arbitrary Agda datatypes into
             a sum-of-products view (we believe this is the domain of a \emph{generic programming} library,
             not of a hardware \ac{EDSL}).
-            However, Π-Ware \emph{does} provide predefined instances of \AD{⇓𝕎⇑} for units (\AD{⊤}),
+            However, Π-Ware \emph{does} provide predefined instances of \AD{⇓W⇑} for units (\AD{⊤}),
             booleans (\AD{Bool}), products (\AD{\_×\_}), vectors (\AD{Vec}) and sums (\AD{\_⊎\_}),
             in order to facilitate working with complex types when modelling hardware.
 
@@ -511,7 +511,7 @@
 
             \begin{listing}[h]
                 \centering{\ExecuteMetaData[code/agda/latex/PiWare/Synthesizable.tex]{Synth-Vec}}
-                \caption{Predefined instance of \AD{⇓𝕎⇑} for fixed-length vectors.\label{lst:Synth-Vec}}
+                \caption{Predefined instance of \AD{⇓W⇑} for fixed-length vectors.\label{lst:Synth-Vec}}
             \end{listing}
 
             In the \AF{down} definition,
@@ -531,29 +531,29 @@
             \subsubsection{Proof of bijection}
             %% TODO: rephrase
             It is very desirable that the pair of fields "down" (\AL{⇓}) and "up" (\AL{⇑}),
-            for any instance of \AD{⇓𝕎⇑}, are inverses of each other, that is:
+            for any instance of \AD{⇓W⇑}, are inverses of each other, that is:
 
             \begin{center}
                 \AY{∀} \AY{(}\AB{x} \AY{:} \AB{α}\AY{)} \AY{→} \AL{⇑} \AY{(}\AL{⇓} \AB{x}\AY{)} \AF{≡} \AB{x}
                 \\
-                \AY{∀} \AY{(}\AB{w} \AY{:} \AD{𝕎} \AB{i}\AY{)} \AY{→} \AL{⇓} \AY{(}\AL{⇑} \AB{w}\AY{)} \AF{≡} \AB{w}
+                \AY{∀} \AY{(}\AB{w} \AY{:} \AD{W} \AB{i}\AY{)} \AY{→} \AL{⇓} \AY{(}\AL{⇑} \AB{w}\AY{)} \AF{≡} \AB{w}
             \end{center}
 
-            We indeed tried to embed these proofs also as methods of the \AD{⇓𝕎⇑} class.
+            We indeed tried to embed these proofs also as methods of the \AD{⇓W⇑} class.
             However, when trying to write the proofs for the included instances,
             we faced some difficulties (especially in the sum case) and left this endeavour for future work
             (discussed in more detail in Section~\ref{sec:current-limitations}.
 
             \subsubsection{\texttt{Synthesizable} instance for sums}
-            The instance of \AD{⇓𝕎⇑} for sums (disjoint unions) is the most complex among all predefined
+            The instance of \AD{⇓W⇑} for sums (disjoint unions) is the most complex among all predefined
             instances included with Π-Ware.
             This complexity comes mostly from the need to \emph{distinguish} which set is concerned
             when converting a word "up" (\AL{⇑}).
             Assuming that we want \AL{⇓} and \AL{⇑} to form a bijection (no information may be lost),
             let's first calculate how many atoms are necessary to represent a sum.
 
-            With a given encoding for set \AB{α} (\AB{sα} \AY{:} \AD{⇓𝕎⇑} \AB{α} \AY{\{}\AB{i}\AY{\}})
-            and one for β (\AB{sβ} \AY{:} \AD{⇓𝕎⇑} \AB{β} \AY{\{}\AB{j}\AY{\}}),
+            With a given encoding for set \AB{α} (\AB{sα} \AY{:} \AD{⇓W⇑} \AB{α} \AY{\{}\AB{i}\AY{\}})
+            and one for β (\AB{sβ} \AY{:} \AD{⇓W⇑} \AB{β} \AY{\{}\AB{j}\AY{\}}),
             it is clear that at least \AB{i} \AF{⊔} \AB{j} atoms are necessary to encode \AB{α} \AD{⊎} \AB{β};
             the size of a sum is at least the maximum among the sizes of its summands.
             Furthermore, it is necessary to somehow encode the choice (whether the sum was built from
@@ -564,7 +564,7 @@
 
             \begin{listing}[h]
                 \centering{\ExecuteMetaData[code/agda/latex/PiWare/Synthesizable.tex]{Synth-Sum}}
-                \caption{Predefined instance of \AD{⇓𝕎⇑} for sums.\label{lst:Synth-Sum}}
+                \caption{Predefined instance of \AD{⇓W⇑} for sums.\label{lst:Synth-Sum}}
             \end{listing}
 
             Besides the encodings of the summands (named \AB{sα} and \AB{sβ},
@@ -581,7 +581,7 @@
             either \AB{a} or \AB{b} to fit \AB{i} \AF{⊔} \AB{j}.
 
             In the \AF{up} conversion, first the \emph{tag} is used to transform the input word into
-            a sum of words (\AD{𝕎} \AB{i} \AD{⊎} \AD{𝕎} \AB{j}),
+            a sum of words (\AD{W} \AB{i} \AD{⊎} \AD{W} \AB{j}),
             then the \AF{map⊎} function is used to apply either the \AL{⇑} instance for \AB{α} or for \AB{β},
             giving the desired result type of \AB{α} \AD{⊎} \AB{β}.
 
@@ -609,7 +609,7 @@
             The impact of this change for Π-Ware is immense.
             Recursive instance resolution removes the need for a great deal of boilerplate code.
             For example, before the advent of recursive resolution, modelling the \texttt{XOR} circuit
-            on Listing~\ref{lst:xor-sample} required the user to manually construct instances of \AD{⇓𝕎⇑}
+            on Listing~\ref{lst:xor-sample} required the user to manually construct instances of \AD{⇓W⇑}
             for more than 5 types
             ( \AD{𝔹} \AD{×} \AD{𝔹}
             , \AY{(}\AD{𝔹} \AD{×} \AD{𝔹}\AY{)} \AD{×} \AD{𝔹}
