@@ -987,7 +987,7 @@
     \section{Proving circuit properties}
     \label{sec:proving-circuit-properties}
 
-        There are two main reasons for wanting to embed Π-Ware in a dependently-typed programming language:
+        The main reasons for embedding Π-Ware in a dependently-typed programming language are twofold:
 
         \begin{itemize}
             \item Use dependent types to \emph{prevent design mistakes}.
@@ -999,7 +999,8 @@
         in this section we show what kind of \emph{proofs involving circuits} are possible in Π-Ware
         and how they work.
 
-        Different classes of statements about circuits arise depending on the \emph{semantics} being used.
+        Different classes of statements about circuits arise depending on what kind of
+        \emph{semantics} is being used.
 
         \begin{itemize}
             \item With a \emph{simulation} semantics we can state and prove properties about
@@ -1024,17 +1025,25 @@
         \label{subsec:functional-correctness}
             In hardware design, there are two closely related activities which aim to ensure the
             quality of a circuit: \emph{verification} and \emph{validation}.
-            Verification of a circuit encompasses all sorts of tests and procedures to ensure that
-            a circuit meets a given specification.
-            Validation, on the other hand, is concerned with ensuring that the circuit and
-            its specification effectively meets the needs of involved stakeholders.
-            In the hardware design community, two tongue-in-cheek expressions are used to embody
-            this distinction between validation and verification: namely, that the question asked
-            when performing verification is "did we build the thing right?",
-            while the question asked when performing validation is "did we build the right thing?".
+            \emph{Verification} of a circuit encompasses all sorts of tests and procedures to ensure that
+            a circuit \emph{meets a given specification}.
+            \emph{Validation}, on the other hand, is concerned with ensuring that the circuit
+            \emph{and its specification} effectively meet the needs of involved stakeholders.
+            These definitions (originating from the PMBOX® guide) were made into an
+            IEEE standard~\cite{ieee-pmbok} in 2011.
 
-            The same concepts are also used in the software \emph{formal methods} community,
-            and the term \emph{correctness} is used to denote the goal of verification.
+            In the hardware design community, two tongue-in-cheek expressions are used
+            as a mnemonic device for this distinction between validation and verification:
+
+            \begin{itemize}
+                \item When performing \textbf{verification},
+                    the question asked is "did we build the \emph{thing~right}"
+                \item When performing \textbf{validation},
+                    the question asked is "did we build the \emph{right~thing}"
+            \end{itemize}
+
+            In the software \emph{formal methods} community,
+            the term \emph{correctness} is used to denote the goal of verification.
             A \emph{correct} algorithm, in this sense, is an algorithm that meets its specification.
             We use the same \emph{correctness} terminology applied to hardware, therefore
             we are interested in showing the \emph{correctness of circuits}.
@@ -1047,15 +1056,22 @@
 
             In Π-Ware's case, the circuit model itself (element of \AD{ℂ'}) is considered the \emph{implementation},
             while the \emph{specification} of a circuit is given by an appropriately-typed Agda function.
-            Let's consider a simple example: the \texttt{XOR} (\emph{exclusive-or})) circuit modeled as follows:
+            Let's consider the simple example of an \texttt{XOR} circuit,
+            already shown in Listing~\ref{lst:xor-sample} but repeated here for convenience:
 
             \begin{center}
                 \ExecuteMetaData[code/agda/latex/PiWare/Samples/BoolTrioComb.tex]{xor}
             \end{center}
 
             We can write the \emph{specification function} in basically two ways: as a truth table
-            (listing all possible input combinations) or using Agda's boolean functions.
-            The style in which the specification is written can influence the correctness proof.
+            (listing all possible input combinations) or using the boolean functions
+            from Agda's standard library.
+            The truth table specification is shown in Listing~\ref{lst:xor-spec-table}
+
+            \begin{listing}[h]
+                \centering{\ExecuteMetaData[code/agda/latex/PiWare/ProofSamples/BoolTrioComb.tex]{xor-spec-table}}
+                \caption{Specification function for \AF{⊻ℂ} as a truth table.\label{lst:xor-spec-table}}
+            \end{listing}
 
 
 
