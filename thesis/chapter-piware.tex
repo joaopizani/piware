@@ -136,6 +136,7 @@
             \end{description}
 
             \subsubsection{Purely combinational vs. possibly sequential}
+            \label{subsubsec:comb-vs-seq}
             Circuits in Π-Ware can be \emph{purely combinational} or \emph{sequential}.
             Combinational circuits have no internal state and can be simulated without regarding past inputs.
             A very simple semantics is defined over the circuit datatype in order to distinguish
@@ -236,6 +237,7 @@
             therefore proving that they are also bijections.
 
             \subsubsection{Instance for \texttt{Bool}}
+            \label{subsubsec:atomic-bool}
             Included with Π-Ware there is already a predefined instance of \ARR{Atomic} for \AD{Bool}
             (the boolean type in Agda's standard library).
             Knowing the meaning of each field, the definitions comprising the instance
@@ -274,6 +276,7 @@
             \end{center}
 
             \subsubsection{Other possibly interesting instances}
+            \label{subsubsec:atomic-other}
             Even though currently \AD{Bool} (from the Agda standard library) is the only type for which
             there is already a predefined instance of \ARR{Atomic}, other types could be interestingly used as atoms.
             For example:
@@ -351,6 +354,7 @@
             This functional specification of each fundamental gate is used for the \emph{simulation semantics}.
 
             \subsubsection{Assumed correctness}
+            \label{subsubsec:gates-assumed-correctness}
             Later, in Section~\ref{sec:proving-circuit-properties}, we will give a precise definition
             for what is considered the \emph{functional correctness} of a circuit; its \emph{compliance}
             to a certain functional specification.
@@ -380,6 +384,7 @@
             tying the Π-Ware fundamental gate interface with the \ac{VHDL} abstract syntax.
 
             \subsubsection{Instance for \texttt{BoolTrio}}
+            \label{subsubsec:gates-booltrio}
             One specific instance of gate library is already defined in the Π-Ware library
             (in module \AM{PiWare.Gates.BoolTrio}): the usual set of boolean gates
             $\{ \text{\texttt{NOT}}, \text{\texttt{AND}}, \text{\texttt{OR}} \}$,
@@ -545,6 +550,7 @@
             \AD{Vec} \AB{α} \AB{n}.
 
             \subsubsection{Proof of bijection}
+            \label{subsubsec:proof-bijection}
             It is very desirable that the pair of methods in \ARR{⇓W⇑} – \AL{⇓} (\texttt{down}) and
             \AL{⇑} (\texttt{up}) – are defined as inverses of each other, that is:
 
@@ -565,6 +571,7 @@
             \emph{even before} being able to write any prototype circuit using the intended types.
 
             \subsubsection{\texttt{Synthesizable} instance for sums}
+            \label{subsubsec:synthesizable-sums}
             The instance of \AD{⇓W⇑} for sums (disjoint unions) is the most complex among all predefined
             instances included with Π-Ware.
             This complexity comes mostly from the need to \emph{distinguish} which set is concerned
@@ -606,6 +613,7 @@
             giving the desired result type of \AB{α} \AD{⊎} \AB{β}.
 
             \subsubsection{Recursive instance search}
+            \label{subsubsec:recursive-instance-search}
             To model synthesizable datatypes, we used the Agda way of implementing Haskell's type classes,
             namely, to code a type class as a record type, in which each field corresponds to a method.
             In this analogy, instances are just elements of the record type, and class constraints are
@@ -767,6 +775,7 @@
             and pass each of \AB{p₁} and \AB{p₂} to the calls of \AF{⟦\_⟧'} on the subcircuits.
 
             \subsubsection{High-level combinational simulation}
+            \label{subsubsec:high-sim-comb}
             Analogous to the dichotomy between low-level \emph{circuits} (\AD{ℂ'}) and high-level ones (\AD{ℂ}),
             there are also both low and high-level simulation
             semantics\footnote{There is no such "high-level" concept for the \emph{synthesis} semantics,
@@ -927,6 +936,7 @@
             by the even farther past (\AB{w⁻}).
 
             \subsubsection{From step function to stream function}
+            \label{subsubsec:step-stream}
             The \emph{causal step function} (\AF{⟦\_⟧'}) produces only the next value of the
             output stream, but the desired interface for simulation is one which, given a stream of
             inputs, produces a stream of outputs, i.e, with type

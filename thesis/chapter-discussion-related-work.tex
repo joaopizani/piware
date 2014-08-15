@@ -13,6 +13,7 @@
     \label{sec:discussion-functional}
 
         \subsubsection{μFP}
+        \label{subsubsec:discussion-mufp}
         Π-Ware is a \emph{deep}-embedded \ac{DSL}, and was made so in order to allow for multiple
         interpretations or \emph{semantics} of circuits.
         The mapping between Π-Ware circuits and different semantics is similar to the behaviour
@@ -62,6 +63,7 @@
         when a circuits is \emph{provably} cycle-free.
 
         \subsubsection{Lava}
+        \label{subsubsec:discussion-lava}
         From Lava~\cite{observable-sharing-circuits}, Π-Ware borrowed the idea of \emph{connection patterns}.
         Connection patterns are functions that, given one or more circuits as arguments,
         produce a larger, more powerful circuit by connecting its arguments in a certain \emph{pattern}.
@@ -169,7 +171,7 @@
         high-level datatype.
 
         \subsubsection{ForSyDe}
-
+        \label{subsubsec:discussion-forsyde}
         ForSyDe~\cite{forsyde1999} and Π-Ware are both deeply embedded, but in ForSyDe the user
         writes combinational circuits as Haskell functions and then they are \emph{reified}
         by Template Haskell into an \ac{AST} that ForSyDe actually uses to build the circuit at compile-time.
