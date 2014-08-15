@@ -295,9 +295,17 @@
                         \item \texttt{'U'}: \emph{Uninitialized}. Used as default initial value in simulation.
                         \item \texttt{'-'}: \emph{Don't care}.
                     \end{itemize}
+                \item[Numeric types]
+                    For example, some binary type equivalent to one of Haskell's fixed-size integers
+                    (\mintinline{haskell}{}, \mintinline{}{}, etc.).
+                    The problem with big \AD{Atom} types, however, is that the enumeration functions
+                    using Peano-based finite naturals as indices (\AD{Fin} \AB{n}) can become quite
+                    inefficient for very large \AB{n}.
             \end{description}
 
-            %% TODO: make sure there is no confusion between Atom abstraction and Synthesizable types.
+            For this reason it is recommended to choose a \emph{simple and small} type to use as \AD{Atom},
+            and represent the mapping between complex types and a sequence of \AD{Atom}s using
+            the \AD{⇓W⇑} (\texttt{Synthesizable}) type class, detailed in Section~\ref{subsec:synthesizable}.
 
 
         \subsection{Gate library}
@@ -493,8 +501,6 @@
                 \caption{The \AD{⇓W⇑} (Synthesizable) type class.\label{lst:Synth}}
             \end{listing}
 
-            %% TODO: Synthesizable vs. Atom
-
             The type class has two parameters: the type which it encodes (\AB{α}),
             and the size of the \emph{word type} to which \AB{α} corresponds (\AB{i}).
             Notice that the size parameter is passed \emph{implicitly}, because in some occasions
@@ -539,9 +545,8 @@
             \AD{Vec} \AB{α} \AB{n}.
 
             \subsubsection{Proof of bijection}
-            %% TODO: rephrase
-            It is very desirable that the pair of fields "down" (\AL{⇓}) and "up" (\AL{⇑}),
-            for any instance of \AD{⇓W⇑}, are inverses of each other, that is:
+            It is very desirable that the pair of methods in \ARR{⇓W⇑} – \AL{⇓} (\texttt{down}) and
+            \AL{⇑} (\texttt{up}) – are defined as inverses of each other, that is:
 
             \begin{center}
                 \AY{∀} \AY{(}\AB{x} \AY{:} \AB{α}\AY{)} \AY{→} \AL{⇑} \AY{(}\AL{⇓} \AB{x}\AY{)} \AF{≡} \AB{x}
@@ -549,10 +554,15 @@
                 \AY{∀} \AY{(}\AB{w} \AY{:} \AD{W} \AB{i}\AY{)} \AY{→} \AL{⇓} \AY{(}\AL{⇑} \AB{w}\AY{)} \AF{≡} \AB{w}
             \end{center}
 
-            We indeed tried to embed these proofs also as methods of the \AD{⇓W⇑} class.
-            However, when trying to write the proofs for the included instances,
-            we faced some difficulties (especially in the sum case) and left this endeavour for future work
-            (discussed in more detail in Section~\ref{sec:current-limitations}.
+            With this property, the correctness of a low-level circuit (\AD{ℂ'}) translates trivially
+            via \AL{⇓} and \AL{⇑} to the correctness of it's high-level correspondent.
+
+            We considered including the proof that \AL{⇓} and \AL{⇑} also as methods of the \ARR{⇓W⇑} class,
+            thereby \emph{requiring} the user to prove this property before using any high-level type with Π-Ware.
+            Ultimately, given the experience we had in writing these proofs for some of the \AD{⇓W⇑} instances predefined
+            in Π-Ware, we decided against inclusion as required methods.
+            This would be too big of an initial burden put on a designer, who would have to prove bijection
+            \emph{even before} being able to write any prototype circuit using the intended types.
 
             \subsubsection{\texttt{Synthesizable} instance for sums}
             The instance of \AD{⇓W⇑} for sums (disjoint unions) is the most complex among all predefined
@@ -582,7 +592,7 @@
             three \emph{atom indices} (\AB{n}, \AB{m} and \AB{p}) and a proof that \AB{n} and \AB{m} are different.
             The atom index \AB{n} indicates the \AD{Atom} to be used in case the sum is built from the left (\AL{inj₁}).
             and \AB{m} for the case when it is built from the right (\AL{inj₂}).
-            They need to be different in order for the choice information not to be lost when synthesizing a sum.
+            They need to be different in order for the choice information not to be lost when synthesizing a sum type.
             At last, the \AB{p} parameter identifies the atom used for padding.
 
             In the \AF{down} function, the \AF{[\_,\_]} sum \emph{destructor} is used,
@@ -794,8 +804,6 @@
 
             Listing~\ref{lst:eval-seq-core-decl} shows the type of the semantic function for
             sequential simulation of low-level (\AD{ℂ'}) circuits:
-
-            %% TODO: talk about using Agda Coinduction for simulation and proofs
 
             \begin{listing}[h]
                 \centering{\ExecuteMetaData[code/agda/latex/PiWare/Simulation/Core.tex]{eval-seq-core-decl}}
