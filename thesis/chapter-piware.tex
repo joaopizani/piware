@@ -987,25 +987,81 @@
     \section{Proving circuit properties}
     \label{sec:proving-circuit-properties}
 
-        There are two main reasons for wanting to embed Π-Ware embedded in a dependently-typed
-        programming language:
+        There are two main reasons for wanting to embed Π-Ware in a dependently-typed programming language:
 
         \begin{itemize}
             \item Use dependent types to \emph{prevent design mistakes}.
             \item Use dependent types as a logic system to \emph{prove properties} about circuits.
         \end{itemize}
 
-        While in the previous section we focused on how Π-Ware makes use of dependent types to
-        prevent some classes of mistakes early in the design process, in this section we show
-        what kind of \emph{proofs involving circuits} are possible in Π-Ware and how
-        they work.
+        While in sections~\ref{sec:circuit-syntax} and~\ref{sec:circuit-semantics} we focused on
+        how Π-Ware makes use of dependent types to prevent some classes of mistakes early in the design process,
+        in this section we show what kind of \emph{proofs involving circuits} are possible in Π-Ware
+        and how they work.
+
+        Different classes of statements about circuits arise depending on the \emph{semantics} being used.
+
+        \begin{itemize}
+            \item With a \emph{simulation} semantics we can state and prove properties about
+                \emph{functional behaviour}, i.e, the relation between a circuit's inputs and outputs.
+                For example, we can state that a circuit's output values always remain whithin some range,
+                or that two circuits \emph{have equal behaviour}, i.e., always produce the same outputs
+                given the same inputs.
+            \item With a \emph{synthesis} semantics, on the other, properties about circuit \emph{structure}
+                can be stated and proven. For example, we can state that a circuit never
+                exceeds a certain number of fundamental gates,
+                or that the \emph{longest chain} of gates is never longer than a predefined length.
+            \item Furthermore, several other sorts of static analyses can be carried with the
+                introduction of new semantics, such as timing analysis, power consumption analysis, etc.
+        \end{itemize}
+
+        In this section we focus mainly on statements and proofs involving circuits's
+        \emph{functional behaviour} (those involving the \emph{simulation semantics}),
+        as the examples included in the Π-Ware library belong to this class.
 
 
         \subsection{Functional correctness}
         \label{subsec:functional-correctness}
+            In hardware design, there are two closely related activities which aim to ensure the
+            quality of a circuit: \emph{verification} and \emph{validation}.
+            Verification of a circuit encompasses all sorts of tests and procedures to ensure that
+            a circuit meets a given specification.
+            Validation, on the other hand, is concerned with ensuring that the circuit and
+            its specification effectively meets the needs of involved stakeholders.
+            In the hardware design community, two tongue-in-cheek expressions are used to embody
+            this distinction between validation and verification: namely, that the question asked
+            when performing verification is "did we build the thing right?",
+            while the question asked when performing validation is "did we build the right thing?".
+
+            The same concepts are also used in the software \emph{formal methods} community,
+            and the term \emph{correctness} is used to denote the goal of verification.
+            A \emph{correct} algorithm, in this sense, is an algorithm that meets its specification.
+            We use the same \emph{correctness} terminology applied to hardware, therefore
+            we are interested in showing the \emph{correctness of circuits}.
+
+            More specifically, we focus on establishing correctness by means of \emph{formal verification}.
+            This means that \emph{both} specification and implementation are described formally,
+            and we seek a formal proof that the implementation meets the specification.
+            \emph{Functional} correctness refers to the input/output behaviour of the circuit, i.e.,
+            that for each input the \emph{correct} output is produced (as prescribed by the specification).
+
+            In Π-Ware's case, the circuit model itself (element of \AD{ℂ'}) is considered the \emph{implementation},
+            while the \emph{specification} of a circuit is given by an appropriately-typed Agda function.
+            Let's consider a simple example: the \texttt{XOR} (\emph{exclusive-or})) circuit modeled as follows:
+
+            \begin{center}
+                \ExecuteMetaData[code/agda/latex/PiWare/Samples/BoolTrioComb.tex]{xor}
+            \end{center}
+
+            We can write the \emph{specification function} in basically two ways: as a truth table
+            (listing all possible input combinations) or using Agda's boolean functions.
+            The style in which the specification is written can influence the correctness proof.
+
+
 
             \subsubsection{Sequential correctness}
             \label{subsubsec:sequential-correctness}
+
 
 
         \draftnote{Note to reviewer: what exactly should be here?}
