@@ -353,36 +353,6 @@
             (\AD{Atom} vectors) of the correct length.
             This functional specification of each fundamental gate is used for the \emph{simulation semantics}.
 
-            \subsubsection{Assumed correctness}
-            \label{subsubsec:gates-assumed-correctness}
-            Later, in Section~\ref{sec:proving-circuit-properties}, we will give a precise definition
-            for what is considered the \emph{functional correctness} of a circuit; its \emph{compliance}
-            to a certain functional specification.
-
-            Usually, the proof of functional correctness for a circuit is built using, in some way,
-            the correctness proofs of its subcomponents.
-            However, fundamental gates have no subcomponents, so their correctness is assumed.
-            By definition, the simulation semantics of a fundamental gate is equal to the \AL{spec}
-            function given for it in the gate library definition.
-
-            \subsubsection{Relation to synthesis}
-            \label{subsubsec:relation-to-synthesis}
-            Even though fundamental gates have no subcomponents \emph{at the Π-Ware level},
-            they are not in any way directly synthesizable to \ac{VHDL}.
-            To convert a Π-Ware circuit to \ac{VHDL}, each fundamental gate in the library being used
-            needs to have a corresponding excerpt of \ac{VHDL} code representing it.
-
-            This feature is not integrated in the current version of Π-Ware, but assuming the existence
-            of a hierarchy of datatypes representing \ac{VHDL} code, and specifically the existence
-            of a type \AD{VHDLEntity}, we could have an extra field in the \ARR{Gates} record, as such:
-
-            \begin{center}
-               \AL{netlist} \AY{:} \AY{(}\AB{g} \AY{:} \AD{Fin} \AY{(}\AI{suc} \AL{|Gates|-1}\AY{)}\AY{)} \AY{→} \AD{VHDLEntity} \AY{(}\AL{ins} \AB{g}\AY{)} \AY{(}\AL{out} \AB{g}\AY{)}
-            \end{center}
-
-            The \AD{VHDLEntity} is also parameterized by the input and output sizes of the circuit,
-            tying the Π-Ware fundamental gate interface with the \ac{VHDL} abstract syntax.
-
             \subsubsection{Instance for \texttt{BoolTrio}}
             \label{subsubsec:gates-booltrio}
             One specific instance of gate library is already defined in the Π-Ware library
@@ -424,6 +394,37 @@
             \begin{center}
                 \ExecuteMetaData[code/agda/latex/PiWare/Gates/BoolTrio.tex]{BoolTrio}
             \end{center}
+
+            \subsubsection{Assumed correctness}
+            \label{subsubsec:gates-assumed-correctness}
+            Later, in Section~\ref{sec:proving-circuit-properties}, we will give a precise definition
+            for what is considered the \emph{functional correctness} of a circuit; its \emph{compliance}
+            to a certain functional specification.
+
+            Usually, the proof of functional correctness for a circuit is built using, in some way,
+            the correctness proofs of its subcomponents.
+            However, fundamental gates have no subcomponents, so their correctness is assumed.
+            By definition, the simulation semantics of a fundamental gate is equal to the \AL{spec}
+            function given for it in the gate library definition.
+
+            \subsubsection{Relation to synthesis}
+            \label{subsubsec:relation-to-synthesis}
+            Even though fundamental gates have no subcomponents \emph{at the Π-Ware level},
+            they are not in any way directly synthesizable to \ac{VHDL}.
+            To convert a Π-Ware circuit to \ac{VHDL}, each fundamental gate in the library being used
+            needs to have a corresponding excerpt of \ac{VHDL} code representing it.
+
+            This feature is not integrated in the current version of Π-Ware, but assuming the existence
+            of a hierarchy of datatypes representing \ac{VHDL} code, and specifically the existence
+            of a type \AD{VHDLEntity}, we could have an extra field in the \ARR{Gates} record, as such:
+
+            \begin{center}
+               \AL{netlist} \AY{:} \AY{(}\AB{g} \AY{:} \AD{Fin} \AY{(}\AI{suc} \AL{|Gates|-1}\AY{)}\AY{)} \AY{→} \AD{VHDLEntity} \AY{(}\AL{ins} \AB{g}\AY{)} \AY{(}\AL{out} \AB{g}\AY{)}
+            \end{center}
+
+            The \AD{VHDLEntity} is also parameterized by the input and output sizes of the circuit,
+            tying the Π-Ware fundamental gate interface with the \ac{VHDL} abstract syntax.
+
 
 
         \subsection{High-level circuit datatype}
