@@ -7,53 +7,107 @@
     the traditional engineering background.
 
     Functional programming has for a long time allowed for programming in a more
-    abstract fashion, farther from details of any specific machine.
-    Also, very frequently programming a system using a purely functional programming language
-    makes that system easier to analyze and for properties of its behaviour to be stated and proven.
+    abstract and principled fashion, farther from details of any specific machine.
+    Also, very frequently, building a system using a purely functional programming language
+    makes that system easier to analyze and easier for its properties to be stated and proven.
 
     Given these advantages when developing software, it should come as no surprise that
     a long-standing line of research is concerned with applying the ideas of functional
     programming to hardware design.
-    Functional hardware description languages, and later \emph{domain-specific languages}
-    for hardware \emph{embedded} in general-purpose functional languages were developed,
-    and several studies have shown that, indeed, some of the advantages brought to software development
+    Functional hardware description languages, and later
+    \emph{embedded} domain-specific languages for hardware were developed,
+    and several studies have shown that some of the advantages brought to software development
     by adopting the functional paradigm could also benefit the world of hardware.
 
     More recently, programming languages with \emph{dependent type systems} were developed,
-    creating the paradigm of \acl{DTP}.
+    creating the paradigm of \acf{DTP}.
     Many researchers regard \ac{DTP} as being the "next step up" in terms of abstraction,
     when compared to functional programming.
-    Nothing more reasonable then than to investigate whether even more benefits can be brought to
-    the field of hardware design by \ac{DTP},
-    building upon the advances of functional hardware description languages.
+    Nothing more reasonable then than to investigate whether \emph{even more} benefits
+    can be brought to the field of hardware design by \ac{DTP},
+    improving upon the advances of functional hardware description languages.
 
     Inspired by the ideas in Coquet~\cite{coquet2011}, and by the strenghts and weaknesses of other
-    hardware \acp{DSL} studied in a previous project, we aimed in this thesis to develop
+    hardware \acp{DSL} studied in a previous project, we developed in this thesis
     a hardware \ac{DSL} – Π-Ware – \emph{embedded in a dependently-typed language} and using
     as much as possible of the cutting-edge developments in \ac{DTP}.
-    The development of Π-Ware had an exploratory character: based on the identified limitations of
-    other libraries
+    The development of Π-Ware had an exploratory character: having identified limitations of
+    other functional hardware \acp{DSL}, we tried to use features of dependent types in general
+    (and of Agda in specific) to solve them.
 
-    %% TODO: before the sections, "tie the knots" and give a general conclusion
+    Π-Ware does allow for more type safety in circuit designs,
+    prevents some classes of frequent design mistakes and provides a framework
+    in which both simulation, synthesis and verification of hardware can be performed \emph{in the same language}.
+    We use dependent inductive families to ensure basic \emph{well-formedness} of circuits,
+    dependent records (type classes) and recursive instance search to allow for parametrization
+    in the types handled by circuits and the underlying circuit technology used (gate family),
+    and the Curry-Howard isomorphism~\cite{propositions-as-types} gives us a logic interpretation of Agda,
+    in which we can write \emph{types} stating properties of circuits and give \emph{proofs} for them.
+
+    However, there are still some "rough edges": features that due to low priority and/or time constraints
+    are currently not as polished as we wish them to be.
+    Furthermore, during the development of Π-Ware, some interesting ideas came up about the application
+    of \ac{DTP} to hardware development which deserve future investigation.
+
 
     \section{Future work}
     \label{sec:future-work}
 
-        \subsection{Current limitations of Π-Ware}
+        \subsection{Current limitations and trade-offs in Π-Ware}
         \label{subsec:current-limitations}
+
+            At the beginning of Π-Ware's development, we were considering
+            how should the low-level circuit type (\AD{ℂ'}) be indexed.
+            It was clear that the two indices should characterize in some way the circuit's \emph{interface},
+            that is, its input and output ports.
+            Initially, we defined a \emph{closed universe} of types which low-level circuit descriptions
+            could "operate on". This universe was, essentially, closed under products (\AD{\_×\_}),
+            coproducts (\AD{\_×\_}) and vectors.
+            Had this attempt gone forward, the type of a low-level description for \AF{⊻ℂ'} (\texttt{XOR})
+            might have looked as follows – where \AI{A} indicates one \AD{Atom}:
+
+            \begin{center}
+                \AF{⊻ℂ'} : \AD{ℂ'} \AY{(}\AI{A} \AI{⊠} \AI{A}\AY{)} \AI{A}
+            \end{center}
+
+            However, trying to enforce the desired well-formedness rules by "calculating" with these types
+            turned out to be more complex than expected, and ultimately we decided to use
+            \emph{sizes} as the indices of \AD{ℂ'}.
+            This decision mainly impacts the synthesis semantics:
+            with no \emph{structural} information about circuit's ports in the low-level,
+            the generated \ac{VHDL} has a \mintinline{vhdl}{Port} declaration with only
+            \emph{one} input and \emph{one} output (of the appropriate size).
+
+
+            Another current trade-off in Π-Ware concerns the \ARR{⇓W⇑} (\texttt{Synthesizable})
+            type class: the way in which the high-level simulation semantics (\AF{⟦\_⟧}) is defined
+            \emph{requires} that the \AL{⇓} (serialization) and \AL{⇑} (deserialization) functions
+            be \emph{inverses} of each other.
+            Currently, however, this requirement is \emph{not} enforced by requiring a \emph{proof} of
+            this fact as a field of \ARR{⇓W⇑}.
+
+            The argument for not enforcing this requirement through the type system is to allow
+            prototyping of circuits without the burden of proof for all types involved.
+            On the other hand, the current implementation is certainly not the only way to provide this flexibility:
+            We could require the proof of inversibility as a field of \AD{⇓W⇑} anyways,
+            and expect the designer to \AK{postulate} the proofs while prototyping.
+            When ready for synthesis, the \texttt{--safe} flag can be used with Agda to forbid all \AK{postulates}.
+
+            Lastly, describing and trying to prove facts about complex circuit definitions in Π-Ware
+            can be quite inefficient: type-checking a generically-sized ripple-carry adder can already
+            consume up to 2GB of RAM.
+            This is not, however, an issue exclusively with Π-Ware; other Agda libraries suffer with the same problem.
+            Agda's own documentation \emph{wiki} suggests, in a page dedicated to perfomance tuning,
+            to use some of Agda's experimental features, such as:
+
             \begin{itemize}
-                \item Synthesizable instances are not proven bijections?
-                \item Big circuits consume too much time and memory to typecheck
-                    \subitem Who to blame?
-                    \subitem Instance search
-                    \subitem Combinational proofs
-                \item Circuit interfaces are described by \emph{just a size}
-                    \subitem Simple, but generates ugly VHDL
-                    \subitem All circuits have one big vector input and one output
-                    \subitem Could we make the interface indices more \emph{structured}?
+                \item Proof \emph{irrelevance}, when a proof argument is not used in the body of a definition.
+                \item Marking proofs as \AK{abstract}, so that they are not unfolded.
             \end{itemize}
 
-        \subsection{General future research directions}
+            \newpage
+
+        \subsection{Directions for future research}
         \label{subsec:future-research}
             \begin{itemize}
                 \item More broadly, considering \emph{Π-Ware}, what would be the ``next steps''.
