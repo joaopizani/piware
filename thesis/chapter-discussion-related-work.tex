@@ -167,7 +167,7 @@
         and the type checker will not be able to detect this mistake.
 
         In Π-Ware, one can normally design a custom datatype for \AD{HackInstruction} and, by defining
-        an instance of \AD{⇓W⇑} (\texttt{Synthesizable}) for it, have circuits operating over this
+        an instance of \ARR{⇓W⇑} (\texttt{Synthesizable}) for it, have circuits operating over this
         high-level datatype.
 
         \subsubsection{ForSyDe}
@@ -206,7 +206,7 @@
         Π-Ware, on the other hand, generates untyped \ac{VHDL}, where all circuit ports and signals
         are vectors of the chosen \AD{Atom} type (for example, \mintinline{vhdl}{std_logic}).
         In this way, any type which can be mapped into a vector of \AD{Atom}s – by writing an
-        instance of \AD{⇓W⇑} – can be used as circuit IO, and the circuit will be able to be synthesized.
+        instance of \ARR{⇓W⇑} – can be used as circuit IO, and the circuit will be able to be synthesized.
         This design decision was taken as we believe that all correctness checking and architectural
         manipulation of circuits should be done at the meta (Agda) level anyway,
         so when a \ac{VHDL} netlist is generated, a typed representation would not bring enough benefits.
