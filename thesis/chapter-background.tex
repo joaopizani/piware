@@ -64,7 +64,8 @@
         However, current \acs{HLS}-based hardware implementation chains still face two main problems:
 
         \begin{itemize}
-            \item The input languages (VHDL, C) are not expressive enough.
+            \item The input languages (VHDL, C) are not expressive enough as they were designed for other purposes:
+                \acs{VHDL} for simulation and C/C++ for software development.
             \item Specification, verification and synthesis are all done with different tools and different languages.
             \begin{itemize}
                 \item Even behavioural \acs{VHDL} can be considered practically a different language
@@ -85,14 +86,14 @@
         to design and reason about hardware circuits.
         These developments were happening at the same time when the \ac{VHDL} was being designed and standardized.
         Even though \ac{VHDL} and Verilog ended up "winning" and becoming the \emph{de facto} industry standards,
-        it is still useful to take a look at the ideas behind these early \acp{HDL}, as some of them
-        inspired current approaches.
+        it is still useful to take a look at the ideas behind these early functional \acp{HDL},
+        as some of them inspired current approaches.
 
         The idea was then to come up with new functional languages, \emph{specialized} to do hardware description.
         One of the prominent early examples in this set is μFP~\cite{mufp-1984},
         which was in turn inspired by John Backus's FP~\cite{backus-turing-lecture}.
         In contrast to \ac{VHDL}, which was later adapted to synthesis in an ad-hoc way,
-        μFP was designed since the beginning to have both interpretations:
+        μFP was designed since the beginning to have two interpretations:
 
         \begin{description}
             \item[Behavioural]
@@ -107,7 +108,7 @@
 
         The μFP language is an \emph{extension} of Backus's FP, and contained only one extra combining form: μ.
         The μ combining form is responsible for the creation of functions (circuits) with internal state.
-        According to the seminal μFP paper~\cite{mufp-1984}:
+        According to the original μFP paper~\cite{mufp-1984}:
 
         \begin{quote}
             The meaning of μf is defined in terms of the meaning of f.
@@ -248,10 +249,10 @@
             ForSyDe and Lava differ substantially in description style and internal workings,
             and a more complete comparison of the two can be found
             in the final report~\cite{functional-hardware-survey}
-            of the experimentation project conducted as preparation to this thesis.
+            of the experimentation project conducted as preparation for this thesis.
 
             In ForSyDe, the central concepts are those of \emph{process} and \emph{signal}.
-            Whereas in Lava only \emph{synchronous} sequential circuits can be described – that is
+            Whereas in Lava only \emph{synchronous} sequential circuits can be described – which is
             also the case in Π-Ware – in ForSyDe processes can belong to synchronous,
             asynchronous and continuous \emph{models of computation}.
 
