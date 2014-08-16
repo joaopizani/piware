@@ -852,6 +852,9 @@
             and it \emph{can} "look ahead", that is, use future input values to calculate the next output value.
 
             %% TODO: example of future-dependent stream function
+            %% f (x₁ ∷ x₂ ∷ xs) = x₁ + x₂ ♯ ∷ f (b xs)
+            %% 1, 2, 3, 4, 5, 6, 7, 8, 9, ...
+            %% 3, 5, 7, 9, 11, 13, 15, 17, ...
 
             \subsubsection{Causal step semantics}
             \label{subsubsec:causal-step-semantics}
@@ -1073,25 +1076,74 @@
                 \caption{Specification function for \AF{⊻ℂ} as a truth table.\label{lst:xor-spec-table}}
             \end{listing}
 
+            We can also use the \AF{xor} function from Agda's standard library
+            (module \AM{Data.Bool}) as specification. The type signature of \AF{xor} is as follows:
 
+            \begin{center}
+                \AF{\_xor\_} \AY{:} \AD{Bool} \AY{→} \AD{Bool} \AY{→} \AD{Bool}
+            \end{center}
 
-            \subsubsection{Sequential correctness}
-            \label{subsubsec:sequential-correctness}
+            If we want to make the \AF{\_xor\_} based specification have the same type as
+            \AF{⊻ℂ-spec-table}, we can use the \AF{uncurry′} function from \AM{Data.Product}.
+            Then, we arrive at the \AF{⊻ℂ-spec-subfunc} definition, shown in Listing~\ref{lst:xor-spec-subfunc}.
 
+            \begin{listing}[h]
+                \centering{\ExecuteMetaData[code/agda/latex/PiWare/ProofSamples/BoolTrioComb.tex]{xor-spec-subfunc}}
+                \caption{Specification function for \AF{⊻ℂ} based in Agda's \AF{\_xor\_}.
+                    \label{lst:xor-spec-subfunc}}
+            \end{listing}
 
+            The proof of functional correctness for \AF{⊻ℂ} can be written in different ways,
+            depending on which specification function we choose.
+            If we use the truth table specification, then the proof can also only proceed by \emph{case analysis},
+            as shown in Listing~\ref{lst:xor-proof-table}.
 
-        \draftnote{Note to reviewer: what exactly should be here?}
+            \begin{listing}[h]
+                \centering{\ExecuteMetaData[code/agda/latex/PiWare/ProofSamples/BoolTrioComb.tex]{xor-proof-table}}
+                \caption{Functional correctness proof of \AF{⊻ℂ}, with \AF{⊻ℂ-spec-table} as specification.
+                    \label{lst:xor-proof-table}}
+            \end{listing}
 
-        \draftnote{
-        The idea, I guess, was to explain how to prove properties about Π-Ware circuits in Agda.
-        The concepts can be explained, and I can also expose the work-in-progress with proof combinators
-        and etc.
-        }
+            In this kind of proof (by case analysis),
+            the lack of a tactic language in Agda is a disadvantage:
+            even though \textbf{all} cases have the same right-hand side (\AI{refl}),
+            they still have to be listed explicitly.
+            We expect, however, that by using \emph{proof by reflection}~\cite{engineering-reflection-agda}
+            such proofs can be automated. Further investigation is left as future work.
 
-        \draftnote{
-        A problem is that I have very small examples of proofs and none of them for
-        generic circuits. I tried a really minimal generic proof (that the identity circuit iterated n times
-        is just the identity), but even this one has reduction stuck.
-        }
+            The correctness proof for \AF{⊻ℂ} using \AF{⊻ℂ-spec-subfunc} is shown in Listing~\ref{lst:xor-proof-subfunc}.
 
-        \draftnote{Maybe we should talk about this on the meeting Friday, as it's pretty critical.}
+            \begin{listing}[h]
+                \centering{\ExecuteMetaData[code/agda/latex/PiWare/ProofSamples/BoolTrioComb.tex]{xor-proof-subfunc}}
+                \caption{Functional correctness proof of \AF{⊻ℂ}, specified by \AF{⊻ℂ-spec-subfunc}.
+                    \label{lst:xor-proof-subfunc}}
+            \end{listing}
+
+            An important remark is that this "higher-level" proof (\AF{⊻ℂ-proof-subfunc}) could \emph{also}
+            be completed by simple case analysis,
+            and therefore \emph{proof by reflection} could be used as a general tactic for all proofs
+            involving circuits definitions with \emph{fixed size}.
+            But in the case of \AF{⊻ℂ-proof-subfunc} we chose to complete the proof in a different fashion,
+            for illustrative purposes.
+
+            The circuit evaluation (\AF{⟦~⊻ℂ~⟧}) reduces to an expression involving the functions
+            \AF{\_∧\_} (\texttt{AND}), \AF{\_∨\_} (\texttt{OR}) and \AF{not},
+            while the specification (Agda's \AF{\_xor\_}) is ultimately defined by pattern matching.
+            Therefore we use a lemma (\AF{⊻ℂ-xor-equiv} which shows the equivalence of
+            Agda's \AF{\_xor\_} and a function involving \AF{\_∧\_}, \AF{\_∨\_} and \AF{not}.
+            This lemma has the following type:
+
+            \begin{center}
+                \ExecuteMetaData[code/agda/latex/PiWare/ProofSamples/BoolTrioComb.tex]{xor-equiv-decl}
+            \end{center}
+
+            %% TODO: talk about proving families of circuits? try pidN or show only statement
+
+            
+        \subsection{Sequential correctness}
+        \label{subsec:sequential-correctness}
+
+            %% TODO: register example?
+            %% TODO: "hardcoded" statement and proof about register
+            %% TODO: generic inputs statement (and proof?) for register
+
