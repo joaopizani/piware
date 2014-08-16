@@ -1,6 +1,5 @@
 \chapter{Introduction}
 \label{chap:intro}
-    %% TODO: put goals (requirements of a hardware DSL) before FP
     \acrodef{ILP}{Instruction-Level Paralellism}
     Several factors have been causing an increasing demand for hardware acceleration of algorithms.
     On the one hand, Moore's law still holds for the near future~\cite{itrs},
@@ -19,6 +18,11 @@
     and errors that reach the consumer cost even more, as there's no such thing as "updating" a chip.
     One infamous example of such a bug reaching the consumer was the \emph{FDIV} bug in Intel's Pentium chip,
     which might have costed the company over 400 million dollars~\cite{intel-fdiv}.
+    
+    A language for hardware design should, therefore, try to prevent as many design mistakes as possible,
+    and \emph{as early as possible} in the implementation chain.
+    Also, it should facilitate the task of verification,
+    providing techniques more efficient than exhaustive testing and model checking for circuits of fixed size.
 
     In the software industry, especially in application domains requiring high correctness assurance
     (such as information security, machine control, etc.),
@@ -56,7 +60,7 @@
     \end{itemize}
 
     In a certain way, we can compare the power of the tools and techniques
-    used nowadays in hardware design to the early days of software development.
+    used nowadays in hardware design to earlier days of software development.
     Of course there are inherent and fundamental differences between the two activities, but
     this comparison leads us to ask whether recent ideas from programming language research,
     specially those related to functional programming, can be used to improve hardware design.
