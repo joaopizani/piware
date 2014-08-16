@@ -1,27 +1,64 @@
 \chapter{Conclusions}
 \label{chap:conclusions}
+
+    Hardware design is an important and \emph{complex} activity, with strict requirements.
+    Furthermore, its relevance is growing with more need for hardware acceleration,
+    pushing programmers and other professionals to think about hardware without having
+    the traditional engineering background.
+
+    Functional programming has for a long time allowed for programming in a more
+    abstract fashion, farther from details of any specific machine.
+    Also, very frequently programming a system using a purely functional programming language
+    makes that system easier to analyze and for properties of its behaviour to be stated and proven.
+
+    Given these advantages when developing software, it should come as no surprise that
+    a long-standing line of research is concerned with applying the ideas of functional
+    programming to hardware design.
+    Functional hardware description languages, and later \emph{domain-specific languages}
+    for hardware \emph{embedded} in general-purpose functional languages were developed,
+    and several studies have shown that, indeed, some of the advantages brought to software development
+    by adopting the functional paradigm could also benefit the world of hardware.
+
+    More recently, programming languages with \emph{dependent type systems} were developed,
+    creating the paradigm of \acl{DTP}.
+    Many researchers regard \ac{DTP} as being the "next step up" in terms of abstraction,
+    when compared to functional programming.
+    Nothing more reasonable then than to investigate whether even more benefits can be brought to
+    the field of hardware design by \ac{DTP},
+    building upon the advances of functional hardware description languages.
+
+    Inspired by the ideas in Coquet~\cite{coquet2011}, and by the strenghts and weaknesses of other
+    hardware \acp{DSL} studied in a previous project, we aimed in this thesis to develop
+    a hardware \ac{DSL} – Π-Ware – \emph{embedded in a dependently-typed language} and using
+    as much as possible of the cutting-edge developments in \ac{DTP}.
+    The development of Π-Ware had an exploratory character: based on the identified limitations of
+    other libraries
+
     %% TODO: before the sections, "tie the knots" and give a general conclusion
 
-    \section{Current limitations}
-    \label{sec:current-limitations}
-        \begin{itemize}
-            \item Synthesizable instances are not proven bijections?
-            \item Big circuits consume too much time and memory to typecheck
-                \subitem Who to blame?
-                \subitem Instance search
-                \subitem Combinational proofs
-            \item Circuit interfaces are described by \emph{just a size}
-                \subitem Simple, but generates ugly VHDL
-                \subitem All circuits have one big vector input and one output
-                \subitem Could we make the interface indices more \emph{structured}?
-        \end{itemize}
+    \section{Future work}
+    \label{sec:future-work}
 
-    \section{Future research}
-    \label{sec:future-research}
-        \begin{itemize}
-            \item More broadly, considering \emph{Π-Ware}, what would be the ``next steps''.
-            \item Map arbitrary Agda types to words (via sum-of-products) in a GP way.
-            \item Prove more properties of metatheory using Agda
-                \subitem Identities of circuit constructors, associativity, other algebraic properties
-                \subitem State law of μFP
-        \end{itemize}
+        \subsection{Current limitations of Π-Ware}
+        \label{subsec:current-limitations}
+            \begin{itemize}
+                \item Synthesizable instances are not proven bijections?
+                \item Big circuits consume too much time and memory to typecheck
+                    \subitem Who to blame?
+                    \subitem Instance search
+                    \subitem Combinational proofs
+                \item Circuit interfaces are described by \emph{just a size}
+                    \subitem Simple, but generates ugly VHDL
+                    \subitem All circuits have one big vector input and one output
+                    \subitem Could we make the interface indices more \emph{structured}?
+            \end{itemize}
+
+        \subsection{General future research directions}
+        \label{subsec:future-research}
+            \begin{itemize}
+                \item More broadly, considering \emph{Π-Ware}, what would be the ``next steps''.
+                \item Map arbitrary Agda types to words (via sum-of-products) in a GP way.
+                \item Prove more properties of metatheory using Agda
+                    \subitem Identities of circuit constructors, associativity, other algebraic properties
+                    \subitem State law of μFP
+            \end{itemize}
