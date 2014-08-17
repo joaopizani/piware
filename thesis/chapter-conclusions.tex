@@ -70,19 +70,17 @@
                 \AF{⊻ℂ'} : \AD{ℂ'} \AY{(}\AI{A} \AI{⊠} \AI{A}\AY{)} \AI{A}
             \end{center}
 
-            However, trying to enforce the desired well-formedness rules by "calculating" with these types
-            turned out to be more complex than expected, and ultimately we decided to use
-            \emph{sizes} as the indices of \AD{ℂ'}.
+            However, trying to enforce the desired well-formedness rules and perform simulation
+            with this universe construction turned out to be more complex than expected,
+            and ultimately we decided to use \emph{sizes} as the indices of \AD{ℂ'}.
             This decision mainly impacts the synthesis semantics:
-            with no \emph{structural} information about circuit's ports in the low-level,
+            with no \emph{structural} information about circuit ports in the low-level,
             the generated \ac{VHDL} has a \mintinline{vhdl}{Port} declaration with only
-            \emph{one} input and \emph{one} output (of the appropriate size).
-
+            \emph{one} input and \emph{one} output (of appropriate size).
 
             Another current trade-off in Π-Ware concerns the \ARR{⇓W⇑} (\texttt{Synthesizable})
-            type class: the way in which the high-level simulation semantics (\AF{⟦\_⟧}) is defined
-            \emph{requires} that the \AL{⇓} (serialization) and \AL{⇑} (deserialization) functions
-            be \emph{inverses} of each other.
+            type class: high-level simulation semantics (\AF{⟦\_⟧}) \emph{requires} that the
+            \AL{⇓} (serialization) and \AL{⇑} (deserialization) functions be \emph{inverses} of each other.
             Currently, however, this requirement is \emph{not} enforced by requiring a \emph{proof} of
             this fact as a field of \ARR{⇓W⇑}.
 
@@ -91,7 +89,7 @@
             On the other hand, the current implementation is certainly not the only way to provide this flexibility:
             We could require the proof of inversibility as a field of \ARR{⇓W⇑} anyways,
             and expect the designer to \AK{postulate} the proofs while prototyping.
-            When ready for synthesis, the \texttt{--safe} flag can be used with Agda to forbid all \AK{postulates}.
+            When ready for synthesis, the \texttt{safe} flag can be used with Agda to forbid all \AK{postulates}.
 
             Lastly, describing and trying to prove facts about complex circuit definitions in Π-Ware
             can be quite inefficient: type-checking a generically-sized ripple-carry adder can already
@@ -109,10 +107,33 @@
 
         \subsection{Directions for future research}
         \label{subsec:future-research}
-            \begin{itemize}
-                \item More broadly, considering \emph{Π-Ware}, what would be the ``next steps''.
-                \item Map arbitrary Agda types to words (via sum-of-products) in a GP way.
-                \item Prove more properties of metatheory using Agda
-                    \subitem Identities of circuit constructors, associativity, other algebraic properties
-                    \subitem State law of μFP
-            \end{itemize}
+            As mentioned briefly in Section~\ref{subsec:synthesizable}, any finite Agda datatype can have
+            an instance of \ARR{⇓W⇑} (\texttt{Synthesizable}), given a certain encoding.
+            One further research path would, therefore, involve \emph{generic programming};
+            more specifically, creating a sums-of-products view of Agda datatypes – similar to
+            what has been done in the paper "True Sums of Products"~\cite{true-sop}.
+
+            It would also be necessary to define a generic one-to-one correspondence
+            between the elements of these sums-of-products and vectors of \AD{Atom}s,
+            independently of what \ARR{Atomic} instance is used.
+            Haskell's \texttt{binary}\footnote{\url{https://hackage.haskell.org/package/binary}}
+            library is likely to provide some inspiration in this regard.
+            Both of these endeavours would involve using Agda's
+            \emph{reflection}~\cite{engineering-reflection-agda} mechanism:
+            in order to create a sum-of-products encoding for any (finite) datatype,
+            and to extract a serialized sequence of \AD{Atom}s from the sum-of-products.
+
+            A generally desirable effort would be to prove \emph{in Agda} several
+            algebraic and meta-theoretical properties of Π-Ware.
+            For example, properties such as associativity, commutativity and identity of
+            circuit constructors and combinators could be proven, allowing them to fit into
+            the structures defined in the \AM{Algebra} module of Agda's standard library.
+            Some properties could even help to guide possible optimization steps in the synthesis:
+            proving μFP's~\cite{mufp-1984} "state law" regarding the \AI{DelayLoop} constructor,
+            for example, could enable big memory blocks to be subdivided and placed nearer
+            to the combinational block operating on their contents.
+
+            Lastly, Π-Ware adopts a relatively \emph{low-level} approach to system description:
+            we describe gates, sizes, wires, etc. It would certainly be interesting to investigate
+            the usage of \acl{DTP} for modelling other levels of abstraction, such as
+            instruction sets, processor microarchitectures, etc. in a \emph{layered} fashion.
