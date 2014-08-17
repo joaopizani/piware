@@ -653,9 +653,11 @@
     \section{Circuit Semantics}
     \label{sec:circuit-semantics}
         In this chapter we will expose and discuss the \emph{semantics} of circuits described using Π-Ware.
-        Namely, Π-Ware circuits can be interpreted in two ways:
+        Π-Ware circuits can currently be interpreted in two ways:
         they can be \emph{simulated} (fed with certain inputs and calculate the correspoding outputs)
         or \emph{synthesized} (converted to a \emph{netlist}).
+        However, due to the fact the a \emph{deep embedding} is used, other semantics can implemented
+        with relative ease, such as timing analysis, power estimation, etc.
 
         When presenting the simulation semantics, we will separately discuss the simulation of
         purely combinational circuits and of sequential ones,
@@ -672,6 +674,8 @@
             fundamental constructors of \AD{ℂ'}, as well as for \AI{DelayLoop}.
             To the left of each diagram there is a typing rule for that case,
             with the constructor's arguments (and their types) above the bar and the result type below it.
+
+            %% TODO: two-column one-page diagram
 
             \begin{figure}[h]
                 \centering{\includegraphics[width=0.93\textwidth]{imgs/semantics-syn-fundamental.pdf}}
@@ -738,9 +742,10 @@
             Purely combinational circuits have no notion of time or state, so their simulation semantics
             is modelled as just a function over \emph{words} (\AD{Atom} vectors).
 
-            The Agda function giving a time-independent (combinational) semantics for circuits requires then
-            that \emph{an element of type \AF{comb'}} be passed as (implicit) argument.
-            Furthermore, this semantics of course depends on the \emph{gate library} and the
+            The Agda function giving a time-independent (combinational) semantics for circuits requires that
+            \emph{an element of type \AF{comb'} \AB{c}} be passed as implicit argument – corresponding
+            to a proof that circuit \AB{c} is purely combinational.
+            Furthermore, this semantics depends on the \emph{gate library} and the
             \AD{Atom} type being used, which are parameters to the \AM{PiWare.Simulation.Core} module as a whole.
             Listing~\ref{lst:eval-core} shows the Agda code for the combinational simulation semantics:
 
@@ -774,6 +779,8 @@
             \emph{whole circuit is combinational if and only if all its subcircuits are combinational}.
             Therefore, we can pattern match with the \emph{pair constructor} (\AB{p₁} \AI{,} \AB{p₂}),
             and pass each of \AB{p₁} and \AB{p₂} to the calls of \AF{⟦\_⟧'} on the subcircuits.
+
+            %% TODO: check McBride instance parameters trick
 
             \subsubsection{High-level combinational simulation}
             \label{subsubsec:high-sim-comb}
@@ -850,11 +857,16 @@
 
             As such, a general stream function has no notion of \emph{current} value, neither of past,
             and it \emph{can} "look ahead", that is, use future input values to calculate the next output value.
+            One example of such a future-anticipating behviour can be found in the \AF{tail} function
+            located in the \AM{Data.Stream} module:
 
-            %% TODO: example of future-dependent stream function
-            %% f (x₁ ∷ x₂ ∷ xs) = x₁ + x₂ ♯ ∷ f (b xs)
-            %% 1, 2, 3, 4, 5, 6, 7, 8, 9, ...
-            %% 3, 5, 7, 9, 11, 13, 15, 17, ...
+            \begin{center}
+                \ExecuteMetaData[code/agda/latex/Report/ChapterPiWare.tex]{stream-tail}
+            \end{center}
+
+            This behaviour cannot be realised as a hardware circuit, as it would imply that the
+            circuit outputs in clock cycle $t$ the contents of its input in clock cycle $t+1$.
+
 
             \subsubsection{Causal step semantics}
             \label{subsubsec:causal-step-semantics}
@@ -1133,13 +1145,13 @@
             Agda's \AF{\_xor\_} and a function involving \AF{\_∧\_}, \AF{\_∨\_} and \AF{not}.
             This lemma has the following type:
 
-            \begin{center}
-                \ExecuteMetaData[code/agda/latex/PiWare/ProofSamples/BoolTrioComb.tex]{xor-equiv-decl}
-            \end{center}
+            % \begin{center}
+            %     \ExecuteMetaData[code/agda/latex/PiWare/ProofSamples/BoolTrioComb.tex]{xor-equiv-decl}
+            % \end{center}
 
             %% TODO: talk about proving families of circuits? try pidN or show only statement
 
-            
+
         \subsection{Sequential correctness}
         \label{subsec:sequential-correctness}
 
