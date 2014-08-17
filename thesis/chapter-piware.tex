@@ -190,7 +190,7 @@
         Several of the definitions (modules, datatypes, functions) of Π-Ware
         are parameterized in order to improve code reuse.
         The library allows for a choice of the type of data carried in individual wires,
-        the types that serve as inputs and ouputs to circuits,
+        the types that serve as inputs and outputs to circuits,
         and the set of fundamental gates from which circuits are built.
 
         In this section we present how this flexibility is achieved,
@@ -288,7 +288,7 @@
                     Standardized logic used widely in industry as a VHDL/Verilog type.
                     Besides the usual \texttt{FALSE} and \texttt{TRUE} logical values
                     (represented respectively by '0' and '1'),
-                    it accomodates also the following others:
+                    it accommodates also the following others:
                     \begin{itemize}
                         \item \texttt{'Z'}: \emph{High impedance}, means output is not being driven.
                         \item \texttt{'X'}: \emph{Strong drive, unknown logic value}.
@@ -654,7 +654,7 @@
     \label{sec:circuit-semantics}
         In this chapter we will expose and discuss the \emph{semantics} of circuits described using Π-Ware.
         Π-Ware circuits can currently be interpreted in two ways:
-        they can be \emph{simulated} (fed with certain inputs and calculate the correspoding outputs)
+        they can be \emph{simulated} (fed with certain inputs and calculate the corresponding outputs)
         or \emph{synthesized} (converted to a \emph{netlist}).
         However, due to the fact the a \emph{deep embedding} is used, other semantics can implemented
         with relative ease, such as timing analysis, power estimation, etc.
@@ -856,14 +856,14 @@
 
             As such, a general stream function has no notion of \emph{current} value, neither of past,
             and it \emph{can} "look ahead", that is, use future input values to calculate the next output value.
-            One example of such a future-anticipating behviour can be found in the \AF{tail} function
+            One example of such a future-anticipating behaviour can be found in the \AF{tail} function
             located in the \AM{Data.Stream} module:
 
             \begin{center}
                 \ExecuteMetaData[code/agda/latex/Report/ChapterPiWare.tex]{stream-tail}
             \end{center}
 
-            This behaviour cannot be realised as a hardware circuit, as it would imply that the
+            This behaviour cannot be realized as a hardware circuit, as it would imply that the
             circuit outputs in clock cycle $t$ the contents of its input in clock cycle $t+1$.
 
 
@@ -1041,7 +1041,7 @@
         \begin{itemize}
             \item With a \emph{simulation} semantics we can state and prove properties about
                 \emph{functional behaviour}, i.e, the relation between a circuit's inputs and outputs.
-                For example, we can state that a circuit's output values always remain whithin some range,
+                For example, we can state that a circuit's output values always remain within some range,
                 or that two circuits \emph{have equal behaviour}, i.e., always produce the same outputs
                 given the same inputs.
             \item With a \emph{synthesis} semantics, on the other, properties about circuit \emph{structure}
@@ -1052,7 +1052,7 @@
                 introduction of new semantics, such as timing analysis, power consumption analysis, etc.
         \end{itemize}
 
-        In this section we focus mainly on statements and proofs involving circuits's
+        In this section we focus mainly on statements and proofs involving circuit
         \emph{functional behaviour} (those involving the \emph{simulation semantics}),
         as the examples included in the Π-Ware library belong to this class.
 
@@ -1065,7 +1065,7 @@
             a circuit \emph{meets a given specification}.
             \emph{Validation}, on the other hand, is concerned with ensuring that the circuit
             \emph{and its specification} effectively meet the needs of involved stakeholders.
-            These definitions (originating from the PMBOX® guide) were made into an
+            These definitions (originating from the PMBOK® guide) were made into an
             IEEE standard~\cite{ieee-pmbok} in 2011.
 
             In the hardware design community, two tongue-in-cheek expressions are used
@@ -1179,5 +1179,5 @@
 
             \draftnote{TODO: show and explain example of register circuit.}
 
-            \draftnote{TODO: show statement and proof of some examples of register behviour.}
+            \draftnote{TODO: show statement and proof of some examples of register behaviour.}
 

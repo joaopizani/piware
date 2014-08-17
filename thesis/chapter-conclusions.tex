@@ -27,7 +27,7 @@
     can be brought to the field of hardware design by \ac{DTP},
     improving upon the advances of functional hardware description languages.
 
-    Inspired by the ideas in Coquet~\cite{coquet2011}, and by the strenghts and weaknesses of other
+    Inspired by the ideas in Coquet~\cite{coquet2011}, and by the strengths and weaknesses of other
     hardware \acp{DSL} studied in a previous project, we developed in this thesis
     a hardware \ac{DSL} – Π-Ware – \emph{embedded in a dependently-typed language} and using
     as much as possible of the cutting-edge developments in \ac{DTP}.
@@ -39,7 +39,7 @@
     prevents some classes of frequent design mistakes and provides a framework
     in which both simulation, synthesis and verification of hardware can be performed \emph{in the same language}.
     We use dependent inductive families to ensure basic \emph{well-formedness} of circuits,
-    dependent records (type classes) and recursive instance search to allow for parametrization
+    dependent records (type classes) and recursive instance search to allow for parameterization
     in the types handled by circuits and the underlying circuit technology used (gate family),
     and the Curry-Howard isomorphism~\cite{propositions-as-types} gives us a logic interpretation of Agda,
     in which we can write \emph{types} stating properties of circuits and give \emph{proofs} for them.
@@ -95,7 +95,7 @@
             can be quite inefficient: type-checking a generically-sized ripple-carry adder can already
             consume up to 2GB of RAM.
             This is not, however, an issue exclusively with Π-Ware; other Agda libraries suffer with the same problem.
-            Agda's own documentation \emph{wiki} suggests, in a page dedicated to perfomance tuning,
+            Agda's own documentation \emph{wiki} suggests, in a page dedicated to performance tuning,
             to use some of Agda's experimental features, such as:
 
             \begin{itemize}

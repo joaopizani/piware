@@ -11,7 +11,7 @@
 
         However, the final targets of both hardware and software development differ:
         while in software the final artifact is machine code (sequence of instructions) for some architecture,
-        in hardware the target is usually a \emph{floorplan}, a spacially placed graph of logic gates and wires.
+        in hardware the target is usually a \emph{floorplan}, a spatially placed graph of logic gates and wires.
 
         Also, the transformation steps in the software and hardware chains are different,
         as depicted in Figure~\ref{fig:sw-hw-chains}.
@@ -37,7 +37,7 @@
         Although there is a standard~\cite{ieee1076-3-synth-vhdl} defining a \emph{synthesizable subset} of \acs{VHDL},
         tools differ greatly in the level of support.
 
-        To further complicate the matter, this synthesizable subset is not \emph{syntactically seggregated}.
+        To further complicate the matter, this synthesizable subset is not \emph{syntactically segregated}.
         One example of complex requirement for synthesizability of \acs{VHDL} is:
         "in a process, every output must be assigned a value for every possible combination of input values".
         In Listing~\ref{lst:vhdl-unsynth-process} we have an example process violating this requirement
@@ -440,7 +440,7 @@
 
             This is possible because our type does not \emph{yet} reflect a precise enough specification of \texttt{swap}.
             On the type we have now, the types of both elements in the pair are the same.
-            If we lift this artificial restriction, we get the type signature which \emph{fully specificies} \texttt{swap}.
+            If we lift this artificial restriction, we get the type signature which \emph{fully specifies} \texttt{swap}.
             \begin{haskellcode}
         swap :: (a , b) -> (b , a)
             \end{haskellcode}
@@ -688,7 +688,7 @@
                     and \emph{possibly sequential} circuits.
                     We maintain the invariant that \emph{purely combinational circuits never contain loops}.
                     Also, in Π-Ware, the only constructor which builds loops also adds a
-                    \emph{delay element}\footnote{in harware terms, a \emph{clocked latch}},
+                    \emph{delay element}\footnote{in hardware terms, a \emph{clocked latch}},
                     eliminating the need to consider an extra "sequential fundamental gate", as in Coquet.
                     The functional semantics of sequential circuits in Π-Ware is defined as a \emph{causal stream function}
                     (detailed in Section~\ref{subsubsec:causal-step-semantics}), while Coquet uses regular functions over streams.

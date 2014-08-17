@@ -1,6 +1,6 @@
 \chapter{Introduction}
 \label{chap:intro}
-    \acrodef{ILP}{Instruction-Level Paralellism}
+    \acrodef{ILP}{Instruction-Level Parallelism}
     Several factors have been causing an increasing demand for hardware acceleration of algorithms.
     On the one hand, Moore's law still holds for the near future~\cite{itrs},
     which means bigger circuits in the same wafer area.
@@ -137,7 +137,7 @@
     Therefore, we want to make the typing of the circuits as strong as possible,
     to eliminate as many \emph{classes of design mistakes} as possible.
 
-    Depedent type systems allow for easy expression of these \emph{well-formedness} rules for circuits.
+    Dependent type systems allow for easy expression of these \emph{well-formedness} rules for circuits.
     One simple criterion of circuit \emph{well-formedness} is, for example, that it contains no \emph{floating} signals.
     That is, all of a circuit's internal components must have all their ports connected.
     Figure~\ref{fig:floating-wire} shows an example of circuit violating this rule.
@@ -163,7 +163,7 @@
     In Chapter~\ref{chap:piware} we dive into a detailed study of the Π-Ware \ac{EDSL} itself.
     A detailed account is given of how Π-Ware works currently,
     what design decisions were involved in its development, and how to use it.
-    We give examples of circuits modelled in Π-Ware and proofs of properties involving these circuits.
+    We give examples of circuits modeled in Π-Ware and proofs of properties involving these circuits.
 
     In Chapter~\ref{chap:discussion-related-work} we compare Π-Ware with other functional
     and dependently-typed \acp{EDSL}, highlighting similarities and differences.
