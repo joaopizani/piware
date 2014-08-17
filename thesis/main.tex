@@ -3,17 +3,22 @@
 \usepackage{fontspec}
 \setmonofont[Scale=0.8]{DejaVu Sans Mono}
 
-%% \usepackage{fullpage}
 \usepackage{unicode-math}
 \usepackage{amsmath}
 \usepackage{mathtools}
-\usepackage{hyperref}  % ref
+\usepackage{hyperref}
 \usepackage{color}
 \usepackage{xcolor}
-\usepackage{booktabs}  % nice tables
+\usepackage{booktabs}
 \usepackage{float}
 \usepackage{acronym}
 
+\hypersetup{
+    colorlinks,
+    linkcolor={red!50!black},
+    citecolor={blue!50!black},
+    urlcolor={blue!80!black}
+}
 
 
 %% Code
@@ -51,6 +56,7 @@
 \newcommand{\ARR}{\AgdaRecord}
 
 
+
 %% Metainformation
 %% PDF stuff
 \usepackage{datetime}
@@ -82,6 +88,7 @@
 \begin{document}
 
     \maketitle
+    \tableofcontents
 
     \input{chapter-introduction.tex}
     \input{chapter-background.tex}
