@@ -969,6 +969,12 @@
             where the "current" input has been substituted by the first past value (\AB{w⁻¹}) and the "past"
             by the even farther past (\AB{w⁻}).
 
+            The current implementation of \AF{delay} is quite inefficient, as the recursive call calculates
+            the same values several times; a problem similar to what happens in a naïve recursive
+            implementation of the Fibonacci sequence.
+            As in the Fibonacci case, \emph{memoization} techniques could also be used to
+            improve the performance of \AF{delay}.
+
             \subsubsection{From step function to stream function}
             \label{subsubsec:step-stream}
             The \emph{causal step function} (\AF{⟦\_⟧'}) produces only the next value of the
