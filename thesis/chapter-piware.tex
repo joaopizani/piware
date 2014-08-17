@@ -924,8 +924,26 @@
             (\AB{w⁰₁} resp. \AB{w⁰₂}) to be passed in the recursive calls with the subcircuits
             (\AF{⟦} \AB{c₁} \AF{⟧c} resp. \AF{⟦} \AB{c₂} \AF{⟧c}).
 
+            It is important to note that, had we used a naïve stream semantics for sequential circuits,
+            it would not be possible to define \AF{untagList}.
+            Given a stream of sums, we \emph{cannot} produce a product of streams in which each component
+            has only \emph{left summands} or \emph{right summands}.
+            Using a naïve stream semantics, the function to seggregate the input stream would need to have
+            the following type:
 
-            \AI{DelayLoop} is the most important case, and a bit more involved.
+            \begin{center}
+                \ExecuteMetaData[code/agda/latex/Report/ChapterPiWare.tex]{seggregateStream-decl}
+            \end{center}
+
+            If, for example, the input stream contains no left summand whatsoever, then
+            no element is available to build the first component of the
+            pair – a \emph{stream of lefts} – therefore there is no total definition for \AF{seggregateSums}.
+            On the other hand, if we substitute an infinite input stream for a causal context then
+            the "seggregation" becomes easy: in case the input context
+            contains no left summand, the first element of the product is simply an empty context.
+
+
+            \AI{DelayLoop} is the most important case of \AF{⟦\_⟧c}, and a bit more involved.
             It calls a helper function (\AF{delay})
             expressing the behaviour of the memory element \emph{inside} the \AI{DelayLoop} block
             (as depicted in Figure~\ref{fig:semantics-syn-fundamental}).
