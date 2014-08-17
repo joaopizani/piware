@@ -130,7 +130,7 @@
                     The diagram on Figure~\ref{fig:plug-seq-disconnected-input} represents such a banned situation:
 
                     \begin{figure}[h]
-                        \centering{\includegraphics[width=0.8\textwidth]{imgs/plug-seq-disconnected-input.pdf}}
+                        \centering{\includegraphics[width=0.9\textwidth]{imgs/plug-seq-disconnected-input.pdf}}
                         \caption{This circuit cannot be constructed because $f_{p}$ is not \emph{total}.\label{fig:plug-seq-disconnected-input}}
                     \end{figure}
             \end{description}
@@ -334,15 +334,15 @@
             A gate library is defined as an element of the \ARR{Gates} record type, shown in Listing~\ref{lst:gates}.
 
             \begin{listing}[h]
-                \centering{\ExecuteMetaData[code/agda/latex/PiWare/Synthesizable.tex]{Word}}
+                \ExecuteMetaData[code/agda/latex/PiWare/Synthesizable.tex]{Word}
                 \newline
-                \centering{\ExecuteMetaData[code/agda/latex/PiWare/Gates.tex]{Gates}}
+                \ExecuteMetaData[code/agda/latex/PiWare/Gates.tex]{Gates}
                 \caption{Definition of a gate library: the \ARR{Gates} record.\label{lst:gates}}
             \end{listing}
 
-            The first field of the \ARR{Gates} record (\AL{|Gates|-1}) determines \emph{how many}
+            The first field of the \ARR{Gates} record (\AL{|Gates|}) determines \emph{how many}
             gates the library has, and consequently also the \emph{the type used as gate index}
-            (or \emph{gate identifier}), which is \AF{Gates\#} \AY{=} \AF{Fin} \AF{|Gates|}.
+            (or \emph{gate identifier}), which is \AF{Gates\#} \AY{=} \AF{Fin} \AL{|Gates|}.
 
             For each gate identifier, the functions \AL{ins} and \AL{outs} determine, respectively,
             the size of the input and output of that gate; therefore together they determine the gate's \emph{interface}.
@@ -419,7 +419,7 @@
             of a type \AD{VHDLEntity}, we could have an extra field in the \ARR{Gates} record, as such:
 
             \begin{center}
-               \AL{netlist} \AY{:} \AY{(}\AB{g} \AY{:} \AD{Fin} \AY{(}\AI{suc} \AL{|Gates|-1}\AY{)}\AY{)} \AY{→} \AD{VHDLEntity} \AY{(}\AL{ins} \AB{g}\AY{)} \AY{(}\AL{out} \AB{g}\AY{)}
+               \AL{netlist} \AY{:} \AY{(}\AB{g} \AY{:} \AD{Fin} \AL{|Gates|}\AY{)} \AY{→} \AD{VHDLEntity} \AY{(}\AL{ins} \AB{g}\AY{)} \AY{(}\AL{out} \AB{g}\AY{)}
             \end{center}
 
             The \AD{VHDLEntity} is also parameterized by the input and output sizes of the circuit,
@@ -501,9 +501,9 @@
             Listing~\ref{lst:Synth} shows the definition of \ARR{⇓W⇑}:
 
             \begin{listing}[h]
-                \centering{\ExecuteMetaData[code/agda/latex/PiWare/Synthesizable.tex]{Word}}
+                \ExecuteMetaData[code/agda/latex/PiWare/Synthesizable.tex]{Word}
                 \newline
-                \centering{\ExecuteMetaData[code/agda/latex/PiWare/Synthesizable.tex]{Synth}}
+                \ExecuteMetaData[code/agda/latex/PiWare/Synthesizable.tex]{Synth}
                 \caption{The \ARR{⇓W⇑} (Synthesizable) type class.\label{lst:Synth}}
             \end{listing}
 
@@ -647,7 +647,8 @@
             , etc.).
             Now all of this work is done by Agda itself.
             On the other hand, the typechecking time grew a little,
-            and this could be a problem when modelling big circuits, as discussed in Section~\ref{sec:current-limitations}.
+            and this could be a problem when modelling big circuits,
+            as discussed in Section~\ref{subsec:current-limitations}.
 
 
     \section{Circuit Semantics}
