@@ -992,23 +992,21 @@
             \end{listing}
 
             The implementation is based on a helper function (\AF{runc'}),
-            implemented using Agda's \emph{corecursion} features.
-            These features are located in a module of Agda's standard library called \AM{Coinduction},
-            but the term "coinduction" actually refers to a related proof technique,
-            used to prove facts about corecursive functions and coalgebraic datatypes.
+            implemented using Agda's \emph{coinduction} features.
+            These features are located in the \AM{Coinduction} module of the standard library.
 
             A good introduction to coalgebras, coinduction and corecursion can be found in
             Bart Jacobs's "Introduction to coalgebra"~\cite{introduction-coalgebra-jacobs}.
-            In essence, algorithms written using corecursion are a way to deal with (potentially) infinite
+            In essence, algorithms written using coinduction are a way to deal with (potentially) infinite
             data structures in total languages.
 
-            In these languages, recursive functions need to \emph{terminate},
+            In these languages, recursive/inductive functions need to \emph{terminate},
             and in Agda the \emph{termination checker} uses a syntactic heuristic to ensure termination:
             recursive calls must be performed with \emph{structurally smaller} arguments.
-            On the other hand, \emph{corecursive} functions must be \emph{productive}:
+            On the other hand, \emph{corecursive/coinductive} functions must be \emph{productive}:
             they must produce the "next" piece of information in finite time.
             Agda's heuristics to ensure productivity is to look out for \emph{guardedness}.
-            Research about corecursion, coinduction and their implementation in total languages is thriving,
+            Research about coinduction and its implementation in total languages is thriving,
             and the reader is directed to~\cite{coinductive-inductive-termination} for more information.
 
             In the case of Π-Ware, it suffices to say that the corecursive call of \AF{runc'}
@@ -1175,6 +1173,7 @@
 
             %% TODO: talk about proving families of circuits? try pidN or show only statement
 
+            \newpage
 
         \subsection{Sequential correctness}
         \label{subsec:sequential-correctness}
