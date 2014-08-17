@@ -152,11 +152,7 @@
         to instructions of that CPU. In Lava, the best bet would be a simple \emph{type synonym},
         something along these lines:
 
-        \begin{haskellcode}
-        type SB = Signal Bool
-        type ALUControlBits = (SB, SB, SB, SB, SB, SB)
-        type HackInstruction = (SB, SB, SB, SB, SB, SB, SB, SB, SB, SB, ALUControlBits)
-        \end{haskellcode}
+        \haskellfile{code/haskell/LavaInstruction.hs}
 
         This description is not only cumbersome to work with
         (tuples don't have as many useful associated functions as sized vectors),

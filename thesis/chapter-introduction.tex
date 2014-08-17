@@ -39,11 +39,9 @@
     The proof is derived by structural induction on the array or list,
     and by using equational reasoning with the definitions of the functions involved:
 
-    {\centering
-        \begin{haskellcode}
-            map f . map g == map (f . g)
-        \end{haskellcode}
-    }
+    \begin{haskellcode}
+        map f . map g == map (f . g)
+    \end{haskellcode}
 
     Besides the growing usage of functional programming languages in several domain areas,
     functional techniques and constructs keep "penetrating" imperative languages
@@ -76,10 +74,7 @@
 
     A circuit description written in Lava – an \ac{EDSL} hosted in Haskell – can look like the following:
 
-    \begin{haskellcode}
-        toggle :: Signal Bool
-        toggle = let output = inv (latch output) in output
-    \end{haskellcode}
+    \haskellfile{code/haskell/LavaToggle.hs}
 
     Even though pure functional languages (especially Haskell) are well-suited for implementing \acp{EDSL},
     there is still room for improvement in the type-safety of the embedded languages.

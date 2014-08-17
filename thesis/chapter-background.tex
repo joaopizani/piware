@@ -199,19 +199,14 @@
             constructed by the \mintinline{haskell}{Signal} type constructor.
             For example, a negation gate in Lava would have the following type signature:
 
-            \begin{haskellcode}
-        inv :: Signal Bool -> Signal Bool
-            \end{haskellcode}
+            \haskellfile{code/haskell/LavaInv.hs}
 
             Another restriction is that all circuit inputs must be \emph{uncurried}, i.e.,
             even though the \emph{circuit} has several inputs, the \emph{function} modeling that circuit
             must have only one argument, with all inputs in a \emph{tuple}.
             A \texttt{NAND} gate in Lava would look like this:
 
-            \begin{haskellcode}
-        nand2 :: (Signal Bool, Signal Bool) -> Signal Bool
-        nand2 (a, b) = inv (and2 (a, b))
-            \end{haskellcode}
+            \haskellfile{code/haskell/LavaNand2.hs}
 
             Finally, due to the instances provided for the \mintinline{haskell}{Signal} type, the only way to
             aggregate bits in Lava is by using tuples and lists.
@@ -414,43 +409,37 @@
             in the sense that it allows for more precise specifications.
             For example, if we want to implement a \texttt{swap} function for pairs in Haskell,
             we could start by specifying the type of the function in a non-polymorphic way:
-            \begin{haskellcode}
-        swap' :: (Int , Int) -> (Int , Int)
-            \end{haskellcode}
+
+            \haskellfile{code/haskell/SwapPrimeDecl.hs}
 
             There are several definitions satisfying the above type which do not swap the elements.
             For example, one "wrong" implementation would output a constant pair:
-            \begin{haskellcode}
-        swap' _ = (1 , 1)
-            \end{haskellcode}
+
+            \haskellfile{code/haskell/SwapPrimeDef.hs}
 
             Notice how the argument is ignored (we use the "don't care" pattern).
             To \emph{rule out} this class of wrong implementations, we could make the type polymorphic:
-            \begin{haskellcode}
-        swap'' :: (a , a) -> (a , a)
-            \end{haskellcode}
+
+            \haskellfile{code/haskell/SwapPrimePrimeDecl.hs}
 
             Now "constant" definitions will \emph{not have the specified type} anymore.
             This because the only way to get an element of the \emph{polymorphic type} \texttt{a}
             is to use the parameter passed to the function.
             However, we could still write a wrong function with this type, for example the identity:
-            \begin{haskellcode}
-        swap'' (x , y) = (x , y)
-            \end{haskellcode}
+
+            \haskellfile{code/haskell/SwapPrimePrimeDef.hs}
 
             This is possible because our type does not \emph{yet} reflect a precise enough specification of \texttt{swap}.
             On the type we have now, the types of both elements in the pair are the same.
             If we lift this artificial restriction, we get the type signature which \emph{fully specifies} \texttt{swap}.
-            \begin{haskellcode}
-        swap :: (a , b) -> (b , a)
-            \end{haskellcode}
+
+            \haskellfile{code/haskell/SwapDecl.hs}
 
             Now, \emph{any total definition with this type} is a correct definition of \texttt{swap}.
             Because of the way in which we use type variables (\texttt{a} and \texttt{b}) in the signature,
             there is only one possible implementation of \texttt{swap}:
-            \begin{haskellcode}
-        swap (x , y) = (y , x)
-            \end{haskellcode}
+
+            \haskellfile{code/haskell/SwapDef.hs}
 
             Going one step further, some type systems support types that depend on other types, these are
             called \emph{type operators} or \emph{type-level functions}.
