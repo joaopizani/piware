@@ -1156,16 +1156,16 @@
             But in the case of \AF{⊻ℂ-proof-subfunc} we chose to complete the proof in a different fashion,
             for illustrative purposes.
 
-            The circuit evaluation (\AF{⟦~⊻ℂ~⟧}) reduces to an expression involving the functions
+            The circuit evaluation (\AF{⟦⊻ℂ⟧}) reduces to an expression involving the functions
             \AF{\_∧\_} (\texttt{AND}), \AF{\_∨\_} (\texttt{OR}) and \AF{not},
             while the specification (Agda's \AF{\_xor\_}) is ultimately defined by pattern matching.
             Therefore we use a lemma (\AF{⊻ℂ-xor-equiv} which shows the equivalence of
             Agda's \AF{\_xor\_} and a function involving \AF{\_∧\_}, \AF{\_∨\_} and \AF{not}.
             This lemma has the following type:
 
-            % \begin{center}
-            %     \ExecuteMetaData[code/agda/latex/PiWare/ProofSamples/BoolTrioComb.tex]{xor-equiv-decl}
-            % \end{center}
+            \begin{center}
+                \ExecuteMetaData[code/agda/latex/PiWare/ProofSamples/BoolTrioComb.tex]{xor-equiv-decl}
+            \end{center}
 
             %% TODO: talk about proving families of circuits? try pidN or show only statement
 
