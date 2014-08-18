@@ -1163,7 +1163,7 @@
             The circuit evaluation (\AF{⟦⊻ℂ⟧}) reduces to an expression involving the functions
             \AF{\_∧\_} (\texttt{AND}), \AF{\_∨\_} (\texttt{OR}) and \AF{not},
             while the specification (Agda's \AF{\_xor\_}) is ultimately defined by pattern matching.
-            Therefore we use a lemma (\AF{⊻ℂ-xor-equiv} which shows the equivalence of
+            Therefore we use a lemma (\AF{⊻ℂ-xor-equiv}) which shows the equivalence of
             Agda's \AF{\_xor\_} and a function involving \AF{\_∧\_}, \AF{\_∨\_} and \AF{not}.
             This lemma has the following type:
 
@@ -1171,14 +1171,26 @@
                 \ExecuteMetaData[code/agda/latex/PiWare/ProofSamples/BoolTrioComb.tex]{xor-equiv-decl}
             \end{center}
 
-            \draftnote{TODO: talk about proving families of circuits (proof by induction). Use pidN or andN.}
+            %% TODO: talk about proving families of circuits (proof by induction). Use pidN or andN.}
 
             \newpage
 
         \subsection{Sequential correctness}
         \label{subsec:sequential-correctness}
 
-            \draftnote{TODO: show and explain example of register circuit.}
+            Register sample in Listing~\ref{lst:register}.
 
-            \draftnote{TODO: show statement and proof of some examples of register behaviour.}
+            \begin{listing}[h]
+                \centering{\ExecuteMetaData[code/agda/latex/PiWare/Samples/BoolTrioSeq.tex]{reg}}
+                \caption{Sample register circuit description.\label{lst:register}}
+            \end{listing}
+
+            With block diagram in Figure~\ref{fig:register}.
+
+            \begin{figure}[h]
+                \includegraphics[width=1.0\textwidth]{imgs/register.pdf}
+                \caption{Block diagram for the register described in Listing~\ref{lst:register}.
+                    \label{fig:register}}
+            \end{figure}
+
 
