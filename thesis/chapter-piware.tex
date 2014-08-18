@@ -1171,6 +1171,24 @@
                 \ExecuteMetaData[code/agda/latex/PiWare/ProofSamples/BoolTrioComb.tex]{xor-equiv-decl}
             \end{center}
 
+            Proofs can also be written regarding whole parameterized \emph{families of circuits}.
+            For example, we can have a definition for a generically-sized \texttt{AND} gate,
+            as follows:
+
+            \begin{center}
+                % \ExecuteMetaData[code/agda/latex/PiWare/Samples/AndN.tex]{andN}
+                Hallo
+            \end{center}
+
+            One of the properties that this definition must satisfy is, for example, that
+            when all inputs are \AI{true}, the output must be \AI{true}, regardless of the number of inputs.
+            This corresponds to the following Agda definition:
+
+            \begin{center}
+                % \ExecuteMetaData[code/agda/latex/PiWare/ProofSamples/AndN.tex]{proof-andN-alltrue}
+                All true.
+            \end{center}
+
             %% TODO: talk about proving families of circuits (proof by induction). Use pidN or andN.}
 
             \newpage
@@ -1188,7 +1206,7 @@
             With block diagram in Figure~\ref{fig:register}.
 
             \begin{figure}[h]
-                \includegraphics[width=1.0\textwidth]{imgs/register.pdf}
+                \includegraphics[width=0.9\textwidth]{imgs/register.pdf}
                 \caption{Block diagram for the register described in Listing~\ref{lst:register}.
                     \label{fig:register}}
             \end{figure}
