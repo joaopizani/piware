@@ -1171,9 +1171,9 @@
                 \ExecuteMetaData[code/agda/latex/PiWare/ProofSamples/BoolTrioComb.tex]{xor-equiv-decl}
             \end{center}
 
-            Proofs can also be written regarding whole parameterized \emph{families of circuits}.
-            For example, we can have a generically-sized definition for an \texttt{AND} circuit,
-            as follows:
+            Proofs can also be written regarding whole \emph{families of circuits}.
+            For example, we can have a generically-sized definition for an \texttt{AND}
+            circuit, as follows (low-level):
 
             \begin{center}
                 \ExecuteMetaData[code/agda/latex/PiWare/Samples/AndN.tex]{andN-core}
@@ -1183,24 +1183,46 @@
             when all inputs are \AI{true}, the output must be \AI{true}, regardless of the number of inputs.
             This corresponds to the following Agda definition:
 
-            \newpage
+            \begin{center}
+                \ExecuteMetaData[code/agda/latex/PiWare/ProofSamples/AndN]{proof-andN-core-alltrue}
+            \end{center}
+
+            The property is proved for \emph{any} \AB{n}, therefore fundamentally differently than the
+            approaches using automated verification (calling SAT solvers), such as Lava.
+            The proof proceeds by induction on the \emph{number of inputs} of the circuit (\AB{n}) and
+            the inductive case (\AI{suc} \AB{n}) has a generally applicable structure:
+            it combines the inductive hypothesis with the correctness of the underlying circuit
+            used in the recursive definition of \AF{andN'}.
+
+            In this case, the underlying circuit is simply an \texttt{AND} gate (\AI{Gate} \AI{And\#}).
+            Therefore its \emph{specification function} is the one defined in the \emph{gate library},
+            named \AF{spec-and}.
+
 
         \subsection{Sequential correctness}
         \label{subsec:sequential-correctness}
 
-            Register sample in Listing~\ref{lst:register}.
-
-            \begin{listing}[h]
-                \centering{\ExecuteMetaData[code/agda/latex/PiWare/Samples/BoolTrioSeq.tex]{reg}}
-                \caption{Sample register circuit description.\label{lst:register}}
-            \end{listing}
-
-            With block diagram in Figure~\ref{fig:register}.
+            Properties about the \emph{sequential} behaviour of circuits are more complex to state,
+            and especially to prove.
+            Let's start by describing a simple 1-bit register in Π-Ware.
+            This register has two inputs (of 1 bit each) and one output (also of 1 bit),
+            the block diagram of this sample register is shown in Figure~\ref{fig:reg}.
 
             \begin{figure}[h]
                 \includegraphics[width=0.9\textwidth]{imgs/register.pdf}
-                \caption{Block diagram for the register described in Listing~\ref{lst:register}.
-                    \label{fig:register}}
+                \caption{Block diagram for the register described in Listing~\ref{lst:reg}.
+                    \label{fig:reg}}
             \end{figure}
 
+            The first input is the bit effectively being read and stored; this input is named "\texttt{i}".
+            The second input is a control bit, telling whether or not the first input should be "loaded"
+            into the register state; its name is therefore "ℓ" (for \emph{load}).
+            The register's output pin simply exposes the register's internal state at any point in time.
+
+            The Π-Ware code for this circuit is shown in Listing~\ref{lst:reg}.
+
+            \begin{listing}[h]
+                \centering{\ExecuteMetaData[code/agda/latex/PiWare/Samples/BoolTrioSeq.tex]{reg}}
+                \caption{Sample register circuit description.\label{lst:reg}}
+            \end{listing}
 
