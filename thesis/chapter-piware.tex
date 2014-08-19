@@ -1172,24 +1172,16 @@
             \end{center}
 
             Proofs can also be written regarding whole parameterized \emph{families of circuits}.
-            For example, we can have a definition for a generically-sized \texttt{AND} gate,
+            For example, we can have a generically-sized definition for an \texttt{AND} circuit,
             as follows:
 
             \begin{center}
-                % \ExecuteMetaData[code/agda/latex/PiWare/Samples/AndN.tex]{andN}
-                Hallo
+                \ExecuteMetaData[code/agda/latex/PiWare/Samples/AndN.tex]{andN-core}
             \end{center}
 
             One of the properties that this definition must satisfy is, for example, that
             when all inputs are \AI{true}, the output must be \AI{true}, regardless of the number of inputs.
             This corresponds to the following Agda definition:
-
-            \begin{center}
-                % \ExecuteMetaData[code/agda/latex/PiWare/ProofSamples/AndN.tex]{proof-andN-alltrue}
-                All true.
-            \end{center}
-
-            %% TODO: talk about proving families of circuits (proof by induction). Use pidN or andN.}
 
             \newpage
 
