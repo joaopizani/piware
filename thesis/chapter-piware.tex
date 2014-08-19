@@ -1209,7 +1209,7 @@
             the block diagram of this sample register is shown in Figure~\ref{fig:reg}.
 
             \begin{figure}[h]
-                \includegraphics[width=0.9\textwidth]{imgs/register.pdf}
+                \includegraphics[width=1.0\textwidth]{imgs/register.pdf}
                 \caption{Block diagram for the register described in Listing~\ref{lst:reg}.
                     \label{fig:reg}}
             \end{figure}
@@ -1219,10 +1219,83 @@
             into the register state; its name is therefore "ℓ" (for \emph{load}).
             The register's output pin simply exposes the register's internal state at any point in time.
 
-            The Π-Ware code for this circuit is shown in Listing~\ref{lst:reg}.
+            Also, this circuit has both an \emph{asynchronous reset} and \emph{clock} inputs,
+            which are present in the synthesized netlist but \emph{not} in the Π-Ware model.
+            This, in fact, applies to all sequential circuits: they all result in netlist with two extra
+            inputs (\emph{reset} and \emph{clock}) which cannot be observed through an Agda interface.
+
+            The Π-Ware code for this circuit (\AF{reg}) is shown in Listing~\ref{lst:reg}.
 
             \begin{listing}[h]
                 \centering{\ExecuteMetaData[code/agda/latex/PiWare/Samples/BoolTrioSeq.tex]{reg}}
                 \caption{Sample register circuit description.\label{lst:reg}}
             \end{listing}
+
+            The way in which \AF{reg} is defined matches precisely the block diagram: \AF{delayℂ}
+            introduces the loopback and the flip-flop "around" the combinational subcircuit (\AF{comb}).
+            This combinational subcircuit consist mainly of a \emph{multiplexer},
+            "choosing" whether to use the current state or current input as next state.
+            Lastly, this multiplexer is wrapped by some \AI{Plug}s that serve only to change the
+            ordering of some wires, performing no computation at all.
+
+            The behaviour of this circuit is such that, with the "load" ping high, it will output
+            its current input \emph{and} set the state of the flip-flop.
+            With the "load" ping low, the output in clock cycle $n+1$ is equal to the input value
+            in clock cycle $n$. One example of this behaviour is shown below:
+
+            \begin{center}
+                \ExecuteMetaData[code/agda/latex/PiWare/ProofSamples/BoolTrioSeq.tex]{load2}
+            \end{center}
+
+            In this example, the "load" pin is high for two clock cycles, and afterwards remains forever low.
+            We are "sampling" seven elements from the register's (infinite) output \AD{Stream} and comparing
+            them to an \emph{expected} vector on the right-hand side of the equality (\AF{\_≡\_}).
+            We also renamed the vector prepending operator (\emph{cons}) to \AI{\_◁\_}, in order
+            to avoid confusion with the \AD{Stream} prepending operator (\AI{\_∷\_}).
+            Notice how the register output is "imitating" the input, because during the first two
+            clock cycles the "load" pin is kept high. After that, a change in input will not cause a
+            change in output.
+
+            Naturally, we would like to prove these sorts of properties about sequential circuits
+            for \emph{infinite} input and output streams.
+            We would like to proof, for example, that if the "load" pin is lowered and kept low
+            \emph{forever}, then the output value will \emph{never} change anymore.
+            However, proofs involving coinductive types in general (and \AD{Stream}s in specific)
+            are harder than regular proofs in Agda.
+
+            The first difficulty is related to a notion of \emph{equality} between \AD{Stream}s.
+            Usually, equality proofs in Agda use \emph{propositional equality}, defined as a
+            datatype (\AD{\_≡\_}) in Agda's standard library (\AM{Relation.Binary.PropositionalEquality}).
+            It boils down to the fact that two terms are considered equal \emph{if and only if}
+            they have identical (syntactically speaking) \emph{normal forms}.
+
+            But then, terms constructed by coinduction do not \emph{normalize} as usual.
+            Terms which intuitively we would expect to be equal have \emph{suspension points}
+            and will not compare equal according to \emph{propositional equality}.
+            The proper notion of "sameness" for infinite \AD{Stream}s is that of \emph{bisimilarity}:
+            two \AD{Stream}s are said to be \emph{bisimilar if and only if}:
+
+            \begin{itemize}
+                \item Their \emph{head} is \emph{equal} − \emph{propositionally equal}
+                \item Their \emph{tail} is \emph{bisimilar}
+            \end{itemize}
+
+            Thus, the proof of bisimilarity can also be seen as a \emph{stream of equality proofs},
+            one for each position in the \AD{Stream}s being compared.
+            The definition of \AD{\_≈\_} is contained in Agda's standard library (\AM{Data.Stream}),
+            and reproduced here for convenience:
+
+            \begin{center}
+                \ExecuteMetaData[code/agda/latex/Report/ChapterPiWare.tex]{bisimilarity}
+            \end{center}
+
+            Due to these difficulties with bisimilarity we do not currently have a proof of correctness
+            for the sequential behaviour of \AF{reg}.
+            We also believe that this difficulty is somewhat related to the way in which the
+            \emph{causal step semantics} is converted into a \emph{stream semantics} by the
+            \AF{runc} function, described in Listing~\ref{lst:run-causal}.
+
+            Unfortunately, these investigations will have to remain for future work.
+            However, we expect to be able to attack this issue by developing more general
+            \emph{proof combinators} for both combinational and sequential circuits.
 
