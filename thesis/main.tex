@@ -8,9 +8,8 @@
 \usepackage{mathtools}
 \usepackage{hyperref}
 \usepackage{url}
-\usepackage{color}
 \usepackage{xcolor}
-\usepackage{booktabs}
+\usepackage{geometry}
 \usepackage{float}
 \usepackage{acronym}
 \providecommand{\shortcite}[1]{\cite{#1}}
@@ -90,11 +89,11 @@
 
 
 \newcommand\draftnote[1]{\textcolor{red}{#1}}
+\newcommand{\HRule}{\noindent\rule{\linewidth}{1.5pt}}
 
 %% The document itself
 \begin{document}
-
-    \maketitle
+    \input{titlepage.tex}
 
     \input{abstract.tex}
 
