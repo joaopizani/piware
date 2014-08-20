@@ -910,7 +910,7 @@
             The parallel composition (\AI{\_|'\_}) case has the expected definition:
             it splits the input context pointwise at offset \AB{i₁},
             then applies \AF{⟦} \AB{c₁} \AF{⟧c} and \AF{⟦} \AB{c₂} \AF{⟧c} correspondingly and concatenates the results.
-            In the sum (\AI{\_|+'\_}) case, the past part of the context is seggregated into a product
+            In the sum (\AI{\_|+'\_}) case, the past part of the context is segregated into a product
             with only \emph{left summands} in the first projection and \emph{right summands} in the second.
             The type of \AF{untagList} helps to clarify its purpose:
 
@@ -918,7 +918,7 @@
                 \ExecuteMetaData[code/agda/latex/PiWare/Synthesizable.tex]{untagList-decl}
             \end{center}
 
-            These two seggregated pasts are then passed as the pasts of \AB{c₁} and \AB{c₂}, respectively.
+            These two segregated pasts are then passed as the pasts of \AB{c₁} and \AB{c₂}, respectively.
             The definition of \AI{\_|+'\_} is completed by pattern matching on the sum generated
             by \AF{untag} \AY{\{}\AB{i₁}\AY{\}} \AB{w₀}, which gives the current input
             (\AB{w⁰₁} resp. \AB{w⁰₂}) to be passed in the recursive calls with the subcircuits
@@ -939,7 +939,7 @@
             no element is available to build the first component of the
             pair – a \emph{stream of lefts} – therefore there is no total definition for \AF{seggregateSums}.
             On the other hand, if we substitute an infinite input stream for a causal context then
-            the "seggregation" becomes easy: in case the input context
+            the "segregation" becomes easy: in case the input context
             contains no left summand, the first element of the product is simply an empty context.
 
 
@@ -1008,7 +1008,7 @@
             Agda's heuristics to ensure productivity is to look out for \emph{guardedness}.
             Research about coinduction and its implementation in total languages is thriving,
             and the reader is directed to the paper
-            describing Agda's implementatio~\cite{coinductive-inductive-termination} for more information.
+            describing Agda's implementation~\cite{coinductive-inductive-termination} for more information.
 
             In the case of Π-Ware, it suffices to say that the corecursive call of \AF{runc'}
             is indeed guarded (therefore productive), and that using \AF{runc} we can finally define

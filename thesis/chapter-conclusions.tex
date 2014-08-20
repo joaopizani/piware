@@ -101,12 +101,12 @@
             and expect the designer to \AK{postulate} the proofs while prototyping.
             When ready for synthesis, the \texttt{safe} flag can be used with Agda to forbid all \AK{postulates}.
 
-            The third category of limitations in the current implmentation of Π-Ware concerns proofs.
+            The third category of limitations in the current implementation of Π-Ware concerns proofs.
             Proofs for specific circuits can be done by case analysis, as the \AD{Atom} type is,
             by definition, finite.
             However, proofs for \emph{inductive families} of circuits are more complex, and
             the examples we have until now require proving the desired properties at the
-            \emph{low level} of abstraction first and only then "lifiting" the proof to a
+            \emph{low level} of abstraction first and only then "lifting" the proof to a
             typed version.
 
             To address this issue, we began development of a set of \emph{proof combinators}.
