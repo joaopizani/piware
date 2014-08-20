@@ -1,0 +1,19 @@
+*** latex/Report/ChapterBackground.tex	2014-08-19 23:00:28.543829400 +0200
+--- latex/Report/ChapterBackground.patched.tex	2014-08-20 14:20:41.368823200 +0200
+***************
+*** 34,40 ****
+  \>[8]\AgdaField{fst} \AgdaSymbol{:} \AgdaBound{α}\<%
+  \\
+  \>[4]\AgdaIndent{8}{}\<[8]%
+! \>[8]\AgdaField{snd} \AgdaSymbol{:} \AgdaBound{β} \AgdaBound{fst}\<%
+  \end{code}
+  %</Pair>
+  
+--- 34,40 ----
+  \>[8]\AgdaField{fst} \AgdaSymbol{:} \AgdaBound{α}\<%
+  \\
+  \>[4]\AgdaIndent{8}{}\<[8]%
+! \>[8]\AgdaField{snd} \AgdaSymbol{:} \AgdaBound{β} \AgdaBound{\text{fst}}\<%
+  \end{code}
+  %</Pair>
+  
