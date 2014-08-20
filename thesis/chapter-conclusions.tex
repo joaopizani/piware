@@ -2,13 +2,21 @@
 \label{chap:conclusions}
 
     Hardware design is an important and \emph{complex} activity, with strict requirements.
-    Furthermore, its relevance is growing with more need for hardware acceleration,
-    pushing programmers and other professionals to think about hardware without having
-    the traditional engineering background.
+    The relevance of hardware design skills is growing,
+    due to a combination of the continued effect of Moore's law
+    (which still holds for the near-to-mid-term future~\cite{itrs}) and
+    diminishing returns for microarchitecture optimizations in traditional CPUs~\cite{dark-silicon}.
+
+    The combination of these effects creates a demand for what is usually called
+    \emph{heterogeneous computing}, where more and more algorithms benefit from
+    implementation in hardware, and these application-specific components need to have
+    support from operating systems and application software.
+    In this scenario, programmers are pushed to think more and more about
+    hardware design issues, without necessarily having the traditional engineering background.
 
     Functional programming has for a long time allowed for programming in a more
-    abstract and principled fashion, farther from details of any specific machine.
-    Also, very frequently, building a system using a purely functional programming language
+    abstract and principled fashion, further from details of any specific machine.
+    Building a system using a pure functional programming language
     makes that system easier to analyze and easier for its properties to be stated and proven.
 
     Given these advantages when developing software, it should come as no surprise that
@@ -21,33 +29,35 @@
 
     More recently, programming languages with \emph{dependent type systems} were developed,
     creating the paradigm of \acf{DTP}.
-    Many researchers regard \ac{DTP} as being the "next step up" in terms of abstraction,
-    when compared to functional programming.
-    Nothing more reasonable then than to investigate whether \emph{even more} benefits
+    Many researchers regard \ac{DTP} as being the "next step" in terms of type safety
+    and expressivity, when compared to traditional functional programming.
+    Therefore we investigate in this thesis whether \emph{even more} benefits
     can be brought to the field of hardware design by \ac{DTP},
     improving upon the advances of functional hardware description languages.
 
     Inspired by the ideas in Coquet~\cite{coquet2011}, and by the strengths and weaknesses of other
-    hardware \acp{DSL} studied in a previous project, we developed in this thesis
+    hardware \acp{DSL} studied in a previous project, we developed
     a hardware \ac{DSL} – Π-Ware – \emph{embedded in a dependently-typed language} and using
     as much as possible of the cutting-edge developments in \ac{DTP}.
     The development of Π-Ware had an exploratory character: having identified limitations of
     other functional hardware \acp{DSL}, we tried to use features of dependent types in general
-    (and of Agda in specific) to solve them.
+    (and of the Agda language in specific) to solve them.
 
     Π-Ware does allow for more type safety in circuit designs,
     prevents some classes of frequent design mistakes and provides a framework
-    in which both simulation, synthesis and verification of hardware can be performed \emph{in the same language}.
+    in which specification, simulation, synthesis and verification
+    of hardware can be performed \emph{in the same language}.
     We use dependent inductive families to ensure basic \emph{well-formedness} of circuits,
-    dependent records (type classes) and recursive instance search to allow for parameterization
-    in the types handled by circuits and the underlying circuit technology used (gate family),
-    and the Curry-Howard isomorphism~\cite{propositions-as-types} gives us a logic interpretation of Agda,
+    and dependent records (type classes) with recursive instance search to allow for abstraction
+    of the types handled by circuits and the underlying circuit technology (gate family).
+    The Curry-Howard isomorphism~\cite{propositions-as-types} gives us a logic interpretation of Agda,
     in which we can write \emph{types} stating properties of circuits and give \emph{proofs} for them.
 
-    However, there are still some "rough edges": features that due to low priority and/or time constraints
-    are currently not as polished as we wish them to be.
-    Furthermore, during the development of Π-Ware, some interesting ideas came up about the application
-    of \ac{DTP} to hardware development which deserve future investigation.
+    However, there are still some "rough edges" in the current implementation of Π-Ware:
+    features that due to low priority and/or time constraints are currently not as polished as we wish them to be.
+    Furthermore, during the development of Π-Ware library,
+    some interesting ideas came up about the application of \ac{DTP} to hardware development
+    which deserve future investigation.
 
 
     \section{Future work}
@@ -103,7 +113,6 @@
                 \item Marking proofs as \AK{abstract}, so that they are not unfolded.
             \end{itemize}
 
-            \newpage
 
         \subsection{Directions for future research}
         \label{subsec:future-research}
