@@ -996,7 +996,7 @@
             These features are located in the \AM{Coinduction} module of the standard library.
 
             A good introduction to coalgebras, coinduction and corecursion can be found in
-            Bart Jacobs's "Introduction to coalgebra"~\cite{introduction-coalgebra-jacobs}.
+            Bart Jacobs's "Introduction to coalgebra"~\shortcite{introduction-coalgebra-jacobs}.
             In essence, algorithms written using coinduction are a way to deal with (potentially) infinite
             data structures in total languages.
 
@@ -1007,7 +1007,8 @@
             they must produce the "next" piece of information in finite time.
             Agda's heuristics to ensure productivity is to look out for \emph{guardedness}.
             Research about coinduction and its implementation in total languages is thriving,
-            and the reader is directed to~\cite{coinductive-inductive-termination} for more information.
+            and the reader is directed to the paper
+            describing Agda's implementatio~\cite{coinductive-inductive-termination} for more information.
 
             In the case of Π-Ware, it suffices to say that the corecursive call of \AF{runc'}
             is indeed guarded (therefore productive), and that using \AF{runc} we can finally define
@@ -1067,7 +1068,7 @@
             \emph{Validation}, on the other hand, is concerned with ensuring that the circuit
             \emph{and its specification} effectively meet the needs of involved stakeholders.
             These definitions (originating from the PMBOK® guide) were made into an
-            IEEE standard~\cite{ieee-pmbok} in 2011.
+            IEEE standard~\shortcite{ieee-pmbok} in 2011.
 
             In the hardware design community, two tongue-in-cheek expressions are used
             as a mnemonic device for this distinction between validation and verification:

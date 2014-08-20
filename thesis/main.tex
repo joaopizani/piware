@@ -12,6 +12,7 @@
 \usepackage{booktabs}
 \usepackage{float}
 \usepackage{acronym}
+\providecommand{\shortcite}[1]{\cite{#1}}
 
 \hypersetup{
     colorlinks,
@@ -21,17 +22,23 @@
 }
 
 
+
 %% Code
 \usepackage{minted}
 \usepackage{fancyvrb}
 \usemintedstyle{default}
 
+%% VHDL
 \newmint{vhdl}{mathescape,fontfamily=tt}
 \newmintedfile{vhdl}{mathescape,fontfamily=tt}
 \newminted{vhdl}{gobble=8,mathescape,fontfamily=tt}
+
+%% Haskell
 \newmint{haskell}{mathescape,fontfamily=tt}
 \newmintedfile{haskell}{mathescape,fontfamily=tt}
 \newminted{haskell}{gobble=8,mathescape,fontfamily=tt}
+
+%% Coq
 \newmint{coq}{mathescape,fontfamily=tt}
 \newmintedfile{coq}{mathescape,fontfamily=tt}
 \newminted{coq}{gobble=8,mathescape,fontfamily=tt}
@@ -71,15 +78,14 @@
 \fi
 
 \title{Π-Ware: An Embedded Hardware Description Language using Dependent Types}
-
 \date{\today}
-
 \author{
     João Paulo Pizani Flor \\
     Department of Information and Computing Sciences, \\
     Utrecht University - The Netherlands \\
     e-mail: j.p.pizaniflor@students.uu.nl
 }
+
 
 
 \newcommand\draftnote[1]{\textcolor{red}{#1}}
