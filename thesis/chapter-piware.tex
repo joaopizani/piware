@@ -1045,12 +1045,12 @@
                 For example, we can state that a circuit's output values always remain within some range,
                 or that two circuits \emph{have equal behaviour}, i.e., always produce the same outputs
                 given the same inputs.
-            \item With a \emph{synthesis} semantics, on the other, properties about circuit \emph{structure}
-                can be stated and proven. For example, we can state that a circuit never
-                exceeds a certain number of fundamental gates,
-                or that the \emph{longest chain} of gates is never longer than a predefined length.
-            \item Furthermore, several other sorts of static analyses can be carried with the
-                introduction of new semantics, such as timing analysis, power consumption analysis, etc.
+            \item With a \emph{synthesis} semantics, on the other hand,
+                properties about circuit \emph{structure} can be stated and proven.
+                For example, we can state that a circuit never exceeds a certain number of fundamental gates,
+                or that the \emph{longest chain} of gates is never longer than a desired length.
+            \item Furthermore, several other sorts of static analyses can be performed with the
+                introduction of new semantics, such as timing analysis, power estimation, etc.
         \end{itemize}
 
         In this section we focus mainly on statements and proofs involving circuit
@@ -1060,7 +1060,7 @@
 
         \subsection{Functional correctness}
         \label{subsec:functional-correctness}
-            In hardware design, there are two closely related activities which aim to ensure the
+            In hardware design, there are two closely related activities aiming to ensure the
             quality of a circuit: \emph{verification} and \emph{validation}.
             \emph{Verification} of a circuit encompasses all sorts of tests and procedures to ensure that
             a circuit \emph{meets a given specification}.
@@ -1082,16 +1082,16 @@
             In the software \emph{formal methods} community,
             the term \emph{correctness} is used to denote the goal of verification.
             A \emph{correct} algorithm, in this sense, is an algorithm that meets its specification.
-            We use the same \emph{correctness} terminology applied to hardware, therefore
+            We apply the same \emph{correctness} terminology to hardware, therefore
             we are interested in showing the \emph{correctness of circuits}.
 
-            More specifically, we focus on establishing correctness by means of \emph{formal verification}.
+            More specifically, we focus on establishing correctness through \emph{formal verification}.
             This means that \emph{both} specification and implementation are described formally,
             and we seek a formal proof that the implementation meets the specification.
             \emph{Functional} correctness refers to the input/output behaviour of the circuit, i.e.,
             that for each input the \emph{correct} output is produced (as prescribed by the specification).
 
-            In Π-Ware's case, the circuit model itself (element of \AD{ℂ'}) is considered the \emph{implementation},
+            In Π-Ware's case, the circuit model (element of \AD{ℂ}) is considered the \emph{implementation},
             while the \emph{specification} of a circuit is given by an appropriately-typed Agda function.
             Let's consider the simple example of an \texttt{XOR} circuit,
             already shown in Listing~\ref{lst:xor-sample} but repeated here for convenience:
@@ -1129,7 +1129,7 @@
 
             The proof of functional correctness for \AF{⊻ℂ} can be written in different ways,
             depending on which specification function we choose.
-            If we use the truth table specification, then the proof can also only proceed by \emph{case analysis},
+            If we use the truth table specification, then the proof can only proceed by \emph{case analysis},
             as shown in Listing~\ref{lst:xor-proof-table}.
 
             \begin{listing}[h]
@@ -1138,10 +1138,10 @@
                     \label{lst:xor-proof-table}}
             \end{listing}
 
-            In this kind of proof (by case analysis),
+            In this kind of proof (by case analysis)
             the lack of a tactic language in Agda is a disadvantage:
             even though \textbf{all} cases have the same right-hand side (\AI{refl}),
-            they still have to be listed explicitly.
+            they still have to be listed exhaustively.
             We expect, however, that by using \emph{proof by reflection}~\cite{engineering-reflection-agda}
             such proofs can be automated. Further investigation is left as future work.
 
@@ -1173,14 +1173,14 @@
 
             Proofs can also be written regarding whole \emph{families of circuits}.
             For example, we can have a generically-sized definition for an \texttt{AND}
-            circuit, as follows (low-level):
+            circuit as follows (low-level):
 
             \begin{center}
                 \ExecuteMetaData[code/agda/latex/PiWare/Samples/AndN.tex]{andN-core}
             \end{center}
 
             One of the properties that this definition must satisfy is, for example, that
-            when all inputs are \AI{true}, the output must be \AI{true}, regardless of the number of inputs.
+            whenever all inputs are \AI{true}, the output must be \AI{true}, regardless of the number of inputs.
             This corresponds to the following Agda definition:
 
             \begin{center}
@@ -1195,8 +1195,8 @@
             used in the recursive definition of \AF{andN'}.
 
             In this case, the underlying circuit is simply an \texttt{AND} gate (\AI{Gate} \AI{And\#}).
-            Therefore its \emph{specification function} is the one defined in the \emph{gate library},
-            named \AF{spec-and}.
+            Therefore its \emph{specification function} is the one defined in
+            the \AM{BoolTrio} \emph{gate library}, named \AF{spec-and}.
 
 
         \subsection{Sequential correctness}
@@ -1205,8 +1205,8 @@
             Properties about the \emph{sequential} behaviour of circuits are more complex to state,
             and especially to prove.
             Let's start by describing a simple 1-bit register in Π-Ware.
-            This register has two inputs (of 1 bit each) and one output (also of 1 bit),
-            the block diagram of this sample register is shown in Figure~\ref{fig:reg}.
+            This register has two inputs (of 1 bit each) and one output (also of 1 bit).
+            The block diagram of this sample register is shown in Figure~\ref{fig:reg}.
 
             \begin{figure}[h]
                 \includegraphics[width=1.0\textwidth]{imgs/register.pdf}
@@ -1221,7 +1221,7 @@
 
             Also, this circuit has both an \emph{asynchronous reset} and \emph{clock} inputs,
             which are present in the synthesized netlist but \emph{not} in the Π-Ware model.
-            This, in fact, applies to all sequential circuits: they all result in netlist with two extra
+            This, in fact, applies to all sequential circuits: they all result in netlists with two extra
             inputs (\emph{reset} and \emph{clock}) which cannot be observed through an Agda interface.
 
             The Π-Ware code for this circuit (\AF{reg}) is shown in Listing~\ref{lst:reg}.
@@ -1235,7 +1235,7 @@
             introduces the loopback and the flip-flop "around" the combinational subcircuit (\AF{comb}).
             This combinational subcircuit consist mainly of a \emph{multiplexer},
             "choosing" whether to use the current state or current input as next state.
-            Lastly, this multiplexer is wrapped by some \AI{Plug}s that serve only to change the
+            Lastly, this multiplexer is wrapped by \AI{Plug}s that serve only to change the
             ordering of some wires, performing no computation at all.
 
             The behaviour of this circuit is such that, with the "load" ping high, it will output
@@ -1248,12 +1248,12 @@
             \end{center}
 
             In this example, the "load" pin is high for two clock cycles, and afterwards remains forever low.
-            We are "sampling" seven elements from the register's (infinite) output \AD{Stream} and comparing
+            We are sampling seven elements from the register's (infinite) output \AD{Stream} and comparing
             them to an \emph{expected} vector on the right-hand side of the equality (\AF{\_≡\_}).
             We also renamed the vector prepending operator (\emph{cons}) to \AI{\_◁\_}, in order
             to avoid confusion with the \AD{Stream} prepending operator (\AI{\_∷\_}).
             Notice how the register output is "imitating" the input, because during the first two
-            clock cycles the "load" pin is kept high. After that, a change in input will not cause a
+            clock cycles the "load" pin is kept high. After that, a change in input does not cause a
             change in output.
 
             Naturally, we would like to prove these sorts of properties about sequential circuits
@@ -1270,7 +1270,7 @@
             they have identical (syntactically speaking) \emph{normal forms}.
 
             But then, terms constructed by coinduction do not \emph{normalize} as usual.
-            Terms which intuitively we would expect to be equal have \emph{suspension points}
+            Terms which we would intuitively expect to be equal have \emph{suspension points}
             and will not compare equal according to \emph{propositional equality}.
             The proper notion of "sameness" for infinite \AD{Stream}s is that of \emph{bisimilarity}:
             two \AD{Stream}s are said to be \emph{bisimilar if and only if}:
@@ -1280,7 +1280,7 @@
                 \item Their \emph{tail} is \emph{bisimilar}
             \end{itemize}
 
-            Thus, the proof of bisimilarity can also be seen as a \emph{stream of equality proofs},
+            Thus, a proof of bisimilarity can also be seen as a \emph{stream of equality proofs},
             one for each position in the \AD{Stream}s being compared.
             The definition of \AD{\_≈\_} is contained in Agda's standard library (\AM{Data.Stream}),
             and reproduced here for convenience:
