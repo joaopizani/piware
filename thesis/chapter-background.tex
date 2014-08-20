@@ -50,7 +50,7 @@
         \end{listing}
 
         Another significant difference between hardware and software development
-        is the level of \emph{automatization} in the chains (Figure~\ref{fig:sw-hw-chains}).
+        is the level of \emph{automation} in the chains (Figure~\ref{fig:sw-hw-chains}).
         Usually, all transformation steps in the software chain are automatic.
         On the hardware chain, the \emph{crucial} "Architectural design" step is mostly manual.
 
@@ -187,8 +187,9 @@
             different interpretations could be given to a single circuit description, such as
             simulation, synthesis, or model checking.
 
-            The design of Lava suffered significant changes later on, abandoning the monadic interface
-            and adopting an observable sharing solution based on reference equality~\cite{observable-sharing-circuits}.
+            The design of Lava suffered changed significantly later on in order to improve ease of use,
+            abandoning the monadic interface and adopting
+            an observable sharing solution based on reference equality~\cite{observable-sharing-circuits}.
             Currently, Lava has several dialects, such as \emph{Chalmers-Lava}, \emph{Xilinx-Lava}, \emph{York-Lava} and \emph{Kansas-Lava}.
             We base our examples in \emph{Chalmers-Lava}\footnote{\url{https://hackage.haskell.org/package/chalmers-lava2000}},
             which can be said to be the "canonical" dialect, and also the most actively developed.
@@ -251,7 +252,7 @@
             also the case in Π-Ware – in ForSyDe processes can belong to synchronous,
             asynchronous and continuous \emph{models of computation}.
 
-            In the synchronous model of computation (which we studied more deeply),
+            In the synchronous model of computation (which was studied more deeply),
             process constructors take a combinational function (called \emph{process function} in
             ForSyDe jargon) and turn it into a synchronous sequential circuit
             (for example a state machine).
@@ -297,7 +298,7 @@
                 \item[Single-clause] To be synthesizable,
                     the body of a \emph{process function} cannot have multiple clauses,
                     and it cannot have \mintinline{haskell}{let} or \mintinline{haskell}{where} blocks.
-                    This essentially forbids recursion inside \emph{process functions}.
+                    Recursion is also forbidden inside process functions.
                     Pattern matching is only possible by using the \mintinline{haskell}{case} construct.
             \end{description}
 
@@ -340,9 +341,9 @@
                     to model the inputs and outputs of synchronous sequential circuits,
                     exactly as the authors of Hawk desired.
                 \item The type class system of Haskell is limited: the authors mention the desire to be able
-                    to explicitly provided specific instances at specific sites,
+                    to explicitly provide specific instances at specific sites,
                     and also the desire to use \emph{views} on datatypes.
-                    Both features are available on \emph{Agda}.
+                    Both features are available in \emph{Agda}.
             \end{itemize}
 
             Finally, we would like to mention Cλash~\cite{clash-baaij}.

@@ -1,7 +1,7 @@
 \chapter{Introduction}
 \label{chap:intro}
     \acrodef{ILP}{Instruction-Level Parallelism}
-    Several factors have been causing an increasing demand for hardware acceleration of algorithms.
+    Several factors have been causing an increase in the benefits of hardware acceleration of algorithms.
     On the one hand, Moore's law still holds for the near future~\cite{itrs},
     which means bigger circuits in the same wafer area.
     On the other hand, advances in \ac{ILP} and microarchitecture of processors
@@ -13,11 +13,11 @@
 
     \acrodef{ASIC}{Application-Specific Integrated Circuit}
     The design of an \ac{ASIC} imposes strong requirements,
-    specially with regards to correctness (functional and otherwise).
+    specially with regards to correctness, functional and otherwise (power consumption, real-time performance, etc.).
     Design mistakes which make their way into the manufacturing process can be very expensive,
     and errors that reach the consumer cost even more, as there's no such thing as "updating" a chip.
     One infamous example of such a bug reaching the consumer was the \emph{FDIV} bug in Intel's Pentium chip,
-    which might have costed the company over 400 million dollars~\cite{intel-fdiv}.
+    which cost the company over 400 million dollars~\cite{intel-fdiv}.
 
     A language for hardware design should, therefore, try to prevent as many design mistakes as possible,
     and \emph{as early as possible} in the implementation chain.
@@ -65,7 +65,7 @@
 
     \acrodef{EDSL}{Embedded Domain-Specific Language}
     Research trying to answer this broad question started already in the 1980s,
-    with the work of Prof. Mary Sheeran and others~\cite{sheeran-survey},
+    with the work of Mary Sheeran and others~\cite{sheeran-survey},
     developing \emph{functional} hardware description languages, such as \emph{μFP}~\cite{mufp-1984}.
     Later, a trend emerged of developing \acp{EDSL} for hardware description,
     \emph{hosted} in purely functional languages, such as Haskell~\cite{haskell2010}.
@@ -122,8 +122,8 @@
 
     Therefore, it returns a collection of groups "sliced" from the original vector, each with the requested size.
     Additionally, it returns a proof that concatenating all groups results in the original vector.
-    This type serves as a \emph{complete specification of correctness} for the function.
-    Any function with this type is, by definition, a \emph{correct grouping function}.
+    This type serves as a complete specification of correctness for the function.
+    Any function with this type is, by definition, a correct grouping function.
 
     \acrodef{DSL}{Domain-Specific Language}
     In a deep-embedded \acs{DSL} for hardware there is usually a \emph{type} representing circuits.
@@ -148,7 +148,7 @@
     Π-Ware is a \emph{deep-embedded} \ac{DSL} hosted in the Agda programming language,
     supporting simulation for combinational and synchronous sequential circuits.
     Furthermore, the user of Π-Ware can prove \emph{expressive} properties about circuits in the logic
-    of Agda itself (intuitionistic logic).
+    of Agda itself.
 
     In Chapter~\ref{chap:background} we will establish the research questions, concepts,
     languages and tools from which we took inspiration to create Π-Ware.
@@ -169,6 +169,9 @@
     We also comment on what other related research paths could be pursued involving
     hardware and dependent types, based on the insights gained with Π-Ware.
 
-    Last but not least, all source code and documentation for Π-Ware can be found at
-    \url{https://github.com/joaopizani/piware}.
+    Finally, all source code and documentation for the Π-Ware library is hosted in a public
+    \emph{GitHub} repository\footnote{\url{https://github.com/joaopizani/piware}}. More specifically,
+    the bibliographic database file containing all the citations in this thesis is also
+    available\footnote{\url{https://github.com/joaopizani/piware/raw/report-final/thesis/references.bib}},
+    for the the convenience of those readers interested in consulting the related literature.
 
