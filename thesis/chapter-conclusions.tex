@@ -101,6 +101,23 @@
             and expect the designer to \AK{postulate} the proofs while prototyping.
             When ready for synthesis, the \texttt{safe} flag can be used with Agda to forbid all \AK{postulates}.
 
+            The third category of limitations in the current implmentation of Π-Ware concerns proofs.
+            Proofs for specific circuits can be done by case analysis, as the \AD{Atom} type is,
+            by definition, finite.
+            However, proofs for \emph{inductive families} of circuits are more complex, and
+            the examples we have until now require proving the desired properties at the
+            \emph{low level} of abstraction first and only then "lifiting" the proof to a
+            typed version.
+
+            To address this issue, we began development of a set of \emph{proof combinators}.
+            These are not yet usable, but can be found in the \AM{PiWare.Correctness} module.
+            The idea is that, for each circuit \emph{constructor} (low or high-level) there is
+            a corresponding proof combinator: for example, the \AF{\_⟫≡\_} combinator should produce the
+            correctness proof of a circuit built using \AF{\_⟫\_} (sequencing), given the correctness
+            proofs of the subcircuits.
+            However, as said already, the types for these combinators are quite complex,
+            and the proofs are still work-in-progress.
+
             Lastly, describing and trying to prove facts about complex circuit definitions in Π-Ware
             can be quite inefficient: type-checking a generically-sized ripple-carry adder can already
             consume up to 2GB of RAM.
