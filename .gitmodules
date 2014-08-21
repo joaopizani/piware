@@ -2,3 +2,6 @@
 	path = agda
 	url = git@github.com:joaopizani/piware-agda.git
     branch = report-include-changes
+[submodule "docs"]
+	path = docs
+	url = git@github.com:joaopizani/piware.wiki.git
