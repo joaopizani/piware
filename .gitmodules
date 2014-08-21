@@ -5,3 +5,7 @@
 [submodule "docs"]
 	path = docs
 	url = git@github.com:joaopizani/piware.wiki.git
+[submodule "slides/dtp2014/agda"]
+	path = slides/dtp2014/agda
+	url = git@github.com:joaopizani/piware-agda.git
+	branch = vienna-talk-code
