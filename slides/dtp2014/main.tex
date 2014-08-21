@@ -1,0 +1,91 @@
+\documentclass{beamer}
+
+% Beamer style
+\usetheme[style=plain]{uu}
+\usefonttheme{professionalfonts}
+
+\usepackage{fontspec}
+
+%% Standard packages
+\usepackage{unicode-math}
+\usepackage{mathtools}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{color}
+
+%% Agda
+\usepackage{catchfilebetweentags}
+\usepackage{agda/latex/agda}
+\newcommand{\AK}{\AgdaKeyword}
+\newcommand{\AS}{\AgdaString}
+\newcommand{\AN}{\AgdaNumber}
+\newcommand{\AB}{\AgdaBound}
+\newcommand{\AO}{\AgdaOperator}
+\newcommand{\AI}{\AgdaInductiveConstructor}
+\newcommand{\AC}{\AgdaCoinductiveConstructor}
+\newcommand{\AD}{\AgdaDatatype}
+\newcommand{\AF}{\AgdaFunction}
+\newcommand{\AM}{\AgdaModule}
+
+
+%% PDF metainformation
+\usepackage{datetime}
+\usepackage{ifpdf}
+\ifpdf
+\pdfinfo{
+    /Author (João Paulo Pizani Flor)
+    /Title (PiWare: Hardware Description using Dependent Types)
+    /Keywords (DSL, EDSL, Agda, Dependently-typed programming, Functional programming)
+    /CreationDate (D:\pdfdate)
+}
+\fi
+
+
+%% LaTeX meta-information
+\title[PiWare]{Π-Ware: Hardware Description with Dependent Types}
+
+\date{\today}
+\author[J. P. Pizani Flor]{
+    João Paulo Pizani Flor, B.Sc \\
+    \small{\texttt{<j.p.pizaniflor@students.uu.nl>}} \\
+    \medskip
+    dr. W. S. Swierstra \\
+    \small{\texttt{<w.s.swierstra@uu.nl>}}
+}
+
+\institute[Utrecht University] {
+    Department of Information and Computing Sciences \\
+    Utrecht University
+}
+
+\subject{Dependently-typed programming, Agda, EDSLs, Hardware Description Languages}
+
+
+%% The document itself
+\AtBeginSection{\frame{\sectionpage}}
+\begin{document}
+    \begin{frame}
+        \titlepage
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Table of Contents}
+        \tableofcontents
+    \end{frame}
+
+
+    %% Sections
+    \input{section1.tex}
+    \input{section2.tex}
+    \input{section3.tex}
+
+
+    \begin{frame}[plain]
+        \begin{center}
+            \par{\Huge{Thank you!}}
+            \vspace{2.0cm}
+            \par{\Huge{Questions?}}
+        \end{center}
+    \end{frame}
+\end{document}
