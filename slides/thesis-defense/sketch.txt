@@ -1,0 +1,51 @@
+Abstract / Quick intro
+
+Background
+    Hardware design
+        Hard
+    Hardware description languages
+        VHDL/Verilog (VHDL)
+            Problems
+        Functional hardware description
+            μFP?
+            Embbeded functional hardware description
+                Lava
+                Problems
+        Depedent types
+            VERY SUPERFICIAL, go deeper later
+            Coquet?
+
+Research question / Goal
+
+Agda for Haskell programmers (disclaimer)
+    Big picture
+        Types can depend on values
+        Types of arguments can depend on the values of previous arguments
+        Named arguments
+    Syntax
+        Unicode EVERYWHERE (a≡b◁c is an identifier)
+        Mixfix (array update: _[_]≔_  myArray [ fromℕ 3 ] ≔ false )
+        Forall sugar
+        Implicit arguments
+
+Π-Ware
+    Syntax
+        Circuit low-level
+        Atoms
+        Gates
+        Circuit high-level
+    Synthesizable
+        Bool
+        Instance search
+    Semantics
+        Synthesis / WIP
+        Simulation
+            Combinational
+            Sequential
+    Proofs
+
+Results
+    Limitations / trade-offs
+
+Conclusions
+    Future work
