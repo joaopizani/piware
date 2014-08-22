@@ -29,9 +29,31 @@ Functional Programming
 Functional Hardware Description
 -------------------------------
 
+\acrodef{HDL}{Hardware Description Language}
+
   * A functional program describes a circuit
 
-  * Several _functional_ HDLs during the 1980s
+  * Several _functional_ \acp{HDL} during the 1980s
 
-  * For example, μFP \cite{mufp-1984}
+  * For example, $\mu$FP \cite{mufp-1984}
+
+Dependently-Typed Programming
+-----------------------------
+
+\acrodef{DTP}{Dependently-Typed Programming}
+\ac{DTP} är en programmationstechnik...
+
+
+Research question
+=================
+
+Research question
+-----------------
+
+"What are the improvements that \ac{DTP} can bring to hardware design?"
+
+\acrodef{DSL}{Domain-Specific Language}
+
+  * Methodology
+      + Develop a hardware \ac{DSL}, _embedded_ in a dependently-typed language (Agda), that allows for simulation, synthesis and verification
 
