@@ -6,7 +6,7 @@ main.pdf: \
 	section-background.tex \
 	section-piware.tex \
 	section-final.tex
-	latexmk -pdf -f main.tex
+	latexmk -pdf -f -quiet main.tex
 
 section%.tex: section%.md ; pandoc $< -t beamer -o $@
 
