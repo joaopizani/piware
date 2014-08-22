@@ -33,5 +33,5 @@ Functional Hardware Description
 
   * Several _functional_ HDLs during the 1980s
 
-  * For example, μFP
+  * For example, μFP \cite{mufp-1984}
 
