@@ -10,7 +10,7 @@ main.pdf: \
 
 section%.tex: section%.md ; pandoc $< -t beamer -o $@
 
-clean: ; latexmk -C main.tex
-veryclean: clean ; rm -f section*.tex
+clean: ; latexmk -c main.tex
+veryclean: clean ; rm -f section*.tex main.pdf
 
 .PHONY: build clean veryclean
