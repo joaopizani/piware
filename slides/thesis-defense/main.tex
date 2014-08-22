@@ -1,8 +1,5 @@
 \documentclass{beamer}
-
-% Beamer style
 \usetheme[style=plain]{uu}
-\usefonttheme{professionalfonts}
 
 \usepackage{fontspec}
 
@@ -13,12 +10,36 @@
 \usepackage{graphicx}
 \usepackage{hyperref}
 \usepackage{color}
+\usepackage{url}
+
+
+
+%% Code
+\usepackage{minted}
+\usepackage{fancyvrb}
+\usemintedstyle{default}
+
+%% VHDL
+\newmint{vhdl}{mathescape,fontfamily=tt}
+\newmintedfile{vhdl}{mathescape,fontfamily=tt}
+\newminted{vhdl}{gobble=8,mathescape,fontfamily=tt}
+
+%% Haskell
+\newmint{haskell}{mathescape,fontfamily=tt}
+\newmintedfile{haskell}{mathescape,fontfamily=tt}
+\newminted{haskell}{gobble=8,mathescape,fontfamily=tt}
+
+%% Coq
+\newmint{coq}{mathescape,fontfamily=tt}
+\newmintedfile{coq}{mathescape,fontfamily=tt}
+\newminted{coq}{gobble=8,mathescape,fontfamily=tt}
 
 %% Agda
 \usepackage{catchfilebetweentags}
 \usepackage{agda/latex/agda}
 \newcommand{\AK}{\AgdaKeyword}
 \newcommand{\AS}{\AgdaString}
+\newcommand{\AY}{\AgdaSymbol}
 \newcommand{\AN}{\AgdaNumber}
 \newcommand{\AB}{\AgdaBound}
 \newcommand{\AO}{\AgdaOperator}
@@ -27,6 +48,11 @@
 \newcommand{\AD}{\AgdaDatatype}
 \newcommand{\AF}{\AgdaFunction}
 \newcommand{\AM}{\AgdaModule}
+\newcommand{\AL}{\AgdaField}
+\newcommand{\AR}{\AgdaArgument}
+\newcommand{\AT}{\AgdaIndent}
+\newcommand{\ARR}{\AgdaRecord}
+
 
 
 %% PDF metainformation
@@ -35,36 +61,41 @@
 \ifpdf
 \pdfinfo{
     /Author (João Paulo Pizani Flor)
-    /Title (PiWare: Hardware Description using Dependent Types)
-    /Keywords (DSL, EDSL, Agda, Dependently-typed programming, Functional programming)
+    /Title (PiWare: An Embedded Hardware Description Language using Dependent Types)
+    /Keywords (DSL, EDSL, Agda, Dependently-typed programming, Functional programming, Hardware Description, Dependent types, Coq, Lava, Coquet)
     /CreationDate (D:\pdfdate)
 }
 \fi
 
 
 %% LaTeX meta-information
-\title[PiWare]{Π-Ware: Hardware Description with Dependent Types}
-
+\title[PiWare]{Π-Ware: An Embedded Hardware Description Language using Dependent Types}
 \date{\today}
-\author[J. P. Pizani Flor]{
-    João Paulo Pizani Flor, B.Sc \\
-    \small{\texttt{<j.p.pizaniflor@students.uu.nl>}} \\
-    \medskip
-    dr. W. S. Swierstra \\
-    \small{\texttt{<w.s.swierstra@uu.nl>}}
-}
+
+%% Author after \begin{document}
 
 \institute[Utrecht University] {
     Department of Information and Computing Sciences \\
     Utrecht University
 }
 
-\subject{Dependently-typed programming, Agda, EDSLs, Hardware Description Languages}
+\subject{DSL, EDSL, Agda, Dependently-typed programming, Functional programming, Hardware Description, Dependent types, Coq, Lava, Coquet}
+
 
 
 %% The document itself
 \AtBeginSection{\frame{\sectionpage}}
 \begin{document}
+    \author[J. P. Pizani Flor]{
+        \begin{tabular}{r@{ }l}
+            Author:     & João Paulo Pizani Flor \\
+                        & \small{\texttt{<joaopizani@uu.nl>}} \\[2ex]
+            Supervisor: & Wouter Swierstra \\
+                        & \small{\texttt{<w.s.swierstra@uu.nl>}}
+        \end{tabular}
+    }
+
+
     \begin{frame}
         \titlepage
     \end{frame}
@@ -76,9 +107,10 @@
 
 
     %% Sections
-    \input{section1.tex}
-    \input{section2.tex}
-    \input{section3.tex}
+    \input{section-intro.tex}
+    \input{section-background.tex}
+    \input{section-piware.tex}
+    \input{section-final.tex}
 
 
     \begin{frame}[plain]
