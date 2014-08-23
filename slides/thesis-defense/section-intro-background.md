@@ -60,6 +60,9 @@ Functional Hardware
 ### Embedded \acp{DSL} for Hardware ###
 
   * Lava
+  * Limitations
+      + Low level types
+      + Not guaranteeing size match
 
 
 DTP

@@ -16,13 +16,15 @@ Big picture
   * Dependent pattern matching
       + Example with \AD{Vec} pattern forcing size pattern
 
+### Depedent types as proof system ###
+
   * Programming language / Theorem prover
       + Types as propositions, terms as proofs \cite{propositions-as-types}
       + Example: \AD{\_≤\_} and \AN{3} \AD{≤} \AN{4}.
 
 
-Agda syntax
------------
+Agda
+----
 
 ### Agda syntax for Haskell programmers ###
 
