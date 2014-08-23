@@ -1,4 +1,0 @@
-Background
-==========
-
-Lorem ipsum...

@@ -2,8 +2,8 @@ build: main.pdf
 view: main.pdf ; xdg-open main.pdf 2>&1 > /dev/null
 
 main.pdf: main.tex \
-	section-intro.tex \
-	section-background.tex \
+	section-intro-background.tex \
+	section-dtp-agda.tex \
 	section-piware.tex \
 	section-final.tex
 	latexmk -pdf -f -quiet main.tex
