@@ -6,13 +6,21 @@ Syntax
 
 ### Low-level circuits ###
 
-  * \AD{ℂ'}
-  * "Untyped"
+  * Structural representation
+  * Untyped but _sized_
+
+\ExecuteMetaData[agda/latex/PiWare/Circuit/Core.tex]{Circuit-core-decl}
+\ExecuteMetaData[agda/latex/PiWare/Circuit/Core.tex]{Circuit-core}
 
 ### Atoms ###
 
   * \AM{PiWare.Atom}.\ARR{Atomic}
   * \AD{Bool}, `std_logic`, etc.
+
+\ExecuteMetaData[agda/latex/PiWare/Atom.tex]{Atomic}
+
+### Atoms ###
+
   * Example: \AM{PiWare.Atom.Bool}
 
 ### Gates ###

@@ -33,12 +33,11 @@ Big picture
 
 ### Dependently-Typed Programming ###
 
-  * Dependent pattern matching can _rule out_ impossible cases
-      + Classic example: _safe_ \AF{head} function \
-        \ExecuteMetaData[agda/latex/Defense/SectionDTPAgda.tex]{head}
-
-      + The **only** constructor returning \AD{Vec} \AB{α} \AY{(}\AI{suc} \AB{n}\AY{)}
-        is \AI{\_∷\_}
+> * Dependent pattern matching can _rule out_ impossible cases
+>     + Classic example: _safe_ \AF{head} function \
+>       \ExecuteMetaData[agda/latex/Defense/SectionDTPAgda.tex]{head}
+>     + The **only** constructor returning \AD{Vec} \AB{α} \AY{(}\AI{suc} \AB{n}\AY{)}
+>       is \AI{\_∷\_}
 
 ### Depedent types as logic ###
 
