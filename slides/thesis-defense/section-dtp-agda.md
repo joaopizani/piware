@@ -7,9 +7,25 @@ Big picture
 ### Dependently-Typed Programming ###
 
   * Types can depend on values
-      + \AD{Vec}
+      + Example: \AK{data} \AD{Vec} \AY{(}\AB{α} \AY{:} \AD{Set}\AY{)} \AY{:} \AD{ℕ} \AY{→} \AD{Set} \AK{where}...
+      + Compare with Haskell (GADT style): \mintinline{haskell}{data List :: * -> * where}...
   * Types of arguments can depend on _values of previous arguments_
-      + \AF{take}
+      * Ensure a "safe" domain
+      + \AF{take} \AY{:} \AY{(}\AB{m} \AY{:} \AD{ℕ}\AY{)} \AY{→} \AD{Vec} \AB{α} \AY{(}\AB{m} \AF{+} \AB{n}\AY{)} \AY{→} \AD{Vec} \AB{α} \AB{m}
+
+### Dependently-Typed Programming ###
+
+  * Type checking requires _evaluation_ of functions
+      + We want \AD{Vec} \AD{Bool} \AY{(}\AN{2} \AF{+} \AN{2}\AY{)} to unify with \AD{Vec} \AD{Bool} \AN{4}
+
+  * Consequence: all functions must be _total_
+
+  * Termination checker ensures (heuristics)
+      + Structurally-decreasing recursion
+          - This passes the check: \
+\ExecuteMetaData[agda/latex/Defense/SectionDTPAgda.tex]{add}
+          - This does not: \
+\ExecuteMetaData[agda/latex/Defense/SectionDTPAgda.tex]{silly}
 
 ### Dependently-Typed Programming ###
 
@@ -19,7 +35,7 @@ Big picture
 ### Depedent types as proof system ###
 
   * Programming language / Theorem prover
-      + Types as propositions, terms as proofs \cite{propositions-as-types}
+      + Types as propositions, terms as proofs\ \cite{propositions-as-types}
       + Example: \AD{\_≤\_} and \AN{3} \AD{≤} \AN{4}.
 
 
