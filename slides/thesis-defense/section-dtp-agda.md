@@ -30,16 +30,23 @@ Big picture
 ### Dependently-Typed Programming ###
 
   * Dependent pattern matching can _rule out_ impossible cases
-      + Classic example: _safe_ \AF{head} function
-
+      + Classic example: _safe_ \AF{head} function \
 \ExecuteMetaData[agda/latex/Defense/SectionDTPAgda.tex]{head}
+      + The **only** constructor returning \AD{Vec} \AB{α} \AY{(}\AI{suc} \AB{n}\AY{)} is \AI{\_∷\_}
 
 ### Depedent types as logic ###
 
   * Programming language / Theorem prover
       + Types as propositions, terms as proofs\ \cite{propositions-as-types}
-      + Example: \AD{\_≤\_} and \AN{3} \AD{≤} \AN{4}.
 
+  * Example:
+      + Given the relation (drawn triangle): \
+\ExecuteMetaData[agda/latex/Defense/SectionDTPAgda.tex]{leq}
+      + Proposition: \
+\ExecuteMetaData[agda/latex/Defense/SectionDTPAgda.tex]{twoLEQFour-decl}
+      + Proof: \
+\ExecuteMetaData[agda/latex/Defense/SectionDTPAgda.tex]{twoLEQFour-def} \
+\AI{s≤s} \AY{(}\AI{s≤s} \AY{(}\AI{z≤n} \AY{:} \AN{0} \AD{≤} \AN{4}\AY{)} \AY{:} \AN{1} \AD{≤} \AN{4}\AY{)} \AY{:} \AN{2} \AD{≤} \AN{4}
 
 Agda
 ----
@@ -48,8 +55,14 @@ Agda
 
   * Liberal identifier lexing (Unicode **everywhere**)
       + \AF{a≡b+c} is a valid identifer, \AB{a} \AD{≡} \AB{b} \AF{+} \AB{c} an expression
+      + Actually used in Agda's standard library
+      + And in Π-Ware: \AD{ℂ}, \AF{⟦} \AB{c} \AF{⟧}, \AL{⇓}, \AL{⇑}
   * _Mixfix_ notation
-      + \AF{\_[\_]≔\_} is the array update function: \AF{arr} \AF{[} \AF{\#} \AN{3} \AF{]} \AF{≔} \AI{true}.
+      + \AF{\_[\_]≔\_} is the vector update function: \AF{v} \AF{[} \AF{\#} \AN{3} \AF{]} \AF{≔} \AI{true}.
+      * \AF{\_[\_]≔\_} \AF{v} \AY{(}\AF{\#} \AN{3}\AY{)} \AI{true} $\Longleftrightarrow$ \AF{v} \AF{[} \AF{\#} \AN{3} \AF{]} \AF{≔} \AI{true}
+  * Almost nothing built-in
+      + \AF{\_+\_} \AY{:} \AD{ℕ} \AY{→} \AD{ℕ} \AY{→} \AD{ℕ} defined in \AM{Data.Nat}
+      + \AF{if\_then\_else\_} \AY{:} \AD{Bool} \AY{→} \AB{α} \AY{→} \AB{α} \AY{→} \AB{α} defined in \AD{Data.Bool}
 
 ### Agda syntax for Haskell programmers ###
 
