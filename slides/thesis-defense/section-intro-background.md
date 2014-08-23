@@ -23,10 +23,6 @@ Hardware Design
   * **But** optimizations in CPUs display diminishing returns
       + Thus, more algorithms _directly_ in hardware
 
-
-Hardware Description
---------------------
-
 ### Hardware Description Languages ###
 
   * All started in the 1980s
@@ -66,24 +62,33 @@ Functional Hardware
   * Lava
 
 
-Dependently-Typed Programming
------------------------------
+DTP
+---
+
+### Dependently-Typed Programming ###
 
 \acrodef{DTP}{Dependently-Typed Programming}
 \ac{DTP} är en programmationstechnik...
 
 
 
-Research question
+Research Question
 =================
 
-Research question
------------------
+Question
+--------
+
+### Research Question ###
 
 "What are the improvements that \ac{DTP} can bring to hardware design?"
 
-  * Methodology
-      + Develop a hardware \ac{DSL}, _embedded_ in a dependently-typed language (Agda)
-          - Called **Π-Ware**
-          - allowing simulation, synthesis and verification
+
+Method
+------
+
+### Methodology ###
+
+  * Develop a hardware \ac{DSL}, _embedded_ in a dependently-typed language (Agda)
+      + Called **Π-Ware**
+      + allowing simulation, synthesis and verification
 

@@ -13,25 +13,27 @@ Big picture
 
 ### Dependently-Typed Programming ###
 
-  * Dependent pattern matching?
+  * Dependent pattern matching
+      + Example with \AD{Vec} pattern forcing size pattern
 
-  * Proofs?
+  * Programming language / Theorem prover
+      + Types as propositions, terms as proofs \cite{propositions-as-types}
+      + Example: \AD{\_≤\_} and \AN{3} \AD{≤} \AN{4}.
 
 
-Agda
-----
+Agda syntax
+-----------
 
-### Agda syntax ###
-
-\centering{\large{5 min tutorial for Haskell programmers:}}
+### Agda syntax for Haskell programmers ###
 
   * Liberal identifier lexing (Unicode **everywhere**)
       + \AF{a≡b+c} is a valid identifer, \AB{a} \AD{≡} \AB{b} \AF{+} \AB{c} an expression
   * _Mixfix_ notation
       + \AF{\_[\_]≔\_} is the array update function: \AF{arr} \AF{[} \AF{\#} \AN{3} \AF{]} \AF{≔} \AI{true}.
 
-### Agda syntax ###
-
-\centering{\large{5 min tutorial for Haskell programmers:}}
+### Agda syntax for Haskell programmers ###
 
   * Implicit arguments
+  * "For all" sugar: \AY{∀} \AB{n} is equivalent to \AY{(}\AB{n} \AY{:} \AY{\_}\AY{)}
+      + Where \AY{\_} means: guess this type (based on other args)
+      + Example: \AY{∀} \AB{n} \AY{→} \AI{zero} \AD{≤} \AB{n}
