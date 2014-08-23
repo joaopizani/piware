@@ -52,10 +52,10 @@ Functional Hardware
   * A functional program describes a circuit
 
   * Several _functional_ \acp{HDL} during the 1980s
-      + For example, $\mu$FP \cite{mufp-1984}
+      + For example, $\mu$FP\ \cite{mufp-1984}
 
   * Later, _embedded_ hardware \acp{DSL}
-      + For example, Lava (Haskell) \cite{lava-1999}
+      + For example, Lava (Haskell)\ \cite{lava-1999}
 
 ### Embedded \acp{DSL} for Hardware ###
 
