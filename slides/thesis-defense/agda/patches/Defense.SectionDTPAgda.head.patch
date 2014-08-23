@@ -13,7 +13,7 @@
   
   %<*head>
   \begin{code}%
-! \>\AgdaFunction{head} \AgdaDatatype{Vec} \AgdaBound{α} \AgdaSymbol{(}\AgdaInductiveConstructor{suc} \AgdaBound{n}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaBound{α}\<%
+! \>\AgdaFunction{head} \AgdaSymbol{:} \AgdaDatatype{Vec} \AgdaBound{α} \AgdaSymbol{(}\AgdaInductiveConstructor{suc} \AgdaBound{n}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaBound{α}\<%
   \\
   \>\AgdaFunction{head} \AgdaSymbol{(}\AgdaBound{x} \AgdaInductiveConstructor{∷} \AgdaBound{xs}\AgdaSymbol{)} \AgdaSymbol{=} \AgdaBound{x}\<%
   \end{code}
