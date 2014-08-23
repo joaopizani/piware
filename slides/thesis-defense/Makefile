@@ -1,7 +1,7 @@
 build: main.pdf
 view: main.pdf ; xdg-open main.pdf 2>&1 > /dev/null
 
-main.pdf: main.tex \
+main.pdf: main.tex agda/latex/agda.sty \
 	section-intro-background.tex \
 	section-dtp-agda.tex \
 	section-piware.tex \
