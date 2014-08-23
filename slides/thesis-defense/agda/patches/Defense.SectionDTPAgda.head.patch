@@ -1,0 +1,19 @@
+*** latex/Defense/SectionDTPAgda.tex	2014-08-23 18:50:47.129638900 +0200
+--- latex/Defense/SectionDTPAgda.patched.tex	2014-08-23 18:51:30.655724300 +0200
+***************
+*** 44,50 ****
+  
+  %<*head>
+  \begin{code}%
+! \>\AgdaFunction{head} \AgdaSymbol{:} \AgdaSymbol{\{}\AgdaBound{α} \AgdaSymbol{:} \AgdaPrimitiveType{Set}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{n} \AgdaSymbol{:} \AgdaDatatype{ℕ}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaDatatype{Vec} \AgdaBound{α} \AgdaSymbol{(}\AgdaInductiveConstructor{suc} \AgdaBound{n}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaBound{α}\<%
+  \\
+  \>\AgdaFunction{head} \AgdaSymbol{(}\AgdaBound{x} \AgdaInductiveConstructor{∷} \AgdaBound{xs}\AgdaSymbol{)} \AgdaSymbol{=} \AgdaBound{x}\<%
+  \end{code}
+--- 44,50 ----
+  
+  %<*head>
+  \begin{code}%
+! \>\AgdaFunction{head} \AgdaDatatype{Vec} \AgdaBound{α} \AgdaSymbol{(}\AgdaInductiveConstructor{suc} \AgdaBound{n}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaBound{α}\<%
+  \\
+  \>\AgdaFunction{head} \AgdaSymbol{(}\AgdaBound{x} \AgdaInductiveConstructor{∷} \AgdaBound{xs}\AgdaSymbol{)} \AgdaSymbol{=} \AgdaBound{x}\<%
+  \end{code}

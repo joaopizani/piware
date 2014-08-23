@@ -29,10 +29,12 @@ Big picture
 
 ### Dependently-Typed Programming ###
 
-  * Dependent pattern matching
-      + Example with \AD{Vec} pattern forcing size pattern
+  * Dependent pattern matching can _rule out_ impossible cases
+      + Classic example: _safe_ \AF{head} function
 
-### Depedent types as proof system ###
+\ExecuteMetaData[agda/latex/Defense/SectionDTPAgda.tex]{head}
+
+### Depedent types as logic ###
 
   * Programming language / Theorem prover
       + Types as propositions, terms as proofs\ \cite{propositions-as-types}
