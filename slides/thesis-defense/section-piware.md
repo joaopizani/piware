@@ -255,9 +255,36 @@ Some definitions:
 Proofs
 ------
 
-### Examples ###
+### Properties of circuits ###
 
-  * `AndN`
+  * Tests and proofs about circuits depend on the _semantics_
+      + We focused on the functional simulation semantics
+      + Other possibilities (gate count, critical path, etc.)
+
+  * Very simple sample circuit to illustrate: `XOR`
+
+### Specification of `XOR` ###
+
+  * To define _correctness_ we need a _specification function_
+      + Listing all possibilities (truth table)
+      + Based on pre-exisiting functions (standard library)
+
+  * Truth table
+
+### Proof of `XOR` (truth table) ###
+
+  * Proof by _case analysis_
+      + Could be automated (reflection)
+
+### Specification of `XOR` ###
+
+  * Based (\AF{\_xor\_}) from \AM{Data.Bool}
+
+### Proof of `XOR` (pre-existing) ###
+
+  * Need a lemma to complete the proof
+      + Circuit is defined using $\{ \text{\texttt{NOT}}, \text{\texttt{AND}}, \text{\texttt{OR}} \}$
+      + \AF{\_xor\_} is defined directly by pattern matching
 
 ### Problems ###
 
