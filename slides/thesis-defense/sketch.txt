@@ -1,3 +1,7 @@
+TODO
+    Pauses
+    Section / Subsection pages
+
 Abstract / Quick intro
 
 Background

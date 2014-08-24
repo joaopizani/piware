@@ -146,12 +146,31 @@ Semantics
       + Timing analysis, power estimation, etc.
       + This possibility guided Π-Ware's development
 
-### Synthesis ###
+### Synthesis semantics ###
 
-  * Netlist: directed graph where nodes are _gates_ and edges are _buses_
-  * Work-in-progress
+  * Netlist: digraph with _gates_ as nodes and _buses_ as edges
 
-\includegraphics[width=0.8\textwidth]{imgs/semantics-syn-fundamental.pdf}
+\centering{\includegraphics[width=1.0\textwidth]{imgs/semantics-syn-fundamental.pdf}}
+
+### Synthesis semantics ###
+
+\centering{\includegraphics[width=1.0\textwidth]{imgs/semantics-syn-structural.pdf}}
+
+### Synthesis semantics ###
+
+Missing "pieces":
+
+  * Adapt \ARR{Atomic}
+      + New field: a \AL{VHDLTypeDecl}
+          - Such as: \mintinline{vhdl}{type ident is (elem1, elem2);}
+          - Enumerations, integers (ranges), records.
+      + New field: \AL{atomVHDL} \AY{:} \AF{Atom#} \AY{→} \AD{VHDLExpr}
+
+  * Adapt \ARR{Gates}
+      + For each gate, a corresponding \AD{VHDLEntity}
+      + \AL{netlist} \AY{:} \AY{(}\AB{g\#} \AY{:} \AD{Gates#}\AY{)} \AY{→}
+        \AD{VHDLEntity} \AY{(}\AF{|in|} \AB{g\#}\AY{)} \AY{(}\AF{|out|} \AB{g\#}\AY{)}
+          - The VHDL entity has the _interface_ of corresponding gate
 
 ### Simulation ###
 
