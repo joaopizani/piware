@@ -1,7 +1,7 @@
-*** latex/Defense/SectionDTPAgda.tex	2014-08-23 18:50:47.129638900 +0200
---- latex/Defense/SectionDTPAgda.patched.tex	2014-08-23 18:51:30.655724300 +0200
+*** latex/Defense/SectionDTPAgda.tex	2014-08-24 14:08:32.694752300 +0200
+--- latex/Defense/SectionDTPAgda.patched.tex	2014-08-24 14:09:32.114410800 +0200
 ***************
-*** 44,50 ****
+*** 43,49 ****
   
   %<*head>
   \begin{code}%
@@ -9,7 +9,7 @@
   \\
   \>\AgdaFunction{head} \AgdaSymbol{(}\AgdaBound{x} \AgdaInductiveConstructor{∷} \AgdaBound{xs}\AgdaSymbol{)} \AgdaSymbol{=} \AgdaBound{x}\<%
   \end{code}
---- 44,50 ----
+--- 43,49 ----
   
   %<*head>
   \begin{code}%
