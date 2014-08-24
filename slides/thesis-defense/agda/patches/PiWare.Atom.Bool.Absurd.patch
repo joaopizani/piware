@@ -1,0 +1,49 @@
+*** latex/PiWare/Atom/Bool.tex	2014-08-24 12:34:54.525363400 +0200
+--- latex/PiWare/Atom/Bool.patched.tex	2014-08-24 13:54:45.474530900 +0200
+***************
+*** 37,44 ****
+  \\
+  \> \AgdaKeyword{pattern} \AgdaInductiveConstructor{True\#} \<[19]%
+  \>[19]\AgdaSymbol{=} \AgdaInductiveConstructor{Fs} \AgdaInductiveConstructor{Fz}\<%
+- \\
+- \> \AgdaKeyword{pattern} \AgdaInductiveConstructor{Absurd\#} \AgdaBound{n} \AgdaSymbol{=} \AgdaInductiveConstructor{Fs} \AgdaSymbol{(}\AgdaInductiveConstructor{Fs} \AgdaBound{n}\AgdaSymbol{)}\<%
+  \end{code}
+   %</pattern-synonyms>
+  
+--- 37,42 ----
+***************
+*** 53,60 ****
+   \begin{code}%
+  \> \AgdaFunction{n→B} \AgdaSymbol{=} \AgdaSymbol{λ} \AgdaSymbol{\{} \AgdaInductiveConstructor{False\#} \AgdaSymbol{→} \AgdaInductiveConstructor{false}\AgdaSymbol{;} \<[29]%
+  \>[29]\AgdaInductiveConstructor{True\#} \<[36]%
+! \>[36]\AgdaSymbol{→} \AgdaInductiveConstructor{true}\AgdaSymbol{;} \<[45]%
+! \>[45]\AgdaSymbol{(}\AgdaInductiveConstructor{Absurd\#} \AgdaSymbol{())} \AgdaSymbol{\}}\<%
+  \\
+  \> \AgdaFunction{B→n} \AgdaSymbol{=} \AgdaSymbol{λ} \AgdaSymbol{\{} \AgdaInductiveConstructor{false} \<[18]%
+  \>[18]\AgdaSymbol{→} \AgdaInductiveConstructor{False\#}\AgdaSymbol{;} \<[29]%
+--- 51,57 ----
+   \begin{code}%
+  \> \AgdaFunction{n→B} \AgdaSymbol{=} \AgdaSymbol{λ} \AgdaSymbol{\{} \AgdaInductiveConstructor{False\#} \AgdaSymbol{→} \AgdaInductiveConstructor{false}\AgdaSymbol{;} \<[29]%
+  \>[29]\AgdaInductiveConstructor{True\#} \<[36]%
+! \>[36]\AgdaSymbol{→} \AgdaInductiveConstructor{true} \AgdaSymbol{\}}\<%
+  \\
+  \> \AgdaFunction{B→n} \AgdaSymbol{=} \AgdaSymbol{λ} \AgdaSymbol{\{} \AgdaInductiveConstructor{false} \<[18]%
+  \>[18]\AgdaSymbol{→} \AgdaInductiveConstructor{False\#}\AgdaSymbol{;} \<[29]%
+***************
+*** 76,83 ****
+  \>[14]\AgdaSymbol{=} \AgdaSymbol{λ} \AgdaSymbol{\{} \AgdaInductiveConstructor{False\#} \<[28]%
+  \>[28]\AgdaSymbol{→} \AgdaInductiveConstructor{refl}\AgdaSymbol{;} \<[37]%
+  \>[37]\AgdaInductiveConstructor{True\#} \<[44]%
+! \>[44]\AgdaSymbol{→} \AgdaInductiveConstructor{refl}\AgdaSymbol{;} \<[53]%
+! \>[53]\AgdaSymbol{(}\AgdaInductiveConstructor{Absurd\#} \AgdaSymbol{())} \AgdaSymbol{\}}\<%
+  \\
+  \> \AgdaFunction{inv-right-B} \<[14]%
+  \>[14]\AgdaSymbol{=} \AgdaSymbol{λ} \AgdaSymbol{\{} \AgdaInductiveConstructor{false} \<[28]%
+--- 73,79 ----
+  \>[14]\AgdaSymbol{=} \AgdaSymbol{λ} \AgdaSymbol{\{} \AgdaInductiveConstructor{False\#} \<[28]%
+  \>[28]\AgdaSymbol{→} \AgdaInductiveConstructor{refl}\AgdaSymbol{;} \<[37]%
+  \>[37]\AgdaInductiveConstructor{True\#} \<[44]%
+! \>[44]\AgdaSymbol{→} \AgdaInductiveConstructor{refl}\AgdaSymbol{;} \AgdaSymbol{\}}\<%
+  \\
+  \> \AgdaFunction{inv-right-B} \<[14]%
+  \>[14]\AgdaSymbol{=} \AgdaSymbol{λ} \AgdaSymbol{\{} \AgdaInductiveConstructor{false} \<[28]%

@@ -1,0 +1,36 @@
+*** latex/PiWare/Gates/BoolTrio.tex	2014-08-24 12:34:59.364017200 +0200
+--- latex/PiWare/Gates/BoolTrio.patched.tex	2014-08-24 14:00:11.159624600 +0200
+***************
+*** 45,53 ****
+  \\
+  \>\AgdaKeyword{pattern} \AgdaInductiveConstructor{Or\#} \<[21]%
+  \>[21]\AgdaSymbol{=} \AgdaInductiveConstructor{Fs} \AgdaSymbol{(}\AgdaInductiveConstructor{Fs} \AgdaSymbol{(}\AgdaInductiveConstructor{Fs} \AgdaSymbol{(}\AgdaInductiveConstructor{Fs} \AgdaInductiveConstructor{Fz}\AgdaSymbol{)))}\<%
+- \\
+- \>\AgdaKeyword{pattern} \AgdaInductiveConstructor{Absurd\#} \AgdaBound{n} \<[21]%
+- \>[21]\AgdaSymbol{=} \AgdaInductiveConstructor{Fs} \AgdaSymbol{(}\AgdaInductiveConstructor{Fs} \AgdaSymbol{(}\AgdaInductiveConstructor{Fs} \AgdaSymbol{(}\AgdaInductiveConstructor{Fs} \AgdaSymbol{(}\AgdaInductiveConstructor{Fs} \AgdaBound{n}\AgdaSymbol{))))}\<%
+  \end{code}
+  
+  %</pattern-synonyms>
+--- 45,50 ----
+***************
+*** 74,81 ****
+  \>\AgdaFunction{|in|} \AgdaInductiveConstructor{Or\#} \<[18]%
+  \>[18]\AgdaSymbol{=} \AgdaNumber{2}\<%
+  \\
+- \>\AgdaFunction{|in|} \AgdaSymbol{(}\AgdaInductiveConstructor{Absurd\#} \AgdaSymbol{())}\<%
+- \\
+  %
+  \\
+  \>\AgdaFunction{|out|} \AgdaSymbol{\_} \AgdaSymbol{=} \AgdaNumber{1}\<%
+--- 71,76 ----
+***************
+*** 144,151 ****
+  \\
+  \>\AgdaFunction{specs-BoolTrio} \AgdaInductiveConstructor{Or\#} \<[28]%
+  \>[28]\AgdaSymbol{=} \AgdaFunction{spec-or}\<%
+- \\
+- \>\AgdaFunction{specs-BoolTrio} \AgdaSymbol{(}\AgdaInductiveConstructor{Absurd\#} \AgdaSymbol{())}\<%
+  \end{code}
+  %</specs-BoolTrio-def>
+  
+--- 139,144 ----

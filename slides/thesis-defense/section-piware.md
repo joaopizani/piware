@@ -76,6 +76,26 @@ Syntax
 
 \ExecuteMetaData[agda/latex/PiWare/Gates/BoolTrio.tex]{pattern-synonyms}
 
+### \ARR{Gates} instance (\AD{BoolTrio}) ###
+
+  * Defining the _interfaces_ of the gates
+
+\ExecuteMetaData[agda/latex/PiWare/Gates/BoolTrio.tex]{ins-outs-def}
+
+  * And the specification function for each gate
+
+\ExecuteMetaData[agda/latex/PiWare/Gates/BoolTrio.tex]{spec-gates-def}
+
+### \ARR{Gates} instance (\AD{BoolTrio}) ###
+
+  * Mapping each gate index to its respective specification
+
+\ExecuteMetaData[agda/latex/PiWare/Gates/BoolTrio.tex]{specs-BoolTrio-def}
+
+  * With all pieces at hand, we construct the instance
+
+\ExecuteMetaData[agda/latex/PiWare/Gates/BoolTrio.tex]{BoolTrio}
+
 ### High-level circuits ###
 
   * \AD{ℂ}
