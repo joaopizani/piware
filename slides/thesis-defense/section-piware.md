@@ -112,7 +112,7 @@ Syntax
 ### Synthesizable ###
 
   * \ARR{⇓W⇑} type class (pronounced `Synthesizable`)
-      + Descirbes how to _synthesize_ a given Agda type (\AB{α})
+      + Describes how to _synthesize_ a given Agda type (\AB{α})
       + Two fields: from element of \AB{α} to a _word_ and back
 
 \ExecuteMetaData[agda/latex/PiWare/Synthesizable.tex]{Synth}
@@ -134,10 +134,24 @@ Syntax
 Semantics
 ---------
 
+### Circuit semantics ###
+
+  * _Synthesis_ semantics: produce a _netlist_
+      + Tool integration / implement in FPGA or ASIC.
+
+  * _Simulation_ semantics: _execute_ a circuit
+      + Given circuit model and inputs, calculate outputs
+
+  * Other semantics possible:
+      + Timing analysis, power estimation, etc.
+      + This possibility guided Π-Ware's development
+
 ### Synthesis ###
 
+  * Netlist: directed graph where nodes are _gates_ and edges are _buses_
   * Work-in-progress
-  * \ARR{Atom} and \ARR{Gates} with VHDL _abstract syntax_
+
+\includegraphics[width=0.8\textwidth]{imgs/semantics-syn-fundamental.pdf}
 
 ### Simulation ###
 
