@@ -1,6 +1,8 @@
 TODO
+    Size / check code
     Pauses
     Section / Subsection pages
+    Spell check
 
 Abstract / Quick intro
 

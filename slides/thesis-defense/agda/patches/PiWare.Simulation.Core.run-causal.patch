@@ -1,0 +1,36 @@
+*** latex/PiWare/Simulation/Core.tex	2014-08-24 23:06:27.018766000 +0200
+--- latex/PiWare/Simulation/Core.patched.tex	2014-08-24 23:07:06.676305900 +0200
+***************
+*** 180,186 ****
+  
+  %<*run-causal>
+  \begin{code}%
+! \>\AgdaFunction{runc'} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{α} \AgdaBound{β}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{α} \AgdaFunction{⇒c} \AgdaBound{β}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaFunction{Γc} \AgdaBound{α} \AgdaFunction{×} \AgdaDatatype{Stream} \AgdaBound{α}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaDatatype{Stream} \AgdaBound{β}\<%
+  \\
+  \>\AgdaFunction{runc'} \AgdaBound{f} \AgdaSymbol{((}\AgdaBound{x⁰} \AgdaInductiveConstructor{,} \AgdaBound{x⁻}\AgdaSymbol{)} \AgdaInductiveConstructor{,} \AgdaSymbol{(}\AgdaBound{x¹} \AgdaInductiveConstructor{∷} \AgdaBound{x⁺}\AgdaSymbol{))} \AgdaSymbol{=}\<%
+  \\
+--- 180,186 ----
+  
+  %<*run-causal>
+  \begin{code}%
+! \>\AgdaFunction{runc'} \AgdaSymbol{:} \AgdaSymbol{(}\AgdaBound{α} \AgdaFunction{⇒c} \AgdaBound{β}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaFunction{Γc} \AgdaBound{α} \AgdaFunction{×} \AgdaDatatype{Stream} \AgdaBound{α}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaDatatype{Stream} \AgdaBound{β}\<%
+  \\
+  \>\AgdaFunction{runc'} \AgdaBound{f} \AgdaSymbol{((}\AgdaBound{x⁰} \AgdaInductiveConstructor{,} \AgdaBound{x⁻}\AgdaSymbol{)} \AgdaInductiveConstructor{,} \AgdaSymbol{(}\AgdaBound{x¹} \AgdaInductiveConstructor{∷} \AgdaBound{x⁺}\AgdaSymbol{))} \AgdaSymbol{=}\<%
+  \\
+***************
+*** 189,195 ****
+  \\
+  %
+  \\
+! \>\AgdaFunction{runc} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{α} \AgdaBound{β}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{α} \AgdaFunction{⇒c} \AgdaBound{β}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaDatatype{Stream} \AgdaBound{α} \AgdaSymbol{→} \AgdaDatatype{Stream} \AgdaBound{β}\AgdaSymbol{)}\<%
+  \\
+  \>\AgdaFunction{runc} \AgdaBound{f} \AgdaSymbol{(}\AgdaBound{x⁰} \AgdaInductiveConstructor{∷} \AgdaBound{x⁺}\AgdaSymbol{)} \AgdaSymbol{=} \AgdaFunction{runc'} \AgdaBound{f} \AgdaSymbol{((}\AgdaBound{x⁰} \AgdaInductiveConstructor{,} \AgdaInductiveConstructor{[]}\AgdaSymbol{)} \AgdaInductiveConstructor{,} \AgdaFunction{♭} \AgdaBound{x⁺}\AgdaSymbol{)}\<%
+  \end{code}
+--- 189,195 ----
+  \\
+  %
+  \\
+! \>\AgdaFunction{runc} \AgdaSymbol{:} \AgdaSymbol{(}\AgdaBound{α} \AgdaFunction{⇒c} \AgdaBound{β}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaDatatype{Stream} \AgdaBound{α} \AgdaSymbol{→} \AgdaDatatype{Stream} \AgdaBound{β}\AgdaSymbol{)}\<%
+  \\
+  \>\AgdaFunction{runc} \AgdaBound{f} \AgdaSymbol{(}\AgdaBound{x⁰} \AgdaInductiveConstructor{∷} \AgdaBound{x⁺}\AgdaSymbol{)} \AgdaSymbol{=} \AgdaFunction{runc'} \AgdaBound{f} \AgdaSymbol{((}\AgdaBound{x⁰} \AgdaInductiveConstructor{,} \AgdaInductiveConstructor{[]}\AgdaSymbol{)} \AgdaInductiveConstructor{,} \AgdaFunction{♭} \AgdaBound{x⁺}\AgdaSymbol{)}\<%
+  \end{code}

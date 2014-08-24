@@ -1,0 +1,53 @@
+*** latex/PiWare/Simulation/Core.tex	2014-08-24 22:23:06.742560400 +0200
+--- latex/PiWare/Simulation/Core.patched.tex	2014-08-24 22:28:20.289214200 +0200
+***************
+*** 135,158 ****
+  \begin{code}%
+  \>\AgdaFunction{⟦\_⟧c} \AgdaSymbol{:} \AgdaSymbol{\{}\AgdaBound{i} \AgdaBound{o} \AgdaSymbol{:} \AgdaDatatype{ℕ}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaDatatype{ℂ'} \AgdaBound{i} \AgdaBound{o} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaFunction{W} \AgdaBound{i} \AgdaFunction{⇒c} \AgdaFunction{W} \AgdaBound{o}\AgdaSymbol{)}\<%
+  \\
+! \>\AgdaFunction{⟦} \AgdaInductiveConstructor{Nil} \<[27]%
+! \>[27]\AgdaFunction{⟧c} \<[31]%
+! \>[31]\AgdaSymbol{(}\AgdaBound{w⁰} \AgdaInductiveConstructor{,} \AgdaSymbol{\_)} \<[41]%
+! \>[41]\AgdaSymbol{=} \AgdaFunction{⟦} \AgdaInductiveConstructor{Nil} \AgdaFunction{⟧'} \AgdaBound{w⁰}\<%
+! \\
+! \>\AgdaFunction{⟦} \AgdaInductiveConstructor{Gate} \AgdaBound{g\#} \<[27]%
+! \>[27]\AgdaFunction{⟧c} \<[31]%
+! \>[31]\AgdaSymbol{(}\AgdaBound{w⁰} \AgdaInductiveConstructor{,} \AgdaSymbol{\_)} \<[41]%
+! \>[41]\AgdaSymbol{=} \AgdaFunction{⟦} \AgdaInductiveConstructor{Gate} \AgdaBound{g\#} \AgdaFunction{⟧'} \AgdaBound{w⁰}\<%
+! \\
+! \>\AgdaFunction{⟦} \AgdaInductiveConstructor{Plug} \AgdaBound{p} \<[27]%
+! \>[27]\AgdaFunction{⟧c} \<[31]%
+! \>[31]\AgdaSymbol{(}\AgdaBound{w⁰} \AgdaInductiveConstructor{,} \AgdaSymbol{\_)} \<[41]%
+! \>[41]\AgdaSymbol{=} \AgdaFunction{plugOutputs} \AgdaBound{p} \AgdaBound{w⁰}\<%
+! \\
+! \>\AgdaFunction{⟦} \AgdaInductiveConstructor{DelayLoop} \AgdaSymbol{\{}\AgdaArgument{o} \AgdaSymbol{=} \AgdaBound{j}\AgdaSymbol{\}} \AgdaBound{c} \AgdaSymbol{\{}\AgdaBound{p}\AgdaSymbol{\}} \<[27]%
+! \>[27]\AgdaFunction{⟧c} \<[41]%
+! \>[41]\AgdaSymbol{=} \AgdaFunction{takeᵥ} \AgdaBound{j} \AgdaFunction{∘} \AgdaFunction{delay} \AgdaSymbol{\{}\AgdaArgument{o} \AgdaSymbol{=} \AgdaBound{j}\AgdaSymbol{\}} \AgdaBound{c} \AgdaSymbol{\{}\AgdaBound{p}\AgdaSymbol{\}}\<%
+  \\
+  %
+  \\
+--- 135,158 ----
+  \begin{code}%
+  \>\AgdaFunction{⟦\_⟧c} \AgdaSymbol{:} \AgdaSymbol{\{}\AgdaBound{i} \AgdaBound{o} \AgdaSymbol{:} \AgdaDatatype{ℕ}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaDatatype{ℂ'} \AgdaBound{i} \AgdaBound{o} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaFunction{W} \AgdaBound{i} \AgdaFunction{⇒c} \AgdaFunction{W} \AgdaBound{o}\AgdaSymbol{)}\<%
+  \\
+! \>\AgdaFunction{⟦} \AgdaInductiveConstructor{Nil} \<[19]%
+! \>[19]\AgdaFunction{⟧c} \<[23]%
+! \>[23]\AgdaSymbol{(}\AgdaBound{w⁰} \AgdaInductiveConstructor{,} \AgdaSymbol{\_)} \<[33]%
+! \>[33]\AgdaSymbol{=} \AgdaFunction{⟦} \AgdaInductiveConstructor{Nil} \AgdaFunction{⟧'} \AgdaBound{w⁰}\<%
+! \\
+! \>\AgdaFunction{⟦} \AgdaInductiveConstructor{Gate} \AgdaBound{g\#} \<[19]%
+! \>[19]\AgdaFunction{⟧c} \<[23]%
+! \>[23]\AgdaSymbol{(}\AgdaBound{w⁰} \AgdaInductiveConstructor{,} \AgdaSymbol{\_)} \<[33]%
+! \>[33]\AgdaSymbol{=} \AgdaFunction{⟦} \AgdaInductiveConstructor{Gate} \AgdaBound{g\#} \AgdaFunction{⟧'} \AgdaBound{w⁰}\<%
+! \\
+! \>\AgdaFunction{⟦} \AgdaInductiveConstructor{Plug} \AgdaBound{p} \<[19]%
+! \>[19]\AgdaFunction{⟧c} \<[23]%
+! \>[23]\AgdaSymbol{(}\AgdaBound{w⁰} \AgdaInductiveConstructor{,} \AgdaSymbol{\_)} \<[33]%
+! \>[33]\AgdaSymbol{=} \AgdaFunction{plugOutputs} \AgdaBound{p} \AgdaBound{w⁰}\<%
+! \\
+! \>\AgdaFunction{⟦} \AgdaInductiveConstructor{DelayLoop} \AgdaBound{c} \AgdaSymbol{\{}\AgdaBound{p}\AgdaSymbol{\}} \<[19]%
+! \>[19]\AgdaFunction{⟧c} \<[33]%
+! \>[33]\AgdaSymbol{=} \AgdaFunction{takeᵥ} \AgdaBound{j} \AgdaFunction{∘} \AgdaFunction{delay} \AgdaBound{c} \AgdaSymbol{\{}\AgdaBound{p}\AgdaSymbol{\}}\<%
+  \\
+  %
+  \\
