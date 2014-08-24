@@ -14,14 +14,34 @@ Syntax
 
 ### Atoms ###
 
-  * \AM{PiWare.Atom}.\ARR{Atomic}
-  * \AD{Bool}, `std_logic`, etc.
+  * How to carry values of an Agda type in _one_ wire
+  * Defined by the \ARR{Atomic} type class in \AM{PiWare.Atom}
 
 \ExecuteMetaData[agda/latex/PiWare/Atom.tex]{Atomic}
 
-### Atoms ###
+### \ARR{Atomic} instances ###
 
-  * Example: \AM{PiWare.Atom.Bool}
+  * Examples of types that can be \ARR{Atomic}
+      + Bool, std_logic, other multi-valued logics
+      + Predefined in the library: \AM{PiWare.Atom.Bool}
+
+  * First, define how many atoms we are interested in
+
+\ExecuteMetaData[agda/latex/PiWare/Atom/Bool.tex]{cardinality}
+
+  * Friendlier names for the indices (elements of \AD{Fin} \AN{2})
+
+\ExecuteMetaData[agda/latex/PiWare/Atom/Bool.tex]{pattern-synonyms}
+
+### \ARR{Atomic} instance (\AD{Bool}) ###
+
+  * Bijection between $\{ n ∈ ℕ ~|~ n < 2 \}$ (\AD{Fin} \AN{2}) and \AD{Bool}
+
+\ExecuteMetaData[agda/latex/PiWare/Atom/Bool.tex]{nToBool-def}
+
+  * Proof that \AF{n→B} and \AF{B→n} are inverses
+
+\ExecuteMetaData[agda/latex/PiWare/Atom/Bool.tex]{inv-Bool-def}
 
 ### Gates ###
 
