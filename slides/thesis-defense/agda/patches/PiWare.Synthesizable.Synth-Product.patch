@@ -1,0 +1,25 @@
+*** latex/PiWare/Synthesizable.tex	2014-08-24 15:12:20.537200400 +0200
+--- latex/PiWare/Synthesizable.patched.tex	2014-08-24 15:14:10.978945500 +0200
+***************
+*** 116,125 ****
+  %<*Synth-Product>
+  \begin{code}%
+  \>[0]\AgdaIndent{2}{}\<[2]%
+! \>[2]\AgdaFunction{⇓W⇑-×} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{α} \AgdaBound{i} \AgdaBound{β} \AgdaBound{j}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaSymbol{⦃} \AgdaBound{sα} \AgdaSymbol{:} \AgdaRecord{⇓W⇑} \AgdaBound{α} \AgdaSymbol{\{}\AgdaBound{i}\AgdaSymbol{\}} \AgdaSymbol{⦄} \AgdaSymbol{⦃} \AgdaBound{sβ} \AgdaSymbol{:} \AgdaRecord{⇓W⇑} \AgdaBound{β} \AgdaSymbol{\{}\AgdaBound{j}\AgdaSymbol{\}} \AgdaSymbol{⦄} \AgdaSymbol{→} \AgdaRecord{⇓W⇑} \AgdaSymbol{(}\AgdaBound{α} \AgdaFunction{×} \AgdaBound{β}\AgdaSymbol{)}\<%
+  \\
+  \>[0]\AgdaIndent{2}{}\<[2]%
+! \>[2]\AgdaFunction{⇓W⇑-×} \AgdaSymbol{\{}\AgdaBound{α}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{i}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{β}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{j}\AgdaSymbol{\}} \AgdaSymbol{⦃} \AgdaBound{sα} \AgdaSymbol{⦄} \AgdaSymbol{⦃} \AgdaBound{sβ} \AgdaSymbol{⦄} \AgdaSymbol{=} \AgdaInductiveConstructor{⇓W⇑[} \AgdaFunction{down} \AgdaInductiveConstructor{,} \AgdaFunction{up} \AgdaInductiveConstructor{]}\<%
+  \\
+  \>[2]\AgdaIndent{6}{}\<[6]%
+  \>[6]\AgdaKeyword{where} \<[13]%
+--- 116,125 ----
+  %<*Synth-Product>
+  \begin{code}%
+  \>[0]\AgdaIndent{2}{}\<[2]%
+! \>[2]\AgdaFunction{⇓W⇑-×} \AgdaSymbol{:} \AgdaSymbol{⦃} \AgdaBound{sα} \AgdaSymbol{:} \AgdaRecord{⇓W⇑} \AgdaBound{α} \AgdaSymbol{\{}\AgdaBound{i}\AgdaSymbol{\}} \AgdaSymbol{⦄} \AgdaSymbol{⦃} \AgdaBound{sβ} \AgdaSymbol{:} \AgdaRecord{⇓W⇑} \AgdaBound{β} \AgdaSymbol{\{}\AgdaBound{j}\AgdaSymbol{\}} \AgdaSymbol{⦄} \AgdaSymbol{→} \AgdaRecord{⇓W⇑} \AgdaSymbol{(}\AgdaBound{α} \AgdaFunction{×} \AgdaBound{β}\AgdaSymbol{)}\<%
+  \\
+  \>[0]\AgdaIndent{2}{}\<[2]%
+! \>[2]\AgdaFunction{⇓W⇑-×} \AgdaSymbol{⦃} \AgdaBound{sα} \AgdaSymbol{⦄} \AgdaSymbol{⦃} \AgdaBound{sβ} \AgdaSymbol{⦄} \AgdaSymbol{=} \AgdaInductiveConstructor{⇓W⇑[} \AgdaFunction{down} \AgdaInductiveConstructor{,} \AgdaFunction{up} \AgdaInductiveConstructor{]}\<%
+  \\
+  \>[2]\AgdaIndent{6}{}\<[6]%
+  \>[6]\AgdaKeyword{where} \<[13]%

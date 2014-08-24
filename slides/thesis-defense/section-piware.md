@@ -111,9 +111,24 @@ Syntax
 
 ### Synthesizable ###
 
-  * \ARR{⇓W⇑} (pronouced `Synthesizable`)
-      + \AD{W} \AB{n} \AY{=} \AD{Vec} \AB{α} \AB{n}
-  * Example: \ARR{⇓W⇑} \AY{(}\AB{α} \AD{×} \AB{β}\AY{)}
+  * \ARR{⇓W⇑} type class (pronounced `Synthesizable`)
+      + Descirbes how to _synthesize_ a given Agda type (\AB{α})
+      + Two fields: from element of \AB{α} to a _word_ and back
+
+\ExecuteMetaData[agda/latex/PiWare/Synthesizable.tex]{Synth}
+
+### \ARR{⇓W⇑} instances ###
+
+  * Any _finite_ type can have such an instance
+  * Predefined in the library: \AD{Bool}; \AD{\_×\_}; \AD{\_⊎\_}; \AD{Vec}
+
+  * Example: instance for products (\AD{\_×\_})
+
+\ExecuteMetaData[agda/latex/PiWare/Synthesizable.patched.tex]{Synth-Product}
+
+### Synthesizable ###
+
+  * Both fields \AL{⇓} and \AL{⇑} should be inverses of each other
 
 
 Semantics
