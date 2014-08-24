@@ -43,14 +43,38 @@ Syntax
 
 \ExecuteMetaData[agda/latex/PiWare/Atom/Bool.tex]{inv-Bool-def}
 
+  * With all pieces at hand, we construct the instance
+
+\ExecuteMetaData[agda/latex/PiWare/Atom/Bool.tex]{Atomic-Bool}
+
 ### Gates ###
 
-  * \AM{PiWare.Gates}.\ARR{Gates}
+  * Circuits parameterized by collection of _fundamental gates_
+
   * Examples:
       + $\{ \text{\texttt{NOT}}, \text{\texttt{AND}}, \text{\texttt{OR}} \}$ (\AD{BoolTrio})
       + $\{ \text{\texttt{NAND}} \}$
       + Arithmetic, Crypto, etc.
+
+  * The definition of what means to be such a collection is in \AM{PiWare.Gates}.\ARR{Gates}
+
+### The \ARR{Gates} type class ###
+
+\ExecuteMetaData[agda/latex/PiWare/Synthesizable.tex]{Word}
+\vspace{1em}
+\ExecuteMetaData[agda/latex/PiWare/Gates.tex]{Gates}
+
+### \ARR{Gates} instances ###
+
   * Example: \AM{PiWare.Gates.BoolTrio}
+
+  * First, how many gates are there in the library
+
+\ExecuteMetaData[agda/latex/PiWare/Gates/BoolTrio.tex]{cardinality}
+
+  * Then the friendlier names for the indices
+
+\ExecuteMetaData[agda/latex/PiWare/Gates/BoolTrio.tex]{pattern-synonyms}
 
 ### High-level circuits ###
 
