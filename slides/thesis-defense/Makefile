@@ -5,6 +5,7 @@ main.pdf: \
 	agda/latex/agda.sty \
 	agda/latex/Defense/SectionDTPAgda.tex \
 	agda/latex/PiWare/Circuit/Core.tex \
+	agda/latex/PiWare/Circuit.tex \
 	agda/latex/PiWare/Atom.tex \
 	agda/latex/PiWare/Atom/Bool.tex \
 	agda/latex/PiWare/Gates.tex \

@@ -98,8 +98,16 @@ Syntax
 
 ### High-level circuits ###
 
-  * \AD{ℂ}
-  * "Typed"
+  * User is not supposed to describe circuits at low level (\AD{ℂ′})
+  * The high level circuit type (\AD{ℂ}) alloes for _typed_ circuit interfaces
+      + The input and output indices are Agda types
+
+\ExecuteMetaData[agda/latex/PiWare/Circuit.tex]{Circuit}
+
+  * \AI{Mkℂ} takes:
+      + Low level description (\AD{ℂ′})
+      + Information on how to _synthesize_ elements of \AB{α} and \AB{β}
+          - Passed as _instance arguments_
 
 ### Synthesizable ###
 
