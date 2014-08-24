@@ -186,6 +186,15 @@ Missing "pieces":
 
 \ExecuteMetaData[agda/latex/PiWare/Simulation.tex]{eval}
 
+### Combinational simulation (excerpt) ###
+
+\ExecuteMetaData[agda/latex/PiWare/Simulation/Core.tex]{eval-core-almost}
+
+  * Remarks:
+      + Proof required that \AB{c} is combinational
+      + \AI{Gate} case uses specification function
+      + \AI{DelayLoop} case can be _discharged_
+
 
 
 Proofs
