@@ -1,7 +1,16 @@
 build: main.pdf
 view: main.pdf ; xdg-open main.pdf 2>&1 > /dev/null
 
-main.pdf: main.tex agda/latex/agda.sty \
+main.pdf: \
+	agda/latex/agda.sty \
+	agda/latex/Defense/SectionDTPAgda.tex \
+	agda/latex/PiWare/Circuit/Core.tex \
+	agda/latex/PiWare/Atom.tex \
+	agda/latex/PiWare/Atom/Bool.tex \
+	agda/latex/PiWare/Gates.tex \
+	agda/latex/PiWare/Gates/BoolTrio.tex \
+	agda/latex/PiWare/Synthesizable.tex \
+	main.tex \
 	section-intro-background.tex \
 	section-dtp-agda.tex \
 	section-piware.tex \
