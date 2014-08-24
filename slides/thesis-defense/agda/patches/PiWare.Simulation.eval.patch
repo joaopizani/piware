@@ -1,0 +1,23 @@
+*** latex/PiWare/Simulation.tex	2014-08-24 18:40:39.969799000 +0200
+--- latex/PiWare/Simulation.patched.tex	2014-08-24 18:38:46.896431500 +0200
+***************
+*** 31,39 ****
+  
+  %<*eval>
+  \begin{code}%
+! \>\AgdaFunction{⟦\_⟧} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{α} \AgdaBound{i} \AgdaBound{β} \AgdaBound{j}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{c} \AgdaSymbol{:} \AgdaDatatype{ℂ} \AgdaBound{α} \AgdaBound{β} \AgdaSymbol{\{}\AgdaBound{i}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{j}\AgdaSymbol{\})} \AgdaSymbol{\{}\AgdaBound{p} \AgdaSymbol{:} \AgdaFunction{comb} \AgdaBound{c}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{α} \AgdaSymbol{→} \AgdaBound{β}\AgdaSymbol{)}\<%
+  \\
+! \>\AgdaFunction{⟦} \AgdaInductiveConstructor{Mkℂ} \AgdaSymbol{⦃} \AgdaBound{sα} \AgdaSymbol{⦄} \AgdaSymbol{⦃} \AgdaBound{sβ} \AgdaSymbol{⦄} \AgdaBound{c'} \AgdaFunction{⟧} \AgdaSymbol{\{}\AgdaBound{p}\AgdaSymbol{\}} \AgdaSymbol{=} \AgdaFunction{⇑} \AgdaFunction{∘} \AgdaFunction{⟦} \AgdaBound{c'} \AgdaFunction{⟧'} \AgdaSymbol{\{}\AgdaBound{p}\AgdaSymbol{\}} \AgdaFunction{∘} \AgdaFunction{⇓}\<%
+  \end{code}
+  %</eval>
+  
+--- 31,39 ----
+  
+  %<*eval>
+  \begin{code}%
+! \>\AgdaFunction{⟦\_⟧} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{α} \AgdaBound{i} \AgdaBound{β} \AgdaBound{j}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{c} \AgdaSymbol{:} \AgdaDatatype{ℂ} \AgdaBound{α} \AgdaBound{β} \AgdaSymbol{\{}\AgdaBound{i}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{j}\AgdaSymbol{\})} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaBound{α} \AgdaSymbol{→} \AgdaBound{β}\AgdaSymbol{)}\<%
+  \\
+! \>\AgdaFunction{⟦} \AgdaInductiveConstructor{Mkℂ} \AgdaSymbol{⦃} \AgdaBound{sα} \AgdaSymbol{⦄} \AgdaSymbol{⦃} \AgdaBound{sβ} \AgdaSymbol{⦄} \AgdaBound{c'} \AgdaFunction{⟧} \AgdaSymbol{=} \AgdaFunction{⇑} \AgdaFunction{∘} \AgdaFunction{⟦} \AgdaBound{c'} \AgdaFunction{⟧'} \AgdaFunction{∘} \AgdaFunction{⇓}\<%
+  \end{code}
+  %</eval>
+  

@@ -124,7 +124,7 @@ Syntax
 
   * Example: instance for products (\AD{\_×\_})
 
-\ExecuteMetaData[agda/latex/PiWare/Synthesizable.patched.tex]{Synth-Product}
+\ExecuteMetaData[agda/latex/PiWare/Synthesizable.tex]{Synth-Product}
 
 ### Synthesizable ###
 
@@ -172,10 +172,20 @@ Missing "pieces":
         \AD{VHDLEntity} \AY{(}\AF{|in|} \AB{g\#}\AY{)} \AY{(}\AF{|out|} \AB{g\#}\AY{)}
           - The VHDL entity has the _interface_ of corresponding gate
 
-### Simulation ###
+### Simulation semantics ###
 
-  * Combinational
-  * Sequential
+  * Two levels of abstraction
+      + High-level simulation (\AF{⟦\_⟧}) for high-level circuits (\AD{ℂ})
+      + Low-level simulation (\AF{⟦\_⟧′}) for low-level circuits (\AD{ℂ′})
+
+  * Two kinds of simulation
+      + Combinational simulation (\AF{⟦\_⟧}) for stateless circuits
+      + Sequential simulation (\AF{⟦\_⟧*}) for stateful circuits
+
+  * High level defined in terms of low level
+
+\ExecuteMetaData[agda/latex/PiWare/Simulation.tex]{eval}
+
 
 
 Proofs
