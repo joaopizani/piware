@@ -26,6 +26,7 @@ main.pdf: \
 	section-piware-semantics.tex \
 	section-piware-proofs.tex \
 	section-final.tex
+	patch -p0 < section-final.patch
 	latexmk -pdf -f -quiet main.tex
 
 section%.tex: section%.md ; pandoc $< -t beamer -o $@

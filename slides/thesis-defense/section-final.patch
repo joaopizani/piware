@@ -1,0 +1,19 @@
+*** section-final.tex	2014-08-26 00:19:28.904588000 +0200
+--- section-final.patched.tex	2014-08-26 00:19:21.428866300 +0200
+***************
+*** 35,41 ****
+  
+  \end{frame}
+  
+! \begin{frame}{Current limitations / trade-offs}
+  
+  \begin{itemize}
+  \itemsep1pt\parskip0pt\parsep0pt
+--- 35,41 ----
+  
+  \end{frame}
+  
+! \begin{frame}[fragile]{Current limitations / trade-offs}
+  
+  \begin{itemize}
+  \itemsep1pt\parskip0pt\parsep0pt
