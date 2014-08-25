@@ -279,10 +279,14 @@ Proofs
 
   * Truth table
 
+\ExecuteMetaData[agda/latex/PiWare/ProofSamples/BoolTrioComb.tex]{xor-spec-table}
+
 ### Proof of `XOR` (truth table) ###
 
   * Proof by _case analysis_
       + Could be automated (reflection)
+
+\ExecuteMetaData[agda/latex/PiWare/ProofSamples/BoolTrioComb.tex]{xor-proof-table}
 
 ### Specification of `XOR` ###
 
