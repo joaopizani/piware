@@ -330,5 +330,14 @@ Proofs
 
   * Still problems with inductive proofs in the high level
       + Guess: definition of \AD{ℂ} and \AF{⟦\_⟧} prevent goal reduction
-      
+
+### Sequential proofs ###
+
+  * Example of sequential circuit: a _register_
+
+  \centering{\includegraphics[width=0.8\textwidth]{imgs/register.pdf}}
+
+  * Respective Π-Ware circuit description
+
+  \ExecuteMetaData[agda/latex/PiWare/Samples/BoolTrioSeq.tex]{reg}
 
