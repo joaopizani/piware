@@ -22,7 +22,9 @@ main.pdf: \
 	main.tex \
 	section-intro-background.tex \
 	section-dtp-agda.tex \
-	section-piware.tex \
+	section-piware-syntax.tex \
+	section-piware-semantics.tex \
+	section-piware-proofs.tex \
 	section-final.tex
 	latexmk -pdf -f -quiet main.tex
 
