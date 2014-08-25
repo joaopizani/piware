@@ -341,3 +341,13 @@ Proofs
 
   \ExecuteMetaData[agda/latex/PiWare/Samples/BoolTrioSeq.tex]{reg}
 
+### Register example ###
+
+  * Example (test case) of register behaviour
+
+  \ExecuteMetaData[agda/latex/PiWare/ProofSamples/BoolTrioSeq.tex]{test-reg}
+
+  * Still problems with _infinite_ expected vs. actual comparisons
+      + Normal Agda equality (\AD{\_≡\_}) does not work
+      + Need to use _bisimilarity_
+
