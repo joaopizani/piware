@@ -1,0 +1,19 @@
+*** latex/PiWare/ProofSamples/AndN.tex	2014-08-25 16:46:49.804534500 +0200
+--- latex/PiWare/ProofSamples/AndN.patched.tex	2014-08-25 16:47:36.902236900 +0200
+***************
+*** 25,31 ****
+  
+  %<*proof-andN-core-alltrue>
+  \begin{code}%
+! \>\AgdaFunction{proof-andN'} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaBound{n} \AgdaSymbol{→} \AgdaFunction{⟦} \AgdaFunction{andN'} \AgdaBound{n} \AgdaFunction{⟧'} \AgdaSymbol{\{}\AgdaFunction{andN'-comb} \AgdaBound{n}\AgdaSymbol{\}} \AgdaSymbol{(}\AgdaFunction{replicate} \AgdaInductiveConstructor{true}\AgdaSymbol{)} \AgdaDatatype{≡} \AgdaFunction{[} \AgdaInductiveConstructor{true} \AgdaFunction{]}\<%
+  \\
+  \>\AgdaFunction{proof-andN'} \AgdaInductiveConstructor{zero} \<[21]%
+  \>[21]\AgdaSymbol{=} \AgdaInductiveConstructor{refl}\<%
+--- 25,31 ----
+  
+  %<*proof-andN-core-alltrue>
+  \begin{code}%
+! \>\AgdaFunction{proof-andN'} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaBound{n} \AgdaSymbol{→} \AgdaFunction{⟦} \AgdaFunction{andN'} \AgdaBound{n} \AgdaFunction{⟧'} \AgdaSymbol{(}\AgdaFunction{replicate} \AgdaInductiveConstructor{true}\AgdaSymbol{)} \AgdaDatatype{≡} \AgdaFunction{[} \AgdaInductiveConstructor{true} \AgdaFunction{]}\<%
+  \\
+  \>\AgdaFunction{proof-andN'} \AgdaInductiveConstructor{zero} \<[21]%
+  \>[21]\AgdaSymbol{=} \AgdaInductiveConstructor{refl}\<%

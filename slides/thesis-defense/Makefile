@@ -15,6 +15,8 @@ main.pdf: \
 	agda/latex/PiWare/Simulation.tex \
 	agda/latex/PiWare/Samples/BoolTrioComb.tex \
 	agda/latex/PiWare/ProofSamples/BoolTrioComb.tex \
+	agda/latex/PiWare/Samples/AndN.tex \
+	agda/latex/PiWare/ProofSamples/AndN.tex \
 	main.tex \
 	section-intro-background.tex \
 	section-dtp-agda.tex \

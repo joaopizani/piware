@@ -310,7 +310,25 @@ Proofs
 
   \ExecuteMetaData[agda/latex/PiWare/ProofSamples/BoolTrioComb.tex]{xor-equiv-decl}
 
+### Circuit "families" ###
+
+  * We can also prove properties of circuit "families"
+
+  * Example: an `AND` gate with a generic number of inputs
+
+  \ExecuteMetaData[agda/latex/PiWare/Samples/AndN.tex]{andN-core}
+
+  * Example proof: when all inputs are high, output is high
+      + For _any_ number of inputs
+      + Proof by induction on \AB{n} (number of inputs)
+
 ### Problems ###
 
-  * Definition of \AF{⟦\_⟧} blocks reduction
+  * This proof is done in the _low level_
+
+  \ExecuteMetaData[agda/latex/PiWare/ProofSamples/AndN.tex]{proof-andN-core-alltrue}
+
+  * Still problems with inductive proofs in the high level
+      + Guess: definition of \AD{ℂ} and \AF{⟦\_⟧} prevent goal reduction
+      
 
