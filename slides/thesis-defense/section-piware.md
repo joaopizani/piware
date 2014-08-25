@@ -263,6 +263,14 @@ Proofs
 
   * Very simple sample circuit to illustrate: `XOR`
 
+### Sample circuit: `XOR` ###
+
+\begin{figure}[h]
+    \includegraphics[width=0.6\textwidth]{imgs/xor-sample.pdf}
+\end{figure}
+
+\ExecuteMetaData[agda/latex/PiWare/Samples/BoolTrioComb.tex]{xor}
+
 ### Specification of `XOR` ###
 
   * To define _correctness_ we need a _specification function_
