@@ -11,6 +11,10 @@ main.pdf: \
 	agda/latex/PiWare/Gates.tex \
 	agda/latex/PiWare/Gates/BoolTrio.tex \
 	agda/latex/PiWare/Synthesizable.tex \
+	agda/latex/PiWare/Simulation/Core.tex \
+	agda/latex/PiWare/Simulation.tex \
+	agda/latex/PiWare/Samples/BoolTrioComb.tex \
+	agda/latex/PiWare/ProofSamples/BoolTrioComb.tex \
 	main.tex \
 	section-intro-background.tex \
 	section-dtp-agda.tex \

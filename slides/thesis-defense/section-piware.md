@@ -283,20 +283,32 @@ Proofs
 
 ### Proof of `XOR` (truth table) ###
 
+  \ExecuteMetaData[agda/latex/PiWare/ProofSamples/BoolTrioComb.tex]{xor-proof-table}
+
   * Proof by _case analysis_
       + Could be automated (reflection)
-
-\ExecuteMetaData[agda/latex/PiWare/ProofSamples/BoolTrioComb.tex]{xor-proof-table}
 
 ### Specification of `XOR` ###
 
   * Based (\AF{\_xor\_}) from \AM{Data.Bool}
 
+  \ExecuteMetaData[agda/latex/PiWare/ProofSamples/BoolTrioComb.tex]{xor-stdlib}
+
+  * Adapted interface to match exactly \AF{⊻ℂ}
+
+  \ExecuteMetaData[agda/latex/PiWare/ProofSamples/BoolTrioComb.tex]{xor-spec-subfunc}
+
 ### Proof of `XOR` (pre-existing) ###
+
+  * Proof based on \AF{⊻ℂ-spec-subfunc}
+
+  \ExecuteMetaData[agda/latex/PiWare/ProofSamples/BoolTrioComb.tex]{xor-proof-subfunc}
 
   * Need a lemma to complete the proof
       + Circuit is defined using $\{ \text{\texttt{NOT}}, \text{\texttt{AND}}, \text{\texttt{OR}} \}$
       + \AF{\_xor\_} is defined directly by pattern matching
+
+  \ExecuteMetaData[agda/latex/PiWare/ProofSamples/BoolTrioComb.tex]{xor-equiv-decl}
 
 ### Problems ###
 

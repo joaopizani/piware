@@ -1,0 +1,53 @@
+*** latex/PiWare/ProofSamples/BoolTrioComb.tex	2014-08-25 15:19:40.750191000 +0200
+--- latex/PiWare/ProofSamples/BoolTrioComb.patched.tex	2014-08-25 15:21:09.726396500 +0200
+***************
+*** 55,61 ****
+  
+  %<*xor-proof-table>
+  \begin{code}%
+! \>\AgdaFunction{⊻ℂ-proof-table} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaBound{a} \AgdaBound{b} \AgdaSymbol{→} \AgdaFunction{⟦} \AgdaFunction{⊻ℂ} \AgdaFunction{⟧} \AgdaSymbol{(}\AgdaBound{a} \AgdaInductiveConstructor{,} \AgdaBound{b}\AgdaSymbol{)} \AgdaDatatype{≡} \AgdaFunction{⊻ℂ-spec-table} \AgdaSymbol{(}\AgdaBound{a} \AgdaInductiveConstructor{,} \AgdaBound{b}\AgdaSymbol{)}\<%
+  \\
+  \>\AgdaFunction{⊻ℂ-proof-table} \<[16]%
+  \>[16]\AgdaInductiveConstructor{false} \<[23]%
+--- 55,61 ----
+  
+  %<*xor-proof-table>
+  \begin{code}%
+! \>\AgdaFunction{⊻ℂ-proof-table} \AgdaSymbol{:} \AgdaFunction{⟦} \AgdaFunction{⊻ℂ} \AgdaFunction{⟧} \AgdaSymbol{(}\AgdaBound{a} \AgdaInductiveConstructor{,} \AgdaBound{b}\AgdaSymbol{)} \AgdaDatatype{≡} \AgdaFunction{⊻ℂ-spec-table} \AgdaSymbol{(}\AgdaBound{a} \AgdaInductiveConstructor{,} \AgdaBound{b}\AgdaSymbol{)}\<%
+  \\
+  \>\AgdaFunction{⊻ℂ-proof-table} \<[16]%
+  \>[16]\AgdaInductiveConstructor{false} \<[23]%
+***************
+*** 101,107 ****
+  
+  %<*xor-equiv-decl>
+  \begin{code}%
+! \>\AgdaFunction{⊻ℂ-xor-equiv} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaBound{a} \AgdaBound{b} \AgdaSymbol{→} \AgdaSymbol{(}\AgdaFunction{not} \AgdaBound{a} \AgdaFunction{∧} \AgdaBound{b}\AgdaSymbol{)} \AgdaFunction{∨} \AgdaSymbol{(}\AgdaBound{a} \AgdaFunction{∧} \AgdaFunction{not} \AgdaBound{b}\AgdaSymbol{)} \AgdaDatatype{≡} \AgdaSymbol{(}\AgdaBound{a} \AgdaFunction{xor} \AgdaBound{b}\AgdaSymbol{)}\<%
+  \end{code}
+  %</xor-equiv-decl>
+  %<*xor-equiv-def>
+--- 101,107 ----
+  
+  %<*xor-equiv-decl>
+  \begin{code}%
+! \>\AgdaFunction{⊻ℂ-xor-equiv} \AgdaSymbol{:} \AgdaSymbol{(}\AgdaFunction{not} \AgdaBound{a} \AgdaFunction{∧} \AgdaBound{b}\AgdaSymbol{)} \AgdaFunction{∨} \AgdaSymbol{(}\AgdaBound{a} \AgdaFunction{∧} \AgdaFunction{not} \AgdaBound{b}\AgdaSymbol{)} \AgdaDatatype{≡} \AgdaSymbol{(}\AgdaBound{a} \AgdaFunction{xor} \AgdaBound{b}\AgdaSymbol{)}\<%
+  \end{code}
+  %</xor-equiv-decl>
+  %<*xor-equiv-def>
+***************
+*** 119,125 ****
+  
+  %<*xor-proof-subfunc>
+  \begin{code}%
+! \>\AgdaFunction{⊻ℂ-proof-subfunc} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaBound{a} \AgdaBound{b} \AgdaSymbol{→} \AgdaFunction{⟦} \AgdaFunction{⊻ℂ} \AgdaFunction{⟧} \AgdaSymbol{(}\AgdaBound{a} \AgdaInductiveConstructor{,} \AgdaBound{b}\AgdaSymbol{)} \AgdaDatatype{≡} \AgdaFunction{⊻ℂ-spec-subfunc} \AgdaSymbol{(}\AgdaBound{a} \AgdaInductiveConstructor{,} \AgdaBound{b}\AgdaSymbol{)}\<%
+  \\
+  \>\AgdaFunction{⊻ℂ-proof-subfunc} \AgdaSymbol{=} \AgdaFunction{⊻ℂ-xor-equiv}\<%
+  \end{code}
+--- 119,125 ----
+  
+  %<*xor-proof-subfunc>
+  \begin{code}%
+! \>\AgdaFunction{⊻ℂ-proof-subfunc} \AgdaSymbol{:} \AgdaFunction{⟦} \AgdaFunction{⊻ℂ} \AgdaFunction{⟧} \AgdaSymbol{(}\AgdaBound{a} \AgdaInductiveConstructor{,} \AgdaBound{b}\AgdaSymbol{)} \AgdaDatatype{≡} \AgdaFunction{⊻ℂ-spec-subfunc} \AgdaSymbol{(}\AgdaBound{a} \AgdaInductiveConstructor{,} \AgdaBound{b}\AgdaSymbol{)}\<%
+  \\
+  \>\AgdaFunction{⊻ℂ-proof-subfunc} \AgdaSymbol{=} \AgdaFunction{⊻ℂ-xor-equiv}\<%
+  \end{code}
