@@ -164,11 +164,11 @@ Missing "pieces":
       + New field: a \AL{VHDLTypeDecl}
           - Such as: \mintinline{vhdl}{type ident is (elem1, elem2);}
           - Enumerations, integers (ranges), records.
-      + New field: \AL{atomVHDL} \AY{:} \AF{Atom#} \AY{→} \AD{VHDLExpr}
+      + New field: \AL{atomVHDL} \AY{:} \AF{Atom\#} \AY{→} \AD{VHDLExpr}
 
   * Adapt \ARR{Gates}
       + For each gate, a corresponding \AD{VHDLEntity}
-      + \AL{netlist} \AY{:} \AY{(}\AB{g\#} \AY{:} \AD{Gates#}\AY{)} \AY{→}
+      + \AL{netlist} \AY{:} \AY{(}\AB{g\#} \AY{:} \AD{Gates\#}\AY{)} \AY{→}
         \AD{VHDLEntity} \AY{(}\AF{|in|} \AB{g\#}\AY{)} \AY{(}\AF{|out|} \AB{g\#}\AY{)}
           - The VHDL entity has the _interface_ of corresponding gate
 
