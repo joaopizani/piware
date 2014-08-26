@@ -130,4 +130,8 @@ Syntax
 ### Synthesizable ###
 
   * Both fields \AL{⇓} and \AL{⇑} should be inverses of each other
+      + Due to how high-level simulation is defined using \AL{⇓} and \AL{⇑}
+
+  * Not enforced as a field of of \AD{⇓W⇑}
+      + Too big of a proof burden while quick prototyping
 
