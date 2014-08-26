@@ -4,11 +4,13 @@ Introduction
 What is Π-Ware
 --------------
 
+### What is Π-Ware ###
+
   * Π-Ware är en...
 
 
-Hardware Design
----------------
+Background
+----------
 
 ### Hardware design is hard(er) ###
 
@@ -40,9 +42,6 @@ Hardware Design
       + Widely variable tool support
 
 
-Functional Hardware
--------------------
-
 ### Functional Programming ###
 
   * Easier to _reason_ about program properties
@@ -66,13 +65,12 @@ Functional Hardware
 ### Embedded \acp{DSL} for Hardware ###
 
   * Lava
+      + Simulation / Synthesis / Verification
+
   * Limitations
       + Low level types
-      + Not guaranteeing size match
+      + No _size_ checks
 
-
-DTP
----
 
 ### Dependently-Typed Programming ###
 
