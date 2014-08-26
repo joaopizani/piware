@@ -6,7 +6,11 @@ What is Π-Ware
 
 ### What is Π-Ware ###
 
-  * Π-Ware är en...
+  \acrodef{DSL}{Domain-Specific Language}
+
+  "_Π-Ware_ is a \ac{DSL} for hardware, embedded in the dependently-typed _Agda_ programming language.
+  It allows for the description, simulation, synthesis and verification of circuits,
+  all in the same language."
 
 
 Background
@@ -52,7 +56,6 @@ Background
 ### Functional Hardware Description ###
 
   \acrodef{HDL}{Hardware Description Language}
-  \acrodef{DSL}{Domain-Specific Language}
 
   * A functional program describes a circuit
 
@@ -66,18 +69,29 @@ Background
 
   * Lava
       + Simulation / Synthesis / Verification
+      + Limitations: almost untyped / no _size checks_
 
-  * Limitations
-      + Low level types
-      + No _size_ checks
+  \begin{haskellcode}
+        adder :: (Signal Bool, ([Signal Bool], [Signal Bool]))
+              -> ([Signal Bool], Signal Bool)
+  \end{haskellcode}
 
+  * Others:
+      + ForSyDe\ \cite{forsyde1999}
+      + Hawk\ \cite{hawk-haskell}, etc.
 
 ### Dependently-Typed Programming ###
 
   \acrodef{DTP}{Dependently-Typed Programming}
 
-  \ac{DTP} är en programmationstechnik...
+  * Dependent type systems: systems in which types can _depend on values_
 
+  * It makes a big difference:
+      + More expressivity
+      + _Certified programming_
+
+  * \acs{DTP} often touted as "sucessor" of functional programming
+      + Very well-suited for \acp{DSL}\ \cite{power-pi}
 
 
 Research Question
@@ -95,5 +109,5 @@ Research Question / Methodology
   * **Methodology:**
       + Develop a hardware \ac{DSL}, _embedded_ in a dependently-typed language (Agda)
           - Called **Π-Ware**
-          - allowing simulation, synthesis and verification
+          - Allowing simulation, synthesis and verification
 

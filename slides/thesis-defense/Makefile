@@ -27,6 +27,7 @@ main.pdf: \
 	section-piware-proofs.tex \
 	section-final.tex
 	-patch -N -r - -p0 < section-final.patch
+	-patch -N -r - -p0 < section-intro-background.patch
 	latexmk -pdf -f -quiet main.tex
 
 section%.tex: section%.md ; pandoc $< -t beamer -o $@
