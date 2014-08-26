@@ -21,7 +21,9 @@ Background
   * Strict(er) correctness requirements
       + You can't simply _update_ a full-custom chip after production
           - Intel `FDIV`
-      + Expensive verification / validation (up to 50% of development costs)
+
+      + Expensive verification / validation
+          - Up to 50% of development costs
 
   * Low-level details (more) important
       + Layout / area
