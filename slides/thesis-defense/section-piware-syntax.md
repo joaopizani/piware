@@ -1,8 +1,8 @@
 Π-Ware
 ======
 
-Syntax
-------
+Circuit Syntax
+--------------
 
 ### Low-level circuits ###
 
