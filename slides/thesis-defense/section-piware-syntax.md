@@ -26,6 +26,7 @@ Syntax
       + Predefined in the library: \AM{PiWare.Atom.Bool}
 
   * First, define how many atoms we are interested in
+      + Need at least 1 (later why)
 
 \ExecuteMetaData[agda/latex/PiWare/Atom/Bool.tex]{cardinality}
 
@@ -61,7 +62,7 @@ Syntax
 ### The \ARR{Gates} type class ###
 
 \ExecuteMetaData[agda/latex/PiWare/Synthesizable.tex]{Word}
-\vspace{1em}
+\vspace{\baselineskip}
 \ExecuteMetaData[agda/latex/PiWare/Gates.tex]{Gates}
 
 ### \ARR{Gates} instances ###

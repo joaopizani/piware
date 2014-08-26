@@ -10,8 +10,7 @@ Limitations
 
   * Well-typed descriptions (\AD{ℂ}) at _compile time_
       + Low-level descriptions (\AD{ℂ'}) / netlists are _well-sized_
-
-  * Type safety and totality of simulation due to Agda
+* Type safety and totality of simulation due to Agda
 
   * Several design activities in the _same language_
       + Description (untyped / typed)
@@ -53,7 +52,9 @@ Future work
   * Automatic proof by reflection for finite cases
 
   * Prove properties of combinators in Agda
+      + Algebraic properties
 
   * Automatic generation of ⇓W⇑ (`Synthesizable`) instances
 
-  * More layers of abstraction
+  * More (higher) layers of abstraction
+
