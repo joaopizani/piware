@@ -55,7 +55,7 @@ Future work
   * Prove properties of combinators in Agda
       + Algebraic properties
 
-  * Automatic generation of ⇓W⇑ (`Synthesizable`) instances
+  * Automatic generation of \AD{⇓W⇑} (`Synthesizable`) instances
 
   * More (higher) layers of abstraction
 
