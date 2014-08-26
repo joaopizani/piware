@@ -22,7 +22,7 @@ Syntax
 ### \ARR{Atomic} instances ###
 
   * Examples of types that can be \ARR{Atomic}
-      + Bool, std_logic, other multi-valued logics
+      + \AD{Bool}, \mintinline{vhdl}{std_logic}, other multi-valued logics
       + Predefined in the library: \AM{PiWare.Atom.Bool}
 
   * First, define how many atoms we are interested in
@@ -62,7 +62,7 @@ Syntax
 ### The \ARR{Gates} type class ###
 
   \ExecuteMetaData[agda/latex/PiWare/Synthesizable.tex]{Word}
-  \vspace{\baselineskip}
+  \vspace{2.0\baselineskip}
   \ExecuteMetaData[agda/latex/PiWare/Gates.tex]{Gates}
 
 ### \ARR{Gates} instances ###

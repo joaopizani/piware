@@ -72,7 +72,7 @@ Semantics
       + \AD{Stream}: infinite list
 
   * We can't write a recursive evaluation function over \AD{Streams}
-      + _Sum_ case (\AF{\_|+'\_}) needs
+      + _Sum_ case (\AF{\_|+'\_}) needs a function of type \
         (\AD{Stream} \AY{(}\AB{α} \AD{⊎} \AB{β}\AY{)} \AY{→} \AD{Stream} \AB{α} \AD{×} \AD{Stream} \AB{β})
           - What if there are no _lefts_ (or _rights_)?
 
@@ -83,7 +83,7 @@ Semantics
 
 ### Causal stream functions ###
 
-  Solution: sequential simulation based on a _causal_ stream function
+  Solution: sequential simulation based on _causal_ stream function
   \vspace{\baselineskip}
 
   Some definitions:

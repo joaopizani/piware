@@ -30,7 +30,7 @@ Proofs
   \ExecuteMetaData[agda/latex/PiWare/ProofSamples/BoolTrioComb.tex]{xor-proof-table}
 
   * Proof by _case analysis_
-      + Could be automated (reflection)
+      + Can probably be automated by _reflection_\ \cite{engineering-reflection-agda}
 
 ### Specification of `XOR` ###
 

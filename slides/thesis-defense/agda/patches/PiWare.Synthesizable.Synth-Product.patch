@@ -1,27 +1,33 @@
-*** latex/PiWare/Synthesizable.tex	2014-08-24 18:30:03.268399700 +0200
---- latex/PiWare/Synthesizable.patched.tex	2014-08-24 18:32:23.488409200 +0200
+*** latex/PiWare/Synthesizable.tex	2014-08-26 17:18:36.902147800 +0200
+--- latex/PiWare/Synthesizable.patched.tex	2014-08-26 17:21:09.860872600 +0200
 ***************
-*** 116,126 ****
+*** 116,129 ****
   %<*Synth-Product>
   \begin{code}%
   \>[0]\AgdaIndent{2}{}\<[2]%
 ! \>[2]\AgdaFunction{⇓W⇑-×} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{α} \AgdaBound{i} \AgdaBound{β} \AgdaBound{j}\AgdaSymbol{\}} \<[23]%
 ! \>[23]\AgdaSymbol{→} \AgdaSymbol{⦃} \AgdaBound{sα} \AgdaSymbol{:} \AgdaRecord{⇓W⇑} \AgdaBound{α} \AgdaSymbol{\{}\AgdaBound{i}\AgdaSymbol{\}} \AgdaSymbol{⦄} \AgdaSymbol{⦃} \AgdaBound{sβ} \AgdaSymbol{:} \AgdaRecord{⇓W⇑} \AgdaBound{β} \AgdaSymbol{\{}\AgdaBound{j}\AgdaSymbol{\}} \AgdaSymbol{⦄}\<%
   \\
-! \>[2]\AgdaIndent{23}{}\<[23]%
-! \>[23]\AgdaSymbol{→} \AgdaRecord{⇓W⇑} \AgdaSymbol{(}\AgdaBound{α} \AgdaFunction{×} \AgdaBound{β}\AgdaSymbol{)}\<%
+  \>[2]\AgdaIndent{23}{}\<[23]%
+  \>[23]\AgdaSymbol{→} \AgdaRecord{⇓W⇑} \AgdaSymbol{(}\AgdaBound{α} \AgdaFunction{×} \AgdaBound{β}\AgdaSymbol{)}\<%
   \\
   \>[0]\AgdaIndent{2}{}\<[2]%
-  \>[2]\AgdaFunction{⇓W⇑-×} \AgdaSymbol{\{}\AgdaBound{α}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{i}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{β}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{j}\AgdaSymbol{\}} \AgdaSymbol{⦃} \AgdaBound{sα} \AgdaSymbol{⦄} \AgdaSymbol{⦃} \AgdaBound{sβ} \AgdaSymbol{⦄} \AgdaSymbol{=} \AgdaInductiveConstructor{⇓W⇑[} \AgdaFunction{down} \AgdaInductiveConstructor{,} \AgdaFunction{up} \AgdaInductiveConstructor{]}\<%
---- 116,126 ----
+! \>[2]\AgdaFunction{⇓W⇑-×} \AgdaSymbol{\{}\AgdaBound{α}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{i}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{β}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{j}\AgdaSymbol{\}} \AgdaSymbol{⦃} \AgdaBound{sα} \AgdaSymbol{⦄} \AgdaSymbol{⦃} \AgdaBound{sβ} \AgdaSymbol{⦄} \AgdaSymbol{=} \AgdaInductiveConstructor{⇓W⇑[} \AgdaFunction{down} \AgdaInductiveConstructor{,} \AgdaFunction{up} \AgdaInductiveConstructor{]}\<%
+  \\
+  \>[2]\AgdaIndent{6}{}\<[6]%
+  \>[6]\AgdaKeyword{where} \<[13]%
+--- 116,129 ----
   %<*Synth-Product>
   \begin{code}%
   \>[0]\AgdaIndent{2}{}\<[2]%
-! \>[2]\AgdaFunction{⇓W⇑-×} \AgdaSymbol{:} \<[8]%
+! \>[2]\AgdaFunction{⇓W⇑-×} \AgdaSymbol{:} \<[23]%
 ! \>[8]\AgdaSymbol{⦃} \AgdaBound{sα} \AgdaSymbol{:} \AgdaRecord{⇓W⇑} \AgdaBound{α} \AgdaSymbol{\{}\AgdaBound{i}\AgdaSymbol{\}} \AgdaSymbol{⦄} \AgdaSymbol{⦃} \AgdaBound{sβ} \AgdaSymbol{:} \AgdaRecord{⇓W⇑} \AgdaBound{β} \AgdaSymbol{\{}\AgdaBound{j}\AgdaSymbol{\}} \AgdaSymbol{⦄}\<%
   \\
-! \>[2]\AgdaIndent{8}{}\<[8]%
-! \>[8]\AgdaSymbol{→} \AgdaRecord{⇓W⇑} \AgdaSymbol{(}\AgdaBound{α} \AgdaFunction{×} \AgdaBound{β}\AgdaSymbol{)}\<%
+  \>[2]\AgdaIndent{23}{}\<[23]%
+  \>[23]\AgdaSymbol{→} \AgdaRecord{⇓W⇑} \AgdaSymbol{(}\AgdaBound{α} \AgdaFunction{×} \AgdaBound{β}\AgdaSymbol{)}\<%
   \\
   \>[0]\AgdaIndent{2}{}\<[2]%
-  \>[2]\AgdaFunction{⇓W⇑-×} \AgdaSymbol{\{}\AgdaBound{α}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{i}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{β}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{j}\AgdaSymbol{\}} \AgdaSymbol{⦃} \AgdaBound{sα} \AgdaSymbol{⦄} \AgdaSymbol{⦃} \AgdaBound{sβ} \AgdaSymbol{⦄} \AgdaSymbol{=} \AgdaInductiveConstructor{⇓W⇑[} \AgdaFunction{down} \AgdaInductiveConstructor{,} \AgdaFunction{up} \AgdaInductiveConstructor{]}\<%
+! \>[2]\AgdaFunction{⇓W⇑-×} \AgdaSymbol{⦃} \AgdaBound{sα} \AgdaSymbol{⦄} \AgdaSymbol{⦃} \AgdaBound{sβ} \AgdaSymbol{⦄} \AgdaSymbol{=} \AgdaInductiveConstructor{⇓W⇑[} \AgdaFunction{down} \AgdaInductiveConstructor{,} \AgdaFunction{up} \AgdaInductiveConstructor{]}\<%
+  \\
+  \>[2]\AgdaIndent{6}{}\<[6]%
+  \>[6]\AgdaKeyword{where} \<[13]%

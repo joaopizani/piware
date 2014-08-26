@@ -8,16 +8,16 @@ Limitations
 
   * Compare with Lava, Coquet
 
-  * Well-typed descriptions (\AD{ℂ}) at _compile time_
-      + Low-level descriptions (\AD{ℂ'}) / netlists are _well-sized_
-
-  * Type safety and totality of simulation due to Agda
-
   * Several design activities in the _same language_
       + Description (untyped / typed)
       + Simulation
       + Synthesis
       + Verification (inductive families of circuits)
+
+  * Well-typed descriptions (\AD{ℂ}) at _compile time_
+      + Low-level descriptions (\AD{ℂ'}) / netlists are _well-sized_
+
+  * Type safety and totality of simulation due to Agda
 
 ### Current limitations / trade-offs ###
 
@@ -34,12 +34,12 @@ Limitations
   \end{vhdlcode}
 
   * Due to the indices of \AD{ℂ'} (naturals)
-      + Can't distinguish \AD{ℂ'} \AN{17} \AN{9} from
-        \AD{ℂ'} \AY{(}\AN{1} \AF{+} \AN{8} \AF{+} \AN{8}\AY{)} \AY{(}\AN{8} \AF{+} \AN{1}\AY{)}
+      + Can't distinguish \AD{ℂ'} \AY{(}\AN{1} \AF{+} \AN{8} \AF{+} \AN{8}\AY{)} \AY{(}\AN{8} \AF{+} \AN{1}\AY{)}
+        from \AD{ℂ'} \AN{17} \AN{9}
 
 ### Current limitations / trade-offs ###
 
-  * Proofs on high-level families of circuits
+  * Proofs for high-level families of circuits
       + Probably due to definitions of \AD{ℂ} and \AF{⟦\_⟧}
 
   * Proofs with infinite comparisons (sequential circuits)
