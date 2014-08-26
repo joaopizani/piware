@@ -47,21 +47,15 @@ Background
       + _Unsynthesizable_ constructs
       + Widely variable tool support
 
-
-### Functional Programming ###
-
-  * Easier to _reason_ about program properties
-
-  * Inherently _parallel_ and _stateless_ semantics
-      + In contrast to imperative programming
-
 ### Functional Hardware Description ###
 
   \acrodef{HDL}{Hardware Description Language}
 
   * A functional program describes a circuit
+      + Easier to _reason_ about program properties
+      + Inherently _parallel_ and _stateless_ semantics
 
-  * Several _functional_ \acp{HDL} during the 1980s
+  * Several _functional_ \acs{HDL}s during the 1980s
       + For example, $\mu$FP\ \cite{mufp-1984}
 
   * Later, _embedded_ hardware \acp{DSL}
@@ -110,6 +104,5 @@ Research Question / Methodology
 
   * **Methodology:**
       + Develop a hardware \ac{DSL}, _embedded_ in a dependently-typed language (Agda)
-          - Called **Π-Ware**
           - Allowing simulation, synthesis and verification
 

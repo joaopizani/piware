@@ -1,12 +1,10 @@
 Conclusions
 ===========
 
-Limitations
------------
+Summary
+-------
 
 ### What Π-Ware achieves ###
-
-  * Compare with Lava, Coquet
 
   * Several design activities in the _same language_
       + Description (untyped / typed)
