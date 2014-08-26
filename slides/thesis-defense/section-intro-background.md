@@ -86,7 +86,7 @@ Background
       + More expressivity
       + _Certified programming_
 
-  * \acs{DTP} often touted as "sucessor" of functional programming
+  * \acs{DTP} often touted as "successor" of functional programming
       + Very well-suited for \acp{DSL}\ \cite{power-pi}
 
 

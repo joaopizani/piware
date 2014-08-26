@@ -74,7 +74,7 @@ Agda
 ### Agda syntax for Haskell programmers ###
 
   * Liberal identifier lexing (Unicode **everywhere**)
-      + \AF{a≡b+c} is a valid identifer, \AB{a} \AD{≡} \AB{b} \AF{+} \AB{c} an expression
+      + \AF{a≡b+c} is a valid identifier, \AB{a} \AD{≡} \AB{b} \AF{+} \AB{c} an expression
       + Used a lot in Agda's standard library: \AD{×}, \AD{⊎}, \AF{∧}
       + And in Π-Ware: \AD{ℂ}, \AF{⟦} \AB{c} \AF{⟧}, \AL{⇓}, \AL{⇑}
 
