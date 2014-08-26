@@ -62,7 +62,6 @@ Syntax
 ### The \ARR{Gates} type class ###
 
   \ExecuteMetaData[agda/latex/PiWare/Synthesizable.tex]{Word}
-  \vspace{2.0\baselineskip}
   \ExecuteMetaData[agda/latex/PiWare/Gates.tex]{Gates}
 
 ### \ARR{Gates} instances ###

@@ -78,7 +78,29 @@
 
 
 
+\defbeamertemplate{section page}{mine}[1][]{%
+    \begin{centering}
+        {\usebeamerfont{section name}\usebeamercolor[fg]{section name}#1}
+        \vskip1em\par
+        \begin{beamercolorbox}[sep=12pt,center]{part title}
+            \usebeamerfont{section title}\insertsection\par
+        \end{beamercolorbox}
+    \end{centering}
+}
+
+\defbeamertemplate{subsection page}{mine}[1][]{%
+    \begin{centering}
+        {\usebeamerfont{subsection name}\usebeamercolor[fg]{subsection name}#1}
+        \vskip1em\par
+        \begin{beamercolorbox}[sep=8pt,center,#1]{part title}
+            \usebeamerfont{subsection title}\insertsubsection\par
+        \end{beamercolorbox}
+    \end{centering}
+}
+
+
 %% The document itself
+\AtBeginSubsection{\frame{\subsectionpage}}
 \begin{document}
     \author[J. P. Pizani Flor]{
         \begin{tabular}{r@{ }l}
@@ -89,15 +111,17 @@
         \end{tabular}
     }
 
+    \setbeamertemplate{section page}[mine][]
+    \setbeamertemplate{subsection page}[mine][]
 
     \begin{frame}
         \titlepage
     \end{frame}
 
-    \begin{frame}
-        \frametitle{Table of Contents}
-        \tableofcontents
-    \end{frame}
+    % \begin{frame}
+    %     \frametitle{Table of Contents}
+    %     \tableofcontents
+    % \end{frame}
 
 
     %% Sections
