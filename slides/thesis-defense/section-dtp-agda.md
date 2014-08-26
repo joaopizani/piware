@@ -11,8 +11,12 @@ Big picture
       + Syntax similar to Haskell, details further ahead
 
   * Types can depend on values
-      + Example: \AK{data} \AD{Vec} \AY{(}\AB{α} \AY{:} \AD{Set}\AY{)} \AY{:} \AD{ℕ} \AY{→} \AD{Set} \AK{where}...
-      + Compare with Haskell (GADT style): \mintinline{haskell}{data List :: * -> * where}...
+      + Example:
+        \par \hspace{\baselineskip}
+        \AK{data} \AD{Vec} \AY{(}\AB{a} \AY{:} \AD{Set}\AY{)} \AY{:} \AD{ℕ} \AY{→} \AD{Set} \AK{where}...
+
+      + Compare with Haskell:
+        \par \hspace{\baselineskip} \mintinline{haskell}{data List (a :: *) :: * where}
 
   * Types of arguments can depend on _values of previous arguments_
       * Ensure a "safe" domain
@@ -29,16 +33,22 @@ Big picture
 
   * Termination checker (heuristics)
       + Structurally-decreasing recursion
-      + This passes the check: \
-        \ExecuteMetaData[agda/latex/Defense/SectionDTPAgda.tex]{add}
-      + This does not: \
-        \ExecuteMetaData[agda/latex/Defense/SectionDTPAgda.tex]{silly}
+
+      + This passes the check:
+        \par \ExecuteMetaData[agda/latex/Defense/SectionDTPAgda.tex]{add}
+
+      + This does not:
+        \par \ExecuteMetaData[agda/latex/Defense/SectionDTPAgda.tex]{silly}
 
 ### Dependently-Typed Programming ###
 
   * Dependent pattern matching can _rule out_ impossible cases
-      + Classic example: _safe_ \AF{head} function \
-        \ExecuteMetaData[agda/latex/Defense/SectionDTPAgda.tex]{head}
+
+  \vspace{\baselineskip}
+
+  * Classic example: _safe_ \AF{head} function
+    \par \ExecuteMetaData[agda/latex/Defense/SectionDTPAgda.tex]{head}
+
       + The **only** constructor returning \AD{Vec} \AB{α} \AY{(}\AI{suc} \AB{n}\AY{)}
         is \AI{\_∷\_}
 

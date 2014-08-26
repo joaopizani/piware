@@ -89,7 +89,8 @@ Research Question / Methodology
 ### Research Question / Methodology ###
 
   * **Question:**
-      + "What are the improvements that \ac{DTP} can bring to hardware design?"
+      + What are the improvements that \ac{DTP} can bring to hardware design?
+          - Compared to other functional hardware languages
 
   * **Methodology:**
       + Develop a hardware \ac{DSL}, _embedded_ in a dependently-typed language (Agda)
