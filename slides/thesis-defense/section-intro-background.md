@@ -83,20 +83,16 @@ Background
 Research Question
 =================
 
-Question
---------
+Research Question / Methodology
+-------------------------------
 
-### Research Question ###
+### Research Question / Methodology ###
 
-  "What are the improvements that \ac{DTP} can bring to hardware design?"
+  * **Question:**
+      + "What are the improvements that \ac{DTP} can bring to hardware design?"
 
-
-Method
-------
-
-### Methodology ###
-
-  * Develop a hardware \ac{DSL}, _embedded_ in a dependently-typed language (Agda)
-      + Called **Π-Ware**
-      + allowing simulation, synthesis and verification
+  * **Methodology:**
+      + Develop a hardware \ac{DSL}, _embedded_ in a dependently-typed language (Agda)
+          - Called **Π-Ware**
+          - allowing simulation, synthesis and verification
 
