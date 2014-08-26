@@ -1,7 +1,7 @@
-*** section-final.tex	2014-08-26 18:19:21.901578600 +0200
---- section-final.patched.tex	2014-08-26 18:20:41.235924100 +0200
+*** section-final.tex	2014-08-26 23:24:01.832802700 +0200
+--- section-final.patched.tex	2014-08-26 23:24:55.263939100 +0200
 ***************
-*** 35,41 ****
+*** 34,40 ****
   
   \end{frame}
   
@@ -9,7 +9,7 @@
   
   \begin{itemize}
   \itemsep1pt\parskip0pt\parsep0pt
---- 35,41 ----
+--- 34,40 ----
   
   \end{frame}
   

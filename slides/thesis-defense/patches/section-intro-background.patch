@@ -1,7 +1,7 @@
-*** section-intro-background.tex	2014-08-26 18:19:21.737969700 +0200
---- section-intro-background.patched.tex	2014-08-26 18:20:10.267345800 +0200
+*** section-intro-background.tex	2014-08-26 23:24:01.673761900 +0200
+--- section-intro-background.patched.tex	2014-08-26 23:24:28.303198900 +0200
 ***************
-*** 144,150 ****
+*** 136,142 ****
   
   \end{frame}
   
@@ -9,7 +9,7 @@
   
   \begin{itemize}
   \itemsep1pt\parskip0pt\parsep0pt
---- 144,150 ----
+--- 136,142 ----
   
   \end{frame}
   
