@@ -11,11 +11,9 @@ Proofs
 
 ### Sample circuit: `XOR` ###
 
-\begin{figure}[h]
-    \includegraphics[width=0.6\textwidth]{imgs/xor-sample.pdf}
-\end{figure}
+  \centering{\includegraphics[width=0.6\textwidth]{imgs/xor-sample.pdf}}
 
-\ExecuteMetaData[agda/latex/PiWare/Samples/BoolTrioComb.tex]{xor}
+  \ExecuteMetaData[agda/latex/PiWare/Samples/BoolTrioComb.tex]{xor}
 
 ### Specification of `XOR` ###
 
@@ -25,7 +23,7 @@ Proofs
 
   * Truth table
 
-\ExecuteMetaData[agda/latex/PiWare/ProofSamples/BoolTrioComb.tex]{xor-spec-table}
+  \ExecuteMetaData[agda/latex/PiWare/ProofSamples/BoolTrioComb.tex]{xor-spec-table}
 
 ### Proof of `XOR` (truth table) ###
 
@@ -60,17 +58,17 @@ Proofs
 
   * We can also prove properties of circuit "families"
 
-  * Example: an `AND` gate with a generic number of inputs
+  * Example: an `AND` gate definition with generic number of inputs
 
   \ExecuteMetaData[agda/latex/PiWare/Samples/AndN.tex]{andN-core}
 
-  * Example proof: when all inputs are high, output is high
+  * Example proof: when all inputs are \AI{true}, output is \AI{true}
       + For _any_ number of inputs
       + Proof by induction on \AB{n} (number of inputs)
 
 ### Problems ###
 
-  * This proof is done in the _low level_
+  * This proof is done at the _low level_
 
   \ExecuteMetaData[agda/latex/PiWare/ProofSamples/AndN.tex]{proof-andN-core-alltrue}
 

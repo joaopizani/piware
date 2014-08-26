@@ -16,16 +16,17 @@ Semantics
 ### Synthesis semantics ###
 
   * Netlist: digraph with _gates_ as nodes and _buses_ as edges
+  * Synthesis semantics: given netlists of subcircuits, build combination
 
-\centering{\includegraphics[width=1.0\textwidth]{imgs/semantics-syn-fundamental.pdf}}
-
-### Synthesis semantics ###
-
-\centering{\includegraphics[width=1.0\textwidth]{imgs/semantics-syn-structural.pdf}}
+  \centering{\includegraphics[width=1.0\textwidth]{imgs/semantics-syn-fundamental.pdf}}
 
 ### Synthesis semantics ###
 
-Missing "pieces":
+  \centering{\includegraphics[width=1.0\textwidth]{imgs/semantics-syn-structural.pdf}}
+
+### Synthesis semantics ###
+
+  Missing "pieces":
 
   * Adapt \ARR{Atomic}
       + New field: a \AL{VHDLTypeDecl}
@@ -51,14 +52,14 @@ Missing "pieces":
 
   * High level defined in terms of low level
 
-\ExecuteMetaData[agda/latex/PiWare/Simulation.tex]{eval}
+  \ExecuteMetaData[agda/latex/PiWare/Simulation.tex]{eval}
 
 ### Combinational simulation (excerpt) ###
 
-\ExecuteMetaData[agda/latex/PiWare/Simulation/Core.tex]{eval-core-almost}
+  \ExecuteMetaData[agda/latex/PiWare/Simulation/Core.tex]{eval-core-almost}
 
   * Remarks:
-      + Proof required that \AB{c} is combinational
+      + Proof requires \AB{c} to be combinational
       + \AI{Gate} case uses specification function
       + \AI{DelayLoop} case can be _discharged_
 
@@ -67,11 +68,12 @@ Missing "pieces":
   * Inputs and outputs become \AD{Stream}s
       + \AD{ℂ′} \AB{i} \AB{o} $\Longrightarrow$
         \AD{Stream} \AY{(}\AD{W} \AB{i}\AY{)} → \AD{Stream} \AY{(}\AD{W} \AB{o}\AY{)}
+
       + \AD{Stream}: infinite list
 
   * We can't write a recursive evaluation function over \AD{Streams}
-      + _Sum_ case needs
-        \AD{Stream} \AY{(}\AB{α} \AD{⊎} \AB{β}\AY{)} \AY{→} \AD{Stream} \AB{α} \AD{×} \AD{Stream} \AB{β}
+      + _Sum_ case (\AF{\_|+'\_}) needs
+        (\AD{Stream} \AY{(}\AB{α} \AD{⊎} \AB{β}\AY{)} \AY{→} \AD{Stream} \AB{α} \AD{×} \AD{Stream} \AB{β})
           - What if there are no _lefts_ (or _rights_)?
 
   * A stream function is not an accurate model for hardware
@@ -81,24 +83,24 @@ Missing "pieces":
 
 ### Causal stream functions ###
 
-Solution: sequential simulation using _causal_ stream function
-\vspace{\baselineskip}
+  Solution: sequential simulation based on a _causal_ stream function
+  \vspace{\baselineskip}
 
-Some definitions:
+  Some definitions:
 
   * Causal context: past + present values
 
-\ExecuteMetaData[agda/latex/Data/CausalStream.tex]{causal-context}
+  \ExecuteMetaData[agda/latex/Data/CausalStream.tex]{causal-context}
 
   * Causal stream function: produces **one** (current) output
 
-\ExecuteMetaData[agda/latex/Data/CausalStream.tex]{causal-step}
+  \ExecuteMetaData[agda/latex/Data/CausalStream.tex]{causal-step}
 
 ### Causal sequential simulation ###
 
   * Core sequential simulation function:
 
-\ExecuteMetaData[agda/latex/PiWare/Simulation/Core.tex]{eval-causal-almost}
+  \ExecuteMetaData[agda/latex/PiWare/Simulation/Core.tex]{eval-causal-almost}
 
   * \AI{Nil}, \AI{Gate} and \AI{Plug} cases use combinational simulation
   * \AI{DelayLoop} calls a recursive helper (\AF{delay})
@@ -111,10 +113,10 @@ Some definitions:
   * We can then "run" the step-by-step function to produce a whole \AD{Stream}
       + Idea from "The Essence of Dataflow Programming"\ \cite{essence-dataflow-programming}
 
-\ExecuteMetaData[agda/latex/PiWare/Simulation/Core.tex]{run-causal}
+  \ExecuteMetaData[agda/latex/PiWare/Simulation/Core.tex]{run-causal}
 
   * Obtaining the stream-based simulation function:
 
-\ExecuteMetaData[agda/latex/PiWare/Simulation/Core.tex]{eval-seq-core-decl}
-\ExecuteMetaData[agda/latex/PiWare/Simulation/Core.tex]{eval-seq-core-def}
+  \ExecuteMetaData[agda/latex/PiWare/Simulation/Core.tex]{eval-seq-core-decl}
+  \ExecuteMetaData[agda/latex/PiWare/Simulation/Core.tex]{eval-seq-core-def}
 

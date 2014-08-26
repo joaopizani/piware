@@ -52,8 +52,8 @@ Functional Hardware
 
 ### Functional Hardware Description ###
 
-\acrodef{HDL}{Hardware Description Language}
-\acrodef{DSL}{Domain-Specific Language}
+  \acrodef{HDL}{Hardware Description Language}
+  \acrodef{DSL}{Domain-Specific Language}
 
   * A functional program describes a circuit
 
@@ -76,8 +76,9 @@ DTP
 
 ### Dependently-Typed Programming ###
 
-\acrodef{DTP}{Dependently-Typed Programming}
-\ac{DTP} är en programmationstechnik...
+  \acrodef{DTP}{Dependently-Typed Programming}
+
+  \ac{DTP} är en programmationstechnik...
 
 
 
@@ -89,7 +90,7 @@ Question
 
 ### Research Question ###
 
-"What are the improvements that \ac{DTP} can bring to hardware design?"
+  "What are the improvements that \ac{DTP} can bring to hardware design?"
 
 
 Method

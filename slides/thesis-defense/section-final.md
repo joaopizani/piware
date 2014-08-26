@@ -10,7 +10,8 @@ Limitations
 
   * Well-typed descriptions (\AD{ℂ}) at _compile time_
       + Low-level descriptions (\AD{ℂ'}) / netlists are _well-sized_
-* Type safety and totality of simulation due to Agda
+
+  * Type safety and totality of simulation due to Agda
 
   * Several design activities in the _same language_
       + Description (untyped / typed)
@@ -32,9 +33,9 @@ Limitations
         end fullAdd8;
   \end{vhdlcode}
 
- * Due to the indices of \AD{ℂ'} (naturals)
-     + Can't distinguish \AD{ℂ'} \AN{17} \AN{9} from
-       \AD{ℂ'} \AY{(}\AN{1} \AF{+} \AN{8} \AF{+} \AN{8}\AY{)} \AY{(}\AN{8} \AF{+} \AN{1}\AY{)}
+  * Due to the indices of \AD{ℂ'} (naturals)
+      + Can't distinguish \AD{ℂ'} \AN{17} \AN{9} from
+        \AD{ℂ'} \AY{(}\AN{1} \AF{+} \AN{8} \AF{+} \AN{8}\AY{)} \AY{(}\AN{8} \AF{+} \AN{1}\AY{)}
 
 ### Current limitations / trade-offs ###
 

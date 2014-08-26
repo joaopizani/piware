@@ -6,6 +6,10 @@ Big picture
 
 ### Dependently-Typed Programming ###
 
+  * **Disclaimer:** Suspend disbelief in syntax
+      + Examples are in _Agda_
+      + Syntax similar to Haskell, details further ahead
+
   * Types can depend on values
       + Example: \AK{data} \AD{Vec} \AY{(}\AB{α} \AY{:} \AD{Set}\AY{)} \AY{:} \AD{ℕ} \AY{→} \AD{Set} \AK{where}...
       + Compare with Haskell (GADT style): \mintinline{haskell}{data List :: * -> * where}...
@@ -23,21 +27,20 @@ Big picture
 
   * Consequence: all functions must be _total_
 
-  * Termination checker ensures (heuristics)
+  * Termination checker (heuristics)
       + Structurally-decreasing recursion
-          - This passes the check: \
-            \ExecuteMetaData[agda/latex/Defense/SectionDTPAgda.tex]{add}
-
-          - This does not: \
-            \ExecuteMetaData[agda/latex/Defense/SectionDTPAgda.tex]{silly}
+      + This passes the check: \
+        \ExecuteMetaData[agda/latex/Defense/SectionDTPAgda.tex]{add}
+      + This does not: \
+        \ExecuteMetaData[agda/latex/Defense/SectionDTPAgda.tex]{silly}
 
 ### Dependently-Typed Programming ###
 
-> * Dependent pattern matching can _rule out_ impossible cases
->     + Classic example: _safe_ \AF{head} function \
->       \ExecuteMetaData[agda/latex/Defense/SectionDTPAgda.tex]{head}
->     + The **only** constructor returning \AD{Vec} \AB{α} \AY{(}\AI{suc} \AB{n}\AY{)}
->       is \AI{\_∷\_}
+  * Dependent pattern matching can _rule out_ impossible cases
+      + Classic example: _safe_ \AF{head} function \
+        \ExecuteMetaData[agda/latex/Defense/SectionDTPAgda.tex]{head}
+      + The **only** constructor returning \AD{Vec} \AB{α} \AY{(}\AI{suc} \AB{n}\AY{)}
+        is \AI{\_∷\_}
 
 ### Depedent types as logic ###
 
@@ -45,7 +48,7 @@ Big picture
       + Types as propositions, terms as proofs\ \cite{propositions-as-types}
 
   * Example:
-      + Given the relation (drawn triangle): \
+      + Given the relation: \
         \ExecuteMetaData[agda/latex/Defense/SectionDTPAgda.tex]{leq}
       + Proposition: \
         \ExecuteMetaData[agda/latex/Defense/SectionDTPAgda.tex]{twoLEQFour-decl}
@@ -62,7 +65,7 @@ Agda
 
   * Liberal identifier lexing (Unicode **everywhere**)
       + \AF{a≡b+c} is a valid identifer, \AB{a} \AD{≡} \AB{b} \AF{+} \AB{c} an expression
-      + Actually used in Agda's standard library
+      + Used a lot in Agda's standard library: \AD{×}, \AD{⊎}, \AF{∧}
       + And in Π-Ware: \AD{ℂ}, \AF{⟦} \AB{c} \AF{⟧}, \AL{⇓}, \AL{⇑}
 
   * _Mixfix_ notation
