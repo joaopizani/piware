@@ -3,8 +3,8 @@ PiWare
 
 An Embedded Hardware Description Language using Dependent Types.
 
-This repository contains the source code and documentation of my master's thesis research,
-one of the required elements of the Programming Technology study track at Utrecht University.
+This repository contains the source code and documentation of the Π-Ware project,
+begun as my M.Sc thesis research (at Utrecht University) between March and August 2014.
 
 PiWare is an Embedded Domain-Specific Language (EDSL) for hardware design,
 packaged as a library for the Agda dependently-typed programming language.
@@ -21,5 +21,6 @@ and high-level technical descriptions behind the design choices taken are docume
 This repository is furthermore organized as follows:
 
   * The `agda` subdirectory contains all source code and auxiliary scripts to build/run PiWare
-  * Under `docs` there are "manual-like" pages describing how to use the library
-  * In `thesis` are located the thesis report etc.
+  * Under `docs` lies the project's wiki, with "manual-like" pages describing the design of the library and how to use it
+  * In `thesis` are located the thesis report (with accompanying figures, etc.)
+  * Under `slides` are the sets of slides from presentations given about Π-Ware (thesis defense and other events)
