@@ -1,4 +1,6 @@
 
+DIRGUARD=@mkdir -p $(@D)
+
 MAIN_NAME=main
 REFERENCES_NAME=references
 LATEXMKOPTS=-pdf -f -quiet
@@ -19,8 +21,8 @@ TEXT_PARTS=titlepage \
 
 CODE_AGDA_ROOT=code/agda
 CODE_AGDA_SRC=$(CODE_AGDA_ROOT)/src
-CODE_AGDA_TRGLATEX=$(CODE_AGDA_ROOT)/latex
-CODE_AGDA_STY=$(CODE_AGDA_TRGLATEX)/agda.sty
+CODE_AGDA_GENTEX=$(CODE_AGDA_ROOT)/latex
+CODE_AGDA_STY=$(CODE_AGDA_GENTEX)/agda.sty
 CODE_AGDA_STDLIB=${HOME}/build/agda/lib/current/src
 
 CODE_AGDA_MODULES=Report/ChapterIntroduction \
@@ -54,24 +56,22 @@ CODE_AGDA_MODULES=Report/ChapterIntroduction \
 all: $(MAINPDF)
 
 $(MAINPDF): \
+	$(REFERENCES) $(MAINTEX) \
+	$(TEXT_PARTS:%=$(TEXT_PARTS_SRC)/%.tex) \
 	$(CODE_AGDA_STY) \
-	$(CODE_AGDA_MODULES:%=$(CODE_AGDA_TRGLATEX)/%.tex) \
-	$(REFERENCES) \
-	$(TEXT_PARTS:%=$(TEXT_PARTS_SRC)/%.tex)
+	$(CODE_AGDA_MODULES:%=$(CODE_AGDA_GENTEX)/%.tex)
 	latexmk $(LATEXMKOPTS) $(MAINTEX)
 
-$(CODE_AGDA_TRGLATEX)/%.tex: $(CODE_AGDA_SRC)/%.lagda
-	mkdir -p "$(basename $@)"
-	touch $@
-	# agda -i $(CODE_AGDA_STDLIB) -i $(CODE_AGDA_SRC) --latex-dir=$(CODE_AGDA_TRGLATEX) --latex $<
+$(CODE_AGDA_GENTEX)/%.tex: $(CODE_AGDA_SRC)/%.lagda
+	$(DIRGUARD); agda -i $(CODE_AGDA_STDLIB) -i $(CODE_AGDA_SRC) --latex-dir=$(CODE_AGDA_GENTEX) --latex $<
 
 
 clean:
 	latexmk -c $(MAINTEX)
 
 veryclean: clean
-	rm -f $(CODE_AGDA_MODULES:%=$(CODE_AGDA_TRGLATEX)/%.tex)
-	find $(CODE_AGDA_TRGLATEX) -type d -empty -delete
+	rm -f $(CODE_AGDA_MODULES:%=$(CODE_AGDA_GENTEX)/%.tex)
+	find $(CODE_AGDA_GENTEX) -type d -empty -delete
 	rm -f $(MAINPDF)
 
 .PHONY: clean veryclean all
