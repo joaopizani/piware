@@ -1,7 +1,7 @@
 [submodule "agda"]
 	path = agda
 	url = git@github.com:joaopizani/piware-agda.git
-    branch = slides-dtp2014
+    branch = report-include-changes
 [submodule "docs"]
 	path = docs
 	url = git@github.com:joaopizani/piware.wiki.git
